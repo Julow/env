@@ -5,11 +5,11 @@ My .rc config
 A set of cool commands/alias for Linux and Mac OS.
 
 Contains:
-* [#ls](A cool ls alias)
-* [#sublime-text](An alias for Sublime Text on Mac OS)
-* [#gcc](A GCC alias with errors flags)
-* [#git](Some useful alias for git)
-* [#save-go](Save and Go commands)
+* [A cool ls alias](#ls)
+* [An alias for Sublime Text on Mac OS](#sublime-text)
+* [A GCC alias with errors flags](#gcc)
+* [Some useful alias for git](#git)
+* [Save and Go commands](#save-go)
 
 ## Installation
 
@@ -24,37 +24,46 @@ More commands will be added in the future.
 
 ### Ls
 
+**l**<br />
 The `l` command is an alias for the _ls_ command with a colorful and easy to read output.
 
 ![ls](/captures/ls.png)
 
 ### Sublime Text
 
+**s**<br />
 The `s` command open Sublime Text.
 
 Can take file name _(existing or not)_ as arguments.
 
 ### GCC
 
+**g**<br />
 The `g` command is an alias for `gcc -Wall -Werror -Wextra`.
 
 ### Git
 
+**t**<br />
 The `t` command is an alias for `git status -sb`.<br />
 Show the git status in short format.
 
+**a**<br />
 The `a` command is an alias for `git add --all` and `t`.<br />
 Add file passed as arguments to the git index.<br />
 If no arguments is passed, add all files to the index.
 
+**r**<br />
 The `r` command is an alias for `git reset HEAD -q` and `t`.<br />
 Remove the file from the git index. _(don't remove the file itself)_<br />
 _It's the opposite of the `a` command._
 
+**c**<br />
 The `c` command is an alias for `git commit -m`.
 
+**p**<br />
 The `p` command is an alias for `git push origin master --tags`.
 
+**amend**<br />
 The `amend` command is an alias for `git commit --amend --no-edit`.<br />
 Add the current status to the last commit.
 
