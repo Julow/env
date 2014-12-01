@@ -9,8 +9,8 @@ function l()
 #
 # Sublime Text
 #
-if [ "`uname`" == "darwin" ]; then
-	alias s="/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl"
+if [ "`uname`"="darwin" ]; then
+	alias s="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
 else
 	alias s="subl"
 fi
