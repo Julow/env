@@ -35,7 +35,7 @@ function a()
 
 function r()
 {
-	git reset HEAD -q $@ && git status -bs
+	git reset -- HEAD -q $@ && git status -bs
 };
 
 #
