@@ -5,12 +5,12 @@ My .rc config
 A set of cool commands/alias for Linux and Mac OS.
 
 Contains:
-* [The 42 Header](#42-header)
-* [A cool ls alias](#ls)
-* [An alias for Sublime Text on Mac OS](#sublime-text)
-* [A GCC alias with errors flags](#gcc)
-* [Some useful alias for git](#git)
-* [Save and Go commands](#save-go)
+* [The 42 Header](#42-header) (h)
+* [A cool ls alias](#ls) (l)
+* [An alias for Sublime Text on Mac OS](#sublime-text) (s)
+* [A GCC alias with errors flags](#gcc) (g)
+* [Some useful alias for git](#git) (t, a, r, c, p, amend)
+* [Save and Go commands](#save-go) (save, go, saved)
 
 ## Installation
 
@@ -25,7 +25,8 @@ More commands will be added in the future.
 
 ### 42 Header
 
-**h**<br />
+#### Command: h
+
 The `h` command update the 42 header of a file.
 
 If the file don't exist, it is created.
@@ -37,46 +38,55 @@ _Warning: don't work for `shell` files or `Makefile`_
 
 ### Ls
 
-**l**<br />
+#### Command: l
+
 The `l` command is an alias for the _ls_ command with a colorful and easy to read output.
 
 ![ls](/captures/ls.png)
 
 ### Sublime Text
 
-**s**<br />
+#### Command: s
+
 The `s` command open Sublime Text.
 
 Can take file name _(existing or not)_ as arguments.
 
 ### GCC
 
-**g**<br />
+#### Command: g
+
 The `g` command is an alias for `gcc -Wall -Werror -Wextra`.
 
 ### Git
 
-**t**<br />
+#### Command: t
+
 The `t` command is an alias for `git status -sb`.<br />
 Show the git status in short format.
 
-**a**<br />
+#### Command: a
+
 The `a` command is an alias for `git add --all` and `t`.<br />
 Add file passed as arguments to the git index.<br />
 If no arguments is passed, add all files to the index.
 
-**r**<br />
+#### Command: r
+
 The `r` command is an alias for `git reset HEAD -q` and `t`.<br />
 Remove the file from the git index. _(don't remove the file itself)_<br />
 _It's the opposite of the `a` command._
 
-**c**<br />
+#### Command: c
+
 The `c` command is an alias for `git commit -m`.
 
-**p**<br />
+#### Command: p
+
 The `p` command is an alias for `git push origin master --tags`.
 
-**amend**<br />
+#### Command: amend
+
 The `amend` command is an alias for `git commit --amend --no-edit`.<br />
 Add the current status to the last commit.
 
