@@ -1,4 +1,46 @@
 #
+# Header 42
+#
+function h()
+{
+    START_LINES="/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */"
+
+    if [ -f "$1" ]; then
+        HEAD="`head -3 "$1"`"
+        if [ "$HEAD"="$START_LINES" ]; then
+            CONTENT=`tail -n +13 "$1"`
+        else
+            CONTENT=`cat "$1"`
+        fi
+    else
+        CONTENT=
+    fi
+
+    NOW=`date +"%Y/%m/%d %H:%M:%S"`
+
+    if [ -n "$2" ]; then
+        WHO="$2"
+    else
+        WHO=`whoami`
+    fi
+
+    printf "${START_LINES}\n" > $1
+    printf "/*   %-50s :+:      :+:    :+:   */\n" "$1" >> $1
+    printf "/*                                                    +:+ +:+         +:+     */\n" >> $1
+    printf "/*   By: %-42s +#+  +:+       +#+        */\n" "${WHO} <${WHO}@student.42.fr>" >> $1
+    printf "/*                                                +#+#+#+#+#+   +#+           */\n" >> $1
+    printf "/*   Created: %s by %-17s #+#    #+#             */\n" "${NOW}" "${WHO}" >> $1
+    printf "/*   Updated: %s by %-16s ###   ########.fr       */\n" "${NOW}" "${WHO}" >> $1
+    printf "/*                                                                            */\n" >> $1
+    printf "/* ************************************************************************** */\n\n" >> $1
+    printf "${CONTENT}\n" >> $1
+
+    cat $1
+};
+
+#
 # Ls
 #
 function l()

@@ -5,6 +5,7 @@ My .rc config
 A set of cool commands/alias for Linux and Mac OS.
 
 Contains:
+* [The 42 Header](#42-header)
 * [A cool ls alias](#ls)
 * [An alias for Sublime Text on Mac OS](#sublime-text)
 * [A GCC alias with errors flags](#gcc)
@@ -21,6 +22,18 @@ _(**.zshrc**, .bashrc, .bash\_aliases, .profile, etc...)_
 You can change the commands name by changing the alias/function name.
 
 More commands will be added in the future.
+
+### 42 Header
+
+**h**<br />
+The `h` command update the 42 header of a file.
+
+If the file don't exist, it is created.
+
+The `h` take one required argument: the file name<br />
+it takes also a second optional argument: your name
+
+_Warning: don't work for `shell` files or `Makefile`_
 
 ### Ls
 
