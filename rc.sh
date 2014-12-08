@@ -3,12 +3,12 @@
 #
 function n()
 {
-	if [ -f $1 ]; then
-		FILES=$@
+	if [ $# -eq 0 ]; then
+		ARGS="."
 	else
-		FILES=`ls -1 $1**/*.[hc]`
+		ARGS=$@
 	fi
-	norminette ${FILES} | sed -E "s/((Error[^:]*:)|(Warning:?))(.+)$|(Norme:.+)/`echo "\033[0;31m"`\2`echo "\033[0;33m"`\3`echo "\033[0;0m"`\4`echo "\033[0;32m"`\5/"
+	norminette ${ARGS} | sed -E "s/((Error[^:]*:)|(Warning:?))(.+)$|(Norme:.+)/`echo "\033[0;31m"`\2`echo "\033[0;33m"`\3`echo "\033[0;0m"`\4`echo "\033[0;32m"`\5/"
 };
 
 #
