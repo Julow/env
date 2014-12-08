@@ -7,6 +7,7 @@ A set of cool commands/alias for Linux and Mac OS.
 Contains:
 * [The 42 Header](#42-header) (h)
 * [A cool ls alias](#ls) (l)
+* [A recursive norminette](#norminette) (n)
 * [An alias for Sublime Text on Mac OS](#sublime-text) (s)
 * [A GCC alias with errors flags](#gcc) (g)
 * [Some useful alias for git](#git) (t, a, r, c, p, amend)
@@ -43,6 +44,16 @@ _Warning: don't work for `shell` files or `Makefile`_
 The `l` command is an alias for the _ls_ command with a colorful and easy to read output.
 
 ![ls](/captures/ls.png)
+
+### Norminette
+
+#### Command: n
+
+The `n` command is an alias for the _norminette_ command with colors.
+
+`n` take an optional argument: A file or a dir name
+
+`n` check all _.c_ and _.h_ files recursively.
 
 ### Sublime Text
 
