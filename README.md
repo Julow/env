@@ -5,6 +5,7 @@ My .rc config
 A set of cool commands/alias for Linux and Mac OS.
 
 Contains:
+* [Timeout util](#timeout) (h)
 * [The 42 Header](#42-header) (h)
 * [A cool ls alias](#ls) (l)
 * [A recursive norminette](#norminette) (n)
@@ -23,6 +24,14 @@ _(**.zshrc**, .bashrc, .bash\_aliases, .profile, etc...)_
 You can change the commands name by changing the alias/function name.
 
 More commands will be added in the future.
+
+### Timeout
+
+#### Command: timeout
+
+`timeout` take a shell command in arguments.
+
+The `timeout` command call a shell command and kill it after 10 sec
 
 ### 42 Header
 
