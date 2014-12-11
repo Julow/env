@@ -1,4 +1,22 @@
 #
+# Timeout
+#
+function timeout()
+{
+	$@ &
+	PID=$!
+	(sleep 10 ; kill $PID) &
+	PID_SLEEP=$!
+	wait $PID > /dev/null
+	STATUS=$?
+	if [ $STATUS -gt 128 ]; then
+		kill $PID > /dev/null
+	else
+		kill $PID_SLEEP > /dev/null
+	fi
+}
+
+#
 # Norminette
 #
 function n()
