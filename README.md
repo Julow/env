@@ -5,7 +5,8 @@ My .rc config
 A set of cool commands/alias for Linux and Mac OS.
 
 Contains:
-* [Timeout util](#timeout) (h)
+* [Alias for grep](#f) (f)
+* [Timeout util](#timeout) (timeout)
 * [The 42 Header](#42-header) (h)
 * [A cool ls alias](#ls) (l)
 * [A recursive norminette](#norminette) (n)
@@ -24,6 +25,14 @@ _(**.zshrc**, .bashrc, .bash\_aliases, .profile, etc...)_
 You can change the commands name by changing the alias/function name.
 
 More commands will be added in the future.
+
+### F
+
+#### Command: f
+
+The `f` command is an alias for `grep -r --color=always -C 3`.
+
+Follow `f` by a _string to search_ or the flag `-E` to use regex. 
 
 ### Timeout
 

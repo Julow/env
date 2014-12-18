@@ -1,4 +1,9 @@
 #
+# F
+#
+alias f="grep -r --color=always -C 3"
+
+#
 # Timeout
 #
 function timeout()
