@@ -1,4 +1,14 @@
 #
+# Man
+#
+function _man()
+{
+	man $@ || whatis $@
+}
+
+alias man="_man"
+
+#
 # F
 #
 alias f="grep -r --color=always -C 3"
