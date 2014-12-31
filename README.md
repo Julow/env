@@ -5,6 +5,7 @@ My .rc config
 A set of cool commands/alias for Linux and Mac OS.
 
 Contains:
+* [Alias for man](#man) (man)
 * [Alias for grep](#f) (f)
 * [Timeout util](#timeout) (timeout)
 * [The 42 Header](#42-header) (h)
@@ -25,6 +26,12 @@ _(**.zshrc**, .bashrc, .bash\_aliases, .profile, etc...)_
 You can change the commands name by changing the alias/function name.
 
 More commands will be added in the future.
+
+### Man
+
+#### Command: man
+
+The `man` command is an alias for `man` **or** `whatis` if the man was not found
 
 ### F
 
