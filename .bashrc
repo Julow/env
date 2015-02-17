@@ -1,5 +1,63 @@
 
 #
+# PS1
+#
+function _ps1_status()
+{
+	if [ $? -eq 0 ]; then
+		printf "\033[32m$?"
+	else
+		printf "\033[31m$?"
+	fi
+}
+
+function _ps1_git_rev()
+{
+	if [ "$1" -gt 0 ]; then
+		printf "\033[32m-$1\033[0m "
+	fi
+	if [ "$2" -gt 0 ]; then
+		printf "\033[32m+$2\033[0m "
+	fi
+}
+
+function _ps1_git()
+{
+	BRANCH=`git rev-parse --abbrev-ref HEAD 2> /dev/null` > /dev/null
+	if [ $? -eq 0 ]; then
+		printf $BRANCH
+		STATUS=$(git status --porcelain)
+		COLUM1=`echo "$STATUS" | cut -c 1-1`
+		COLUM2=`echo "$STATUS" | cut -c 2-2`
+		if [[ "$COLUM1" == *"A"* ]]; then
+			printf "\033[32mA"
+		fi
+		if [[ "$COLUM1" == *"D"* ]]; then
+			printf "\033[32mD"
+		fi
+		if [[ "$COLUM1" == *"M"* ]]; then
+			printf "\033[32mM"
+		fi
+		if [[ "$COLUM1" == *"R"* ]]; then
+			printf "\033[32mR"
+		fi
+		if [[ "$COLUM2" == *"D"* ]]; then
+			printf "\033[31mD"
+		fi
+		if [[ "$COLUM2" == *"M"* ]]; then
+			printf "\033[31mM"
+		fi
+		if [[ "$COLUM2" == *"?"* ]]; then
+			printf "\033[31m?"
+		fi
+		printf "\033[0m "
+		_ps1_git_rev `git rev-list --left-right --count origin...HEAD 2> /dev/null || echo "0 0"`
+	fi
+}
+
+export PS1="\$(_ps1_status) \033[36m\h \033[32m\w\033[0m \$(_ps1_git)"
+
+#
 # F
 #
 alias f="grep -r --color=always -C 3"
