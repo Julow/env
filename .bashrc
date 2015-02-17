@@ -9,7 +9,7 @@ function _ps1_status()
 	else
 		printf "\033[31m$?"
 	fi
-}
+};
 
 function _ps1_git_rev()
 {
@@ -19,7 +19,7 @@ function _ps1_git_rev()
 	if [ "$2" -gt 0 ]; then
 		printf "\033[32m+$2\033[0m "
 	fi
-}
+};
 
 function _ps1_git()
 {
@@ -53,7 +53,7 @@ function _ps1_git()
 		printf "\033[0m "
 		_ps1_git_rev `git rev-list --left-right --count origin...HEAD 2> /dev/null || echo "0 0"`
 	fi
-}
+};
 
 export PS1="\$(_ps1_status) \033[36m\h \033[32m\w\033[0m \$(_ps1_git)"
 
@@ -78,7 +78,7 @@ function timeout()
 	else
 		kill $PID_SLEEP > /dev/null
 	fi
-}
+};
 
 #
 # Norminette
@@ -180,24 +180,53 @@ function r()
 #
 function save()
 {
-	if [ ! -d ~/save_path ]; then
-		mkdir ~/save_path
-	fi
-	pwd > ~/save_path/$1.save_path;
-};
-
-function go()
-{
-	if [ -f ~/save_path/$1.save_path ]; then
-		cd "`cat ~/save_path/$1.save_path`";
+	if [ "$1" == "-g" ]; then
+		cd "`save -i $2`"
+	elif [ "$1" == "-i" ]; then
+		if [ -f ~/.save_go ]; then
+			cat ~/.save_go | grep -m 1 -i ^"$2"= | cut -d '=' -f 2
+		fi
+	elif [ "$1" == "-l" ]; then
+		if [ "$2" == "" ]; then
+			if [ -f ~/.save_go ]; then
+				grep -v "^$" ~/.save_go
+			fi
+		else
+			save -i $2
+		fi
+	elif [ "$1" == "-r" ]; then
+		if [ -f ~/.save_go ]; then
+			grep -iv "^$2=" ~/.save_go > ~/.save_go.tmp
+			mv ~/.save_go.tmp ~/.save_go 2> /dev/null
+		fi
+	elif [ "$1" == "--help" ]; then
+		save -h
+	elif [ "$1" == "-h" ]; then
+		echo "Save/Go"
+		echo "    save -g <save>            Go to <save>"
+		echo "    save -i <save>            Print the path of <save>"
+		echo "    save -l                   Print the list of saves"
+		echo "    save -l <save>            Alias for 'save -i'"
+		echo "    save -r <save>            Remove <save>"
+		echo "    save -h"
+		echo "    save --help               Print this message"
+		echo
+		echo "    save <save>               Create <save> with the current dir"
+		echo "    go <save>                 Alias for 'save -g'"
+		echo "    saved                     Alias for 'save -l'"
+		echo
+		echo "A save can have any name"
+		echo "If <save> is blank, it refer to a save with no name."
+		echo "All the saves are stored in '~/.save_go'"
 	else
-		echo "The save $1 does not exists.";
+		save -r $1
+		echo >> ~/.save_go
+		echo -n $1"=" >> ~/.save_go
+		pwd >> ~/.save_go
+		grep -v "^$" ~/.save_go > ~/.save_go.tmp
+		mv ~/.save_go.tmp ~/.save_go 2> /dev/null
 	fi
 };
 
-function saved()
-{
-	if [ -d ~/save_path ]; then
-		ls -1 ~/save_path | grep ".save_path" | sed -E "s/.save_path$//"
-	fi
-};
+alias go="save -g"
+alias saved="save -l"
