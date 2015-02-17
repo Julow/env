@@ -1,12 +1,3 @@
-#
-# Man
-#
-function _man()
-{
-	man $@ || whatis $@
-}
-
-alias man="_man"
 
 #
 # F
