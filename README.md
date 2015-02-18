@@ -48,8 +48,6 @@ Save Go is cross terminal/tab.
 
 The `l` command is an alias for the _ls_ command with a colorful and easy to read output.
 
-![ls](/captures/ls.png)
-
 ### Rc
 
 The `rc` command is just an alias for `source ~/.bashrc`
