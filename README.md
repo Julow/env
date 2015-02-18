@@ -54,9 +54,11 @@ The `rc` command is just an alias for `source ~/.bashrc`
 
 ### Grep
 
-The `f` command is an alias for `grep -r --color=always -C 3`.
+The `f` command is an alias for `grep -r -E -C 3`.
 
-Follow `f` by a _string to search_ or the flag `-E` to use regex. 
+Follow `f` by a string to search _and the path to start search (optionnal)_.
+
+If `f` don't output to a terminal, colors are disabled.
 
 ### 42 Header
 

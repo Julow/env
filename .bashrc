@@ -65,7 +65,20 @@ alias rc="source ~/.bashrc"
 #
 # F
 #
-alias f="grep -r --color=always -C 3"
+function f()
+{
+	if [ "$2" == "" ]; then
+		F_DIRS="."
+	else
+		F_DIRS="$2"
+	fi
+	if [ -t 1 ]; then
+		F_COLOR=always
+	else
+		F_COLOR=never
+	fi
+	grep -r -E --exclude-dir=".?*" --color="$F_COLOR" -C 3 "$1" "$F_DIRS"
+};
 
 #
 # Timeout
