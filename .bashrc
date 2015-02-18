@@ -58,6 +58,11 @@ function _ps1_git()
 export PS1="\$(_ps1_status) \033[36m\h \033[32m\w\033[0m \$(_ps1_git)"
 
 #
+# Rc
+#
+alias rc="source ~/.bashrc"
+
+#
 # F
 #
 alias f="grep -r --color=always -C 3"
@@ -146,7 +151,7 @@ function l()
 #
 # Sublime Text
 #
-if [ "`uname`" = "darwin" ]; then
+if [ "`uname`" == "darwin" ]; then
 	alias s="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
 else
 	alias s="subl"
