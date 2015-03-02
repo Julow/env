@@ -104,11 +104,11 @@ function timeout()
 function n()
 {
 	if [ $# -eq 0 ]; then
-		ARGS="."
+		ARGS="**/*.[ch]"
 	else
 		ARGS=$@
 	fi
-	norminette ${ARGS} | sed -E "s/((Error[^:]*:)|(Warning:?))(.+)$|(Norme:.+)/`echo "\033[0;31m"`\2`echo "\033[0;33m"`\3`echo "\033[0;0m"`\4`echo "\033[0;32m"`\5/"
+	norminette ${ARGS} | sed -E "s/((Error[^:]*:)|(Warning:?))(.+)$|(Norme:.+)/`printf "\033[0;31m"`\2`printf "\033[0;33m"`\3`printf "\033[0;0m"`\4`printf "\033[0;32m"`\5/"
 };
 
 #
@@ -164,7 +164,7 @@ function l()
 #
 # Sublime Text
 #
-if [ "`uname`" == "darwin" ]; then
+if [ "`uname`" == "Darwin" ]; then
 	alias s="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
 else
 	alias s="subl"
@@ -265,3 +265,32 @@ function save()
 
 alias go="save -g"
 alias saved="save -l"
+
+#
+# OK
+#
+function ok()
+{
+	printf "auteur: "
+	if [ ! -f "auteur" ]; then
+		printf "\033[0;31mDon't exists\033[0;0m\n"
+		return
+	else
+		if [ "`cat -e auteur`\$" == "`whoami`\$\$" ]; then
+			printf "\033[0;32mOK\033[0;0m\n"
+		else
+			printf "\033[0;31mNot well formated\033[0;0m\n"
+			return
+		fi
+	fi
+	printf "norme: "
+	_NORME="`n | grep -E "Error|Warning"`"
+	if [ "$_NORME" == "" ]; then
+		printf "\033[0;32mOK\033[0;0m\n"
+	else
+		printf "\033[0;31mError:\033[0;0m\n"
+		echo "$_NORME"
+		return
+	fi
+	echo "OK ! You can push"
+}
