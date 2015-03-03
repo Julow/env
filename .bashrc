@@ -108,7 +108,7 @@ function n()
 	else
 		ARGS=$@
 	fi
-	norminette ${ARGS} | sed -E "s/((Error[^:]*:)|(Warning:?))(.+)$|(Norme:.+)/`printf "\033[0;31m"`\2`printf "\033[0;33m"`\3`printf "\033[0;0m"`\4`printf "\033[0;32m"`\5/"
+	norminette ${ARGS} 2> /dev/null | sed -E "s/((Error[^:]*:)|(Warning:?))(.+)$|(Norme:.+)/`printf "\033[0;31m"`\2`printf "\033[0;33m"`\3`printf "\033[0;0m"`\4`printf "\033[0;32m"`\5/"
 };
 
 #
@@ -271,16 +271,18 @@ alias saved="save -l"
 #
 function ok()
 {
+	_WHOAMI="`whoami`"
+	_OK=1
 	printf "auteur: "
 	if [ ! -f "auteur" ]; then
 		printf "\033[0;31mDon't exists\033[0;0m\n"
-		return
+		_OK=0
 	else
-		if [ "`cat -e auteur`\$" == "`whoami`\$\$" ]; then
+		if [ "`cat -e auteur`\$" == "$_WHOAMI\$\$" ]; then
 			printf "\033[0;32mOK\033[0;0m\n"
 		else
 			printf "\033[0;31mNot well formated\033[0;0m\n"
-			return
+			_OK=0
 		fi
 	fi
 	printf "norme: "
@@ -290,7 +292,71 @@ function ok()
 	else
 		printf "\033[0;31mError:\033[0;0m\n"
 		echo "$_NORME"
-		return
+		_OK=0
 	fi
-	echo "OK ! You can push"
+	printf "makefile: "
+	if [ -f "Makefile" ]; then
+		_MAKEOK=1
+		if [ "`grep -c -E "^all:" Makefile`" -eq 0 ]; then
+			if [ "$_MAKEOK" -eq 1 ]; then
+				printf "\033[0;31mMissing rule:\033[0;0m all"
+				_MAKEOK=0
+			else
+				printf ", all"
+			fi
+		fi
+		if [ "`grep -c -E "^clean:" Makefile`" -eq 0 ]; then
+			if [ "$_MAKEOK" -eq 1 ]; then
+				printf "\033[0;31mMissing rule:\033[0;0m clean"
+				_MAKEOK=0
+			else
+				printf ", clean"
+			fi
+		fi
+		if [ "`grep -c -E "^fclean:" Makefile`" -eq 0 ]; then
+			if [ "$_MAKEOK" -eq 1 ]; then
+				printf "\033[0;31mMissing rule:\033[0;0m fclean"
+				_MAKEOK=0
+			else
+				printf ", fclean"
+			fi
+		fi
+		if [ "`grep -c -E "^re:" Makefile`" -eq 0 ]; then
+			if [ "$_MAKEOK" -eq 1 ]; then
+				printf "\033[0;31mMissing rule:\033[0;0m re"
+				_MAKEOK=0
+			else
+				printf ", re"
+			fi
+		fi
+		if [ "`grep -c -E "\\( *whildcard|\\*[/\\.]|[/\\.]\\*" Makefile`" -gt 0 ]; then
+			if [ "$_MAKEOK" -eq 0 ]; then
+				printf " ; \033[0;31mContains whildcard\033[0;0m"
+			else
+				printf "\033[0;31mContains whildcard\033[0;0m"
+				_MAKEOK=0
+			fi
+		fi
+		if [ "$_MAKEOK" -eq 1 ]; then
+			printf "\033[0;32mOK\033[0;0m\n"
+		else
+			printf "\n"
+			_OK=0
+		fi
+	else
+		printf "\033[0;31mDon't exists\033[0;0m\n"
+		_OK=0
+	fi
+	printf "header: "
+	_NAMEOK=`grep -r -P "((Created|Updated): [0-9/ :]+by |By: )("'?!'"$_WHOAMI)" .`
+	if [ "$_NAMEOK" == "" ]; then
+		printf "\033[0;32mOK\033[0;0m\n"
+	else
+		printf "\033[0;31mBad name:\033[0;0m\n"
+		echo "$_NAMEOK"
+		_OK=0
+	fi
+	if [ "$_OK" -eq 1 ]; then
+		echo "OK ! You can push"
+	fi
 }
