@@ -1,3 +1,7 @@
+export PATH=$HOME/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/texbin
+export USER=`/usr/bin/whoami`
+export GROUP=`/usr/bin/id -gn $user`
+export MAIL="$USER@student.42.fr"
 
 #
 # PS1
@@ -58,6 +62,11 @@ function _ps1_git()
 export PS1="\$(_ps1_status) \033[36m\h \033[32m\w\033[0m \$(_ps1_git)"
 
 #
+# zsh prompt
+#
+export PROMPT="$(_ps1_status) %F{cyan}%m %F{green}%~%f $(_ps1_git)"
+
+#
 # Rc
 #
 alias rc="source ~/.bashrc"
@@ -99,6 +108,19 @@ function timeout()
 };
 
 #
+# Diff
+#
+function d()
+{
+	if [ "$#" -lt 2 ]; then
+		echo "Error: d need 2 arguments"
+	else
+		printf "\033[0;32m$2\033[0;0m - \033[0;31m$1\033[0;0m\n"
+		diff -- "$1" "$2" | sed -E "s/> (.*)|< (.*)/`printf "\033[0;32m"`\1`printf "\033[0;31m"`\2`printf "\033[0;0m"`/"
+	fi
+}
+
+#
 # Norminette
 #
 function n()
@@ -108,7 +130,7 @@ function n()
 	else
 		ARGS=$@
 	fi
-	norminette ${ARGS} 2> /dev/null | sed -E "s/((Error[^:]*:)|(Warning:?))(.+)$|(Norme:.+)/`printf "\033[0;31m"`\2`printf "\033[0;33m"`\3`printf "\033[0;0m"`\4`printf "\033[0;32m"`\5/"
+	norminette ${ARGS} 2> /dev/null | sed -E "s/((Error[^:]*:)|(Warning:?))(.+)$|(Norme:.+)/`printf "\033[0;31m"`\2`printf "\033[0;33m"`\3`printf "\033[0;0m"`\4`printf "\033[0;32m"`\5`printf "\033[0;0m"`/"
 };
 
 #
@@ -162,9 +184,14 @@ function l()
 };
 
 #
+# PS
+#
+alias ps="ps -e -o 'pid %cpu %mem etime tty command' | grep -E ' ttys[0-9]+ | +COMMAND$'"
+
+#
 # Sublime Text
 #
-if [ "`uname`" == "Darwin" ]; then
+if [ "`uname`"=="Darwin" ]; then
 	alias s="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
 else
 	alias s="subl"
@@ -286,7 +313,11 @@ function ok()
 		fi
 	fi
 	printf "norme: "
-	_NORME="`n | grep -E "Error|Warning"`"
+	if [ "`type -t n`" == "function" ]; then
+		_NORME="`n | grep -E -B 1 "Error|Warning"`"
+	else
+		_NORME="`norminette **/*.[ch] 2>/dev/null | grep -E -B 1 "Error|Warning"`"
+	fi
 	if [ "$_NORME" == "" ]; then
 		printf "\033[0;32mOK\033[0;0m\n"
 	else
@@ -347,16 +378,11 @@ function ok()
 		printf "\033[0;31mDon't exists\033[0;0m\n"
 		_OK=0
 	fi
-	printf "header: "
-	_NAMEOK=`grep -r -P "((Created|Updated): [0-9/ :]+by |By: )("'?!'"$_WHOAMI)" .`
-	if [ "$_NAMEOK" == "" ]; then
-		printf "\033[0;32mOK\033[0;0m\n"
-	else
-		printf "\033[0;31mBad name:\033[0;0m\n"
-		echo "$_NAMEOK"
-		_OK=0
-	fi
 	if [ "$_OK" -eq 1 ]; then
 		echo "OK ! You can push"
+	else
+		echo "Noob there is errors"
 	fi
 }
+
+return
