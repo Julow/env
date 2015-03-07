@@ -8,7 +8,7 @@ export MAIL="$USER@student.42.fr"
 #
 function _ps1_status()
 {
-	if [ $? -eq 0 ]; then
+	if [[ $? -eq 0 ]]; then
 		printf "\033[32m$?"
 	else
 		printf "\033[31m$?"
@@ -17,10 +17,10 @@ function _ps1_status()
 
 function _ps1_git_rev()
 {
-	if [ "$1" -gt 0 ]; then
+	if [[ "$1" -gt 0 ]]; then
 		printf "\033[32m-$1\033[0m "
 	fi
-	if [ "$2" -gt 0 ]; then
+	if [[ "$2" -gt 0 ]]; then
 		printf "\033[32m+$2\033[0m "
 	fi
 };
@@ -28,7 +28,7 @@ function _ps1_git_rev()
 function _ps1_git()
 {
 	BRANCH=`git rev-parse --abbrev-ref HEAD 2> /dev/null` > /dev/null
-	if [ $? -eq 0 ]; then
+	if [[ $? -eq 0 ]]; then
 		printf $BRANCH
 		STATUS=$(git status --porcelain)
 		COLUM1=`echo "$STATUS" | cut -c 1-1`
@@ -76,12 +76,12 @@ alias rc="source ~/.bashrc"
 #
 function f()
 {
-	if [ "$2" == "" ]; then
+	if [[ "$2" == "" ]]; then
 		F_DIRS="."
 	else
 		F_DIRS="$2"
 	fi
-	if [ -t 1 ]; then
+	if [[ -t 1 ]]; then
 		F_COLOR=always
 	else
 		F_COLOR=never
@@ -100,7 +100,7 @@ function timeout()
 	PID_SLEEP=$!
 	wait $PID > /dev/null
 	STATUS=$?
-	if [ $STATUS -gt 128 ]; then
+	if [[ $STATUS -gt 128 ]]; then
 		kill $PID > /dev/null
 	else
 		kill $PID_SLEEP > /dev/null
@@ -112,7 +112,7 @@ function timeout()
 #
 function d()
 {
-	if [ "$#" -lt 2 ]; then
+	if [[ "$#" -lt 2 ]]; then
 		echo "Error: d need 2 arguments"
 	else
 		printf "\033[0;32m$2\033[0;0m - \033[0;31m$1\033[0;0m\n"
@@ -125,7 +125,7 @@ function d()
 #
 function n()
 {
-	if [ $# -eq 0 ]; then
+	if [[ $# -eq 0 ]]; then
 		ARGS="**/*.[ch]"
 	else
 		ARGS=$@
@@ -142,9 +142,9 @@ function h()
 /*                                                                            */
 /*                                                        :::      ::::::::   */"
 
-    if [ -f "$1" ]; then
+    if [[ -f "$1" ]]; then
         HEAD="`head -3 "$1"`"
-        if [ "$HEAD"="$START_LINES" ]; then
+        if [[ "$HEAD" == "$START_LINES" ]]; then
             CONTENT=`tail -n +13 "$1"`
         else
             CONTENT=`cat "$1"`
@@ -155,7 +155,7 @@ function h()
 
     NOW=`date +"%Y/%m/%d %H:%M:%S"`
 
-    if [ -n "$2" ]; then
+    if [[ -n "$2" ]]; then
         WHO="$2"
     else
         WHO=`whoami`
@@ -183,15 +183,17 @@ function l()
 	ls -lAbFhgo $@ | sed -E "s/([^ ]+)( +)([^ ]+)( +)([^ ]+)( +[^ ]+ +[^ ]+ +[^ ]+) (.+)/[\1] `printf "\033[1;30m"`\6  `printf "\033[0;36m"`(\5 +\3)`printf "\033[0m"` \4\2\7/" | sed "s/ +1)/)   /"
 };
 
+alias ll="l"
+
 #
 # PS
 #
-alias ps="ps -e -o 'pid %cpu %mem etime tty command' | grep -E ' ttys[0-9]+ | +COMMAND$'"
+alias ps="ps -e -o 'pid %cpu %mem etime tty command' | grep -E ' ttys[0-9]+ | +COMMAND$| pts/[0-9]'"
 
 #
 # Sublime Text
 #
-if [ "`uname`"=="Darwin" ]; then
+if [[ "`uname`" == "Darwin" ]]; then
 	alias s="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
 else
 	alias s="subl"
@@ -225,32 +227,32 @@ function r()
 #
 function save()
 {
-	if [ "$1" == "-g" ]; then
+	if [[ "$1" == "-g" ]]; then
 		cd "`save -i $2`"
-	elif [ "$1" == "-i" ]; then
-		if [ -f ~/.save_go ]; then
+	elif [[ "$1" == "-i" ]]; then
+		if [[ -f ~/.save_go ]]; then
 			cat ~/.save_go | grep -m 1 -i ^"$2"= | cut -d '=' -f 2
 		fi
-	elif [ "$1" == "-s" ]; then
-		if [ -f ~/.save_go ]; then
-			if [ "$2" == "" ]; then
+	elif [[ "$1" == "-s" ]]; then
+		if [[ -f ~/.save_go ]]; then
+			if [[ "$2" == "" ]]; then
 				_SAVE="`pwd`"
 			else
 				_SAVE="$2"
 			fi
 			cat ~/.save_go | grep -m 1 -i ="$_SAVE"\$ | cut -d '=' -f 1
 		fi
-	elif [ "$1" == "-l" ]; then
-		if [ "$2" == "" ]; then
-			if [ -f ~/.save_go ]; then
+	elif [[ "$1" == "-l" ]]; then
+		if [[ "$2" == "" ]]; then
+			if [[ -f ~/.save_go ]]; then
 				grep -v "^$" ~/.save_go
 			fi
 		else
 			save -i $2
 		fi
-	elif [ "$1" == "-r" ]; then
-		if [ -f ~/.save_go ]; then
-			if [ "$2" == "" ]; then
+	elif [[ "$1" == "-r" ]]; then
+		if [[ -f ~/.save_go ]]; then
+			if [[ "$2" == "" ]]; then
 				_SAVE="`save -s`"
 			else
 				_SAVE="$2"
@@ -258,9 +260,9 @@ function save()
 			grep -iv ^"$_SAVE"= ~/.save_go > ~/.save_go.tmp
 			mv ~/.save_go.tmp ~/.save_go 2> /dev/null
 		fi
-	elif [ "$1" == "--help" ]; then
+	elif [[ "$1" == "--help" ]]; then
 		save -h
-	elif [ "$1" == "-h" ]; then
+	elif [[ "$1" == "-h" ]]; then
 		echo "Save/Go"
 		echo "    save -g <save>            Go to <save>"
 		echo "    save -i <save>            Print the path of <save>"
@@ -301,11 +303,11 @@ function ok()
 	_WHOAMI="`whoami`"
 	_OK=1
 	printf "auteur: "
-	if [ ! -f "auteur" ]; then
+	if [[ ! -f "auteur" ]]; then
 		printf "\033[0;31mDon't exists\033[0;0m\n"
 		_OK=0
 	else
-		if [ "`cat -e auteur`\$" == "$_WHOAMI\$\$" ]; then
+		if [[ "`cat -e auteur`\$" == "$_WHOAMI\$\$" ]]; then
 			printf "\033[0;32mOK\033[0;0m\n"
 		else
 			printf "\033[0;31mNot well formated\033[0;0m\n"
@@ -313,12 +315,12 @@ function ok()
 		fi
 	fi
 	printf "norme: "
-	if [ "`type -t n`" == "function" ]; then
+	if [[ "`type -t n`" == "function" ]]; then
 		_NORME="`n | grep -E -B 1 "Error|Warning"`"
 	else
 		_NORME="`norminette **/*.[ch] 2>/dev/null | grep -E -B 1 "Error|Warning"`"
 	fi
-	if [ "$_NORME" == "" ]; then
+	if [[ "$_NORME" == "" ]]; then
 		printf "\033[0;32mOK\033[0;0m\n"
 	else
 		printf "\033[0;31mError:\033[0;0m\n"
@@ -326,49 +328,49 @@ function ok()
 		_OK=0
 	fi
 	printf "makefile: "
-	if [ -f "Makefile" ]; then
+	if [[ -f "Makefile" ]]; then
 		_MAKEOK=1
-		if [ "`grep -c -E "^all:" Makefile`" -eq 0 ]; then
-			if [ "$_MAKEOK" -eq 1 ]; then
+		if [[ "`grep -c -E "^all:" Makefile`" -eq 0 ]]; then
+			if [[ "$_MAKEOK" -eq 1 ]]; then
 				printf "\033[0;31mMissing rule:\033[0;0m all"
 				_MAKEOK=0
 			else
 				printf ", all"
 			fi
 		fi
-		if [ "`grep -c -E "^clean:" Makefile`" -eq 0 ]; then
-			if [ "$_MAKEOK" -eq 1 ]; then
+		if [[ "`grep -c -E "^clean:" Makefile`" -eq 0 ]]; then
+			if [[ "$_MAKEOK" -eq 1 ]]; then
 				printf "\033[0;31mMissing rule:\033[0;0m clean"
 				_MAKEOK=0
 			else
 				printf ", clean"
 			fi
 		fi
-		if [ "`grep -c -E "^fclean:" Makefile`" -eq 0 ]; then
-			if [ "$_MAKEOK" -eq 1 ]; then
+		if [[ "`grep -c -E "^fclean:" Makefile`" -eq 0 ]]; then
+			if [[ "$_MAKEOK" -eq 1 ]]; then
 				printf "\033[0;31mMissing rule:\033[0;0m fclean"
 				_MAKEOK=0
 			else
 				printf ", fclean"
 			fi
 		fi
-		if [ "`grep -c -E "^re:" Makefile`" -eq 0 ]; then
-			if [ "$_MAKEOK" -eq 1 ]; then
+		if [[ "`grep -c -E "^re:" Makefile`" -eq 0 ]]; then
+			if [[ "$_MAKEOK" -eq 1 ]]; then
 				printf "\033[0;31mMissing rule:\033[0;0m re"
 				_MAKEOK=0
 			else
 				printf ", re"
 			fi
 		fi
-		if [ "`grep -c -E "\\( *whildcard|\\*[/\\.]|[/\\.]\\*" Makefile`" -gt 0 ]; then
-			if [ "$_MAKEOK" -eq 0 ]; then
+		if [[ "`grep -c -E "\\( *whildcard|\\*[/\\.]|[/\\.]\\*" Makefile`" -gt 0 ]]; then
+			if [[ "$_MAKEOK" -eq 0 ]]; then
 				printf " ; \033[0;31mContains whildcard\033[0;0m"
 			else
 				printf "\033[0;31mContains whildcard\033[0;0m"
 				_MAKEOK=0
 			fi
 		fi
-		if [ "$_MAKEOK" -eq 1 ]; then
+		if [[ "$_MAKEOK" -eq 1 ]]; then
 			printf "\033[0;32mOK\033[0;0m\n"
 		else
 			printf "\n"
@@ -378,7 +380,7 @@ function ok()
 		printf "\033[0;31mDon't exists\033[0;0m\n"
 		_OK=0
 	fi
-	if [ "$_OK" -eq 1 ]; then
+	if [[ "$_OK" -eq 1 ]]; then
 		echo "OK ! You can push"
 	else
 		echo "Noob there is errors"
