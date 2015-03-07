@@ -8,7 +8,10 @@ export MAIL="$USER@student.42.fr"
 #
 function _ps1_status()
 {
-	if [[ $? -eq 0 ]]; then
+	if [[ "$SHLVL" -gt "1" ]]; then
+		printf "$SHLVL> "
+	fi
+	if [[ "$?" -eq "0" ]]; then
 		printf "\033[32m$?"
 	else
 		printf "\033[31m$?"
@@ -17,10 +20,10 @@ function _ps1_status()
 
 function _ps1_git_rev()
 {
-	if [[ "$1" -gt 0 ]]; then
+	if [[ "$1" -gt "0" ]]; then
 		printf "\033[32m-$1\033[0m "
 	fi
-	if [[ "$2" -gt 0 ]]; then
+	if [[ "$2" -gt "0" ]]; then
 		printf "\033[32m+$2\033[0m "
 	fi
 };
@@ -315,17 +318,17 @@ function ok()
 		fi
 	fi
 	printf "norme: "
-	if [[ "`type -t n`" == "function" ]]; then
-		_NORME="`n | grep -E -B 1 "Error|Warning"`"
-	else
+	if [[ "`type norminette 2>&1 | grep "not found"`" == "" ]]; then
 		_NORME="`norminette **/*.[ch] 2>/dev/null | grep -E -B 1 "Error|Warning"`"
-	fi
-	if [[ "$_NORME" == "" ]]; then
-		printf "\033[0;32mOK\033[0;0m\n"
+		if [[ "$_NORME" == "" ]]; then
+			printf "\033[0;32mOK\033[0;0m\n"
+		else
+			printf "\033[0;31mError:\033[0;0m\n"
+			echo "$_NORME"
+			_OK=0
+		fi
 	else
-		printf "\033[0;31mError:\033[0;0m\n"
-		echo "$_NORME"
-		_OK=0
+		printf "\033[0;31mCan't check\033[0;0m\n"
 	fi
 	printf "makefile: "
 	if [[ -f "Makefile" ]]; then
