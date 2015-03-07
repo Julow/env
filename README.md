@@ -4,17 +4,20 @@ My .bashrc config
 
 A set of cool commands/alias for Linux and Mac OS.
 
+_Tested with zsh and bash_
+
 ## Installation
 
-**Copy** the **.bashrc** file.<br />
+**Copy** the **.zshrc** file.<br />
 Can have a different name depending on your shell.<br />
-_(**.zshrc**, .profile, .cshrc, .shinit, etc...)_
+_(**.zshrc**, .bashrc, .profile, etc...)_
 
 ## Content
 
 ### PS1
 
 A colored prompt containing:
+- SH level
 - Last command status
 - Git branch
 - Git status
@@ -50,7 +53,7 @@ The `l` command is an alias for the _ls_ command with a colorful and easy to rea
 
 ### Rc
 
-The `rc` command is just an alias for `source ~/.bashrc`
+The `rc` command is just an alias for `source ~/.zshrc`
 
 ### Grep
 
@@ -59,6 +62,11 @@ The `f` command is an alias for `grep -r -E -C 3`.
 Follow `f` by a string to search _and the path to start search (optionnal)_.
 
 If `f` don't output to a terminal, colors are disabled.
+_(eg. to open matching files in an editor)_
+
+### Diff
+
+The `d` command show colored diff between 2 files
 
 ### 42 Header
 
@@ -70,6 +78,15 @@ The `h` take one required argument: the file name<br />
 it takes also a second optional argument: your name
 
 _Warning: don't work for `shell` files or `Makefile`_
+
+### OK
+
+The `ok` function tell you if you can submit your project
+
+Check:
+- `auteur` file
+- Norme
+- Makefile (rules all/clean/fclean/re, wildcard)
 
 ### Norminette
 
@@ -84,6 +101,11 @@ The `n` command is an alias for the _norminette_ command with colors.
 The `s` command open Sublime Text.
 
 Can take file name _(existing or not)_ as arguments.
+
+### PS
+
+The `ps` command is redefined to print process of other terminal.
+_(but not all process without terminal)_
 
 ### GCC
 

@@ -72,7 +72,7 @@ export PROMPT="$(_ps1_status) %F{cyan}%m %F{green}%~%f $(_ps1_git)"
 #
 # Rc
 #
-alias rc="source ~/.bashrc"
+alias rc="source ~/.zshrc"
 
 #
 # F
@@ -129,7 +129,7 @@ function d()
 function n()
 {
 	if [[ $# -eq 0 ]]; then
-		ARGS="**/*.[ch]"
+		ARGS=**/*.[ch]
 	else
 		ARGS=$@
 	fi
