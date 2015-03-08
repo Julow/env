@@ -62,7 +62,9 @@ function _ps1_git()
 		if [[ "$COLUM2" == *"?"* ]]; then
 			PRINT=$PRINT"$2?"
 		fi
-		printf "%s " "$PRINT$3"
+		if [[ "${#PRINT}" -gt "0" ]]; then
+			printf "%s " "$PRINT$3"
+		fi
 		_ps1_git_rev "$1" "$2" "$3" `git rev-list --left-right --count origin...HEAD 2> /dev/null || echo "0 0"`
 	fi
 };
@@ -70,9 +72,13 @@ function _ps1_git()
 export PS1="\$(_ps1_status) \033[36m\h \033[32m\w\033[0m \$(_ps1_git '\033[32m' '\033[31m' '\033[0m')"
 
 #
-# zsh prompt
+# PS1 - zsh
 #
-export PROMPT="%(${SHLVL}..${SHLVL}> %(?.%F{green}%?%f.%F{red}%?%f) %F{cyan}%m %F{green}%~%f $(_ps1_git '%F{green}' '%F{red}' '%f')"
+export PROMPT="%(?.%F{green}%?%f.%F{red}%?%f) %F{cyan}%m %F{green}%~%f $(_ps1_git '%F{green}' '%F{red}' '%f')"
+
+if [[ "$SHLVL" -gt "1" ]]; then
+	PROMPT="$SHLVL> "$PROMPT
+fi
 
 #
 # Rc
