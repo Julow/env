@@ -21,11 +21,19 @@ function _ps1_status()
 
 function _ps1_git_rev()
 {
-	if [[ "$1" -gt "0" ]]; then
-		printf "\033[32m-$1\033[0m "
+	if [[ "$3" -gt "0" ]]; then
+		if [[ "$#PRINT" -gt "0" ]]; then
+			PRINT=$PRINT" $1-$3"
+		else
+			PRINT="$1-$3"
+		fi
 	fi
-	if [[ "$2" -gt "0" ]]; then
-		printf "\033[32m+$2\033[0m "
+	if [[ "$4" -gt "0" ]]; then
+		if [[ "$#PRINT" -gt "0" ]]; then
+			PRINT=$PRINT" $2+$4"
+		else
+			PRINT="$2+$4"
+		fi
 	fi
 };
 
@@ -34,43 +42,45 @@ function _ps1_git()
 	BRANCH=`git rev-parse --abbrev-ref HEAD 2> /dev/null` > /dev/null
 	if [[ $? -eq 0 ]]; then
 		if [[ ! "$BRANCH" == "master" ]]; then
-			printf "[$BRANCH]"
+			PRINT="[$BRANCH] "
+		else
+			PRINT=""
 		fi
 		STATUS=$(git status --porcelain)
 		COLUM1=`echo "$STATUS" | cut -c 1-1`
 		COLUM2=`echo "$STATUS" | cut -c 2-2`
 		if [[ "$COLUM1" == *"A"* ]]; then
-			printf "\033[32mA"
+			PRINT=$PRINT"$1A"
 		fi
 		if [[ "$COLUM1" == *"D"* ]]; then
-			printf "\033[32mD"
+			PRINT=$PRINT"$1D"
 		fi
 		if [[ "$COLUM1" == *"M"* ]]; then
-			printf "\033[32mM"
+			PRINT=$PRINT"$1M"
 		fi
 		if [[ "$COLUM1" == *"R"* ]]; then
-			printf "\033[32mR"
+			PRINT=$PRINT"$1R"
 		fi
 		if [[ "$COLUM2" == *"D"* ]]; then
-			printf "\033[31mD"
+			PRINT=$PRINT"$2D"
 		fi
 		if [[ "$COLUM2" == *"M"* ]]; then
-			printf "\033[31mM"
+			PRINT=$PRINT"$2M"
 		fi
 		if [[ "$COLUM2" == *"?"* ]]; then
-			printf "\033[31m?"
+			PRINT=$PRINT"$2?"
 		fi
-		printf "\033[0m "
-		_ps1_git_rev `git rev-list --left-right --count origin...HEAD 2> /dev/null || echo "0 0"`
+		_ps1_git_rev "$1" "$2" `git rev-list --left-right --count origin...HEAD 2> /dev/null || echo "0 0"`
+		printf "%s " "$PRINT$3"
 	fi
 };
 
-export PS1="\$(_ps1_status) \033[36m\h \033[32m\w\033[0m \$(_ps1_git)"
+export PS1="\$(_ps1_status) \033[36m\h \033[32m\w\033[0m \$(_ps1_git '\033[32m' '\033[31m' '\033[0m')"
 
 #
 # zsh prompt
 #
-export PROMPT="%(${SHLVL}..${SHLVL}> %(?.%F{green}%?%f.%F{red}%?%f) %F{cyan}%m %F{green}%~%f $(_ps1_git)"
+export PROMPT="%(${SHLVL}..${SHLVL}> %(?.%F{green}%?%f.%F{red}%?%f) %F{cyan}%m %F{green}%~%f $(_ps1_git '%F{green}' '%F{red}' '%f')"
 
 #
 # Rc
