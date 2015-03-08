@@ -8,13 +8,14 @@ export MAIL="$USER@student.42.fr"
 #
 function _ps1_status()
 {
+	STATUS="$?"
 	if [[ "$SHLVL" -gt "1" ]]; then
 		printf "$SHLVL> "
 	fi
-	if [[ "$?" -eq "0" ]]; then
-		printf "\033[32m$?"
+	if [[ "$STATUS" -eq "0" ]]; then
+		printf "\033[32m$STATUS"
 	else
-		printf "\033[31m$?"
+		printf "\033[31m$STATUS"
 	fi
 };
 
@@ -32,7 +33,9 @@ function _ps1_git()
 {
 	BRANCH=`git rev-parse --abbrev-ref HEAD 2> /dev/null` > /dev/null
 	if [[ $? -eq 0 ]]; then
-		printf $BRANCH
+		if [[ ! "$BRANCH" == "master" ]]; then
+			printf "[$BRANCH]"
+		fi
 		STATUS=$(git status --porcelain)
 		COLUM1=`echo "$STATUS" | cut -c 1-1`
 		COLUM2=`echo "$STATUS" | cut -c 2-2`
@@ -67,7 +70,7 @@ export PS1="\$(_ps1_status) \033[36m\h \033[32m\w\033[0m \$(_ps1_git)"
 #
 # zsh prompt
 #
-export PROMPT="$(_ps1_status) %F{cyan}%m %F{green}%~%f $(_ps1_git)"
+export PROMPT="%(${SHLVL}..${SHLVL}> %(?.%F{green}%?%f.%F{red}%?%f) %F{cyan}%m %F{green}%~%f $(_ps1_git)"
 
 #
 # Rc
