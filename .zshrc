@@ -21,19 +21,11 @@ function _ps1_status()
 
 function _ps1_git_rev()
 {
-	if [[ "$3" -gt "0" ]]; then
-		if [[ "$#PRINT" -gt "0" ]]; then
-			PRINT=$PRINT" $1-$3"
-		else
-			PRINT="$1-$3"
-		fi
-	fi
 	if [[ "$4" -gt "0" ]]; then
-		if [[ "$#PRINT" -gt "0" ]]; then
-			PRINT=$PRINT" $2+$4"
-		else
-			PRINT="$2+$4"
-		fi
+		printf "%s " "$2-$4$3"
+	fi
+	if [[ "$5" -gt "0" ]]; then
+		printf "%s " "$1+$5$3"
 	fi
 };
 
@@ -70,8 +62,8 @@ function _ps1_git()
 		if [[ "$COLUM2" == *"?"* ]]; then
 			PRINT=$PRINT"$2?"
 		fi
-		_ps1_git_rev "$1" "$2" `git rev-list --left-right --count origin...HEAD 2> /dev/null || echo "0 0"`
 		printf "%s " "$PRINT$3"
+		_ps1_git_rev "$1" "$2" "$3" `git rev-list --left-right --count origin...HEAD 2> /dev/null || echo "0 0"`
 	fi
 };
 
