@@ -208,15 +208,20 @@ alias ps="ps -e -o 'pid %cpu %mem etime tty command' | grep -E ' ttys[0-9]+ | +C
 # Sublime Text
 #
 if [[ "`uname`" == "Darwin" ]]; then
-	alias s="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
-else
-	alias s="subl"
+	if [[ -f "/Applications/Sublime Text 3.app/Contents/SharedSupport/bin/subl" ]]; then
+		alias subl="/Applications/Sublime Text 3.app/Contents/SharedSupport/bin/subl"
+	elif [[ -f "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" ]]; then
+		alias subl="/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl"
+	fi
 fi
+
+alias s="subl ; subl"
 
 #
 # Gcc
 #
 alias g="gcc -Wall -Werror -Wextra"
+alias gg="gcc -g -Wall -Wextra"
 
 #
 # Git
