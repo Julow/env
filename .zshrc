@@ -209,9 +209,9 @@ alias ps="ps -e -o 'pid %cpu %mem etime tty command' | grep -E ' ttys[0-9]+ | +C
 #
 if [[ "`uname`" == "Darwin" ]]; then
 	if [[ -f "/Applications/Sublime Text 3.app/Contents/SharedSupport/bin/subl" ]]; then
-		alias subl="/Applications/Sublime Text 3.app/Contents/SharedSupport/bin/subl"
+		alias subl="/Applications/Sublime\ Text\ 3.app/Contents/SharedSupport/bin/subl"
 	elif [[ -f "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" ]]; then
-		alias subl="/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl"
+		alias subl="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
 	fi
 fi
 
