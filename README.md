@@ -130,3 +130,7 @@ The `p` command is an alias for `git push origin master --tags`.
 
 The `amend` command is an alias for `git commit --amend --no-edit`.<br />
 Add the current status to the last commit.
+
+### Clean
+
+The `clean` command remove caches files
