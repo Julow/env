@@ -247,10 +247,10 @@ function r()
 function save()
 {
 	if [[ "$1" == "-g" ]]; then
-		cd "`save -i $2`"
+		cd "`save -i "$2"`"
 	elif [[ "$1" == "-i" ]]; then
 		if [[ -f ~/.save_go ]]; then
-			cat ~/.save_go | grep -m 1 -i ^"$2"= | cut -d '=' -f 2
+			cat ~/.save_go | grep -m 1 -i '^'"$2"'=' | cut -d '=' -f 2
 		fi
 	elif [[ "$1" == "-s" ]]; then
 		if [[ -f ~/.save_go ]]; then
@@ -259,15 +259,15 @@ function save()
 			else
 				_SAVE="$2"
 			fi
-			cat ~/.save_go | grep -m 1 -i ="$_SAVE"\$ | cut -d '=' -f 1
+			cat ~/.save_go | grep -m 1 -i '='"$_SAVE"'$' | cut -d '=' -f 1
 		fi
 	elif [[ "$1" == "-l" ]]; then
 		if [[ "$2" == "" ]]; then
 			if [[ -f ~/.save_go ]]; then
-				grep -v "^$" ~/.save_go
+				grep -v '^$' ~/.save_go
 			fi
 		else
-			save -i $2
+			save -i "$2"
 		fi
 	elif [[ "$1" == "-r" ]]; then
 		if [[ -f ~/.save_go ]]; then
@@ -276,7 +276,7 @@ function save()
 			else
 				_SAVE="$2"
 			fi
-			grep -iv ^"$_SAVE"= ~/.save_go > ~/.save_go.tmp
+			grep -iv '^'"$_SAVE"'=' ~/.save_go > ~/.save_go.tmp
 			mv ~/.save_go.tmp ~/.save_go 2> /dev/null
 		fi
 	elif [[ "$1" == "--help" ]]; then
@@ -302,11 +302,11 @@ function save()
 		echo "If <save> is blank, it refer to a save with no name."
 		echo "All the saves are stored in '~/.save_go'"
 	else
-		save -r $1
+		save -r "$1"
 		echo >> ~/.save_go
-		echo -n $1"=" >> ~/.save_go
+		echo -n "$1"'=' >> ~/.save_go
 		pwd >> ~/.save_go
-		grep -v "^$" ~/.save_go > ~/.save_go.tmp
+		grep -v '^$' ~/.save_go > ~/.save_go.tmp
 		mv ~/.save_go.tmp ~/.save_go 2> /dev/null
 	fi
 };
