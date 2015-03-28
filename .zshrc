@@ -215,7 +215,7 @@ if [[ "`uname`" == "Darwin" ]]; then
 	fi
 fi
 
-alias s="subl ; subl"
+alias s="subl"
 
 #
 # Gcc
