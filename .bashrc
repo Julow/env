@@ -7,7 +7,9 @@
 #
 # Load aliases
 #
-source "~/.bash_aliases"
+if [ -f "~/.bash_aliases" ]; then
+	source "~/.bash_aliases"
+fi
 
 #
 # PS1
@@ -75,7 +77,12 @@ function _ps1_git()
 	fi
 };
 
-export PS1="\$(_ps1_status) \033[36m\h \033[32m\w\033[0m \$(_ps1_git '\033[32m' '\033[31m' '\033[0m')"
+function _ps1()
+{
+	export PS1="`_ps1_status` \033[36m\h \033[32m\w\033[0m `_ps1_git '\033[32m' '\033[31m' '\033[0m'`"
+};
+
+export PROMPT_COMMAND="_ps1"
 
 #
 # Rc
