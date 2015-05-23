@@ -22,5 +22,5 @@ Check `.bash_aliases` for doc about each aliases
 
 Copy the 3 files for simple installation.
 
-For aliases copy the content of `.bash_aliases`
-For the cool prompt check the content of `.bashrc` **and** `.zshrc`
+For aliases look `.bash_aliases`
+For the cool prompt check `.bashrc`
