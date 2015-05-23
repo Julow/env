@@ -27,6 +27,92 @@ function f()
 };
 
 #
+# M
+#
+# Do cd ; clear ; ls
+#
+function _m_git_rev()
+{
+	if [[ "$1" -gt "0" ]]; then
+		if [[ "$2" -gt "0" ]]; then
+			printf "\033[31m[merge -$1 +$2] "
+		else
+			printf "\033[31m[pull -$1] "
+		fi
+	elif [[ "$2" -gt "0" ]]; then
+		printf "\033[32m[push +$2] "
+	fi
+};
+
+function _m_git_status()
+{
+	STATUS=$(git status --porcelain)
+	COLUM1=`echo "$STATUS" | cut -c 1-1`
+	COLUM2=`echo "$STATUS" | cut -c 2-2`
+	PRINT=""
+	if [[ "$COLUM1" == *"A"* ]]; then
+		PRINT=$PRINT"A"
+	fi
+	if [[ "$COLUM1" == *"D"* ]]; then
+		PRINT=$PRINT"D"
+	fi
+	if [[ "$COLUM1" == *"M"* ]]; then
+		PRINT=$PRINT"M"
+	fi
+	if [[ "$COLUM1" == *"R"* ]]; then
+		PRINT=$PRINT"R"
+	fi
+	if [[ "${#PRINT}" -gt "0" ]]; then
+		printf "\033[32m[%s] " "$PRINT"
+	fi
+	PRINT=""
+	if [[ "$COLUM2" == *"D"* ]]; then
+		PRINT=$PRINT"D"
+	fi
+	if [[ "$COLUM2" == *"M"* ]]; then
+		PRINT=$PRINT"M"
+	fi
+	if [[ "$COLUM2" == *"?"* ]]; then
+		PRINT=$PRINT"?"
+	fi
+	if [[ "${#PRINT}" -gt "0" ]]; then
+		printf "\033[31m[%s] " "$PRINT"
+	fi
+};
+
+function m()
+{
+	if [[ "${#1}" -eq "0" ]]; then
+		DIR="."
+	else
+		DIR="$1"
+	fi
+	cd "$DIR" || return
+	printf "\033[32m%*s\033[0m" "`stty size | cut -f 2 -d ' '`" | tr ' ' '-'
+	clear
+	printf "\033[90m"
+	ls -AFC
+	if [[ -d ".git" ]]; then
+		BRANCH=`git rev-parse --abbrev-ref HEAD 2> /dev/null`
+		if [[ $? -eq 0 ]]; then
+			if [[ ! "$BRANCH" == "master" ]]; then
+				printf "\033[36m[$BRANCH] "
+			fi
+			_m_git_status
+			_m_git_rev `git rev-list --left-right --count origin...HEAD 2> /dev/null || echo "0 0"`
+		fi
+	fi
+	if [[ -f "Makefile" ]]; then
+		printf "[make] "
+	fi
+	printf "\033[0m\n"
+};
+
+alias "..=m .."
+alias ".=m ."
+alias "~=m $HOME"
+
+#
 # Timeout
 #
 # Execute a command and kill it after a timeout
@@ -161,7 +247,9 @@ alias ps="ps -e -o 'pid %cpu %mem etime tty command' | grep -E ' ttys[0-9]+ | +C
 # (Already exists on ubuntu: subl)
 #
 if [[ "`uname`" == "Darwin" ]]; then
-	if [[ -f "/Applications/Sublime Text 3.app/Contents/SharedSupport/bin/subl" ]]; then
+	if [[ -f "/Applications/Sublime Text 2.app/Contents/SharedSupport/bin/subl" ]]; then
+		alias subl="/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl"
+	elif [[ -f "/Applications/Sublime Text 3.app/Contents/SharedSupport/bin/subl" ]]; then
 		alias subl="/Applications/Sublime\ Text\ 3.app/Contents/SharedSupport/bin/subl"
 	elif [[ -f "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" ]]; then
 		alias subl="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
