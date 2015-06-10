@@ -1,29 +1,17 @@
 #
-# .bashrc
+# prompt.sh
 #
-# https://github.com/Julow/My-Shell-Rc
+# Cool PS1 for bash and zsh
 #
-
-#
-#
-#
-export PATH="$HOME/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-export LD_LIBRARY_PATH="$HOME/.brew/lib"
-export SHELL="/bin/bash"
-export PS1="$SHLVL> "
-
-#
-# Load aliases
-#
-if [ -f "$HOME/.bash_aliases" ]; then
-	source "$HOME/.bash_aliases"
-fi
-
-#
-# PS1
+# Show:
+#  SHLVL (if > 1 only)
+#  Last command status
+#  Hostname
+#  Current working directory
+#  Git status (including untracked)
+#  Git revisions (+ and -)
 #
 
-# Command status + SHLVL
 function _ps1_status()
 {
 	STATUS="$?"
@@ -97,10 +85,3 @@ function precmd()
 {
 	export PROMPT="`_ps1_status "%F{green}" "%F{red}" "%f"` %F{cyan}%m %F{green}%~%f `_ps1_git "%F{green}" "%F{red}" "%f"`"
 };
-
-#
-# Rc
-#
-alias rc="source $HOME/.bashrc"
-
-return
