@@ -3,24 +3,34 @@
 Contains a set of aliases for bash and zsh
 
 Content:
-- `f` Search command
-- `timeout`
-- `d` Diff with colors
-- `n` Norminette with colors
-- `h` 42 Header
-- `l` Ls with a cool output
-- `ps` Ps
-- `s` Sublime Text
-- `g`, `gg` Gcc
-- `t`, `c`, `p`, `a`, `r` Git
-- `save`, `go` 'Bookmark' for directories
-- `ok` Check auteur/norme/Makefile
+- **save-go** 'Bookmark' for directories
+- A cool **prompt**
+- Aliases for **git**
+- A cool **l** _(ls)_ alias
+- And more cool aliases
 
-Check `.bash_aliases` for doc about each aliases
+## Install
 
-### Instal
+First you need to download it
 
-Copy the 3 files for simple installation.
+```shell
+# Add the scripts you want (coma separated) into the `{}`
+# Available: .juloorc (base), prompt.sh, save-go.sh, git_aliases.sh,
+#  extra_aliases.sh, 42_aliases.sh
+curl "https://raw.githubusercontent.com/Julow/My-Shell-Rc/master/"{.juloorc,prompt.sh,save-go.sh,git_aliases.sh} > "$HOME/.juloorc"
+```
 
-For aliases look `.bash_aliases`
-For the cool prompt check `.bashrc`
+Then add this line to your `.bashrc`, `.zshrc` or any shell startup file
+
+```shell
+# Load .juloorc
+if [[ -f "$HOME/.juloorc" ]]; then
+	source "$HOME/.juloorc"
+fi
+```
+
+To enable it now
+
+```shell
+source ~/.juloorc
+```
