@@ -3,12 +3,12 @@
 Contains a set of aliases/functions for bash and zsh
 
 Scripts:
-- [.juloorc](#juloorc)
-- [save-go.sh](#save-gosh)
-- [prompt.sh](#promptsh)
-- [git_aliases.sh](#git_aliasessh)
-- [extra_aliases.sh](#extra_aliasessh)
-- [42_aliases.sh](#42_aliasessh)
+- [base](#base)
+- [save-go](#save-go)
+- [prompt](#prompt)
+- [git_aliases](#git_aliases)
+- [extra_aliases](#extra_aliases)
+- [42_aliases](#42_aliases)
 
 ## Install
 
@@ -16,9 +16,9 @@ First you need to download it
 
 ```shell
 # Add the scripts you want (coma separated) into the `{}`
-# Available: .juloorc, prompt.sh, save-go.sh, git_aliases.sh,
-#  extra_aliases.sh, 42_aliases.sh
-curl "https://raw.githubusercontent.com/Julow/My-Shell-Rc/master/"{.juloorc,prompt.sh,save-go.sh,git_aliases.sh} > "$HOME/.juloorc"
+# Available: base, prompt, save-go, git_aliases,
+#  extra_aliases, 42_aliases
+curl "https://raw.githubusercontent.com/Julow/My-Shell-Rc/master/"{base,prompt,save-go,git_aliases}".sh" > "$HOME/.juloorc"
 ```
 
 _All the downloaded scripts are saved in a single file: `~/.juloorc`_
@@ -40,7 +40,7 @@ source ~/.juloorc
 
 ## Content
 
-### `.juloorc`
+### `base`
 
 ```shell
 rc                  # Reload ~/.juloorc
@@ -48,7 +48,7 @@ l[l] [args ...]     # Cool and easy to read ls
 s [args ...]        # Sublime Text
 ```
 
-### `save-go.sh`
+### `save-go`
 
 Save directory and go to it
 
@@ -58,7 +58,7 @@ go [name]           # Go to a save
 saved               # Print save list
 ```
 
-### `prompt.sh`
+### `prompt`
 
 A cool prompt with:
 - SHLVL (if > 1 only)
@@ -68,7 +68,7 @@ A cool prompt with:
 - Git status (including untracked)
 - Git revisions (+ and -)
 
-### `git_aliases.sh`
+### `git_aliases`
 
 Aliases for git
 
@@ -82,7 +82,7 @@ a [files ...]         # git add -A + Print status
 r [files ...]         # Cancel an add + Print status (Do not remove any file)
 ```
 
-### `extra_aliases.sh`
+### `extra_aliases`
 
 ```shell
 ps                  # Override ps, show process on other ttys
@@ -91,7 +91,7 @@ timeout <cmd ...>   # Execute 'cmd' and kill it after 10 seconds
 f <search> [dir]    # Recursive grep with colors
 ```
 
-### `42_aliases.sh`
+### `42_aliases`
 
 ```shell
 n [files ...]       # norminette with colors
