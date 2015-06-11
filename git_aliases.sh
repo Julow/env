@@ -9,8 +9,11 @@
 # c <msg> [args...]
 # (git commit)
 #
-# p [remote] [branch]
+# p [[remote] branch]
 # (git push)
+#
+# pl [[remote] branch]
+# (git pull)
 #
 # amend
 # (amend last commit without editing the commit message)
@@ -23,8 +26,29 @@
 #
 alias t="git status -sb"
 alias c="git commit -m"
-alias p="git push origin master --tags"
 alias amend="git commit --amend --no-edit"
+
+function p()
+{
+	if [ "$#" -eq "0" ]; then
+		git push origin master --tags
+	elif [ "$#" -eq "1" ]; then
+		git push origin "$1" --tags
+	else
+		git push --tags $@
+	fi
+};
+
+function pl()
+{
+	if [ "$#" -eq "0" ]; then
+		git pull origin master
+	elif [ "$#" -eq "1" ]; then
+		git pull origin "$1"
+	else
+		git pull $@
+	fi
+};
 
 function a()
 {
