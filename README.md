@@ -2,6 +2,14 @@
 
 Contains a set of aliases/functions for bash and zsh
 
+Scripts:
+- [.juloorc](#juloorc)
+- [save-go.sh](#save-gosh)
+- [prompt.sh](#promptsh)
+- [git_aliases.sh](#git_aliasessh)
+- [extra_aliases.sh](#extra_aliasessh)
+- [42_aliases.sh](#42_aliasessh)
+
 ## Install
 
 First you need to download it
