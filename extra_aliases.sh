@@ -1,34 +1,11 @@
 #
 # Extra Aliases
 #
-# s				Alias for subl (Sublime Text)
 # ps			Override ps and print process on other ttys
 # d				Diff with colors
 # timeout		Execute a command and kill it after a timeout
 # f				Recursive grep with colors (like ack)
 #
-
-#
-# Sublime Text
-#
-# Open files/dirs in Sublime Text
-# Open a new Sublime Text window if any
-#
-# s [file...]
-#
-# (Already exists on ubuntu: subl)
-#
-if [[ "`uname`" == "Darwin" ]]; then
-	if [[ -f "/Applications/Sublime Text 2.app/Contents/SharedSupport/bin/subl" ]]; then
-		alias subl="/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl"
-	elif [[ -f "/Applications/Sublime Text 3.app/Contents/SharedSupport/bin/subl" ]]; then
-		alias subl="/Applications/Sublime\ Text\ 3.app/Contents/SharedSupport/bin/subl"
-	elif [[ -f "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" ]]; then
-		alias subl="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
-	fi
-fi
-
-alias s="subl"
 
 #
 # PS
