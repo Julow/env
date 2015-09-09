@@ -1,0 +1,6 @@
+[core]
+	excludesfile = ~/.gitconfig_excludes
+
+[user]
+	name = jaguillo
+	email = juloo.dsi@gmail.com
