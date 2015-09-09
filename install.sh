@@ -49,8 +49,8 @@ function install_line()
 
 # Main
 
-install_file "conf_gitconfig" "$HOME/.gitconfig"
-install_file "conf_gitignore" "$HOME/.gitconfig_excludes"
+install_file "$ENV_PATH/conf_gitconfig" "$HOME/.gitconfig"
+install_file "$ENV_PATH/conf_gitignore" "$HOME/.gitconfig_excludes"
 
 create_init
 install_line "source \"$INIT_FILE\"" "$HOME/.bashrc"
