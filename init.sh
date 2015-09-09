@@ -1,0 +1,6 @@
+source "init/42_aliases.sh"
+source "init/base.sh"
+source "init/extra_aliases.sh"
+source "init/git_aliases.sh"
+source "init/prompt.sh"
+source "init/save-go.sh"

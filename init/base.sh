@@ -4,14 +4,7 @@
 # https://github.com/Julow/My-Shell-Rc
 #
 
-export PATH="$HOME/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-export LD_LIBRARY_PATH="$HOME/.brew/lib"
 export PS1="$SHLVL> "
-
-#
-# Reload .juloorc
-#
-alias rc="source $HOME/.juloorc"
 
 #
 # L
