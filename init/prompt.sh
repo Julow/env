@@ -3,14 +3,48 @@
 #
 # Cool PS1 for bash and zsh
 #
-# Show:
-#  SHLVL (if > 1 only)
-#  Last command status
-#  Hostname
-#  Current working directory
-#  Git status (including untracked)
-#  Git revisions (+ and -)
-#
+
+export C_RESET="\033[39m"
+
+export C_RED="\033[31m"
+export C_GREEN="\033[32m"
+export C_YELLOW="\033[33m"
+export C_BLUE="\033[34m"
+export C_MAGENTA="\033[35m"
+export C_CYAN="\033[36m"
+export C_GRAY="\033[90m"
+
+export C_BLACK="\033[30m"
+export C_WHITE="\033[97m"
+
+export C_LRED="\033[91m"
+export C_LGREEN="\033[92m"
+export C_LYELLOW="\033[93m"
+export C_LBLUE="\033[94m"
+export C_LMAGENTA="\033[95m"
+export C_LCYAN="\033[96m"
+export C_LGRAY="\033[37m"
+
+export BG_RESET="\033[49m"
+
+export BG_RED="\033[41m"
+export BG_GREEN="\033[42m"
+export BG_YELLOW="\033[43m"
+export BG_BLUE="\033[44m"
+export BG_MAGENTA="\033[45m"
+export BG_CYAN="\033[46m"
+export BG_LGRAY="\033[47m"
+
+export BG_BLACK="\033[40m"
+export BG_WHITE="\033[107m"
+
+export BG_LRED="\033[101m"
+export BG_LGREEN="\033[102m"
+export BG_LYELLOW="\033[103m"
+export BG_LBLUE="\033[104m"
+export BG_LMAGENTA="\033[105m"
+export BG_LCYAN="\033[106m"
+export BG_GRAY="\033[100m"
 
 function _ps1_status()
 {
@@ -79,6 +113,10 @@ function _ps1_git()
 
 # Bash
 export PROMPT_COMMAND='export PS1="`_ps1_status "\033[32m" "\033[31m" "\033[0m"` \033[36m\h \033[32m\w\033[0m `_ps1_git "\033[32m" "\033[31m" "\033[0m"`"'
+# export PROMPT_COMMAND=""
+# export PS1="${BG_LGRAY}${C_BLACK}2> ${C_RED} 1 ${BG_CYAN}${C_BLACK} juloo-pc "
+# export PS1="$PS1${BG_LGREEN}${C_BLACK} $HOME ${BG_GREEN}"
+# export PS1="$PS1${C_MAGENTA} (master) ${C_RED}M? ${C_RESET}${BG_RESET} "
 
 # Zsh
 function precmd()
