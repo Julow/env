@@ -4,134 +4,113 @@
 # Cool PS1 for bash and zsh
 #
 
-export C_ESC="`printf '\033'`"
+C_ESC="`printf '\033'`"
+
+C_RESET=
+
+C_RED=
+C_GREEN=
+C_YELLOW=
+C_BLUE=
+C_MAGENTA=
+C_CYAN=
+C_GRAY=
+
+C_BLACK=
+C_WHITE=
+
+C_LRED=
+C_LGREEN=
+C_LYELLOW=
+C_LBLUE=
+C_LMAGENTA=
+C_LCYAN=
+C_LGRAY=
+
+BG_RESET=
+
+BG_RED=
+BG_GREEN=
+BG_YELLOW=
+BG_BLUE=
+BG_MAGENTA=
+BG_CYAN=
+BG_LGRAY=
+
+BG_BLACK=
+BG_WHITE=
+
+BG_LRED=
+BG_LGREEN=
+BG_LYELLOW=
+BG_LBLUE=
+BG_LMAGENTA=
+BG_LCYAN=
+BG_GRAY=
+
+function init_colors()
+{
+	PREFIX=""
+	SUFFIX=""
+
+	if [[ -n "$1" ]]
+	then
+		PREFIX="$1"
+	fi
+
+	if [[ -n "$2" ]]
+	then
+		SUFFIX="$2"
+	fi
+
+	C_RESET="${PREFIX}${C_ESC}[39m${SUFFIX}"
+
+	C_RED="${PREFIX}${C_ESC}[31m${SUFFIX}"
+	C_GREEN="${PREFIX}${C_ESC}[32m${SUFFIX}"
+	C_YELLOW="${PREFIX}${C_ESC}[33m${SUFFIX}"
+	C_BLUE="${PREFIX}${C_ESC}[34m${SUFFIX}"
+	C_MAGENTA="${PREFIX}${C_ESC}[35m${SUFFIX}"
+	C_CYAN="${PREFIX}${C_ESC}[36m${SUFFIX}"
+	C_GRAY="${PREFIX}${C_ESC}[90m${SUFFIX}"
+
+	C_BLACK="${PREFIX}${C_ESC}[30m${SUFFIX}"
+	C_WHITE="${PREFIX}${C_ESC}[97m${SUFFIX}"
+
+	C_LRED="${PREFIX}${C_ESC}[91m${SUFFIX}"
+	C_LGREEN="${PREFIX}${C_ESC}[92m${SUFFIX}"
+	C_LYELLOW="${PREFIX}${C_ESC}[93m${SUFFIX}"
+	C_LBLUE="${PREFIX}${C_ESC}[94m${SUFFIX}"
+	C_LMAGENTA="${PREFIX}${C_ESC}[95m${SUFFIX}"
+	C_LCYAN="${PREFIX}${C_ESC}[96m${SUFFIX}"
+	C_LGRAY="${PREFIX}${C_ESC}[37m${SUFFIX}"
+
+	BG_RESET="${PREFIX}${C_ESC}[49m${SUFFIX}"
+
+	BG_RED="${PREFIX}${C_ESC}[41m${SUFFIX}"
+	BG_GREEN="${PREFIX}${C_ESC}[42m${SUFFIX}"
+	BG_YELLOW="${PREFIX}${C_ESC}[43m${SUFFIX}"
+	BG_BLUE="${PREFIX}${C_ESC}[44m${SUFFIX}"
+	BG_MAGENTA="${PREFIX}${C_ESC}[45m${SUFFIX}"
+	BG_CYAN="${PREFIX}${C_ESC}[46m${SUFFIX}"
+	BG_LGRAY="${PREFIX}${C_ESC}[47m${SUFFIX}"
+
+	BG_BLACK="${PREFIX}${C_ESC}[40m${SUFFIX}"
+	BG_WHITE="${PREFIX}${C_ESC}[107m${SUFFIX}"
+
+	BG_LRED="${PREFIX}${C_ESC}[101m${SUFFIX}"
+	BG_LGREEN="${PREFIX}${C_ESC}[102m${SUFFIX}"
+	BG_LYELLOW="${PREFIX}${C_ESC}[103m${SUFFIX}"
+	BG_LBLUE="${PREFIX}${C_ESC}[104m${SUFFIX}"
+	BG_LMAGENTA="${PREFIX}${C_ESC}[105m${SUFFIX}"
+	BG_LCYAN="${PREFIX}${C_ESC}[106m${SUFFIX}"
+	BG_GRAY="${PREFIX}${C_ESC}[100m${SUFFIX}"
+};
 
 if [[ -n $ZSH_VERSION ]]
 then
-	export C_RESET="%{${C_ESC}[39m%}"
-
-	export C_RED="%{${C_ESC}[31m%}"
-	export C_GREEN="%{${C_ESC}[32m%}"
-	export C_YELLOW="%{${C_ESC}[33m%}"
-	export C_BLUE="%{${C_ESC}[34m%}"
-	export C_MAGENTA="%{${C_ESC}[35m%}"
-	export C_CYAN="%{${C_ESC}[36m%}"
-	export C_GRAY="%{${C_ESC}[90m%}"
-
-	export C_BLACK="%{${C_ESC}[30m%}"
-	export C_WHITE="%{${C_ESC}[97m%}"
-
-	export C_LRED="%{${C_ESC}[91m%}"
-	export C_LGREEN="%{${C_ESC}[92m%}"
-	export C_LYELLOW="%{${C_ESC}[93m%}"
-	export C_LBLUE="%{${C_ESC}[94m%}"
-	export C_LMAGENTA="%{${C_ESC}[95m%}"
-	export C_LCYAN="%{${C_ESC}[96m%}"
-	export C_LGRAY="%{${C_ESC}[37m%}"
-
-	export BG_RESET="%{${C_ESC}[49m%}"
-
-	export BG_RED="%{${C_ESC}[41m%}"
-	export BG_GREEN="%{${C_ESC}[42m%}"
-	export BG_YELLOW="%{${C_ESC}[43m%}"
-	export BG_BLUE="%{${C_ESC}[44m%}"
-	export BG_MAGENTA="%{${C_ESC}[45m%}"
-	export BG_CYAN="%{${C_ESC}[46m%}"
-	export BG_LGRAY="%{${C_ESC}[47m%}"
-
-	export BG_BLACK="%{${C_ESC}[40m%}"
-	export BG_WHITE="%{${C_ESC}[107m%}"
-
-	export BG_LRED="%{${C_ESC}[101m%}"
-	export BG_LGREEN="%{${C_ESC}[102m%}"
-	export BG_LYELLOW="%{${C_ESC}[103m%}"
-	export BG_LBLUE="%{${C_ESC}[104m%}"
-	export BG_LMAGENTA="%{${C_ESC}[105m%}"
-	export BG_LCYAN="%{${C_ESC}[106m%}"
-	export BG_GRAY="%{${C_ESC}[100m%}"
+	init_colors "%{" "%}"
 else
-	export C_RESET="${C_ESC}[39m"
-
-	export C_RED="${C_ESC}[31m"
-	export C_GREEN="${C_ESC}[32m"
-	export C_YELLOW="${C_ESC}[33m"
-	export C_BLUE="${C_ESC}[34m"
-	export C_MAGENTA="${C_ESC}[35m"
-	export C_CYAN="${C_ESC}[36m"
-	export C_GRAY="${C_ESC}[90m"
-
-	export C_BLACK="${C_ESC}[30m"
-	export C_WHITE="${C_ESC}[97m"
-
-	export C_LRED="${C_ESC}[91m"
-	export C_LGREEN="${C_ESC}[92m"
-	export C_LYELLOW="${C_ESC}[93m"
-	export C_LBLUE="${C_ESC}[94m"
-	export C_LMAGENTA="${C_ESC}[95m"
-	export C_LCYAN="${C_ESC}[96m"
-	export C_LGRAY="${C_ESC}[37m"
-
-	export BG_RESET="${C_ESC}[49m"
-
-	export BG_RED="${C_ESC}[41m"
-	export BG_GREEN="${C_ESC}[42m"
-	export BG_YELLOW="${C_ESC}[43m"
-	export BG_BLUE="${C_ESC}[44m"
-	export BG_MAGENTA="${C_ESC}[45m"
-	export BG_CYAN="${C_ESC}[46m"
-	export BG_LGRAY="${C_ESC}[47m"
-
-	export BG_BLACK="${C_ESC}[40m"
-	export BG_WHITE="${C_ESC}[107m"
-
-	export BG_LRED="${C_ESC}[101m"
-	export BG_LGREEN="${C_ESC}[102m"
-	export BG_LYELLOW="${C_ESC}[103m"
-	export BG_LBLUE="${C_ESC}[104m"
-	export BG_LMAGENTA="${C_ESC}[105m"
-	export BG_LCYAN="${C_ESC}[106m"
-	export BG_GRAY="${C_ESC}[100m"
-	# export C_RESET="\033[39m"
-
-	# export C_RED="\033[31m"
-	# export C_GREEN="\033[32m"
-	# export C_YELLOW="\033[33m"
-	# export C_BLUE="\033[34m"
-	# export C_MAGENTA="\033[35m"
-	# export C_CYAN="\033[36m"
-	# export C_GRAY="\033[90m"
-
-	# export C_BLACK="\033[30m"
-	# export C_WHITE="\033[97m"
-
-	# export C_LRED="\033[91m"
-	# export C_LGREEN="\033[92m"
-	# export C_LYELLOW="\033[93m"
-	# export C_LBLUE="\033[94m"
-	# export C_LMAGENTA="\033[95m"
-	# export C_LCYAN="\033[96m"
-	# export C_LGRAY="\033[37m"
-
-	# export BG_RESET="\033[49m"
-
-	# export BG_RED="\033[41m"
-	# export BG_GREEN="\033[42m"
-	# export BG_YELLOW="\033[43m"
-	# export BG_BLUE="\033[44m"
-	# export BG_MAGENTA="\033[45m"
-	# export BG_CYAN="\033[46m"
-	# export BG_LGRAY="\033[47m"
-
-	# export BG_BLACK="\033[40m"
-	# export BG_WHITE="\033[107m"
-
-	# export BG_LRED="\033[101m"
-	# export BG_LGREEN="\033[102m"
-	# export BG_LYELLOW="\033[103m"
-	# export BG_LBLUE="\033[104m"
-	# export BG_LMAGENTA="\033[105m"
-	# export BG_LCYAN="\033[106m"
-	# export BG_GRAY="\033[100m"
+	init_colors
 fi
 
 function _ps1_status()
@@ -197,18 +176,7 @@ function _ps1_git()
 	fi
 };
 
-# function _ps1_test()
-# {
-# 	_PS1="`_ps1_status`${C_CYAN}$HOSTNAME ${C_LGREEN}`pwd` `_ps1_git`${C_RESET}"
-# 	_PS1_CLEAN="`printf "%s" "$_PS1" | sed -E 's/'"${C_ESC}"'\[[0-9;]+m//g'`"
-# 	printf '\r'
-# 	tput cuf $((`tput cols` - ${#_PS1_CLEAN}))
-# 	printf "%s" "$_PS1"
-# 	printf '\r\$ > '
-# }
-
 # Bash
-# export PROMPT_COMMAND='export PS1="`_ps1_test`"'
 export PROMPT_COMMAND='export PS1="`_ps1_status`${C_CYAN}\h ${C_LGREEN}\w `_ps1_git`${C_RESET}\n > "'
 
 # Zsh
@@ -216,3 +184,5 @@ function precmd()
 {
 	export PROMPT="`_ps1_status`${C_CYAN}%m ${C_LGREEN}%~ `_ps1_git`${C_RESET}"$'\n'" > "
 };
+
+init_colors
