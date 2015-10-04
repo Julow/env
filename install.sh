@@ -13,7 +13,7 @@ function create_init()
 	echo "# Init env
 
 # tools
-export PATH=\"$PATH:$TOOLS_PATH\"
+export PATH=\"\$PATH:$TOOLS_PATH\"
 
 # aliases
 source \"$INIT_PATH/base.sh\"
