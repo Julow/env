@@ -31,14 +31,19 @@ alias ll="l"
 #
 # (Already exists on ubuntu: subl)
 #
+
+export SUBL="subl"
 if [[ "`uname`" == "Darwin" ]]; then
-	if [[ -f "/Applications/Sublime Text 2.app/Contents/SharedSupport/bin/subl" ]]; then
-		alias subl="/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl"
-	elif [[ -f "/Applications/Sublime Text 3.app/Contents/SharedSupport/bin/subl" ]]; then
-		alias subl="/Applications/Sublime\ Text\ 3.app/Contents/SharedSupport/bin/subl"
+	# if [[ -f "/Applications/Sublime Text 2.app/Contents/SharedSupport/bin/subl" ]]; then
+	# 	export SUBL="/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl"
+	# elif [[ -f "/Applications/Sublime Text 3.app/Contents/SharedSupport/bin/subl" ]]; then
+	if [[ -f "/Applications/Sublime Text 3.app/Contents/SharedSupport/bin/subl" ]]; then
+		export SUBL="/Applications/Sublime\ Text\ 3.app/Contents/SharedSupport/bin/subl"
 	elif [[ -f "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" ]]; then
-		alias subl="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
+		export SUBL="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
 	fi
 fi
 
-alias s="subl -as"
+alias s="$SUBL -as"
+
+export EDITOR="subl -w"
