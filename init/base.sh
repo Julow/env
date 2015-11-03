@@ -22,6 +22,18 @@ function l()
 alias ll="l"
 
 #
+# each
+#
+# Run each argument as a command
+#
+function each()
+{
+	for cmd in "$@"; do
+		$cmd
+	done
+};
+
+#
 # Sublime Text
 #
 # Open files/dirs in Sublime Text
