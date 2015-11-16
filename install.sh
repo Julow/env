@@ -25,6 +25,14 @@ source \"$INIT_PATH/42_aliases.sh\"
 # prompt
 source \"$INIT_PATH/prompt.sh\"
 " > $INIT_FILE
+	if [[ -d "$HOME/.brew" ]]; then
+		echo "# brew
+export PATH=\"$HOME/.brew/bin:\$PATH\"
+export LD_LIBRARY_PATH=\"\$LD_LIBRARY_PATH:$HOME/.brew/lib\"
+export C_INCLUDE_PATH=\"\$C_INCLUDE_PATH:$HOME/.brew/include\"
+export CPLUS_INCLUDE_PATH=\"\$CPLUS_INCLUDE_PATH:$HOME/.brew/include\"
+" >> $INIT_FILE
+	fi
 }
 
 # Copy a file
