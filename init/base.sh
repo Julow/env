@@ -57,4 +57,4 @@ fi
 
 alias s="$SUBL -as"
 
-export EDITOR="subl -w"
+export EDITOR="$SUBL -w"
