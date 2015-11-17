@@ -28,6 +28,7 @@ source \"$INIT_PATH/prompt.sh\"
 	if [[ -d "$HOME/.brew" ]]; then
 		echo "# brew
 export PATH=\"$HOME/.brew/bin:\$PATH\"
+export LIBRARY_PATH=\"\$LIBRARY_PATH:$HOME/.brew/lib\"
 export LD_LIBRARY_PATH=\"\$LD_LIBRARY_PATH:$HOME/.brew/lib\"
 export C_INCLUDE_PATH=\"\$C_INCLUDE_PATH:$HOME/.brew/include\"
 export CPLUS_INCLUDE_PATH=\"\$CPLUS_INCLUDE_PATH:$HOME/.brew/include\"
