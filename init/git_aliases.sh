@@ -9,10 +9,10 @@
 # c <msg> [args...]
 # (git commit)
 #
-# p [[remote] branch]
+# p [remote] [branch]
 # (git push)
 #
-# pl [[remote] branch]
+# p [remote] [branch]
 # (git pull)
 #
 # amend
@@ -31,9 +31,9 @@ alias amend="git commit --amend --no-edit"
 function p()
 {
 	if [ "$#" -eq "0" ]; then
-		git push origin master --tags
+		git push origin : --tags
 	elif [ "$#" -eq "1" ]; then
-		git push origin "$1" --tags
+		git push "$1" : --tags
 	else
 		git push --tags $@
 	fi
@@ -42,9 +42,9 @@ function p()
 function pl()
 {
 	if [ "$#" -eq "0" ]; then
-		git pull origin master
+		git pull origin "`git rev-parse --abbrev-ref HEAD`" --tags
 	elif [ "$#" -eq "1" ]; then
-		git pull origin "$1"
+		git pull "$1" "`git rev-parse --abbrev-ref HEAD`" --tags
 	else
 		git pull $@
 	fi
