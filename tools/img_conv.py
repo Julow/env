@@ -7,10 +7,11 @@
 #    By: jaguillo <jaguillo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/09/08 12:13:02 by jaguillo          #+#    #+#              #
-#    Updated: 2015/09/08 15:51:52 by jaguillo         ###   ########.fr        #
+#    Updated: 2016/01/14 19:12:02 by jaguillo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+# from PILLOW import Image
 from PIL import Image
 from sys import argv, exit
 from os import path
