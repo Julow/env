@@ -61,7 +61,10 @@ function r()
 
 function t()
 {
-	echo '
+	if [[ ! -d ".git" ]]; then
+		l;
+	else
+		echo '
 import re
 
 stats = {}
@@ -120,6 +123,6 @@ if total_file > 0:
 else:
 	print "\033[97m##\033[0m %s" % total_str
 
-' | python
-
+' | python;
+	fi
 };
