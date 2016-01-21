@@ -3,31 +3,37 @@
 #
 # Somes aliases for git
 #
-# t
+# gitt
 # (Print the status in small format)
 #
-# c <msg> [args...]
+# gitc <msg> [...]
 # (git commit)
 #
-# p [remote] [branch]
+# gitp [remote] [branch]
 # (git push)
 #
-# p [remote] [branch]
+# gitp [remote] [branch]
 # (git pull)
 #
-# amend
+# gitamend
 # (amend last commit without editing the commit message)
 #
-# a [file...]
+# gita [file...]
 # (git add -A) + (Print the status)
 #
-# r <file1> [file2...]
+# gitr <file1> [file2...]
 # (Cancel (git add) for a file) + (Print the status)
 #
-alias c="git commit -m"
-alias amend="git commit --amend --no-edit"
 
-function p()
+alias gitamend="git commit --amend --no-edit"
+
+function gitc()
+{
+	STR="$@";
+	git commit -m "$STR"
+};
+
+function gitp()
 {
 	if [ "$#" -eq "0" ]; then
 		git push origin : --tags
@@ -38,7 +44,7 @@ function p()
 	fi
 };
 
-function pl()
+function gitpl()
 {
 	if [ "$#" -eq "0" ]; then
 		git pull origin "`git rev-parse --abbrev-ref HEAD`" --tags
@@ -49,17 +55,17 @@ function pl()
 	fi
 };
 
-function a()
+function gita()
 {
-	git add --all $@ && t
+	git add --all $@ && gitt
 };
 
-function r()
+function gitr()
 {
-	git reset -- HEAD -q $@ && t
+	git reset -- HEAD -q $@ && gitt
 };
 
-function t()
+function gitt()
 {
 	if [[ ! -d ".git" ]]; then
 		l;
@@ -126,3 +132,16 @@ else:
 ' | python;
 	fi
 };
+
+function alias_fuck()
+{
+	echo "It's \"$@\" now !"
+};
+
+alias a="alias_fuck gita"
+alias t="alias_fuck gitt"
+alias r="alias_fuck gitr"
+alias c="alias_fuck gitc"
+alias amend="alias_fuck gitamend"
+alias p="alias_fuck gitp"
+alias pl="alias_fuck gitpl"
