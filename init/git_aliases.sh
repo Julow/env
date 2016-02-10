@@ -67,7 +67,7 @@ function gitr()
 
 function gitt()
 {
-	if [[ ! -d ".git" ]]; then
+	if [[ ! -e ".git" ]]; then
 		l;
 	else
 		echo '
