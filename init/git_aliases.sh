@@ -94,10 +94,11 @@ for line in """'"$(git diff --numstat HEAD)"'""".split("\n"):
 total_file = 0
 total_untrack = 0
 
-for line in """'"$(git status -sb)"'""".split("\n"):
+for line in """'"$(git status -sb)"'
+""".split("\n"):
 	if line.startswith("##"):
 		print "\033[97m##\033[0m %s" % line[3:]
-	else:
+	elif len(line) > 0:
 		m = re.match("^(.)(.)\s+(.+)$", line)
 		if m == None:
 			print line
@@ -107,6 +108,8 @@ for line in """'"$(git status -sb)"'""".split("\n"):
 			else:
 				status = "\033[32m%s\033[31m%s\033[0m" % (m.group(1), m.group(2))
 			name = m.group(3)
+			if name[0] == "\"":
+				name = name[1:-1]
 			if name in stats:
 				add, rem = stats[name]
 				print "%s %-*s | \033[32m%2d+ \033[31m%2d-\033[0m" % (
