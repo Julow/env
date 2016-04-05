@@ -58,7 +58,12 @@ export CPLUS_INCLUDE_PATH=\"\$CPLUS_INCLUDE_PATH:$HOME/.brew/include\"
 
 export HOMEBREW_CACHE=\"/tmp/brew_cache\"
 export HOMEBREW_TEMP=\"/tmp/brew_temp\"
-mkdir \"\$HOMEBREW_CACHE\" \"\$HOMEBREW_TEMP\"" >> $INIT_FILE
+mkdir -p \"\$HOMEBREW_CACHE\" \"\$HOMEBREW_TEMP\"
+
+if launchctl stop com.apple.rcd 2> /dev/null; then
+	launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist
+fi
+" >> $INIT_FILE
 fi
 
 install_line "source \"$INIT_FILE\"" "$HOME/.bashrc"

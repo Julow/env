@@ -60,6 +60,11 @@ function gita()
 	git add --all $@ && gitt
 };
 
+function gitu()
+{
+	git add -u && gitt
+};
+
 function gitr()
 {
 	git reset -- HEAD -q $@ && gitt
@@ -67,10 +72,7 @@ function gitr()
 
 function gitt()
 {
-	if [[ ! -e ".git" ]]; then
-		l;
-	else
-		echo '
+	echo '
 import re
 
 stats = {}
@@ -94,7 +96,7 @@ for line in """'"$(git diff --numstat HEAD)"'""".split("\n"):
 total_file = 0
 total_untrack = 0
 
-for line in """'"$(git status -sb)"'
+for line in """'"$(git status -sb --porcelain)"'
 """.split("\n"):
 	if line.startswith("##"):
 		print "\033[97m##\033[0m %s" % line[3:]
@@ -133,7 +135,6 @@ else:
 	print "\033[97m##\033[0m %s" % total_str
 
 ' | python;
-	fi
 };
 
 function alias_fuck()
