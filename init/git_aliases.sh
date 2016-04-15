@@ -136,16 +136,3 @@ else:
 
 ' | python;
 };
-
-function alias_fuck()
-{
-	echo "It's \"$@\" now !"
-};
-
-alias a="alias_fuck gita"
-alias t="alias_fuck gitt"
-alias r="alias_fuck gitr"
-alias c="alias_fuck gitc"
-alias amend="alias_fuck gitamend"
-alias p="alias_fuck gitp"
-alias pl="alias_fuck gitpl"

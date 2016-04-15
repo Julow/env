@@ -22,6 +22,16 @@ function l()
 alias ll="l"
 
 #
+# C
+#
+# Clear screen, cd and ls
+#
+function c()
+{
+	clear ; cd "$@" && l
+};
+
+#
 # each
 #
 # Run each argument as a command
