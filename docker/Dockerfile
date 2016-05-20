@@ -1,31 +1,22 @@
-FROM debian
+FROM debian:sid
 
-RUN echo "root:root" | chpasswd
-
-#
-RUN apt-get update && apt-get -y upgrade
-RUN apt-get -y install build-essential openssh-server curl git python python-setuptools
-
-WORKDIR /root
+# setup user
+USER root
 ENV HOME /root
+WORKDIR /juloo
 
-# brew
-RUN apt-get -y install ruby
-RUN git clone https://github.com/Linuxbrew/linuxbrew.git $HOME/.brew
+# basic packages
+RUN apt-get update
+RUN apt-get -y install build-essential curl
 
 # aliases and scripts
-RUN git clone https://github.com/Julow/env.git $HOME/_env
-RUN cd $HOME/_env && bash install.sh
+RUN TMP_ENV="/tmp/_env.tar.gz" ; ENV_DIR="$HOME/_env" ; \
+	curl -L -o $TMP_ENV https://github.com/Julow/env/archive/master.tar.gz ; \
+	mkdir $ENV_DIR ; \
+	tar -xf $TMP_ENV -C $ENV_DIR --strip-components=1 ; \
+	cd $ENV_DIR && bash install.sh
 
 # ocaml
 RUN apt-get -y install ocaml opam m4 pkg-config
-RUN opam init -a
+RUN opam init -a --dot-profile=/root/.bashrc
 RUN opam install -y js_of_ocaml
-
-# ssh
-RUN mkdir /var/run/sshd
-RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
-
-EXPOSE 22
-CMD ["/usr/sbin/sshd", "-D"]
