@@ -1,9 +1,0 @@
-*.a
-*.o
-*.so
-a.out
-*.class
-*.pyc
-
-.DS_Store
-._.DS_Store
