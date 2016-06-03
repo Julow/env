@@ -1,5 +1,9 @@
 #!/bin/bash
 
+docker-machine start default 2> /dev/null || true
+
+eval "`docker-machine env default`"
+
 IMAGE_NAME="juloo_image"
 CONTAINER_NAME="juloo"
 SHARE_FOLTER="/Users/Shared/juloo:/juloo"
