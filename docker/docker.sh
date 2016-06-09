@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [[ -f "/usr/local/bin/docker" ]]; then
+	PATH="/usr/local/bin:$PATH"
+fi
+
 docker-machine start default 2> /dev/null || true
 
 eval "`docker-machine env default`"
