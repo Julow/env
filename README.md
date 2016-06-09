@@ -18,6 +18,8 @@ Args:
 * `tools` Put `tools/` dir into the `$PATH`
 * `brew` Export some variable for a working homebrew
 	Arg: <brew dir: absolute or relative to $HOME><`?`: do nothing if brew dir does not exists>
+* `kill_itune` Kill itune daemon (mac os)
+* `default` Load default
 
 Output to `_init.sh`
 

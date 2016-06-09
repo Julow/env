@@ -20,14 +20,25 @@ echo "# args: $ARGS" >> $INIT_FILE
 
 function run_init
 {
-	F="$INIT_DIR/$1.sh"
-	if [[ -f "$F" ]]; then
-		echo >> $INIT_FILE
-		echo "# $1" >> $INIT_FILE
-		bash "$F" ${2//,/ } >> $INIT_FILE
+	if [[ "$1" = "default" ]]; then
+		run $DEFAULT_ARGS
 	else
-		echo "Warning: Invalid param: $1"
+		F="$INIT_DIR/$1.sh"
+		if [[ -f "$F" ]]; then
+			echo >> $INIT_FILE
+			echo "# $1" >> $INIT_FILE
+			bash "$F" ${2//,/ } >> $INIT_FILE
+		else
+			echo "Warning: Invalid param: $1"
+		fi
 	fi
 }
 
-for arg in $ARGS; do run_init ${arg//:/ }; done
+function run
+{
+	for arg in "$@"; do
+		run_init ${arg//:/ };
+	done
+}
+
+run $ARGS
