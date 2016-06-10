@@ -4,16 +4,22 @@ DEFAULT_BREW_DIR="$HOME/.brew"
 
 BREW_DIR="$1"
 
-if [[ ! "$BREW_DIR" == "/"* ]]; then BREW_DIR="$HOME/$BREW_DIR"; fi
 if [[ "$BREW_DIR" == *"?" ]]; then
 	BREW_DIR=${BREW_DIR%${BREW_DIR##*[!?]}}
-	if [[ ! -d "$BREW_DIR" ]]; then
-		echo "Warning: $BREW_DIR dir not found" >&2
-		exit
-	fi
+	OPTIONAL=1
+else
+	OPTIONAL=0
 fi
 
-if [[ -z "$BREW_DIR" ]]; then BREW_DIR="$DEFAULT_BREW_DIR"; fi
+if [[ -z "$BREW_DIR" ]]; then BREW_DIR="$DEFAULT_BREW_DIR";
+elif [[ ! "$BREW_DIR" == "/"* ]]; then BREW_DIR="$HOME/$BREW_DIR"; fi
+
+if [[ ! -d "$BREW_DIR" ]] && [[ "$OPTIONAL" -eq 1 ]]; then
+	echo "Warning: $BREW_DIR dir not found" >&2
+	exit
+fi
+
+echo "$BREW_DIR" >&2
 
 echo "export PATH=\"\$HOME/.brew/bin:\$PATH\"
 export LIBRARY_PATH=\"\$LIBRARY_PATH:\$HOME/.brew/lib\"
