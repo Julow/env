@@ -72,8 +72,8 @@ function gitr()
 
 function gitt()
 {
-	echo '
-import re
+	python - "$(git diff --numstat HEAD)" "$(git status -sb --porcelain)" <<"GITT_SCRIPT_END"
+import re, sys
 
 stats = {}
 
@@ -81,7 +81,7 @@ max_name_len = 25
 total_add = 0
 total_del = 0
 
-for line in """'"$(git diff --numstat HEAD)"'""".split("\n"):
+for line in sys.argv[1].split("\n"):
 	m = re.match("^\s*(\d+)\s+(\d+)\s+(.+)$", line)
 	if m != None:
 		add = int(m.group(1))
@@ -96,14 +96,13 @@ for line in """'"$(git diff --numstat HEAD)"'""".split("\n"):
 total_file = 0
 total_untrack = 0
 
-for line in """'"$(git status -sb --porcelain)"'
-""".split("\n"):
+for line in sys.argv[2].split("\n"):
 	if line.startswith("##"):
-		print "\033[97m##\033[0m %s" % line[3:]
+		print ("\033[97m##\033[0m %s" % line[3:])
 	elif len(line) > 0:
 		m = re.match("^(.)(.)\s+(.+)$", line)
 		if m == None:
-			print line
+			print (line)
 		else:
 			if m.group(1) == "?":
 				status = "\033[31m??\033[0m"
@@ -114,14 +113,14 @@ for line in """'"$(git status -sb --porcelain)"'
 				name = name[1:-1]
 			if name in stats:
 				add, rem = stats[name]
-				print "%s %-*s | \033[32m%2d+ \033[31m%2d-\033[0m" % (
+				print ("%s %-*s | \033[32m%2d+ \033[31m%2d-\033[0m" % (
 					status,
 					max_name_len, name,
 					add, rem
-				)
+				))
 				total_file += 1
 			else:
-				print "%s \033[90m%s\033[0m" % (status, name)
+				print ("%s \033[90m%s\033[0m" % (status, name))
 				total_untrack += 1
 
 total_str = "%d files" % total_file
@@ -130,9 +129,8 @@ if total_untrack > 0:
 	max_name_len += len("\033[90m\033[0m")
 
 if total_file > 0:
-	print "\033[97m##\033[0m %-*s | \033[32m%2d+ \033[31m%2d-\033[0m" % (max_name_len, total_str, total_add, total_del)
+	print ("\033[97m##\033[0m %-*s | \033[32m%2d+ \033[31m%2d-\033[0m" % (max_name_len, total_str, total_add, total_del))
 else:
-	print "\033[97m##\033[0m %s" % total_str
-
-' | python;
+	print ("\033[97m##\033[0m %s" % total_str)
+GITT_SCRIPT_END
 };
