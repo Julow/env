@@ -7,7 +7,7 @@
 #    By: jaguillo <jaguillo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/06/15 16:21:49 by jaguillo          #+#    #+#              #
-#    Updated: 2016/06/15 16:28:54 by jaguillo         ###   ########.fr        #
+#    Updated: 2016/06/15 19:32:14 by jaguillo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,9 +17,9 @@
 set -e
 
 PROF_DUMP_FILE=`mktemp`
-PROF_IMG_FILE=`mktemp`.png
+PROF_OUTPUT_FILE=`mktemp`.svg
 
 valgrind --tool=callgrind --callgrind-out-file="$PROF_DUMP_FILE" -q -- "$@"
-gprof2dot -z main -n 0.01 -e 0.01 -f callgrind "$PROF_DUMP_FILE" | dot -Tpng -o "$PROF_IMG_FILE"
+gprof2dot -z main -n 0.01 -e 0.01 -f callgrind "$PROF_DUMP_FILE" | dot -Tsvg -o "$PROF_OUTPUT_FILE"
 
-echo "## Output file: $PROF_IMG_FILE"
+echo "## Output file: $PROF_OUTPUT_FILE"
