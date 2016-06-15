@@ -29,5 +29,9 @@ export CPLUS_INCLUDE_PATH=\"\$CPLUS_INCLUDE_PATH:\$HOME/.brew/include\"
 
 export HOMEBREW_CACHE=\"/tmp/brew_cache\"
 export HOMEBREW_TEMP=\"/tmp/brew_temp\"
-mkdir -p \"\$HOMEBREW_CACHE\" \"\$HOMEBREW_TEMP\"
+export HOMEBREW_LOCKS=\"/tmp/brew_locks\"
+mkdir -p \"\$HOMEBREW_CACHE\" \"\$HOMEBREW_TEMP\" \"\$HOMEBREW_LOCKS\"
+
+rm -rf \$HOME/.brew/Library/Locks
+ln -sf \$HOMEBREW_LOCKS \$HOME/.brew/Library/Locks
 "
