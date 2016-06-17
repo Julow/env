@@ -7,7 +7,7 @@
 #    By: juloo <juloo@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/10/04 15:11:48 by juloo             #+#    #+#              #
-#    Updated: 2015/10/04 15:46:57 by juloo            ###   ########.fr        #
+#    Updated: 2016/06/17 10:55:33 by jaguillo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ with os.fdopen(tmp_f, "w") as f:
 	for file_name in files:
 		f.write("%s\n" % file_name)
 
-subprocess.call(editor.split() + [tmp_file])
+subprocess.call("%s %s" % (editor, tmp_file), shell=True)
 
 with open(tmp_file) as f:
 	for l in f:
