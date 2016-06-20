@@ -51,8 +51,6 @@ function each()
 #
 # s [file...]
 #
-# (Already exists on ubuntu: subl)
-#
 
 export SUBL="subl"
 if [[ "`uname`" == "Darwin" ]]; then
@@ -65,6 +63,6 @@ if [[ "`uname`" == "Darwin" ]]; then
 	fi
 fi
 
-alias s="$SUBL -as"
+alias s="$SUBL -s"
 
 export EDITOR="$SUBL -w"
