@@ -5,7 +5,7 @@ export ENV_PATH="`pwd -P`"
 export INIT_FILE="$ENV_PATH/_init.sh"
 export INIT_DIR="$ENV_PATH/init"
 
-DEFAULT_ARGS="alias:base,git,save-go rc:.bashrc?,.zshrc? brew:? tools prompt"
+DEFAULT_ARGS="alias:base,git,save-go rc:.bashrc?,.zshrc? brew:? brew:.linuxbrew? tools prompt"
 
 #
 
