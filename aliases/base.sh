@@ -63,6 +63,6 @@ if [[ "`uname`" == "Darwin" ]]; then
 	fi
 fi
 
-alias s="$SUBL -s"
+alias s="$SUBL -sa"
 
 export EDITOR="$SUBL -w"
