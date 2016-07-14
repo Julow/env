@@ -23,6 +23,7 @@ function run_init
 	if [[ "$1" = "default" ]]; then
 		run $DEFAULT_ARGS
 	else
+		echo "# $1"
 		F="$INIT_DIR/$1.sh"
 		if [[ -f "$F" ]]; then
 			echo >> $INIT_FILE
