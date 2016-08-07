@@ -1,19 +1,4 @@
-# init xmodmap
-
-source "_utils.sh"
-
-XINITRC_FILE="$HOME/.xinitrc"
-XMODMAP_FILE="$HOME/.Xmodmap"
-
-install_line "xmodmap ~/.Xmodmap" "$XINITRC_FILE" >&2
-
-if [[ -f "$XMODMAP_FILE" ]]; then
-	OLD_XMODMAP="/tmp/.Xmodmap.old"
-	echo "$XMODMAP_FILE already exists, save it to $OLD_XMODMAP" >&2
-	mv "$XMODMAP_FILE" "$OLD_XMODMAP"
-fi
-
-cat << XMODMAP_END > "$XMODMAP_FILE"
+xmodmap - << XMODMAP_END
 clear control
 clear mod4
 clear lock
