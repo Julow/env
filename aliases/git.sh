@@ -77,5 +77,9 @@ function gitt()
 
 function gitd()
 {
-	git diff --word-diff=porcelain --no-color $@ | gitd.py | less -R --tabs=4
+	if type diff-so-fancy >/dev/null 2>/dev/null; then
+		git diff --color "$@" | diff-so-fancy | less -R --tabs=4
+	else
+		git diff --word-diff=porcelain --no-color "$@" | gitd.py | less -R --tabs=4
+	fi
 };
