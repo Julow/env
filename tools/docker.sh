@@ -8,9 +8,18 @@
 #
 # Usage:
 # 	`docker.sh [re]`
-# 		Run/restart a killed/stopped container (if not already running)
-# 		and then exec `bash`
+# 		Run/restart a killed/stopped container
 # 		If `re` is present, force rebuild
+# -
+# 	`docker.sh kill`
+# 		Kill the running container
+# -
+# 	`docker.sh kill-all`
+# 		Kill all running containers
+# -
+# 	`docker.sh shell [<cmd>]`
+# 		Open a shell on the running container
+# 		(Default value for `<cmd>` is `bash`)
 # -
 # 	`docker.sh rm`
 # 		Remove the image/container for the current Dockerfile
@@ -42,8 +51,7 @@ echo "Current docker: ${BASE_NAME#.}"
 IMAGE_NAME="i$BASE_NAME"
 CONTAINER_NAME="c$BASE_NAME"
 
-SHARE_FOLTER="$(pwd):/shared"
-RUN_CMD="bash"
+SHARE_FOLDER="$(pwd):/shared"
 
 # -
 
@@ -55,6 +63,16 @@ if [[ $# > 0 ]]; then
 	elif [[ "$1" == "re" ]]; then
 		OPTION_RE=1
 		shift
+	elif [[ "$1" == "kill" ]]; then
+		docker kill -s 9 "$CONTAINER_NAME"
+		exit
+	elif [[ "$1" == "kill-all" ]]; then
+		TMP=$(docker ps -q)
+		[[ -n $TMP ]] && docker kill -s 9 $TMP
+		exit
+	elif [[ "$1" == "shell" ]]; then
+		docker exec -it "$CONTAINER_NAME" "${2:-bash}"
+		exit
 	elif [[ "$1" == "rm" ]]; then
 		docker rm -f "$CONTAINER_NAME"
 		docker rmi -f "$IMAGE_NAME"
@@ -85,20 +103,19 @@ else
 	CONTAINER_STATE=$(docker inspect -f {{.State.Running}} "$CONTAINER_NAME" 2> /dev/null)
 fi
 
-if [[ "$CONTAINER_STATE" == "true" ]] ; then # Running
+if [[ "$CONTAINER_STATE" == "true" ]] ; then
 	echo "Already running"
-	docker exec -i -t "$CONTAINER_NAME" "$RUN_CMD"
+	exit 1
+fi
 
-else
-	docker build -t "$IMAGE_NAME" .
+docker build -t "$IMAGE_NAME" .
 
-	if [[ "$CONTAINER_STATE" == "false" ]]; then # Stopped
-		echo "Restart"
-		docker start -i "$CONTAINER_NAME"
+if [[ "$CONTAINER_STATE" == "false" ]]; then # Stopped
+	echo "Restart"
+	docker start -i "$CONTAINER_NAME"
 
-	else # Killed
-		echo "Run"
-		docker run -P --privileged -it -v "$SHARE_FOLTER" --name "$CONTAINER_NAME" "$IMAGE_NAME" "$RUN_CMD"
+else # Killed
+	echo "Run"
+	docker run -P -it -v "$SHARE_FOLDER" --name "$CONTAINER_NAME" "$IMAGE_NAME"
 
-	fi
 fi
