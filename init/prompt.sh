@@ -113,7 +113,7 @@ function _ps1_git()
 		if [[ "${#PRINT}" -gt "0" ]]; then
 			echo -n "$PRINT${C_RESET} "
 		fi
-		_ps1_git_rev `git rev-list --left-right --count origin...HEAD 2> /dev/null || echo "0 0"`
+		_ps1_git_rev `git rev-list --left-right --count origin/$BRANCH...HEAD 2> /dev/null || echo "0 0"`
 	fi
 };
 

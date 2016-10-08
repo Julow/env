@@ -35,12 +35,17 @@ function gitc()
 
 function gitp()
 {
+	OPTIONS=("--tags")
+	while [[ "$1" = "-"* ]]; do
+		OPTIONS=($OPTIONS "$1")
+		shift
+	done
 	if [ "$#" -eq "0" ]; then
-		git push origin : --tags
+		git push $OPTIONS origin HEAD
 	elif [ "$#" -eq "1" ]; then
-		git push "$1" : --tags
+		git push $OPTIONS "$1" HEAD
 	else
-		git push --tags $@
+		git push $OPTIONS "$@"
 	fi
 };
 
