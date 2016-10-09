@@ -88,3 +88,10 @@ function gitd()
 		git diff --word-diff=porcelain --no-color "$@" | gitd.py | less -R --tabs=4
 	fi
 };
+
+function gitl()
+{
+	git log --oneline --graph --decorate -n10 \
+		--pretty=format:"%C(auto)%h %<(8,trunc)%C(cyan)%an%Creset%C(auto)%d %s %C(black bold)%ar" \
+		"$@"
+};
