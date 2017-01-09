@@ -7,66 +7,106 @@
 #    By: juloo <juloo@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/08/17 01:44:55 by juloo             #+#    #+#              #
-#    Updated: 2016/08/17 01:45:00 by juloo            ###   ########.fr        #
+#    Updated: 2017/01/09 21:33:39 by jaguillo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-import re, sys
+import re, sys, subprocess, sys
 
-stats = {}
+# git diff --numstat
+# if 'cached' is true, add the '--cached' option
+# :{ file_name => (add, del) }
+# :{ file_name => None } if binary file
+def git_stats(cached):
+	stats = {}
+	cmd = "git diff --numstat" + (" --cached" if cached else "")
+	p = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
+	for line in p.stdout:
+		a, b, file_name = line.split()
+		stats[file_name] = (int(a), int(b)) if a != "-" else None
+	if p.wait() != 0:
+		raise Exception
+	return stats
 
-max_name_len = 25
-total_add = 0
-total_del = 0
+# git status -b --porcelain -u
+# :branch_name, { file_name => status }
+def git_status():
+	status = {}
+	branch = None
+	cmd = "git status -bu --porcelain"
+	p = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
+	branch = next(p.stdout).split()[1]
+	for line in p.stdout:
+		status[line[3:-1]] = line[:2]
+	if p.wait() != 0:
+		raise Exception
+	return (branch, status)
 
-for line in sys.argv[1].split("\n"):
-	m = re.match("^\s*(\d+)\s+(\d+)\s+(.+)$", line)
-	if m != None:
-		add = int(m.group(1))
-		rem = int(m.group(2))
-		name = m.group(3)
-		if len(name) > max_name_len:
-			max_name_len = len(name)
-		total_add += add
-		total_del += rem
-		stats[name] = (add, rem)
+#
 
-total_file = 0
-total_untrack = 0
+STAGED_COLORS = ("\033[92m", "\033[91m")
+UNSTAGED_COLORS = ("\033[32m", "\033[31m")
 
-for line in sys.argv[2].split("\n"):
-	if line.startswith("##"):
-		print ("\033[97m##\033[0m %s" % line[3:])
-	elif len(line) > 0:
-		m = re.match("^(.)(.)\s+(.+)$", line)
-		if m == None:
-			print (line)
-		else:
-			if m.group(1) == "?":
-				status = "\033[31m??\033[0m"
-			else:
-				status = "\033[32m%s\033[31m%s\033[0m" % (m.group(1), m.group(2))
-			name = m.group(3)
-			if name[0] == "\"":
-				name = name[1:-1]
-			if name in stats:
-				add, rem = stats[name]
-				print ("%s %-*s | \033[32m%2d+ \033[31m%2d-\033[0m" % (
-					status,
-					max_name_len, name,
-					add, rem
-				))
-				total_file += 1
-			else:
-				print ("%s \033[90m%s\033[0m" % (status, name))
-				total_untrack += 1
+unstaged_stats, staged_stats = git_stats(False), git_stats(True)
+branch, status = git_status()
 
-total_str = "%d files" % total_file
-if total_untrack > 0:
-	total_str += " \033[90m+ %d untracked\033[0m" % total_untrack
-	max_name_len += len("\033[90m\033[0m")
+def sorted_status(k):
+	def s(s): return (sum(s[k]) if s[k] != None else -1) if k in s else 0
+	return (s(staged_stats), s(unstaged_stats))
 
-if total_file > 0:
-	print ("\033[97m##\033[0m %-*s | \033[32m%2d+ \033[31m%2d-\033[0m" % (max_name_len, total_str, total_add, total_del))
-else:
-	print ("\033[97m##\033[0m %s" % total_str)
+def stat_str(stats, colors):
+	a, b = stats
+	if (a + b) > 0:
+		return " | %4s %4s" % (
+			("%s%3d+\033[0m" % (colors[0], a) if a > 0 else ""),
+			("%s%3d-\033[0m" % (colors[1], b) if b > 0 else "")
+		)
+	return ""
+
+def stat_sum(stats):
+	count, sum_a, sum_b = 0, 0, 0
+	for f in status.keys():
+		if stats.get(f) != None:
+			sum_a += stats[f][0]
+			sum_b += stats[f][1]
+			count += 1
+	return (count, sum_a, sum_b)
+
+def count_untracked():
+	untracked = 0
+	for f in status.keys():
+		if f not in unstaged_stats and f not in staged_stats:
+			untracked += 1
+	return untracked
+
+max_file_name_len = max(36, max(map(len, status.keys())))
+
+sys.stdout.write("\033[97m##\033[0m %s\n" % branch)
+
+for file_name in sorted(status.keys(), key=sorted_status, reverse=True):
+	s = status[file_name]
+	if s == "??": s = "  "
+	sys.stdout.write("\033[92m%c\033[31m%c\033[0m " % (s[0], s[1]))
+	if file_name not in staged_stats and file_name not in unstaged_stats:
+		sys.stdout.write("\033[90m%s\033[0m" % file_name)
+	else:
+		sys.stdout.write("%-*s" % (max_file_name_len, file_name))
+		if file_name in staged_stats:
+			sys.stdout.write(stat_str(staged_stats[file_name] or (0, 0), STAGED_COLORS))
+		if file_name in unstaged_stats:
+			sys.stdout.write(stat_str(unstaged_stats[file_name] or (0, 0), UNSTAGED_COLORS))
+	sys.stdout.write("\n")
+
+staged_count, staged_a, staged_b = stat_sum(staged_stats)
+unstaged_count, unstaged_a, unstaged_b = stat_sum(unstaged_stats)
+untracked_count = count_untracked()
+sys.stdout.write("\033[97m##\033[0m %-*s%s%s\n" % (
+	max_file_name_len,
+	", ".join(filter(len, [
+		"%d staged" % staged_count if staged_count > 0 else "",
+		"%d unstaged" % unstaged_count if unstaged_count > 0 else "",
+		"%d untracked" % untracked_count if untracked_count > 0 else "",
+	])),
+	stat_str((staged_a, staged_b), STAGED_COLORS),
+	stat_str((unstaged_a, unstaged_b), UNSTAGED_COLORS),
+))

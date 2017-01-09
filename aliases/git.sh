@@ -75,10 +75,7 @@ function gitr()
 	git reset -- HEAD -q $@ && gitt
 };
 
-function gitt()
-{
-	gitt.py "$(git diff --numstat HEAD)" "$(git status -sb --porcelain)"
-};
+alias gitt="gitt.py"
 
 function gitd()
 {
