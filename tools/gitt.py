@@ -7,7 +7,7 @@
 #    By: juloo <juloo@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/08/17 01:44:55 by juloo             #+#    #+#              #
-#    Updated: 2017/01/09 21:33:39 by jaguillo         ###   ########.fr        #
+#    Updated: 2017/01/11 16:08:34 by jaguillo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,12 +18,20 @@ import re, sys, subprocess, sys
 # :{ file_name => (add, del) }
 # :{ file_name => None } if binary file
 def git_stats(cached):
+	STAT_RENAME_RE = re.compile("(.*)\{(.*) => (.*)\}(.*)")
+	def resolve_file_name(file_name):
+		m = STAT_RENAME_RE.match(file_name)
+		return "%s%s%s -> %s%s%s" % (
+				m.group(1), m.group(2), m.group(4),
+				m.group(1), m.group(3), m.group(4)
+			) if m != None else file_name
 	stats = {}
 	cmd = "git diff --numstat" + (" --cached" if cached else "")
 	p = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
 	for line in p.stdout:
-		a, b, file_name = line.split()
-		stats[file_name] = (int(a), int(b)) if a != "-" else None
+		a, b, file_name = line.split(None, 2)
+		file_name = resolve_file_name(file_name.rstrip())
+		stats[file_name] = (int(a), int(b)) if a != "-" else (0, 0)
 	if p.wait() != 0:
 		raise Exception
 	return stats
@@ -51,8 +59,13 @@ unstaged_stats, staged_stats = git_stats(False), git_stats(True)
 branch, status = git_status()
 
 def sorted_status(k):
-	def s(s): return (sum(s[k]) if s[k] != None else -1) if k in s else 0
-	return (s(staged_stats), s(unstaged_stats))
+	if k in staged_stats:
+		tracked, staged, stat = (True, True, staged_stats[k])
+	elif k in unstaged_stats:
+		tracked, staged, stat = (True, False, unstaged_stats[k])
+	else:
+		tracked, staged, stat = (False, False, (0, 0))
+	return (tracked + staged, sum(stat), k)
 
 def stat_str(stats, colors):
 	a, b = stats
@@ -66,7 +79,7 @@ def stat_str(stats, colors):
 def stat_sum(stats):
 	count, sum_a, sum_b = 0, 0, 0
 	for f in status.keys():
-		if stats.get(f) != None:
+		if f in stats:
 			sum_a += stats[f][0]
 			sum_b += stats[f][1]
 			count += 1
