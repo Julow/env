@@ -7,7 +7,7 @@
 #    By: juloo <juloo@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/08/17 01:44:55 by juloo             #+#    #+#              #
-#    Updated: 2017/01/11 16:08:34 by jaguillo         ###   ########.fr        #
+#    Updated: 2017/01/11 18:35:08 by jaguillo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,10 +40,9 @@ def git_stats(cached):
 # :branch_name, { file_name => status }
 def git_status():
 	status = {}
-	branch = None
 	cmd = "git status -bu --porcelain"
 	p = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
-	branch = next(p.stdout).split()[1]
+	branch = next(p.stdout)[3:-1]
 	for line in p.stdout:
 		status[line[3:-1]] = line[:2]
 	if p.wait() != 0:
@@ -59,13 +58,9 @@ unstaged_stats, staged_stats = git_stats(False), git_stats(True)
 branch, status = git_status()
 
 def sorted_status(k):
-	if k in staged_stats:
-		tracked, staged, stat = (True, True, staged_stats[k])
-	elif k in unstaged_stats:
-		tracked, staged, stat = (True, False, unstaged_stats[k])
-	else:
-		tracked, staged, stat = (False, False, (0, 0))
-	return (tracked + staged, sum(stat), k)
+	staged = k in staged_stats
+	tracked = staged or k in unstaged_stats
+	return (-tracked - staged, k)
 
 def stat_str(stats, colors):
 	a, b = stats
@@ -96,7 +91,7 @@ max_file_name_len = max(36, max(map(len, status.keys())))
 
 sys.stdout.write("\033[97m##\033[0m %s\n" % branch)
 
-for file_name in sorted(status.keys(), key=sorted_status, reverse=True):
+for file_name in sorted(status.keys(), key=sorted_status):
 	s = status[file_name]
 	if s == "??": s = "  "
 	sys.stdout.write("\033[92m%c\033[31m%c\033[0m " % (s[0], s[1]))
