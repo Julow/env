@@ -2,10 +2,10 @@
 
 export ENV_PATH="`pwd -P`"
 
-export INIT_FILE="$ENV_PATH/_init.sh"
-export INIT_DIR="$ENV_PATH/init"
+export INIT_FILE="$ENV_PATH/_initrc.sh"
+export INIT_DIR="$ENV_PATH/initrc"
 
-DEFAULT_ARGS="alias:base,git,save-go rc:.bashrc?,.zshrc? brew:? brew:.linuxbrew? tools prompt opam:? kill_itune"
+DEFAULT_ARGS="alias:base,git,save-go rc:.bashrc?,.zshrc? brew:? brew:.linuxbrew? tools prompt opam:?"
 
 #
 
