@@ -1,6 +1,6 @@
 # init aliases
 
-ALIAS_DIR="./aliases"
+ALIAS_DIR="$INIT_DIR/aliases"
 
 if [[ "$#" -eq 0 ]]; then
 	ALIASES=`basename "$ALIAS_DIR"/*`

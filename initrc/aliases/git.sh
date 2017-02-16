@@ -62,17 +62,17 @@ function gitpl()
 
 function gita()
 {
-	git add --all $@ && gitt
+	git add --all $@ && gitt.py
 };
 
 function gitu()
 {
-	git add -u && gitt
+	git add -u && gitt.py
 };
 
 function gitr()
 {
-	git reset -- HEAD -q $@ && gitt
+	git reset -- HEAD -q $@ && gitt.py
 };
 
 alias gitt="gitt.py"
