@@ -24,6 +24,12 @@
 # gitr <file1> [file2...]
 # (Cancel (git add) for a file) + (Print the status)
 #
+# gitl [...]
+# (fancy git log)
+#
+# gitprev <file>
+# (show previous version of a file (not the last version))
+#
 
 alias gitamend="git commit --amend --no-edit"
 
@@ -92,3 +98,12 @@ function gitl()
 		--pretty=format:"%C(auto)%h %<(8,trunc)%C(cyan)%an%Creset%C(auto)%d %s %C(black bold)%ar" \
 		"$@"
 };
+
+function gitprev()
+{
+	REV=$(git rev-list --max-count=1 --all -- "$1")
+	if ! [[ -z "$REV" ]]
+	then
+		git show "$REV^:$1"
+	fi
+}
