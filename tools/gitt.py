@@ -7,7 +7,7 @@
 #    By: juloo <juloo@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/08/17 01:44:55 by juloo             #+#    #+#              #
-#    Updated: 2017/01/11 18:35:08 by jaguillo         ###   ########.fr        #
+#    Updated: 2017/03/05 14:41:13 by jaguillo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,6 +86,12 @@ def count_untracked():
 		if f not in unstaged_stats and f not in staged_stats:
 			untracked += 1
 	return untracked
+
+#
+
+if len(status) == 0:
+	sys.stdout.write("\033[97m##\033[0m %s clean\n" % branch)
+	sys.exit(0)
 
 max_file_name_len = max(36, max(map(len, status.keys())))
 
