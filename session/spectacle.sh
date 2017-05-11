@@ -1,10 +1,12 @@
 # Spectacle preferences
 
-SPECTACLE_SHORTCUTS="$HOME/Library/Application Support/Spectacle/Shortcuts.json"
+SPECTACLE_SHORTCUTS_DIR="$HOME/Library/Application Support/Spectacle"
+SPECTACLE_SHORTCUTS="$SPECTACLE_SHORTCUTS_DIR/Shortcuts.json"
 SPECTACLE_PREFERENCES="$HOME/Library/Preferences/com.divisiblebyzero.Spectacle.plist"
 
 cp "$SESSION_DIR/spectacle.plist" "$SPECTACLE_PREFERENCES"
 
+mkdir -p "$SPECTACLE_SHORTCUTS_DIR"
 cat << EOF > "$SPECTACLE_SHORTCUTS"
 [
 	{ "shortcut_key_binding": "alt+cmd+keypaddecimal", "shortcut_name": "MoveToPreviousThird" },
