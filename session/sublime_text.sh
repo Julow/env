@@ -31,7 +31,9 @@ PACKAGES_DIR="$SUBLIME_DIR/Packages"
 for repo in \
 	"https://github.com/Julow/Juloo-Sublime-Package.git" \
 	"https://github.com/euler0/sublime-glsl.git" \
-	"https://github.com/P233/Syntax-highlighting-for-Sass"
+	"https://github.com/P233/Syntax-highlighting-for-Sass" \
+	"https://github.com/Wramberg/TerminalView" \
+	"https://github.com/asbjornenge/Docker.tmbundle"
 do
 	PACKAGE_NAME="${repo##*/}"
 	PACKAGE_NAME="$PACKAGES_DIR/${PACKAGE_NAME%.git}"
