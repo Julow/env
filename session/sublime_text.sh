@@ -1,5 +1,12 @@
 # Install some packages
 
+PACKAGES="
+	https://github.com/Julow/Juloo-Sublime-Package.git
+	https://github.com/euler0/sublime-glsl.git
+	https://github.com/P233/Syntax-highlighting-for-Sass
+	https://github.com/Wramberg/TerminalView
+	https://github.com/asbjornenge/Docker.tmbundle"
+
 function get_sublime_dir
 {
 	for dir in \
@@ -10,8 +17,7 @@ function get_sublime_dir
 		"$HOME/.config/sublime-text-2" \
 		"$HOME/.config/sublime-text"
 	do
-		if [[ -d "$dir" ]]
-		then
+		if [[ -d "$dir" ]]; then
 			echo "$dir"
 			return
 		fi
@@ -20,26 +26,24 @@ function get_sublime_dir
 
 SUBLIME_DIR="$(get_sublime_dir)"
 
-if [[ -z "$SUBLIME_DIR" ]]
-then
-	echo "No sublime text found"
-	exit 1
+if [[ -z "$SUBLIME_DIR" ]]; then
+	exit 100
 fi
 
 PACKAGES_DIR="$SUBLIME_DIR/Packages"
 
-for repo in \
-	"https://github.com/Julow/Juloo-Sublime-Package.git" \
-	"https://github.com/euler0/sublime-glsl.git" \
-	"https://github.com/P233/Syntax-highlighting-for-Sass" \
-	"https://github.com/Wramberg/TerminalView" \
-	"https://github.com/asbjornenge/Docker.tmbundle"
-do
+RET=101
+
+for repo in $PACKAGES; do
 	PACKAGE_NAME="${repo##*/}"
-	PACKAGE_NAME="$PACKAGES_DIR/${PACKAGE_NAME%.git}"
-	if ! [[ -d "$PACKAGE_NAME" ]]
+	PACKAGE_NAME="${PACKAGE_NAME%.git}"
+	PACKAGE_DST="$PACKAGES_DIR/$PACKAGE_NAME"
+	if ! [[ -d "$PACKAGE_DST" ]]
 	then
-		echo "Install $repo"
-		git clone -q "$repo" "$PACKAGE_NAME"
+		echo "Install $PACKAGE_NAME"
+		git clone -q "$repo" "$PACKAGE_DST"
+		RET=0
 	fi
 done
+
+exit $RET
