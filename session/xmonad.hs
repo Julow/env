@@ -46,6 +46,12 @@ volume_toggle = spawn ("pactl set-sink-mute " ++ current_sink ++ " toggle")
 chrome = "google-chrome-stable"
 
 -- ========================================================================== --
+-- Screenshot
+
+take_screenshot = spawn "screenshot.sh screen"
+take_screenshot_interactive = spawn "screenshot.sh interactive"
+
+-- ========================================================================== --
 -- main
 
 on_start = do
@@ -78,6 +84,9 @@ main =
 
 		("M-S-<Backspace>",			safeSpawnProg chrome),
 
-		("M-p",						shellPrompt def)
+		("M-p",						shellPrompt def),
+
+		("M-S-s",					take_screenshot),
+		("M-s",						take_screenshot_interactive)
 
 	]
