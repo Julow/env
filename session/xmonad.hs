@@ -1,13 +1,35 @@
+import Control.Monad
 import XMonad
+import XMonad.Prompt
+import XMonad.Prompt.Shell
 import XMonad.Layout.ResizableTile
 import XMonad.Actions.UpdatePointer
 import XMonad.Util.EZConfig (additionalKeysP)
+import XMonad.Util.Run
+
+-- ========================================================================== --
+-- Wallpaper
+
+wallpaper = "~/.xmonad/bg.png"
+
+init_wallpaper = spawn ("xloadimage -onroot -fullscreen -at 0,0 " ++ wallpaper)
 
 -- ========================================================================== --
 -- Lock screen
 
-init_lock_screen = spawn "xset dpms 0 0 60"
-lock_screen = spawn "xset dpms 0 0 2; ( slock ; xset dpms 0 0 60 ) &"
+screen_timeout = 500
+screen_timeout_locked = 20
+wallpaper_locked = "~/.xmonad/bg_locked.png"
+
+set_dpms timeout = "xset dpms 0 0 " ++ show timeout
+
+init_lock_screen = spawn (set_dpms screen_timeout)
+
+lock_screen = spawn (
+		(set_dpms screen_timeout_locked) ++ ";"
+		++ "slock -i " ++ wallpaper_locked ++ ";"
+		++ (set_dpms screen_timeout)
+	)
 
 -- ========================================================================== --
 -- Volume
@@ -21,14 +43,15 @@ volume_toggle = spawn ("pactl set-sink-mute " ++ current_sink ++ " toggle")
 -- ========================================================================== --
 -- Chrome
 
-spawn_chrome = spawn "google-chrome-stable"
+chrome = "google-chrome-stable"
 
 -- ========================================================================== --
 -- main
 
-on_start :: X()
 on_start = do
 	init_lock_screen
+	init_wallpaper
+	lock_screen
 
 main =
 	xmonad $ defaultConfig
@@ -38,8 +61,8 @@ main =
 		startupHook = on_start,
 		logHook = updatePointer (0.99, 0.001) (0, 0),
 		layoutHook =
-			let tiled = ResizableTall 1 (3/100) (1/2) [] in
-			tiled ||| Full ||| Mirror tiled,
+			let tiled = ResizableTall 1 (5/100) (1/2) [] in
+			tiled ||| Full,
 		terminal = "x-terminal-emulator"
 	} `additionalKeysP`
 	[
@@ -53,6 +76,8 @@ main =
 
 		("M-z",						lock_screen),
 
-		("M-S-<Backspace>",			spawn_chrome)
+		("M-S-<Backspace>",			safeSpawnProg chrome),
+
+		("M-p",						shellPrompt def)
 
 	]
