@@ -5,41 +5,38 @@ export ENV_PATH="`pwd -P`"
 export INIT_FILE="$ENV_PATH/_initrc.sh"
 export INIT_DIR="$ENV_PATH/initrc"
 
-DEFAULT_ARGS="env alias:git,save-go rc:.bashrc?,.zshrc? brew:? brew:.linuxbrew? subl:? tools prompt opam:?"
+DEFAULT_ARGS="i_guard env bash_completion lesspipe
+	alias:git,save-go tools subl:?
+	brew:? brew:.linuxbrew? opam:?
+	prompt
+	rc:.bashrc?,.zshrc?"
 
 #
 
-ARGS="$@"
-if [[ $# -eq 0 ]]; then
-	ARGS="$DEFAULT_ARGS"
-	echo "Use default arguments: $ARGS"
-fi
-
-echo "# env init" > $INIT_FILE
-echo "# args: $ARGS" >> $INIT_FILE
-
 function run_init
 {
-	if [[ "$1" = "default" ]]; then
-		run $DEFAULT_ARGS
+	# echo "# $1"
+	F="$INIT_DIR/$1.sh"
+	if [[ -f "$F" ]]; then
+		echo >> $INIT_FILE
+		echo "# $1" >> $INIT_FILE
+		bash "$F" ${2//,/ } >> $INIT_FILE
 	else
-		echo "# $1"
-		F="$INIT_DIR/$1.sh"
-		if [[ -f "$F" ]]; then
-			echo >> $INIT_FILE
-			echo "# $1" >> $INIT_FILE
-			bash "$F" ${2//,/ } >> $INIT_FILE
-		else
-			echo "Warning: Invalid param: $1"
-		fi
+		echo "Warning: Invalid param: $1"
 	fi
 }
 
 function run
 {
+	echo "# args: $ARGS" > $INIT_FILE
 	for arg in "$@"; do
-		run_init ${arg//:/ };
+		run_init ${arg//:/ }
 	done
 }
 
-run $ARGS
+if [[ $# = 0 || $1 = "default" ]]; then
+	echo "Use defaults"
+	run $DEFAULT_ARGS
+else
+	run $ARGS
+fi

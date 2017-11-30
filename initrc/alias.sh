@@ -7,12 +7,9 @@ if [[ "$#" -eq 0 ]]; then
 	ALIASES=${ALIASES//.sh/}
 	ALIASES=${ALIASES//
 / }
-	echo "Init all alias: ${ALIASES}" >&2
 else
 	ALIASES="$@"
 fi
-
-echo "Aliases: $ALIASES" >&2
 
 for alias in $ALIASES; do
 	F="$ALIAS_DIR/$alias.sh"

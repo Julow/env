@@ -1,6 +1,7 @@
 # Env
 
-echo 'export PS1="$SHLVL> "
+cat << END
+export PS1="$SHLVL> "
 
 export PATH="$PATH:/usr/local/bin"
 
@@ -10,4 +11,7 @@ function l()
 };
 
 alias ll="l"
-'
+
+shopt -s globstar
+
+END

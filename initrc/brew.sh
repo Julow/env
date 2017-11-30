@@ -14,10 +14,7 @@ fi
 if [[ -z "$BREW_DIR" ]]; then BREW_DIR="$DEFAULT_BREW_DIR";
 elif [[ ! "$BREW_DIR" == "/"* ]]; then BREW_DIR="$HOME/$BREW_DIR"; fi
 
-if [[ ! -d "$BREW_DIR" ]] && [[ "$OPTIONAL" -eq 1 ]]; then
-	echo "Warning: $BREW_DIR dir not found" >&2
-	exit
-fi
+if [[ ! -d "$BREW_DIR" ]] && [[ "$OPTIONAL" -eq 1 ]]; then exit; fi
 
 echo "$BREW_DIR" >&2
 
