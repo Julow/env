@@ -1,6 +1,6 @@
 # Env
 
-cat << END
+cat << "END"
 export PS1="$SHLVL> "
 
 export PATH="$PATH:/usr/local/bin"

@@ -10,9 +10,9 @@ import XMonad.Util.Run
 -- ========================================================================== --
 -- Wallpaper
 
-wallpaper = "~/.xmonad/bg.png"
+wallpaper = "~/.xmonad/bg.jpg"
 
-init_wallpaper = spawn ("xloadimage -onroot -fullscreen -at 0,0 " ++ wallpaper)
+init_wallpaper = spawn ("display -window root " ++ wallpaper)
 
 -- ========================================================================== --
 -- Lock screen
@@ -28,7 +28,8 @@ init_lock_screen = spawn (set_dpms screen_timeout)
 lock_screen = spawn (
 		(set_dpms screen_timeout_locked) ++ ";"
 		++ "slock -i " ++ wallpaper_locked ++ ";"
-		++ (set_dpms screen_timeout)
+		++ (set_dpms screen_timeout) ++ ";"
+		++ "[[ -e ~/.xsessionrc ]] && bash ~/.xsessionrc"
 	)
 
 -- ========================================================================== --
@@ -41,9 +42,9 @@ volume_down = spawn ("pactl set-sink-volume " ++ current_sink ++ " -10%")
 volume_toggle = spawn ("pactl set-sink-mute " ++ current_sink ++ " toggle")
 
 -- ========================================================================== --
--- Chrome
+-- Browser
 
-chrome = "google-chrome-stable"
+web_browser = "/opt/firefox/firefox"
 
 -- ========================================================================== --
 -- Screenshot
@@ -69,7 +70,7 @@ main =
 		layoutHook =
 			let tiled = ResizableTall 1 (5/100) (1/2) [] in
 			tiled ||| Full,
-		terminal = "x-terminal-emulator"
+		terminal = "x-terminal-emulator tmux"
 	} `additionalKeysP`
 	[
 
@@ -82,7 +83,7 @@ main =
 
 		("M-z",						lock_screen),
 
-		("M-S-<Backspace>",			safeSpawnProg chrome),
+		("M-S-<Backspace>",			safeSpawnProg web_browser),
 
 		("M-p",						shellPrompt def),
 
