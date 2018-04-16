@@ -7,11 +7,15 @@
 #    By: juloo <juloo@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/08/17 01:44:55 by juloo             #+#    #+#              #
-#    Updated: 2017/03/05 14:41:13 by jaguillo         ###   ########.fr        #
+#    Updated: 2018/04/16 20:28:50 by juloo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 import re, sys, subprocess, sys
+
+def decoded(file):
+	for line in file:
+		yield line.decode("utf8")
 
 # git diff --numstat
 # if 'cached' is true, add the '--cached' option
@@ -28,7 +32,7 @@ def git_stats(cached):
 	stats = {}
 	cmd = "git diff --numstat" + (" --cached" if cached else "")
 	p = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
-	for line in p.stdout:
+	for line in decoded(p.stdout):
 		a, b, file_name = line.split(None, 2)
 		file_name = resolve_file_name(file_name.rstrip())
 		stats[file_name] = (int(a), int(b)) if a != "-" else (0, 0)
@@ -42,8 +46,9 @@ def git_status():
 	status = {}
 	cmd = "git status -bu --porcelain"
 	p = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
-	branch = next(p.stdout)[3:-1]
-	for line in p.stdout:
+	out = decoded(p.stdout)
+	branch = next(out)[3:-1]
+	for line in out:
 		status[line[3:-1]] = line[:2]
 	if p.wait() != 0:
 		raise Exception
