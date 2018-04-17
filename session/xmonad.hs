@@ -46,7 +46,7 @@ volume_toggle = spawn ("pactl set-sink-mute " ++ current_sink ++ " toggle")
 -- ========================================================================== --
 -- Browser
 
-web_browser = "/opt/firefox/firefox"
+web_browser = "firefox"
 
 -- ========================================================================== --
 -- Screenshot
@@ -57,6 +57,13 @@ take_screenshot_interactive = spawn "screenshot.sh interactive"
 -- ========================================================================== --
 -- main
 
+shell_conf = def
+	{
+		font = "xft:",
+		promptBorderWidth = 0,
+		height = 22,
+		position = CenteredAt 0.5 0.5
+	}
 
 on_start = do
 	init_lock_screen
@@ -65,7 +72,7 @@ on_start = do
 	lock_screen
 
 main =
-	xmonad $ defaultConfig
+	xmonad $ def
 	{
 		focusFollowsMouse = False,
 		borderWidth = 0,
@@ -74,7 +81,7 @@ main =
 		layoutHook =
 			let tiled = ResizableTall 1 (5/100) (1/2) [] in
 			tiled ||| Full,
-		terminal = "x-terminal-emulator tmux"
+		terminal = "xterm tmux"
 	} `additionalKeysP`
 	[
 
@@ -89,7 +96,7 @@ main =
 
 		("M-S-<Backspace>",			safeSpawnProg web_browser),
 
-		("M-p",						shellPrompt def),
+		("M-p",						shellPrompt shell_conf),
 
 		("M-S-s",					take_screenshot),
 		("M-s",						take_screenshot_interactive)
