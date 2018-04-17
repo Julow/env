@@ -5,7 +5,8 @@ PACKAGES="
 	https://github.com/euler0/sublime-glsl.git
 	https://github.com/P233/Syntax-highlighting-for-Sass
 	https://github.com/asbjornenge/Docker.tmbundle
-	https://github.com/sabhiram/sublime-clipboard-diff"
+	https://github.com/sabhiram/sublime-clipboard-diff
+	https://github.com/dempfi/ayu"
 
 function get_sublime_dir
 {
