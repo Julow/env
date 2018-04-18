@@ -9,8 +9,6 @@ clear lock
 keycode 133 = Control_L
 keycode 134 = Control_R
 keycode 37 = Super_L
-add mod4 = Super_L
-add control = Control_L Control_R
 
 ! Eject = Delete
 keycode 169 = Delete
@@ -20,4 +18,7 @@ keycode 66 = Control_L
 
 ! Accent key
 keycode 94 = dead_acute dead_grave
+
+add mod4 = Super_L
+add control = Control_L Control_R
 EOF
