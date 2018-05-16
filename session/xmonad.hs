@@ -2,6 +2,8 @@ import Control.Monad
 import XMonad
 import XMonad.Prompt
 import XMonad.Prompt.Shell
+import XMonad.Layout.BoringWindows
+import XMonad.Layout.Minimize
 import XMonad.Layout.ResizableTile
 import XMonad.Actions.UpdatePointer
 import XMonad.Util.EZConfig (additionalKeysP)
@@ -70,6 +72,9 @@ on_start = do
 	spawn "pulseaudio --start &"
 	lock_screen
 
+tiled_layout =
+	minimize (boringWindows (ResizableTall 1 (5/100) (1/2) []))
+
 main =
 	xmonad $ def
 	{
@@ -77,15 +82,21 @@ main =
 		borderWidth = 0,
 		startupHook = on_start,
 		logHook = updatePointer (0.99, 0.001) (0, 0),
-		layoutHook =
-			let tiled = ResizableTall 1 (5/100) (1/2) [] in
-			tiled ||| Full,
+		layoutHook = tiled_layout ||| Full,
 		terminal = "xterm tmux"
 	} `additionalKeysP`
 	[
 
 		("M-S-l",					sendMessage MirrorShrink),
 		("M-S-h",					sendMessage MirrorExpand),
+
+		-- BoringWindows
+		("M-k",						focusUp),
+		("M-j",						focusDown),
+		("M-m",						focusMaster),
+
+		("M-d",						withFocused minimizeWindow),
+		("M-S-d",					sendMessage RestoreNextMinimizedWin),
 
 		("<XF86AudioLowerVolume>",	volume_down),
 		("<XF86AudioRaiseVolume>",	volume_up),
