@@ -2,6 +2,7 @@ import Control.Monad
 import XMonad
 import XMonad.Prompt
 import XMonad.Prompt.Shell
+import XMonad.Prompt.Window
 import XMonad.Layout.BoringWindows
 import XMonad.Layout.Minimize
 import XMonad.Layout.ResizableTile
@@ -107,6 +108,7 @@ main =
 		("M-S-<Backspace>",			safeSpawnProg web_browser),
 
 		("M-p",						shellPrompt shell_conf),
+		("M-S-p",					windowPrompt shell_conf Goto allWindows),
 
 		("M-S-s",					take_screenshot),
 		("M-s",						take_screenshot_interactive)
