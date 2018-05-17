@@ -1,3 +1,4 @@
+import System.Directory
 import Control.Monad
 import XMonad
 import XMonad.Prompt
@@ -76,6 +77,23 @@ on_start = do
 tiled_layout =
 	minimize (boringWindows (ResizableTall 1 (5/100) (1/2) []))
 
+-- Preset prompt
+-- Prompt to execute a shell script located in the ~/.presets directory
+
+data Preset = Preset
+
+instance XPrompt Preset where
+	showXPrompt Preset = "Preset: "
+
+preset_dir = ".presets/"
+
+preset_prompt = do
+	ws <- io $ getDirectoryContents preset_dir
+	let ws' = filter (flip notElem [ ".", ".." ]) ws
+	mkXPrompt Preset shell_conf (mkComplFunFromList' ws') open
+	where
+		open w = spawn ("source " ++ preset_dir ++ w)
+
 main =
 	xmonad $ def
 	{
@@ -109,6 +127,7 @@ main =
 
 		("M-p",						shellPrompt shell_conf),
 		("M-S-p",					windowPrompt shell_conf Goto allWindows),
+		("M-S-o",					preset_prompt),
 
 		("M-S-s",					take_screenshot),
 		("M-s",						take_screenshot_interactive)
