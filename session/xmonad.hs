@@ -110,9 +110,10 @@ main =
 		("M-S-h",					sendMessage MirrorExpand),
 
 		-- BoringWindows
-		("M-k",						focusUp),
-		("M-j",						focusDown),
-		("M-m",						focusMaster),
+		("M-S-<Tab>",				focusUp),
+		("M-<Tab>",					focusDown),
+		("M-m",						markBoring),
+		("M-S-m",					clearBoring),
 
 		("M-d",						withFocused minimizeWindow),
 		("M-S-d",					sendMessage RestoreNextMinimizedWin),
