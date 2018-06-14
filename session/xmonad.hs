@@ -71,7 +71,6 @@ shell_conf = def
 on_start = do
 	init_lock_screen
 	init_wallpaper
-	spawn "pulseaudio --start &"
 	lock_screen
 
 tiled_layout =
