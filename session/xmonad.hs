@@ -1,4 +1,5 @@
 import System.Directory
+import System.Environment
 import Control.Monad
 import XMonad
 import XMonad.Prompt
@@ -8,6 +9,7 @@ import XMonad.Layout.BoringWindows
 import XMonad.Layout.Minimize
 import XMonad.Layout.ResizableTile
 import XMonad.Actions.UpdatePointer
+import XMonad.Actions.Minimize
 import XMonad.Util.EZConfig (additionalKeysP)
 import XMonad.Util.Run
 
@@ -84,14 +86,13 @@ data Preset = Preset
 instance XPrompt Preset where
 	showXPrompt Preset = "Preset: "
 
-preset_dir = ".presets/"
-
 preset_prompt = do
+	home <- io $ getEnv "HOME"
+	let preset_dir = home ++ "/.presets/"
 	ws <- io $ getDirectoryContents preset_dir
 	let ws' = filter (flip notElem [ ".", ".." ]) ws
+	let open w = spawn ("source " ++ preset_dir ++ w)
 	mkXPrompt Preset shell_conf (mkComplFunFromList' ws') open
-	where
-		open w = spawn ("source " ++ preset_dir ++ w)
 
 main =
 	xmonad $ def
@@ -115,7 +116,7 @@ main =
 		("M-S-m",					clearBoring),
 
 		("M-d",						withFocused minimizeWindow),
-		("M-S-d",					sendMessage RestoreNextMinimizedWin),
+		("M-S-d",					withLastMinimized maximizeWindowAndFocus),
 
 		("<XF86AudioLowerVolume>",	volume_down),
 		("<XF86AudioRaiseVolume>",	volume_up),
