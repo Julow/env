@@ -42,8 +42,8 @@ lock_screen = spawn (
 
 current_sink = "$(pactl list short | grep RUNNING | cut -f1 | head -n1)"
 
-volume_up = spawn ("pactl set-sink-volume " ++ current_sink ++ " +10%")
-volume_down = spawn ("pactl set-sink-volume " ++ current_sink ++ " -10%")
+volume_up = spawn ("pactl set-sink-volume " ++ current_sink ++ " +5%")
+volume_down = spawn ("pactl set-sink-volume " ++ current_sink ++ " -5%")
 volume_toggle = spawn ("pactl set-sink-mute " ++ current_sink ++ " toggle")
 
 -- ========================================================================== --
