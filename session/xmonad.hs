@@ -91,7 +91,7 @@ preset_prompt = do
 	let preset_dir = home ++ "/.presets/"
 	ws <- io $ getDirectoryContents preset_dir
 	let ws' = filter (flip notElem [ ".", ".." ]) ws
-	let open w = spawn ("source " ++ preset_dir ++ w)
+	let open w = spawn ("source \"" ++ preset_dir ++ w ++ "\"")
 	mkXPrompt Preset shell_conf (mkComplFunFromList' ws') open
 
 main =
