@@ -10,7 +10,7 @@ import XMonad.Layout.Minimize
 import XMonad.Layout.ResizableTile
 import XMonad.Actions.UpdatePointer
 import XMonad.Actions.Minimize
-import XMonad.Util.EZConfig (additionalKeysP)
+import XMonad.Util.EZConfig (additionalKeysP, removeKeysP)
 import XMonad.Util.Run
 
 -- ========================================================================== --
@@ -133,4 +133,7 @@ main =
 		("M-S-s",					take_screenshot),
 		("M-s",						take_screenshot_interactive)
 
+	] `removeKeysP`
+	[
+		"M-S-q"
 	]
