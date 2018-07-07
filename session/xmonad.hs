@@ -40,13 +40,17 @@ lock_screen = spawn (
 	)
 
 -- ========================================================================== --
--- Volume
+-- Audio
 
 current_sink = "$(pactl list short | grep RUNNING | cut -f1 | head -n1)"
 
 volume_up = spawn ("pactl set-sink-volume " ++ current_sink ++ " +5%")
 volume_down = spawn ("pactl set-sink-volume " ++ current_sink ++ " -5%")
 volume_toggle = spawn ("pactl set-sink-mute " ++ current_sink ++ " toggle")
+
+audio_prev = spawn "playerctl previous"
+audio_next = spawn "playerctl next"
+audio_toggle = spawn "playerctl play-pause"
 
 -- ========================================================================== --
 -- Browser
@@ -121,6 +125,9 @@ main =
 		("<XF86AudioLowerVolume>",	volume_down),
 		("<XF86AudioRaiseVolume>",	volume_up),
 		("<XF86AudioMute>",			volume_toggle),
+		("<XF86AudioPlay>",			audio_toggle),
+		("<XF86AudioPrev>",			audio_prev),
+		("<XF86AudioNext>",			audio_next),
 
 		("M-z",						lock_screen),
 
