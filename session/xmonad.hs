@@ -11,6 +11,7 @@ import XMonad.Layout.Minimize
 import XMonad.Layout.ResizableTile
 import XMonad.Actions.UpdatePointer
 import XMonad.Actions.Minimize
+import XMonad.Actions.SpawnOn
 import XMonad.Util.EZConfig (additionalKeysP, removeKeysP)
 import XMonad.Util.Run
 
@@ -19,7 +20,7 @@ import XMonad.Util.Run
 
 wallpaper = "~/.xmonad/bg.jpg"
 
-init_wallpaper = safeSpawn "display" ["-window", "root", wallpaper]
+init_wallpaper = spawn ("display -window root " ++ wallpaper)
 
 -- ========================================================================== --
 -- Lock screen
@@ -58,7 +59,9 @@ volume_toggle = pactl "set-sink-mute" "toggle"
 
 audio_prev = safeSpawn "playerctl" ["previous"]
 audio_next = safeSpawn "playerctl" ["next"]
-audio_toggle = safeSpawn "playerctl" ["play-pause"]
+
+audio_toggle = spawnOn "9"
+	"playerctl play-pause || (spotify & sleep 3. && playerctl play)"
 
 -- ========================================================================== --
 -- Browser
@@ -114,6 +117,7 @@ main =
 		startupHook = on_start,
 		logHook = updatePointer (0.99, 0.001) (0, 0),
 		layoutHook = tiled_layout ||| Full,
+		manageHook = manageSpawn <+> manageHook def,
 		terminal = "xterm tmux"
 	} `additionalKeysP`
 	[
