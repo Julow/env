@@ -1,6 +1,7 @@
 import System.Directory
 import System.Environment
 import Control.Monad
+import Data.List
 import XMonad
 import XMonad.Prompt
 import XMonad.Prompt.Shell
@@ -18,7 +19,7 @@ import XMonad.Util.Run
 
 wallpaper = "~/.xmonad/bg.jpg"
 
-init_wallpaper = spawn ("display -window root " ++ wallpaper)
+init_wallpaper = safeSpawn "display" ["-window", "root", wallpaper]
 
 -- ========================================================================== --
 -- Lock screen
@@ -42,15 +43,22 @@ lock_screen = spawn (
 -- ========================================================================== --
 -- Audio
 
-current_sink = "$(pactl list short | grep RUNNING | cut -f1 | head -n1)"
+current_sink () = do
+	outp <- runProcessWithInput "pactl" ["list", "short", "sinks"] ""
+	let running = head $ filter (isSuffixOf "RUNNING") $ lines outp
+	return $ head (words running)
 
-volume_up = spawn ("pactl set-sink-volume " ++ current_sink ++ " +5%")
-volume_down = spawn ("pactl set-sink-volume " ++ current_sink ++ " -5%")
-volume_toggle = spawn ("pactl set-sink-mute " ++ current_sink ++ " toggle")
+pactl cmd arg = do
+	sink <- current_sink ()
+	safeSpawn "pactl" [cmd, sink, arg]
 
-audio_prev = spawn "playerctl previous"
-audio_next = spawn "playerctl next"
-audio_toggle = spawn "playerctl play-pause"
+volume_up = pactl "set-sink-volume" "+5%"
+volume_down = pactl "set-sink-volume" "-5%"
+volume_toggle = pactl "set-sink-mute" "toggle"
+
+audio_prev = safeSpawn "playerctl" ["previous"]
+audio_next = safeSpawn "playerctl" ["next"]
+audio_toggle = safeSpawn "playerctl" ["play-pause"]
 
 -- ========================================================================== --
 -- Browser
@@ -60,8 +68,8 @@ web_browser = "firefox"
 -- ========================================================================== --
 -- Screenshot
 
-take_screenshot = spawn "screenshot.sh screen"
-take_screenshot_interactive = spawn "screenshot.sh interactive"
+take_screenshot = safeSpawn "screenshot.sh" ["screen"]
+take_screenshot_interactive = safeSpawn "screenshot.sh" ["interactive"]
 
 -- ========================================================================== --
 -- main
