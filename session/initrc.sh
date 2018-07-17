@@ -1,9 +1,7 @@
 #!/bin/bash
 
-export ENV_PATH="`pwd -P`"
-
 export INIT_FILE="$ENV_PATH/_initrc.sh"
-export INIT_DIR="$ENV_PATH/initrc"
+export INIT_DIR="$SESSION_DIR/initrc"
 
 DEFAULT_ARGS="i_guard env bash_completion lesspipe
 	alias:git,save-go tools subl:?
