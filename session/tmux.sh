@@ -1,5 +1,9 @@
 # .tmux.conf
 
+if ! which tmux >/dev/null; then
+	exit 100
+fi
+
 cat > "$HOME/.tmux.conf" <<"EOF"
 # Change prefix to C-Space
 set -g prefix C-Space
