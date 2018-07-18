@@ -1,6 +1,3 @@
-# init prompt
-
-cat << "PROMPT_INIT_END"
 C_ESC="`printf '\033'`"
 
 if [[ -n $ZSH_VERSION ]]
@@ -125,4 +122,3 @@ function precmd()
 {
 	export PROMPT="`_ps1_status`${C_CYAN}%m ${C_LGREEN}%~ `_ps1_git`${C_RESET}"$'\n'" > "
 };
-PROMPT_INIT_END
