@@ -60,8 +60,7 @@ volume_toggle = pactl "set-sink-mute" "toggle"
 audio_prev = safeSpawn "playerctl" ["previous"]
 audio_next = safeSpawn "playerctl" ["next"]
 
-audio_toggle = spawnOn "9"
-	"playerctl play-pause || (spotify & sleep 3. && playerctl play)"
+audio_toggle = spawnOn "9" "playerctl play-pause || spotify.sh"
 
 -- ========================================================================== --
 -- Browser
