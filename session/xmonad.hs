@@ -1,19 +1,23 @@
-import System.Directory
-import System.Environment
 import Control.Monad
 import Data.List
+import System.Directory
+import System.Environment
 import XMonad
-import XMonad.Prompt
-import XMonad.Prompt.Shell
-import XMonad.Prompt.Window
+import XMonad.Actions.Minimize
+import XMonad.Actions.SpawnOn
+import XMonad.Actions.UpdatePointer
+import XMonad.Actions.WindowBringer
 import XMonad.Layout.BoringWindows
 import XMonad.Layout.Minimize
 import XMonad.Layout.ResizableTile
-import XMonad.Actions.UpdatePointer
-import XMonad.Actions.Minimize
-import XMonad.Actions.SpawnOn
+import XMonad.Prompt
+import XMonad.Prompt.Shell
 import XMonad.Util.EZConfig (additionalKeysP, removeKeysP)
+import XMonad.Util.NamedWindows (getName)
 import XMonad.Util.Run
+import qualified XMonad.StackSet as W
+import qualified Data.Map as M
+
 
 -- ========================================================================== --
 -- Wallpaper
@@ -74,14 +78,61 @@ take_screenshot = safeSpawn "screenshot.sh" ["screen"]
 take_screenshot_interactive = safeSpawn "screenshot.sh" ["interactive"]
 
 -- ========================================================================== --
+-- Preset prompt
+-- Prompt to execute a shell script located in the ~/.presets directory
+
+data Preset = Preset
+
+instance XPrompt Preset where
+	showXPrompt Preset = "Preset: "
+	commandToComplete _ c = c
+	nextCompletion _ = getNextCompletion
+
+preset_prompt prompt_conf = do
+	home <- io $ getEnv "HOME"
+	let preset_dir = home ++ "/.presets/"
+	ws <- io $ getDirectoryContents preset_dir
+	let ws' = filter (flip notElem [ ".", ".." ]) ws
+	let open w = spawn ("source \"" ++ preset_dir ++ w ++ "\"")
+	mkXPrompt Preset prompt_conf (mkComplFunFromList' ws') open
+
+-- ========================================================================== --
+-- Window prompt
+-- Show the list of windows, sorted by workspace
+-- Similar to Xmonad.Prompt.Window
+
+data WindowPrompt = WindowPrompt
+
+instance XPrompt WindowPrompt where
+	showXPrompt WindowPrompt = "Windows: "
+	commandToComplete _ c = c
+	nextCompletion _ = getNextCompletion
+
+window_title ws w = do
+	name <- show <$> getName w
+	let tag = W.tag ws
+	return ("[" ++ tag ++ "] " ++ name)
+
+window_prompt prompt_conf = do
+	wm <- windowMap' window_title
+	let compl = mkComplFunFromList' (M.keys wm)
+	let action = flip whenJust (windows . W.focusWindow) . flip M.lookup wm
+	mkXPrompt WindowPrompt prompt_conf compl action
+
+-- ========================================================================== --
 -- main
 
-shell_conf = def
+prompt_conf = def
 	{
 		font = "xft:",
 		promptBorderWidth = 0,
 		height = 22,
-		position = CenteredAt 0.5 0.5
+		position = CenteredAt 0.5 0.5,
+		promptKeymap = foldl (\m (k, a) -> M.insert k a m) emacsLikeXPKeymap [
+			((controlMask, xK_w), killWord Prev),
+			((controlMask, xK_Left), moveWord Prev),
+			((controlMask, xK_Right), moveWord Next)
+		]
 	}
 
 on_start = do
@@ -91,22 +142,6 @@ on_start = do
 
 tiled_layout =
 	minimize (boringWindows (ResizableTall 1 (5/100) (1/2) []))
-
--- Preset prompt
--- Prompt to execute a shell script located in the ~/.presets directory
-
-data Preset = Preset
-
-instance XPrompt Preset where
-	showXPrompt Preset = "Preset: "
-
-preset_prompt = do
-	home <- io $ getEnv "HOME"
-	let preset_dir = home ++ "/.presets/"
-	ws <- io $ getDirectoryContents preset_dir
-	let ws' = filter (flip notElem [ ".", ".." ]) ws
-	let open w = spawn ("source \"" ++ preset_dir ++ w ++ "\"")
-	mkXPrompt Preset shell_conf (mkComplFunFromList' ws') open
 
 main =
 	xmonad $ def
@@ -144,9 +179,9 @@ main =
 
 		("M-S-<Backspace>",			safeSpawnProg web_browser),
 
-		("M-p",						shellPrompt shell_conf),
-		("M-S-p",					windowPrompt shell_conf Goto allWindows),
-		("M-S-o",					preset_prompt),
+		("M-p",						shellPrompt prompt_conf),
+		("M-S-p",					window_prompt prompt_conf),
+		("M-S-o",					preset_prompt prompt_conf),
 
 		("M-S-s",					take_screenshot),
 		("M-s",						take_screenshot_interactive)
