@@ -62,13 +62,13 @@ function gitpl()
 	elif [ "$#" -eq "1" ]; then
 		git pull "$1" "`git rev-parse --abbrev-ref HEAD`" --tags
 	else
-		git pull $@
+		git pull "$@"
 	fi
 };
 
 function gita()
 {
-	git add --all $@ && gitt.py
+	git add --all "$@" && gitt.py
 };
 
 function gitu()
@@ -78,7 +78,7 @@ function gitu()
 
 function gitr()
 {
-	git reset -- HEAD -q $@ && gitt.py
+	git reset -- HEAD -q "$@" && gitt.py
 };
 
 alias gitt="gitt.py"
