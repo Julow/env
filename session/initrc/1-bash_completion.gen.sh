@@ -6,7 +6,7 @@ if [[ -f /usr/share/bash-completion/bash_completion ]]; then
 elif [[ -f /etc/bash_completion ]]; then
 	COMP_PATH=/etc/bash_completion
 else
-	exit
+	exit 0
 fi
 
 echo 'if ! shopt -oq posix; then . '"$COMP_PATH"'; fi'
