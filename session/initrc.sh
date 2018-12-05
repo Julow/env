@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 export INIT_FILE="$ENV_PATH/_initrc.sh"
 export INIT_DIR="$SESSION_DIR/initrc"
 
@@ -10,7 +12,7 @@ for rc in $(ls $INIT_DIR)
 do
 	echo "# $rc"
 	if [[ $rc = *.gen.sh ]]
-	then bash "$INIT_DIR/$rc"
+	then (cd "$INIT_DIR"; bash -e "$INIT_DIR/$rc")
 	else cat "$INIT_DIR/$rc"
 	fi
 	echo
