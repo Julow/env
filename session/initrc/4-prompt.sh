@@ -79,9 +79,7 @@ function _ps1_git()
 	BRANCH=`git rev-parse --abbrev-ref HEAD 2> /dev/null` > /dev/null
 	if [[ $? -eq 0 ]]; then
 		if [[ ! "$BRANCH" == "master" ]]; then
-			PRINT="${C_MAGENTA}($BRANCH) "
-		else
-			PRINT=""
+			echo -n "${C_MAGENTA}($BRANCH) "
 		fi
 		STATUS=$(git status --porcelain)
 		COLUM1=`echo "$STATUS" | cut -c 1-1`
