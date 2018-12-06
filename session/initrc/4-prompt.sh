@@ -111,6 +111,11 @@ function _ps1_git()
 			echo -n "$PRINT${C_RESET} "
 		fi
 		_ps1_git_rev `git rev-list --left-right --count origin/$BRANCH...HEAD 2> /dev/null || echo "0 0"`
+		if git rev-parse REBASE_HEAD &>/dev/null; then
+			echo -n "${C_YELLOW}rebase in progress "
+		elif git rev-parse MERGE_HEAD &>/dev/null; then
+			echo -n "${C_YELLOW}merge in progress "
+		fi
 	fi
 };
 
