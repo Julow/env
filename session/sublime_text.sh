@@ -7,7 +7,9 @@ PACKAGES="
 	https://github.com/asbjornenge/Docker.tmbundle
 	https://github.com/sabhiram/sublime-clipboard-diff
 	https://github.com/dempfi/ayu
-	https://github.com/alek-sys/sublimetext_indentxml"
+	https://github.com/alek-sys/sublimetext_indentxml
+	https://github.com/brandonwamboldt/sublime-nginx
+	https://github.com/SublimeText-Markdown/MarkdownEditing"
 
 function get_sublime_dir
 {
