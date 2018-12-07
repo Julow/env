@@ -1,9 +1,5 @@
 # Install some packages
 
-if ! which subl >/dev/null; then
-	exit 100
-fi
-
 PACKAGES="
 	https://github.com/Julow/Juloo-Sublime-Package.git
 	https://github.com/euler0/sublime-glsl.git
