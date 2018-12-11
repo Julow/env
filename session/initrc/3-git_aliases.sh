@@ -35,23 +35,33 @@ alias gitamend="git commit --amend --no-edit"
 
 function gitc()
 {
-	STR="$@";
-	git commit -m "$STR"
+	OPTIONS=()
+	while [[ "$1" = "-"* ]]; do
+		OPTIONS=("${OPTIONS[@]}" "$1")
+		shift
+	done
+	if [[ $# -lt 1 ]]; then
+		echo "Not enough arguments"
+		return 1
+	fi
+	MESSAGE="$1"
+	shift
+	git commit "${OPTIONS[@]}" -m "$MESSAGE" "$@"
 };
 
 function gitp()
 {
 	OPTIONS=("--tags")
 	while [[ "$1" = "-"* ]]; do
-		OPTIONS=($OPTIONS "$1")
+		OPTIONS=("${OPTIONS[@]}" "$1")
 		shift
 	done
-	if [ "$#" -eq "0" ]; then
-		git push $OPTIONS origin HEAD
-	elif [ "$#" -eq "1" ]; then
-		git push $OPTIONS "$1" HEAD
+	if [ $# -eq 0 ]; then
+		git push "${OPTIONS[@]}" origin HEAD
+	elif [ $# -eq 1 ]; then
+		git push "${OPTIONS[@]}" "$1" HEAD
 	else
-		git push $OPTIONS "$@"
+		git push "${OPTIONS[@]}" "$@"
 	fi
 };
 
@@ -73,7 +83,7 @@ function gita()
 
 function gitu()
 {
-	git add -u && gitt.py
+	git add -u "$@" && gitt.py
 };
 
 function gitr()
@@ -85,18 +95,15 @@ alias gitt="gitt.py"
 
 function gitd()
 {
-	if type diff-so-fancy >/dev/null 2>/dev/null; then
-		git diff --color "$@" | diff-so-fancy | less -R --tabs=4
-	else
-		git diff --word-diff=porcelain --no-color "$@" | gitd.py | less -R --tabs=4
-	fi
+	git diff --word-diff=porcelain --no-color "$@" | gitd.py | less -R --tabs=4
 };
+
+alias gitds="gitd --staged"
 
 function gitl()
 {
-	git log --oneline --graph --decorate -n10 \
-		--pretty=format:"%C(auto)%h %<(8,trunc)%C(cyan)%an%Creset%C(auto)%d %s %C(black bold)%ar" \
-		"$@"
+	FORMAT="format:%C(auto)%h %<(8,trunc)%C(cyan)%an%Creset%C(auto)%d %s %C(black bold)%ar"
+	git log --oneline --graph --decorate -n10 --pretty="$FORMAT" "$@"
 };
 
 function gitprev()
