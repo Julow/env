@@ -9,7 +9,9 @@ PACKAGES="
 	https://github.com/dempfi/ayu
 	https://github.com/alek-sys/sublimetext_indentxml
 	https://github.com/brandonwamboldt/sublime-nginx
-	https://github.com/SublimeText-Markdown/MarkdownEditing"
+	https://github.com/SublimeText-Markdown/MarkdownEditing
+	https://github.com/zyxar/Sublime-CMakeLists
+"
 
 function get_sublime_dir
 {
