@@ -20,4 +20,7 @@ bind "]" run "xclip -o -sel clipboard | tmux load-buffer -; tmux paste-buffer"
 set -g mouse on
 # Ending mouse selection does not close selection mode
 unbind -n -Tcopy-mode-vi MouseDragEnd1Pane
+
+# Disable status line
+set -g status off
 EOF
