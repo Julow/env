@@ -11,6 +11,8 @@ set showmatch
 
 set wildmenu
 
+set mouse=a
+
 syntax enable
 
 set backspace=eol,start,indent
