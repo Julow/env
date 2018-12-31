@@ -26,4 +26,7 @@ set -g status off
 
 # Escape key timeout
 set -g escape-time 0
+
+# New window in same directory
+bind c neww -c "#{pane_current_path}"
 EOF
