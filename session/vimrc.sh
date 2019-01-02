@@ -1,9 +1,6 @@
 # Vim config
 
 cat > "$HOME/.vimrc" <<"EOF"
-filetype plugin on
-filetype indent on
-
 set encoding=utf8
 set ignorecase
 set hlsearch
@@ -23,6 +20,7 @@ set shiftwidth=4
 set tabstop=4
 set ai
 set si
+set noexpandtab
 
 set wrap
 
