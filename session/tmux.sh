@@ -29,4 +29,8 @@ set -g escape-time 0
 
 # New window in same directory
 bind c neww -c "#{pane_current_path}"
+
+# Prev/next window
+bind -T root "C-[" previous-window
+bind -T root "C-]" next-window
 EOF
