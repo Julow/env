@@ -11,6 +11,7 @@ PACKAGES="
 	https://github.com/brandonwamboldt/sublime-nginx
 	https://github.com/SublimeText-Markdown/MarkdownEditing
 	https://github.com/zyxar/Sublime-CMakeLists
+	https://github.com/braver/TypeScriptSyntax
 "
 
 function get_sublime_dir
