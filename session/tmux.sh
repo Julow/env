@@ -30,7 +30,6 @@ set -g escape-time 0
 # New window in same directory
 bind c neww -c "#{pane_current_path}"
 
-# Prev/next window
-bind -T root "C-[" previous-window
-bind -T root "C-]" next-window
+# Start window indexes at 1
+set -g base-index 1
 EOF
