@@ -27,8 +27,11 @@ set -g status off
 # Escape key timeout
 set -g escape-time 0
 
-# New window in same directory
+# New window/pane in same directory
+# Also, bind ' and " for horizontal and vertical split
 bind c neww -c "#{pane_current_path}"
+bind "'" splitw -h -c "#{pane_current_path}"
+bind '"' splitw -v -c "#{pane_current_path}"
 
 # Start window indexes at 1
 set -g base-index 1
