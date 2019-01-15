@@ -1,6 +1,7 @@
 # Git aliases and config
 
-# Use git cli instead of overwritting the .gitconfig file
+# Aliases
+
 c() { git config --global "alias.$1" "$2"; }
 
 c k "checkout"
@@ -16,3 +17,13 @@ c c "commit -m"
 c p "push origin HEAD"
 c pl "pull origin HEAD"
 c amend "commit --amend --no-edit"
+
+# Global ignore
+
+IGNORE_FILE="$HOME/.gitignore_global"
+
+git config --global "core.excludesfile" "$IGNORE_FILE"
+
+cat > "$IGNORE_FILE" <<"EOF"
+*.swp
+EOF
