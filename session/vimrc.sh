@@ -29,4 +29,10 @@ set foldenable
 set foldmethod=indent
 set foldlevelstart=99
 nnoremap <space> za
+
+" Double escape to clear highlight
+nnoremap <esc><esc> :noh<return>
+
+" Remap # to highlight the current word and allowing to search forward
+nnoremap # *N
 EOF
