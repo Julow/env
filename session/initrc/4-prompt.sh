@@ -117,11 +117,13 @@ function _ps1_git()
 	fi
 };
 
+CLEAR_TITLE=`printf '\033]0;\007'`
+
 # Bash
-export PROMPT_COMMAND='export PS1="`_ps1_status`${C_CYAN}\h ${C_LGREEN}\w `_ps1_git`${C_RESET}\n > "'
+export PROMPT_COMMAND='export PS1="$CLEAR_TITLE`_ps1_status`${C_CYAN}\h ${C_LGREEN}\w `_ps1_git`${C_RESET}\n > "'
 
 # Zsh
 function precmd()
 {
-	export PROMPT="`_ps1_status`${C_CYAN}%m ${C_LGREEN}%~ `_ps1_git`${C_RESET}"$'\n'" > "
+	export PROMPT="$CLEAR_TITLE`_ps1_status`${C_CYAN}%m ${C_LGREEN}%~ `_ps1_git`${C_RESET}"$'\n'" > "
 };

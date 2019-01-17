@@ -21,9 +21,6 @@ set -g mouse on
 # Ending mouse selection does not close selection mode
 unbind -n -Tcopy-mode-vi MouseDragEnd1Pane
 
-# Disable status line
-set -g status off
-
 # Escape key timeout
 set -g escape-time 0
 

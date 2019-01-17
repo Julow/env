@@ -35,4 +35,13 @@ nnoremap <esc><esc> :noh<return>
 
 " Remap # to highlight the current word and allowing to search forward
 nnoremap # *N
+
+" Use system clipboard
+set clipboard=unnamed
+
+" Set window title
+set t_ts=]2;
+set t_fs=\\
+autocmd BufEnter * let &titlestring = expand("%:t")
+set title
 EOF
