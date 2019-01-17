@@ -32,4 +32,13 @@ bind '"' splitw -v -c "#{pane_current_path}"
 
 # Start window indexes at 1
 set -g base-index 1
+
+# Status bar
+set -g status-bg black
+set -g status-fg white
+set-window-option -g window-status-current-style bold
+TITLE="#{?pane_title,#T,#W}"
+set -g window-status-format "#I-$TITLE"
+set -g window-status-current-format "#I+$TITLE"
+set -g status-right ""
 EOF
