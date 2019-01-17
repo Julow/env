@@ -33,6 +33,10 @@ bind '"' splitw -v -c "#{pane_current_path}"
 # Start window indexes at 1
 set -g base-index 1
 
+# Monitor bell and don't make any sound
+set -g monitor-bell on
+set -g bell-action none
+
 # Status bar
 set -g status-bg black
 set -g status-fg white
