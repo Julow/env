@@ -118,7 +118,7 @@ function _ps1_git()
 };
 
 CLEAR_TITLE=`printf '\033]0;\007'`
-BELL=`printf '\a'`
+BELL=`if [[ -n $TMUX ]]; then printf '\a'; fi`
 
 # Bash
 export PROMPT_COMMAND='export PS1="$BELL$CLEAR_TITLE`_ps1_status`${C_CYAN}\h ${C_LGREEN}\w `_ps1_git`${C_RESET}\n > "'
