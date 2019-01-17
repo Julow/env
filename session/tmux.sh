@@ -41,4 +41,20 @@ TITLE="#{?pane_title,#T,#W}"
 set -g window-status-format "#I-$TITLE"
 set -g window-status-current-format "#I+$TITLE"
 set -g status-right ""
+
+# Alt+left/right to change window
+bind -n M-left select-window -p
+bind -n M-right select-window -n
+
+# Alt+Shift+left/right to move the current window
+bind -n M-S-left swap-window -t -1
+bind -n M-S-right swap-window -t +1
+
+# Alt+up/down to change pane
+bind -n M-up select-pane -t :.+
+bind -n M-down select-pane -t :.-
+
+# Alt+Shift+up/down to move the current pane
+bind -n M-S-up swap-pane -t :.+ \; select-pane -t :.+
+bind -n M-S-down swap-pane -t :.- \; select-pane -t :.-
 EOF
