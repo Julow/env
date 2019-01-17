@@ -35,7 +35,8 @@ set -g base-index 1
 
 # Monitor bell and don't make any sound
 set -g monitor-bell on
-set -g bell-action none
+set -g bell-action other
+set -g visual-bell off
 
 # Status bar
 set -g status-bg black

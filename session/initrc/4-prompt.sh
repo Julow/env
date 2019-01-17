@@ -118,12 +118,13 @@ function _ps1_git()
 };
 
 CLEAR_TITLE=`printf '\033]0;\007'`
+BELL=`printf '\a'`
 
 # Bash
-export PROMPT_COMMAND='export PS1="$CLEAR_TITLE`_ps1_status`${C_CYAN}\h ${C_LGREEN}\w `_ps1_git`${C_RESET}\n > "'
+export PROMPT_COMMAND='export PS1="$BELL$CLEAR_TITLE`_ps1_status`${C_CYAN}\h ${C_LGREEN}\w `_ps1_git`${C_RESET}\n > "'
 
 # Zsh
 function precmd()
 {
-	export PROMPT="$CLEAR_TITLE`_ps1_status`${C_CYAN}%m ${C_LGREEN}%~ `_ps1_git`${C_RESET}"$'\n'" > "
+	export PROMPT="$BELL$CLEAR_TITLE`_ps1_status`${C_CYAN}%m ${C_LGREEN}%~ `_ps1_git`${C_RESET}"$'\n'" > "
 };
