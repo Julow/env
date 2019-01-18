@@ -5,7 +5,7 @@
 c() { git config --global "alias.$1" "$2"; }
 
 c k "checkout"
-c b "checkout -b"
+c b "branch -avv --sort=-refname"
 c d "diff"
 c ds "diff --staged"
 c l "log --oneline --graph --decorate -n10 --pretty='format:%C(auto)%h %<(8,trunc)%C(cyan)%an%Creset%C(auto)%d %s %C(black bold)%ar'"
