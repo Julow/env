@@ -37,7 +37,7 @@ nnoremap <esc><esc> :noh<return>
 nnoremap # *N
 
 " Use system clipboard
-set clipboard=unnamed
+set clipboard=unnamedplus
 
 " Set window title
 set t_ts=]2;
