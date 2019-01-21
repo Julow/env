@@ -12,6 +12,8 @@ set mouse=a
 
 syntax enable
 
+filetype plugin on
+
 set backspace=eol,start,indent
 
 " Indent
@@ -44,4 +46,8 @@ set t_ts=]2;
 set t_fs=\\
 autocmd BufEnter * let &titlestring = expand("%:t")
 set title
+
+" OCaml
+let s:no_ocaml_maps=1
+execute "set rtp+=" . $OPAM_SWITCH_PREFIX . "/share/merlin/vim"
 EOF
