@@ -50,4 +50,8 @@ set title
 " OCaml
 let s:no_ocaml_maps=1
 execute "set rtp+=" . $OPAM_SWITCH_PREFIX . "/share/merlin/vim"
+
+" Per project vimrc
+set exrc
+set secure
 EOF
