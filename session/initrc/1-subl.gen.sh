@@ -15,5 +15,4 @@ fi
 echo 'export SUBL="'"$SUBL"'"
 
 alias s="$SUBL"
-
-export EDITOR="$SUBL -n -w"'
+'
