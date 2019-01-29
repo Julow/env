@@ -33,7 +33,9 @@ set foldlevelstart=99
 nnoremap <space> za
 
 " Double escape to clear highlight
-nnoremap <esc><esc> :noh<return>
+" A custom event is used to allow extensibility
+nnoremap <esc><esc> :doautocmd User ClearHighlight<return>
+autocmd User ClearHighlight call feedkeys(":nohlsearch\<return>")
 
 " Remap # to highlight the current word and allowing to search forward
 nnoremap # *N
@@ -50,6 +52,7 @@ set title
 " OCaml
 let s:no_ocaml_maps=1
 execute "set rtp+=" . $OPAM_SWITCH_PREFIX . "/share/merlin/vim"
+autocmd User ClearHighlight :MerlinClearEnclosing
 
 " Per project vimrc
 set exrc
