@@ -1,6 +1,8 @@
 # Vim config
 
 cat > "$HOME/.vimrc" <<"EOF"
+execute pathogen#infect()
+
 set encoding=utf8
 set ignorecase
 set hlsearch
