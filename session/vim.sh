@@ -4,7 +4,8 @@ if ! which vim &>/dev/null; then
 	exit 100
 fi
 
-PACKAGES="https://github.com/yuttie/comfortable-motion.vim"
+PACKAGES="https://github.com/yuttie/comfortable-motion.vim \
+	https://github.com/tpope/vim-fugitive"
 
 VIM_DIR="$HOME/.vim"
 
