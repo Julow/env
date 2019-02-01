@@ -5,7 +5,8 @@ if ! which vim &>/dev/null; then
 fi
 
 PACKAGES="https://github.com/yuttie/comfortable-motion.vim \
-	https://github.com/tpope/vim-fugitive"
+	https://github.com/tpope/vim-fugitive \
+	https://github.com/tmux-plugins/vim-tmux-focus-events"
 
 VIM_DIR="$HOME/.vim"
 

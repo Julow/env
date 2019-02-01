@@ -62,4 +62,7 @@ bind -n M-down select-pane -t :.-
 # Alt+Shift+up/down to move the current pane
 bind -n M-S-up swap-pane -t :.+ \; select-pane -t :.+
 bind -n M-S-down swap-pane -t :.- \; select-pane -t :.-
+
+# Used by vim-tmux-focus-events
+set -g focus-events on
 EOF

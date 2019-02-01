@@ -18,6 +18,8 @@ filetype plugin on
 
 set backspace=eol,start,indent
 
+set autoread
+
 " Indent
 set smarttab
 set shiftwidth=4
