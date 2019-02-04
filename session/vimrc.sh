@@ -53,11 +53,6 @@ set t_fs=\\
 autocmd BufEnter * let &titlestring = expand("%:t")
 set title
 
-" OCaml
-let s:no_ocaml_maps=1
-execute "set rtp+=" . $OPAM_SWITCH_PREFIX . "/share/merlin/vim"
-autocmd User ClearHighlight :MerlinClearEnclosing
-
 " Per project vimrc
 set exrc
 set secure
