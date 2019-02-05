@@ -1,6 +1,5 @@
-# Vim config
+" Vim config
 
-cat > "$HOME/.vimrc" <<"EOF"
 execute pathogen#infect()
 
 set encoding=utf8
@@ -61,4 +60,3 @@ set title
 " Per project vimrc
 set exrc
 set secure
-EOF
