@@ -4,7 +4,7 @@ if ! which vim &>/dev/null; then
 	exit 100
 fi
 
-PACKAGES="https://github.com/yuttie/comfortable-motion.vim \
+PACKAGES=" \
 	https://github.com/tpope/vim-fugitive \
 	https://github.com/tmux-plugins/vim-tmux-focus-events"
 
