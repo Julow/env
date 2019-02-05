@@ -6,7 +6,9 @@ fi
 
 PACKAGES=" \
 	https://github.com/tpope/vim-fugitive \
-	https://github.com/tmux-plugins/vim-tmux-focus-events"
+	https://github.com/tmux-plugins/vim-tmux-focus-events \
+	https://github.com/tpope/vim-surround \
+"
 
 VIM_DIR="$HOME/.vim"
 
