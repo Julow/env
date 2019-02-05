@@ -21,4 +21,6 @@ cat > "$VIM_DIR/ftplugin/ocaml.vim" <<"EOF"
 autocmd User ClearHighlight :MerlinClearEnclosing
 
 let no_plugin_maps = 1
+
+setlocal commentstring=(*\ %s\ *)
 EOF
