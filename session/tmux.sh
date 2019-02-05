@@ -31,7 +31,7 @@ bind "'" splitw -h -c "#{pane_current_path}"
 bind '"' splitw -v -c "#{pane_current_path}"
 
 # New terminal in same directory
-bind enter run "xterm -e \"tmux new-session -c '#{pane_current_path}'\""
+bind enter run -b "xterm -e \"tmux new-session -c '#{pane_current_path}'\""
 
 # Start window indexes at 1
 set -g base-index 1
