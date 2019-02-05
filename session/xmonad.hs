@@ -78,6 +78,11 @@ take_screenshot = safeSpawn "screenshot.sh" ["screen"]
 take_screenshot_interactive = safeSpawn "screenshot.sh" ["interactive"]
 
 -- ========================================================================== --
+-- Brightness
+
+change_brightness inc = safeSpawn "brightness.sh" [ show inc ]
+
+-- ========================================================================== --
 -- Preset prompt
 -- Prompt to execute a shell script located in the ~/.presets directory
 
@@ -174,6 +179,9 @@ main =
 		("<XF86AudioPlay>",			audio_toggle),
 		("<XF86AudioPrev>",			audio_prev),
 		("<XF86AudioNext>",			audio_next),
+
+		("<XF86MonBrightnessUp>",	change_brightness 10),
+		("<XF86MonBrightnessDown>",	change_brightness (-10)),
 
 		("M-z",						lock_screen),
 
