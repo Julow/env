@@ -20,6 +20,8 @@ set backspace=eol,start,indent
 
 set autoread
 
+set t_Co=16
+
 " Indent
 set smarttab
 set shiftwidth=4
@@ -30,6 +32,9 @@ set noexpandtab
 
 set wrap
 
+" Formatting
+set formatoptions+=roj
+
 " Fold
 set foldenable
 set foldmethod=indent
@@ -39,7 +44,7 @@ nnoremap <space> za
 " Double escape to clear highlight
 " A custom event is used to allow extensibility
 nnoremap <esc><esc> :doautocmd User ClearHighlight<return>
-autocmd User ClearHighlight call feedkeys(":nohlsearch\<return>")
+autocmd User ClearHighlight call feedkeys("\<esc>:nohlsearch\<return>")
 
 " Remap # to highlight the current word and allowing to search forward
 nnoremap # *N
