@@ -50,6 +50,10 @@ set -g window-status-format "#I-$TITLE"
 set -g window-status-current-format "#I+$TITLE"
 set -g status-right ""
 
+# Terminal title
+set -g set-titles on
+set -g set-titles-string "Terminal - #{s@/home/$USER/@~/@:pane_current_path}"
+
 # Alt+left/right to change window
 bind -n M-left select-window -p
 bind -n M-right select-window -n
