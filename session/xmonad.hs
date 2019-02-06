@@ -10,6 +10,7 @@ import XMonad.Actions.WindowBringer
 import XMonad.Layout.BoringWindows
 import XMonad.Layout.Minimize
 import XMonad.Layout.ResizableTile
+import XMonad.Hooks.ManageHelpers
 import XMonad.Prompt
 import XMonad.Prompt.Shell
 import XMonad.Util.EZConfig (additionalKeysP, removeKeysP)
@@ -125,6 +126,17 @@ window_prompt prompt_conf = do
 	mkXPrompt WindowPrompt prompt_conf compl action
 
 -- ========================================================================== --
+-- Floating status window
+
+status_window_name = "floating-status-window"
+
+status_window_hook =
+	appName =? status_window_name --> doCenterFloat
+
+spawn_status_window =
+	safeSpawn "xterm" ["-name", status_window_name, "-geom", "32x3", "-e", "status.sh"]
+
+-- ========================================================================== --
 -- main
 
 prompt_conf = def
@@ -156,7 +168,7 @@ main =
 		startupHook = on_start,
 		logHook = updatePointer (0.99, 0.001) (0, 0),
 		layoutHook = tiled_layout ||| Full,
-		manageHook = manageSpawn <+> manageHook def,
+		manageHook = manageSpawn <+> status_window_hook <+> manageHook def,
 		terminal = "xterm tmux"
 	} `additionalKeysP`
 	[
@@ -190,6 +202,8 @@ main =
 		("M-p",						shellPrompt prompt_conf),
 		("M-S-p",					window_prompt prompt_conf),
 		("M-S-o",					preset_prompt prompt_conf),
+
+		("M-o",						spawn_status_window),
 
 		("M-S-s",					take_screenshot),
 		("M-s",						take_screenshot_interactive)
