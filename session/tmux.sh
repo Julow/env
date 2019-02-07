@@ -45,14 +45,15 @@ set -g visual-bell off
 set -g status-bg black
 set -g status-fg white
 set-window-option -g window-status-current-style bold
-TITLE="#{?pane_title,#T,#W}"
-set -g window-status-format "#I-$TITLE"
-set -g window-status-current-format "#I+$TITLE"
+PANE_TITLE="#{?pane_title,#T,#W}"
+set -g window-status-format "#I-$PANE_TITLE"
+set -g window-status-current-format "#I+$PANE_TITLE"
 set -g status-right ""
 
 # Terminal title
 set -g set-titles on
-set -g set-titles-string "Terminal - #{s@/home/$USER/@~/@:pane_current_path}"
+PANE_PATH="#{s@/home/$USER/@~/@:pane_current_path}"
+set -g set-titles-string "Terminal - $PANE_PATH - $PANE_TITLE"
 
 # Alt+left/right to change window
 bind -n M-left select-window -p
