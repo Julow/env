@@ -18,7 +18,7 @@ c p "push origin HEAD"
 c pl "pull origin HEAD"
 c amend "commit --amend --no-edit"
 c cln '!f() { : git clean; git clean -dn "$@";
-	echo "y = yes, i = interactive"; read confirm; case "$confirm" in
+	echo "y = yes, i = interactive"; read -N1 -s confirm; case "$confirm" in
 		"y") git clean -df "$@";;
 		"i") git clean -di "$@";;
 		*) echo "Nothing done";; esac; }; f'
