@@ -15,7 +15,10 @@ c u '!f() { : git add -u; git add -u "$@" && git t; }; f'
 c r '!f() { : git reset; git reset -- HEAD -q "$@" && git t; }; f'
 c c "commit -m"
 c p "push origin HEAD"
-c pl "pull origin HEAD"
+c rf '!f () { : git merge --ff-only; git l "HEAD~1..$1";
+	git merge --ff-only -v --stat "$@"; }; f'
+c pl '!f () { : git merge --ff-only; git fetch --all -t --progress -v &&
+	if [[ $# -gt 0 ]]; then git rf "$@"; fi; }; f'
 c amend "commit --amend --no-edit"
 c cln '!f() { : git clean; git clean -dn "$@";
 	echo "y = yes, i = interactive"; read -N1 -s confirm; case "$confirm" in
