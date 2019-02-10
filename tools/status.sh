@@ -1,11 +1,21 @@
 #!/usr/bin/env bash
 
+status ()
+{
+	date
+}
+
+CLEAR=`tput clear`
+
 render ()
 {
-	printf "/%s\\\\\n| %28s |\n\\%s/" \
-		"`printf -- "-%.0s" {1..30}`" \
-		"`date`" \
-		"`printf -- "-%.0s" {1..30}`"
+	STATUS=`status`
+	FULL_LINE=`printf -- "-%.0s" {1..30}`
+	printf "%s/$FULL_LINE\\\\\n" "$CLEAR"
+	IFS=$'\n'
+	printf "| %-28s |\n" $STATUS
+	unset IFS
+	printf "\\$FULL_LINE/"
 }
 
 tput civis
@@ -13,6 +23,8 @@ tput civis
 render
 
 # Render every seconds, until user input
-until read -N1 -t1; do
-	printf "%s" "`tput clear; render`"
+until read -s -N1 -t1; do
+	render
 done
+
+tput cnorm
