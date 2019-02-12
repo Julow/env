@@ -16,7 +16,7 @@ c r '!f() { : git reset; git reset -- HEAD -q "$@" && git t; }; f'
 c c "commit -m"
 c p "push origin HEAD"
 c rf '!f () { : git merge --ff-only;
-	BEFORE=`git rev-parse HEAD~1`;
+	BEFORE=`git rev-parse HEAD`;
 	git merge --ff-only -v --stat "$@" &&
 	git l "$BEFORE..HEAD"; }; f'
 c pl '!f () { : git merge --ff-only; git fetch --all -t --progress -v &&
