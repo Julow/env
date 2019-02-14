@@ -1,8 +1,10 @@
 # Git aliases and config
 
+s() { git config --global "$@"; }
+
 # Aliases
 
-c() { git config --global "alias.$1" "$2"; }
+c() { s "alias.$1" "$2"; }
 
 c k "checkout"
 c b "branch -avv --sort=-refname"
@@ -27,6 +29,25 @@ c cln '!f() { : git clean; git clean -dn "$@";
 		"y") git clean -df "$@";;
 		"i") git clean -di "$@";;
 		*) echo "Nothing done";; esac; }; f'
+
+# diff-highlight
+
+DH_PATH=/usr/share/git/diff-highlight/diff-highlight
+
+if [[ -e $DH_PATH ]]; then
+
+	s --remove-section "color.diff-highlight"
+
+	dh() { s "color.diff-highlight.$1" "$2"; }
+
+	dh "oldNormal" "dim red"
+	dh "oldHighlight" "nodim red"
+	dh "newNormal" "dim green"
+	dh "newHighlight" "nodim green"
+
+	s "pager.diff" "$DH_PATH | less"
+	s "pager.show" "$DH_PATH | less"
+fi
 
 # Global ignore
 
