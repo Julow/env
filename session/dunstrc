@@ -1,0 +1,101 @@
+[global]
+    ### Display ###
+
+    monitor = 0
+    follow = none
+
+    geometry = "0x10-20+20"
+
+    indicate_hidden = yes
+    shrink = no
+    transparency = 0
+
+    notification_height = 0
+
+    padding = 5
+    horizontal_padding = 10
+
+    separator_height = 6
+    frame_width = 0
+    frame_color = "#aaaaaa"
+    separator_color = transparent
+
+    sort = yes
+
+    idle_threshold = 120
+
+    ### Text ###
+
+    font = Fira Mono 12
+    line_height = 0
+    alignment = right
+
+    markup = full
+    format = "<b>%a</b> %s %p\n%b"
+
+    show_age_threshold = 60
+
+    word_wrap = yes
+    ellipsize = middle
+
+    ignore_newline = no
+
+    stack_duplicates = true
+    hide_duplicate_count = false
+
+    show_indicators = yes
+
+    ### Icons ###
+
+    icon_position = off
+    max_icon_size = 32
+    icon_path = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/
+
+    ### History ###
+
+    sticky_history = yes
+
+    history_length = 20
+
+    ### Misc/Advanced ###
+
+    dmenu = /usr/bin/dmenu -p dunst:
+    browser = /usr/bin/firefox -new-tab
+
+    always_run_script = true
+
+    title = Dunst
+    class = Dunst
+
+    startup_notification = false
+
+    ### Legacy
+    force_xinerama = false
+
+[experimental]
+    per_monitor_dpi = false
+
+[shortcuts]
+    close = mod1+Escape
+    history = mod1+shift+Escape
+
+[urgency_low]
+    background = "#222222"
+    foreground = "#888888"
+    timeout = 10
+    #icon = /path/to/icon
+
+[urgency_normal]
+    background = "#285577"
+    foreground = "#ffffff"
+    timeout = 10
+    #icon = /path/to/icon
+
+[urgency_critical]
+    background = "#900000"
+    foreground = "#ffffff"
+    frame_color = "#ff0000"
+    timeout = 0
+    #icon = /path/to/icon
+
+# vim: ft=cfg
