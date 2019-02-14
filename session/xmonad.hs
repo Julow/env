@@ -46,27 +46,6 @@ lock_screen = spawn (
 	)
 
 -- ========================================================================== --
--- Audio
-
-current_sink () = do
-	outp <- runProcessWithInput "pactl" ["list", "short", "sinks"] ""
-	let running = head $ filter (isSuffixOf "RUNNING") $ lines outp
-	return $ head (words running)
-
-pactl cmd arg = do
-	sink <- current_sink ()
-	safeSpawn "pactl" [cmd, sink, arg]
-
-volume_up = pactl "set-sink-volume" "+5%"
-volume_down = pactl "set-sink-volume" "-5%"
-volume_toggle = pactl "set-sink-mute" "toggle"
-
-audio_prev = safeSpawn "playerctl" ["previous"]
-audio_next = safeSpawn "playerctl" ["next"]
-
-audio_toggle = spawnOn "9" "playerctl play-pause || spotify.sh"
-
--- ========================================================================== --
 -- Browser
 
 web_browser = "firefox"
@@ -76,11 +55,6 @@ web_browser = "firefox"
 
 take_screenshot = safeSpawn "screenshot.sh" ["screen"]
 take_screenshot_interactive = safeSpawn "screenshot.sh" ["interactive"]
-
--- ========================================================================== --
--- Brightness
-
-change_brightness inc = safeSpawn "brightness.sh" [ show inc ]
 
 -- ========================================================================== --
 -- Preset prompt
@@ -173,15 +147,15 @@ main =
 		("M-d",						withFocused minimizeWindow),
 		("M-S-d",					withLastMinimized maximizeWindowAndFocus),
 
-		("<XF86AudioLowerVolume>",	volume_down),
-		("<XF86AudioRaiseVolume>",	volume_up),
-		("<XF86AudioMute>",			volume_toggle),
-		("<XF86AudioPlay>",			audio_toggle),
-		("<XF86AudioPrev>",			audio_prev),
-		("<XF86AudioNext>",			audio_next),
+		("<XF86AudioLowerVolume>",	safeSpawn "volume.sh" ["-5%"]),
+		("<XF86AudioRaiseVolume>",	safeSpawn "volume.sh" ["+5%"]),
+		("<XF86AudioMute>",			safeSpawn "volume.sh" ["toggle"]),
+		("<XF86AudioPlay>",			spawnOn "9" "playerctl play-pause || spotify.sh"),
+		("<XF86AudioPrev>",			safeSpawn "playerctl" ["previous"]),
+		("<XF86AudioNext>",			safeSpawn "playerctl" ["next"]),
 
-		("<XF86MonBrightnessUp>",	change_brightness 10),
-		("<XF86MonBrightnessDown>",	change_brightness (-10)),
+		("<XF86MonBrightnessUp>",	safeSpawn "brightness.sh" ["10"]),
+		("<XF86MonBrightnessDown>",	safeSpawn "brightness.sh" ["-10"]),
 
 		("M-z",						lock_screen),
 
