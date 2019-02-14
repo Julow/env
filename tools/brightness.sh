@@ -24,3 +24,8 @@ if [[ $NEW -lt 0 ]]; then NEW=0; fi
 
 echo $NEW > "$1"
 echo "$NEW / $MAX"
+
+if which notify-send &>/dev/null; then
+	VAL=$((NEW * 100 / MAX))
+	notify-send -a "Brightness" -u low -h int:value:"$VAL" " "
+fi

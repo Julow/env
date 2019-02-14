@@ -98,4 +98,10 @@
     timeout = 0
     #icon = /path/to/icon
 
+[brightness_indicator]
+	appname = Brightness
+	format = "%a %p"
+	history_ignore = yes
+	timeout = 1
+
 # vim: ft=cfg
