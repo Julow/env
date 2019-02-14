@@ -9,6 +9,7 @@ PACKAGES=" \
 	https://github.com/tmux-plugins/vim-tmux-focus-events
 	https://github.com/tpope/vim-surround
 	https://github.com/tpope/vim-commentary
+	https://github.com/roxma/vim-tmux-clipboard
 "
 
 VIM_DIR="$HOME/.vim"
