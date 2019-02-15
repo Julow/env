@@ -1,3 +1,4 @@
+{-# LANGUAGE FlexibleInstances, MultiParamTypeClasses, TypeSynonymInstances #-}
 import Control.Monad
 import Data.List
 import System.Directory
@@ -8,8 +9,10 @@ import XMonad.Actions.SpawnOn
 import XMonad.Actions.UpdatePointer
 import XMonad.Actions.WindowBringer
 import XMonad.Layout.BoringWindows
+import XMonad.Layout.Spacing
 import XMonad.Layout.Minimize
 import XMonad.Layout.ResizableTile
+import XMonad.Layout.LayoutModifier
 import XMonad.Prompt
 import XMonad.Prompt.Shell
 import XMonad.Util.EZConfig (additionalKeysP, removeKeysP)
@@ -99,6 +102,28 @@ window_prompt prompt_conf = do
 	mkXPrompt WindowPrompt prompt_conf compl action
 
 -- ========================================================================== --
+-- Centered layout
+-- Improve Layout.Spacing by handling Shink and Expand messages
+
+data CenteredLayout a = CenteredLayout Integer deriving (Show, Read)
+
+instance LayoutModifier CenteredLayout a where
+	handleMess (CenteredLayout step) m
+		| Just Shrink <- fromMessage m = modify_lr (-step)
+		| Just Expand <- fromMessage m = modify_lr step
+		| otherwise = return Nothing
+		where
+			modify_lr d = do
+				let m (Border t b r l) = Border t b (r + d) (l + d)
+				_ <- sendMessage (ModifyWindowBorder m)
+				return Nothing
+
+centered_full sp step =
+	ModifiedLayout (CenteredLayout step) $
+	spacingRaw False (Border 0 0 0 0) False (Border 0 0 sp sp) True $
+	Full
+
+-- ========================================================================== --
 -- main
 
 prompt_conf = def
@@ -119,8 +144,10 @@ on_start = do
 	init_wallpaper
 	lock_screen
 
-tiled_layout =
-	minimize (boringWindows (ResizableTall 1 (5/100) (1/2) []))
+layout = minimize (boringWindows (tiled_layout ||| centered_layout))
+	where
+		tiled_layout = ResizableTall 1 (5/100) (1/2) []
+		centered_layout = centered_full 600 20
 
 main =
 	xmonad $ def
@@ -129,7 +156,7 @@ main =
 		borderWidth = 0,
 		startupHook = on_start,
 		logHook = updatePointer (0.99, 0.001) (0, 0),
-		layoutHook = tiled_layout ||| Full,
+		layoutHook = layout,
 		manageHook = manageSpawn <+> manageHook def,
 		terminal = "xterm tmux"
 	} `additionalKeysP`
