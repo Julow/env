@@ -110,4 +110,9 @@
 	history_ignore = yes
 	timeout = 1
 
+[spotify]
+	appname = Spotify
+	history_ignore = yes
+	timeout = 2
+
 # vim: ft=cfg
