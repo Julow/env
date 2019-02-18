@@ -3,6 +3,7 @@
 status ()
 {
 	date
+	acpi
 }
 
 CLEAR=`tput clear`
