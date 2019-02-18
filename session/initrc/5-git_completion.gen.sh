@@ -1,9 +1,7 @@
-COMP_FILE=.git_completion.bash
-COMP_FILE_URL=https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
+GIT_COMPLETION=/usr/share/git/completion/git-completion.bash
 
-if ! [[ -e $COMP_FILE ]]
-then
-	curl -Lo "$COMP_FILE" "$COMP_FILE_URL"
+if [[ ! -e $GIT_COMPLETION ]]; then
+	exit
 fi
 
-cat "$COMP_FILE"
+cat "$GIT_COMPLETION"
