@@ -10,6 +10,7 @@ PACKAGES=" \
 	https://github.com/tpope/vim-surround
 	https://github.com/tpope/vim-commentary
 	https://github.com/roxma/vim-tmux-clipboard
+	https://github.com/nelstrom/vim-markdown-folding
 "
 
 VIM_DIR="$HOME/.vim"
