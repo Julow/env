@@ -18,7 +18,7 @@ mkdir -p "$VIM_DIR/ftplugin/"
 
 cat > "$VIM_DIR/ftplugin/ocaml.vim" <<"EOF"
 " Clear merlin highlighting
-autocmd User ClearHighlight :MerlinClearEnclosing
+autocmd User ClearHighlight :silent! :MerlinClearEnclosing
 
 let no_plugin_maps = 1
 
