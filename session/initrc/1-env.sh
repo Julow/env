@@ -10,3 +10,5 @@ function l()
 alias ll="l"
 
 shopt -s globstar
+
+export EDITOR=vim
