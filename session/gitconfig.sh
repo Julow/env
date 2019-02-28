@@ -30,7 +30,7 @@ c cln '!f() { : git clean; git clean -dn "$@";
 		"i") git clean -di "$@";;
 		*) echo "Nothing done";; esac; }; f'
 # Fetch a github pull request
-c kpr '!f() { git fetch up "pull/$1/head:#$1" && git checkout "#$1" && git l; }; f'
+c kpr '!f() { git fetch -f up "pull/$1/head:#$1" && git checkout "#$1" && git l; }; f'
 
 # diff-highlight
 
