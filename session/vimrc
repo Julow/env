@@ -65,3 +65,6 @@ set title
 " Per project vimrc
 set exrc
 set secure
+
+" Color adjustments
+hi Folded ctermbg=black ctermfg=blue
