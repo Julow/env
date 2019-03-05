@@ -10,7 +10,8 @@ c k "checkout"
 c b "branch -avv --sort=-refname"
 c d "diff"
 c ds "diff --staged"
-c l "!git --no-pager log --oneline --graph --decorate -n10 --pretty='tformat:%C(auto)%h %<(8,trunc)%C(cyan)%an%Creset%C(auto)%d %s %C(black bold)%ar'"
+c ll "!git log --oneline --graph --decorate --all --graph --format=custom"
+c l "!git --no-pager ll -n15"
 c t "status --short -b -u"
 c a '!f() { : git add --all; git add --all "$@" && git t; }; f'
 c u '!f() { : git add -u; git add -u "$@" && git t; }; f'
@@ -31,6 +32,13 @@ c cln '!f() { : git clean; git clean -dn "$@";
 		*) echo "Nothing done";; esac; }; f'
 # Fetch a github pull request
 c kpr '!f() { git fetch -f up "pull/$1/head:#$1" && git checkout "#$1" && git l; }; f'
+
+# Log format
+s "pretty.custom" "tformat:%C(auto)%h %<(8,trunc)%C(cyan)%an%Creset%C(auto)%d %s %C(black bold)%ar"
+
+# Rebase
+s "rebase.instructionFormat" "tformat:%<(8,trunc)%an%d %s # %ar"
+s "rebase.stat" true
 
 # diff-highlight
 
