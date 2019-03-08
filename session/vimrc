@@ -67,4 +67,4 @@ set exrc
 set secure
 
 " Color adjustments
-hi Folded ctermbg=black ctermfg=blue
+hi Folded ctermbg=none ctermfg=blue
