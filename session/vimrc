@@ -14,6 +14,7 @@ set mouse=a
 syntax enable
 
 filetype plugin on
+filetype indent on
 
 set backspace=eol,start,indent
 
