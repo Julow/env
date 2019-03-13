@@ -10,7 +10,7 @@ c k "checkout"
 c b "branch -avv --sort=-refname"
 c d "diff"
 c ds "diff --staged"
-c flog "log --oneline --graph --decorate --graph --format=custom"
+c flog "log --graph --decorate --graph --format=custom"
 c ll "flog --all"
 c l "!git --no-pager flog -n15"
 c t "status --short -b -u"
@@ -35,7 +35,7 @@ c cln '!f() { : git clean; git clean -dn "$@";
 c kpr '!f() { git fetch -f up "pull/$1/head:#$1" && git checkout "#$1" && git l; }; f'
 
 # Log format
-s "pretty.custom" "tformat:%C(auto)%h %<(8,trunc)%C(cyan)%an%Creset%C(auto)%d %s %C(black bold)%ar"
+s "pretty.custom" "tformat:%C(auto)%h %<(12,trunc)%C(cyan)%an%C(reset)%C(black bold)%>(13)%ar%C(auto)%d %s"
 
 # Rebase
 s "rebase.instructionFormat" "tformat:%<(8,trunc)%an%d %s # %ar"
