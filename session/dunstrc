@@ -100,7 +100,6 @@
 
 [brightness_indicator]
 	appname = Brightness
-	format = "%a %p"
 	history_ignore = yes
 	timeout = 1
 
@@ -114,5 +113,10 @@
 	appname = Spotify
 	history_ignore = yes
 	timeout = 2
+
+[battery_indicator]
+	appname = Battery
+	format = "%a %p"
+	history_ignore = yes
 
 # vim: ft=cfg
