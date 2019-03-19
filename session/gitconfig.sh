@@ -8,12 +8,13 @@ c() { s "alias.$1" "$2"; }
 
 c k "checkout"
 c b "branch -avv --sort=-refname"
-c d "diff"
-c ds "diff --staged"
+c d "diff --stat --summary -p"
+c ds "d --staged"
 c flog "log --graph --decorate --graph --format=custom"
 c ll "flog --all"
 c l "!git --no-pager flog -n15"
 c t "status --short -b -u"
+c sh "show --summary --stat -p"
 c a '!f() { : git add --all; git add --all "$@" && git t; }; f'
 c u '!f() { : git add -u; git add -u "$@" && git t; }; f'
 c r '!f() { : git reset; git reset -- HEAD -q "$@" && git t; }; f'
