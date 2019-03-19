@@ -192,6 +192,8 @@ main =
 		("M-S-p",					window_prompt prompt_conf),
 		("M-S-o",					preset_prompt prompt_conf),
 
+		("M-`",						safeSpawn "indicators.sh" []),
+
 		("M-S-s",					take_screenshot),
 		("M-s",						take_screenshot_interactive)
 

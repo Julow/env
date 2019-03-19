@@ -114,9 +114,10 @@
 	history_ignore = yes
 	timeout = 2
 
-[battery_indicator]
-	appname = Battery
-	format = "%a %p"
+[indicator]
+	appname = Indicator
+	format = "%s"
 	history_ignore = yes
+	timeout = 2
 
 # vim: ft=cfg
