@@ -15,14 +15,12 @@ if which notify-send &>/dev/null; then
 	s#\s*muted: \(.\+\)#MUTED=\1#p;
 	s#^\s*volume: .*\(\b[0-9]\+\)\%.*#VOLUME=\1#p }'`
 
-	notify() {
-		notify-send -a "Volume" -u low -h string:synchronous:volume "$@"
-	}
-
 	if [[ $MUTED = no ]]; then
-		notify -h int:value:"$VOLUME" " "
+		MSG=`progress-bar.sh "$VOLUME"`
 	else
-		notify "Muted"
+		MSG=Muted
 	fi
+
+	dunstify -r 1234 -a "Volume" -u low "$MSG"
 
 fi

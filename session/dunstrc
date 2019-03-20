@@ -105,7 +105,6 @@
 
 [volume_indicator]
 	appname = Volume
-	format = "%a %p"
 	history_ignore = yes
 	timeout = 1
 
