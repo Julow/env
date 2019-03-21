@@ -33,7 +33,8 @@ c cln '!f() { : git clean; git clean -dn "$@";
 		"i") git clean -di "$@";;
 		*) echo "Nothing done";; esac; }; f'
 # Fetch a github pull request
-c kpr '!f() { git fetch -f up "pull/$1/head:#$1" && git checkout "#$1" && git l; }; f'
+c fpr '!f() { git fetch -f up "pull/$1/head:#$1"; }; f'
+c kpr '!f() { git fpr "$1" && git checkout "#$1" && git l; }; f'
 
 # Log format
 s "pretty.custom" "tformat:%C(auto)%h %<(12,trunc)%C(cyan)%an%C(reset)%C(black bold)%>(13)%ar%C(auto)%d %s"
