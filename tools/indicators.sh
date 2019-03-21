@@ -6,7 +6,8 @@ dunstify -r 101010 -a "Indicator" -u low "$DATE"
 
 # Battery
 acpi -b | while read line; do
-	if [[ $line =~ ^Battery\ [0-9]*:\ (.*), ([0-9]+)% ]]; then
+	if [[ $line =~ ^Battery\ [0-9]*:\ (.*),\ ([0-9]+)%.*$ ]] &&
+		[[ ${BASH_REMATCH[2]} -ne 0 ]]; then
 		PROGRESS=`progress-bar.sh "${BASH_REMATCH[2]}"`
 		MSG="<b>Battery</b> $PROGRESS ${BASH_REMATCH[1]}"
 		dunstify -r 101011 -a "Indicator" -u low "$MSG"
