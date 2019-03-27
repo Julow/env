@@ -10,9 +10,9 @@ c k "checkout"
 c b "branch -avv --sort=-refname"
 c d "diff --stat --summary -p"
 c ds "d --staged"
-c flog "log --graph --decorate --graph --format=custom"
-c ll "flog --all"
-c l "!git --no-pager flog -n15"
+c customlog "log --graph --decorate --graph --format=custom"
+c ll "customlog --all"
+c l '!f() { : git log; [[ $# -eq 0 ]] && git --no-pager customlog -n15 || git customlog "$@"; }; f'
 c t "status --short -b -u"
 c sh "show --summary --stat -p"
 c a '!f() { : git add --all; git add --all "$@" && git t; }; f'
