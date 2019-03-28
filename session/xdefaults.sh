@@ -33,14 +33,14 @@ cat > "$HOME/.Xdefaults" <<"EOF"
 *.color15:      #fdf6e3
 
 ! Dark theme
-*.background:	#000000
-*.foreground:	#c3c9c9
-*.cursorColor:	#93a1a1
+! *.background:	#000000
+! *.foreground:	#c3c9c9
+! *.cursorColor:	#93a1a1
 
 ! Light theme
-! *.foreground:	#2d393c
-! *.background:	#fdf6e3
-! *.cursorColor:	#586e75
+*.foreground:	#2d393c
+*.background:	#fdf6e3
+*.cursorColor:	#586e75
 
 ! Xterm specific
 
