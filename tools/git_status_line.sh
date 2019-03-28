@@ -1,5 +1,22 @@
 #!/usr/bin/env bash
 
+if [[ -n $TMUX_STATUS ]]; then
+	C_RED="#[fg=red]"
+	C_GREEN="#[fg=green]"
+	C_YELLOW="#[fg=yellow]"
+	C_MAGENTA="#[fg=magenta]"
+	C_GRAY="#[fg=bright]"
+	C_RESET=""
+else
+	ESC=`printf '\033'`
+	C_RED="$ESC[31m"
+	C_GREEN="$ESC[32m"
+	C_YELLOW="$ESC[33m"
+	C_MAGENTA="$ESC[35m"
+	C_GRAY="$ESC[37m"
+	C_RESET="$ESC[0m"
+fi
+
 git status --short --branch --untracked-files --ahead-behind --no-renames | {
 
 	read line
@@ -28,7 +45,6 @@ git status --short --branch --untracked-files --ahead-behind --no-renames | {
 		if [[ $line = UU* ]]; then CONFLICT=1; fi
 	done
 
-	ESC=`printf '\033'`
 	STATUS=""
 
 	# Branch info
@@ -36,28 +52,28 @@ git status --short --branch --untracked-files --ahead-behind --no-renames | {
 	S_REMOTE=${REMOTE%origin/$BRANCH}
 	S_REMOTE=${S_REMOTE%/$BRANCH}
 	if [[ -n $S_REMOTE ]]; then S_REMOTE="...$S_REMOTE"; fi
-	S_BRANCH="$ESC[35m($BRANCH$S_REMOTE)"
+	S_BRANCH="$C_MAGENTA($BRANCH$S_REMOTE)"
 
 	# Status
 	S_STAGED=""
-	if [[ $STAGED -gt 0 ]]; then S_STAGED="$ESC[32m*"; fi
+	if [[ $STAGED -gt 0 ]]; then S_STAGED="$C_GREEN*"; fi
 	S_DIRTY=""
-	if [[ $DIRTY -gt 0 ]]; then S_DIRTY="$ESC[31m*"; fi
+	if [[ $DIRTY -gt 0 ]]; then S_DIRTY="$C_RED*"; fi
 	S_UNTRACKED=""
-	if [[ $UNTRACKED -gt 0 ]]; then S_UNTRACKED="$ESC[90m*"; fi
+	if [[ $UNTRACKED -gt 0 ]]; then S_UNTRACKED="$C_GRAY*"; fi
 	S_CONFLICT=""
-	if [[ $CONFLICT -gt 0 ]]; then S_CONFLICT="$ESC[31m!!"; fi
+	if [[ $CONFLICT -gt 0 ]]; then S_CONFLICT="$C_RED!!"; fi
 
 	# Tracking
 	S_AHEAD=""
-	if [[ -n $AHEAD ]]; then S_AHEAD="$ESC[32m+$AHEAD"; fi
+	if [[ -n $AHEAD ]]; then S_AHEAD="$C_GREEN+$AHEAD"; fi
 	S_BEHIND=""
-	if [[ -n $BEHIND ]]; then S_BEHIND="$ESC[31m-$BEHIND"; fi
+	if [[ -n $BEHIND ]]; then S_BEHIND="$C_RED-$BEHIND"; fi
 
 	# Rebase and merge
 	S_STATE=""
-	if [[ -f .git/REBASE_HEAD ]]; then S_STATE="$ESC[33mRebase in progress";
-	elif [[ -f .git/MERGE_HEAD ]]; then S_STATE="$ESC[33mMerge in progress"; fi
+	if [[ -f .git/REBASE_HEAD ]]; then S_STATE="${C_YELLOW}Rebase in progress";
+	elif [[ -f .git/MERGE_HEAD ]]; then S_STATE="${C_YELLOW}Merge in progress"; fi
 
-	echo $S_BRANCH $S_STATE $S_CONFLICT$S_STAGED$S_DIRTY$S_UNTRACKED $S_AHEAD $S_BEHIND "$ESC[0m"
+	echo $S_BRANCH $S_STATE $S_CONFLICT$S_STAGED$S_DIRTY$S_UNTRACKED $S_AHEAD $S_BEHIND $C_RESET
 }
