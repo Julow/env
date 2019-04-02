@@ -9,10 +9,10 @@ c() { s "alias.$1" "$2"; }
 c k "checkout"
 c b "branch -avv --sort=-refname"
 c d "diff --stat --summary -p"
-c ds "d --staged"
+c ds "diff --stat --summary -p --staged"
 c customlog "log --graph --decorate --graph --format=custom"
 c ll "customlog --all"
-c l '!f() { : git log; [[ $# -eq 0 ]] && git --no-pager customlog -n15 || git customlog "$@"; }; f'
+c l '!f() { : git log; if [ $# -eq 0 ]; then git --no-pager customlog -n15; else git customlog "$@"; fi; }; f'
 c t "status --short -b -u"
 c sh "show --summary --stat -p"
 c a '!f() { : git add --all; git add --all "$@" && git t; }; f'
@@ -60,6 +60,10 @@ if [[ -e $DH_PATH ]]; then
 
 	s "pager.diff" "$DH_PATH | less"
 	s "pager.show" "$DH_PATH | less"
+
+else
+	s "pager.diff" "less"
+	s "pager.shiw" "less"
 fi
 
 # Global ignore

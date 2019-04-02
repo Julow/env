@@ -4,4 +4,7 @@ if ! which tmux >/dev/null; then
 	exit 100
 fi
 
-cp "$SESSION_DIR/tmux.conf" "$HOME/.tmux.conf"
+{
+	echo "TOOLS=$ENV_PATH/tools"
+	cat "$SESSION_DIR/tmux.conf"
+} > "$HOME/.tmux.conf"

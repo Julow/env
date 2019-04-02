@@ -17,7 +17,7 @@ else
 	C_RESET="$ESC[0m"
 fi
 
-git status --short --branch --untracked-files --ahead-behind --no-renames | {
+git status --short --branch --untracked-files --ahead-behind | {
 
 	read line
 
