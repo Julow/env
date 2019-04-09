@@ -1,25 +1,16 @@
 #!/usr/bin/env bash
 
-if [[ -n $TMUX_STATUS ]]; then
-	C_RED="#[fg=red]"
-	C_GREEN="#[fg=green]"
-	C_YELLOW="#[fg=yellow]"
-	C_MAGENTA="#[fg=magenta]"
-	C_GRAY="#[fg=bright]"
-	C_RESET=""
-else
-	ESC=`printf '\033'`
-	C_RED="$ESC[31m"
-	C_GREEN="$ESC[32m"
-	C_YELLOW="$ESC[33m"
-	C_MAGENTA="$ESC[35m"
-	C_GRAY="$ESC[37m"
-	C_RESET="$ESC[0m"
-fi
+ESC=`printf '\033'`
+C_RED=${C_RED:-"$ESC[31m"}
+C_GREEN=${C_GREEN:-"$ESC[32m"}
+C_YELLOW=${C_YELLOW:-"$ESC[33m"}
+C_MAGENTA=${C_MAGENTA:-"$ESC[35m"}
+C_GRAY=${C_GRAY:-"$ESC[37m"}
+C_RESET=${C_RESET:-"$ESC[0m"}
 
-git status --short --branch --untracked-files --ahead-behind | {
+git status --short --branch --untracked-files --ahead-behind 2>/dev/null | {
 
-	read line
+	if ! read line; then exit 1; fi
 
 	# Header line
 	if ! [[ $line =~ ^\#\#\ ([^\ .]+)(\.\.\.([^\ ]+))?(\ \[(ahead\ ([0-9]+))?(,\ )?(behind\ ([0-9]+))?\])? ]]
