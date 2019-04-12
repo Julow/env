@@ -46,13 +46,14 @@ nnoremap <space> za
 nnoremap <esc><esc> :doautocmd User ClearHighlight<return>
 autocmd User ClearHighlight call feedkeys("\<esc>:nohlsearch\<return>")
 
+" Scroll
+set scrolloff=10
+
 " Remap # to search for the current word and to search forward
 " Use the selection in visual mode
 " And scroll the search result to the center of the screen
-nnoremap # *Nzz
-vnoremap # :norm! gv"vy<return>:execute "/" . @v<return>Nzz
-nnoremap n nzz
-nnoremap N Nzz
+nnoremap # *N
+vnoremap # :norm! gv"vy<return>:execute "/" . @v<return>N
 
 " Use system clipboard
 set clipboard=unnamedplus
