@@ -51,9 +51,8 @@ set scrolloff=10
 
 " Remap # to search for the current word and to search forward
 " Use the selection in visual mode
-" And scroll the search result to the center of the screen
-nnoremap # *N
-vnoremap # :norm! gv"vy<return>:execute "/" . @v<return>N
+nnoremap # "vyiwge/\V<C-R>v<return>
+vnoremap # "vyge/\V<C-R>v<return>
 
 " Use system clipboard
 set clipboard=unnamedplus
