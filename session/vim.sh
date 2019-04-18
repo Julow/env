@@ -11,6 +11,7 @@ PACKAGES=" \
 	https://github.com/tpope/vim-commentary
 	https://github.com/roxma/vim-tmux-clipboard
 	https://github.com/nelstrom/vim-markdown-folding
+	https://github.com/michaeljsmith/vim-indent-object
 "
 
 VIM_DIR="$HOME/.vim"
