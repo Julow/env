@@ -7,6 +7,8 @@ set ignorecase
 set hlsearch
 set showmatch
 
+set noswapfile
+
 set wildmenu
 
 set mouse=a
