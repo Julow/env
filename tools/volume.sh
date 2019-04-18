@@ -21,6 +21,6 @@ if which notify-send &>/dev/null; then
 		MSG=Muted
 	fi
 
-	dunstify -r 1234 -a "Volume" -u low "$MSG"
+	dunstify -r 1234 -a "Volume" -u low "" "$MSG"
 
 fi
