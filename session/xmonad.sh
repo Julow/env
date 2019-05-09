@@ -24,5 +24,7 @@ fi
 
 xset -b
 
+pulseaudio -k -D
+
 exec xmonad
 END

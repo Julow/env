@@ -29,8 +29,8 @@ cat > "$HOME/.Xdefaults" <<"EOF"
 *.color13:      #6c71c4
 *.color6:       #2aa198
 *.color14:      #2aa198
-*.color7:       #93a1a1
-*.color15:      #fdf6e3
+*color7:       #dfded0
+*color15:      #eeeada
 
 ! Dark theme
 ! *.background:	#000000

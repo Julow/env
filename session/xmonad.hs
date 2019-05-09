@@ -21,7 +21,6 @@ import XMonad.Util.Run
 import qualified XMonad.StackSet as W
 import qualified Data.Map as M
 
-
 -- ========================================================================== --
 -- Wallpaper
 
@@ -36,8 +35,6 @@ screen_timeout = 500
 screen_timeout_locked = 20
 
 set_dpms timeout = "xset dpms 0 0 " ++ show timeout
-
-init_lock_screen = spawn (set_dpms screen_timeout)
 
 init_xmodmap = "xmodmap -display :0 ~/.xmodmap"
 
@@ -140,9 +137,9 @@ prompt_conf = def
 	}
 
 on_start = do
-	init_lock_screen
 	init_wallpaper
 	lock_screen
+	safeSpawn "firefox" []
 
 layout = minimize (boringWindows (tiled_layout ||| centered_layout))
 	where
@@ -181,8 +178,8 @@ main =
 		("<XF86AudioPrev>",			safeSpawn "playerctl" ["previous"]),
 		("<XF86AudioNext>",			safeSpawn "playerctl" ["next"]),
 
-		("<XF86MonBrightnessUp>",	safeSpawn "brightness.sh" ["10"]),
-		("<XF86MonBrightnessDown>",	safeSpawn "brightness.sh" ["-10"]),
+		("<XF86MonBrightnessUp>",	safeSpawn "brightness.sh" ["5"]),
+		("<XF86MonBrightnessDown>",	safeSpawn "brightness.sh" ["-5"]),
 
 		("M-z",						lock_screen),
 
