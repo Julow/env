@@ -5,3 +5,5 @@ if [[ ! -e $GIT_COMPLETION ]]; then
 fi
 
 cat "$GIT_COMPLETION"
+
+echo '_git_l () { _git_log; }'

@@ -10,7 +10,7 @@ c k "checkout"
 c b "branch -avv --sort=-refname"
 c d "diff --stat --summary -p"
 c ds "diff --stat --summary -p --staged"
-c customlog "log --graph --decorate --graph --format=custom"
+c customlog "log --decorate --graph --format=custom"
 c ll "customlog --all"
 c l '!f() { : git log; if [ $# -eq 0 ]; then git --no-pager customlog -n15; else git customlog "$@"; fi; }; f'
 c t "status --short -b -u"
@@ -19,7 +19,7 @@ c a '!f() { : git add --all; git add --all "$@" && git t; }; f'
 c u '!f() { : git add -u; git add -u "$@" && git t; }; f'
 c r '!f() { : git reset; git reset -- HEAD -q "$@" && git t; }; f'
 c c "commit -m"
-c p "push origin HEAD"
+c p "push"
 c rf '!f () { : git merge --ff-only;
 	BEFORE=`git rev-parse HEAD`;
 	git merge --ff-only -v --stat "$@" &&
@@ -33,8 +33,10 @@ c cln '!f() { : git clean; git clean -dn "$@";
 		"i") git clean -di "$@";;
 		*) echo "Nothing done";; esac; }; f'
 # Fetch a github pull request
-c fpr '!f() { git fetch -f up "pull/$1/head:#$1"; }; f'
-c kpr '!f() { git fpr "$1" && git checkout "#$1" && git l; }; f'
+c kpr '!f() {
+	git checkout --detach HEAD;
+	git fetch -f up "pull/$1/head:pr/$1" &&
+	git checkout "pr/$1" && git l; }; f'
 
 # Log format
 s "pretty.custom" "tformat:%C(auto)%h %<(12,trunc)%C(cyan)%an%C(reset)%C(black bold)%>(13)%ar%C(auto)%d %s"
