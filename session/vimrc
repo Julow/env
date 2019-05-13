@@ -80,6 +80,10 @@ set secure
 hi Folded ctermbg=none ctermfg=blue
 
 hi DiffAdd ctermbg=lightgrey ctermfg=none
-hi DiffDelete ctermbg=lightgrey ctermfg=lightgrey
-hi DiffChange ctermbg=15 ctermfg=none
-hi DiffText ctermbg=7 ctermfg=none
+hi DiffDelete ctermbg=lightgrey ctermfg=none
+hi DiffChange ctermbg=none ctermfg=none
+hi DiffText ctermbg=lightgrey ctermfg=none
+
+hi VertSplit ctermbg=none ctermfg=lightgrey cterm=none
+hi StatusLine ctermbg=none ctermfg=black cterm=underline
+hi StatusLineNC ctermbg=none ctermfg=black cterm=none
