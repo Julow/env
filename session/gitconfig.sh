@@ -45,28 +45,25 @@ s "pretty.custom" "tformat:%C(auto)%h %<(12,trunc)%C(cyan)%an%C(reset)%C(black b
 s "rebase.instructionFormat" "tformat:%<(8,trunc)%an%d %s # %ar"
 s "rebase.stat" true
 
-# diff-highlight
+# Paging
+
+GIT_PAGER="less"
 
 DH_PATH=/usr/share/git/diff-highlight/diff-highlight
 
 if [[ -e $DH_PATH ]]; then
-
 	s --remove-section "color.diff-highlight"
-
 	dh() { s "color.diff-highlight.$1" "$2"; }
-
 	dh "oldNormal" "dim red"
 	dh "oldHighlight" "nodim red"
 	dh "newNormal" "dim green"
 	dh "newHighlight" "nodim green"
-
-	s "pager.diff" "$DH_PATH | less"
-	s "pager.show" "$DH_PATH | less"
-
-else
-	s "pager.diff" "less"
-	s "pager.shiw" "less"
+	GIT_PAGER="$DH_PATH | less"
 fi
+
+s "pager.diff" "$GIT_PAGER"
+s "pager.show" "$GIT_PAGER"
+s "pager.status" "$GIT_PAGER"
 
 # Global ignore
 
