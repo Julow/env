@@ -26,6 +26,10 @@ set t_Co=16
 
 set diffopt+=foldcolumn:0
 
+" Shift+tab = escape
+inoremap <S-Tab> <Esc>
+vnoremap <S-Tab> <Esc>
+
 " Indent
 set smarttab
 set shiftwidth=4
