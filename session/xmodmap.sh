@@ -14,11 +14,17 @@ keycode 37 = Super_L
 keycode 169 = Delete
 
 ! Caps lock = Control
-keycode 66 = Control_L
+! Shift+Caps lock = space
+keycode 66 = Control_L space
 
 ! Accent key
 keycode 94 = dead_acute dead_grave
 
+! Space = Shift and Space (with xcape)
+keycode 65 = Hyper_L
+keycode 255 = space
+
 add mod4 = Super_L
 add control = Control_L Control_R
+add shift = Hyper_L
 EOF

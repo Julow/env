@@ -23,6 +23,7 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
 fi
 
 xset -b
+xcape -e Hyper_L=space
 
 pulseaudio -k -D
 
