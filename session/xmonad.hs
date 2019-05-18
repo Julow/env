@@ -138,7 +138,6 @@ prompt_conf = def
 
 on_start = do
 	init_wallpaper
-	lock_screen
 	safeSpawn "firefox" []
 
 layout = minimize (boringWindows (tiled_layout ||| centered_layout))

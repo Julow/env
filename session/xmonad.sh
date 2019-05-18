@@ -23,6 +23,8 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
 fi
 
 xset -b
+
+xmodmap ~/.xmodmap
 xcape -e Hyper_L=space
 
 pulseaudio -k -D
