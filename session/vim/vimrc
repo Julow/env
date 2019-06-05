@@ -78,6 +78,7 @@ set title
 
 " Per project vimrc
 set exrc
+set nomodeline " Disable modeline
 set secure
 
 " Color adjustments
