@@ -20,6 +20,7 @@ c u '!f() { : git add -u; git add -u "$@" && git t; }; f'
 c r '!f() { : git reset; git reset -- HEAD -q "$@" && git t; }; f'
 c c "commit -m"
 c p "push"
+c pu '!f() { : git push; git push -u "${1:-origin}" HEAD; }; f'
 c logrf '!f () { BEFORE=`git rev-parse HEAD`; "$@" && git l "$BEFORE..HEAD"; }; f'
 c rf '!f () { : git merge --ff-only; git logrf git merge --ff-only -v --stat "$@"; }; f'
 c ft "fetch --all -t --progress -v"
