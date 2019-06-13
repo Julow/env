@@ -22,6 +22,18 @@ import qualified XMonad.StackSet as W
 import qualified Data.Map as M
 
 -- ========================================================================== --
+-- Utils
+
+data Prompt_autocomplete = Prompt_autocomplete String
+
+instance XPrompt Prompt_autocomplete where
+	showXPrompt (Prompt_autocomplete prompt) = prompt
+	commandToComplete _ c = c
+	nextCompletion _ = getNextCompletion
+
+home_dir = io $ getEnv "HOME"
+
+-- ========================================================================== --
 -- Wallpaper
 
 wallpaper = "~/.xmonad/bg.jpg"
@@ -57,35 +69,39 @@ take_screenshot = safeSpawn "screenshot.sh" ["screen"]
 take_screenshot_interactive = safeSpawn "screenshot.sh" ["interactive"]
 
 -- ========================================================================== --
+-- Password prompt
+-- Ask the password manager
+
+password_prompt prompt_conf = do
+	home <- home_dir
+	let pass_dir = home ++ "/notes/pass/"
+	let pass_script = home ++ "/notes/_pass.sh"
+	ps <- io $ getDirectoryContents pass_dir
+	let ps' = filter (not . isPrefixOf ".") ps
+	let compl = mkComplFunFromList' ps'
+	-- Show nothing if input is empty
+	let compl' s = case s of
+		"" -> return []
+		_ -> compl s
+	let get_password p = safeSpawn pass_script [ "get", pass_dir ++ p ]
+	mkXPrompt (Prompt_autocomplete "Password: ") prompt_conf compl' get_password
+
+-- ========================================================================== --
 -- Preset prompt
 -- Prompt to execute a shell script located in the ~/.presets directory
 
-data Preset = Preset
-
-instance XPrompt Preset where
-	showXPrompt Preset = "Preset: "
-	commandToComplete _ c = c
-	nextCompletion _ = getNextCompletion
-
 preset_prompt prompt_conf = do
-	home <- io $ getEnv "HOME"
+	home <- home_dir
 	let preset_dir = home ++ "/.presets/"
 	ws <- io $ getDirectoryContents preset_dir
 	let ws' = filter (flip notElem [ ".", ".." ]) ws
 	let open w = spawn ("source \"" ++ preset_dir ++ w ++ "\"")
-	mkXPrompt Preset prompt_conf (mkComplFunFromList' ws') open
+	mkXPrompt (Prompt_autocomplete "Preset: ") prompt_conf (mkComplFunFromList' ws') open
 
 -- ========================================================================== --
 -- Window prompt
 -- Show the list of windows, sorted by workspace
 -- Similar to Xmonad.Prompt.Window
-
-data WindowPrompt = WindowPrompt
-
-instance XPrompt WindowPrompt where
-	showXPrompt WindowPrompt = "Windows: "
-	commandToComplete _ c = c
-	nextCompletion _ = getNextCompletion
 
 window_title ws w = do
 	name <- show <$> getName w
@@ -96,7 +112,7 @@ window_prompt prompt_conf = do
 	wm <- windowMap' window_title
 	let compl = mkComplFunFromList' (M.keys wm)
 	let action = flip whenJust (windows . W.focusWindow) . flip M.lookup wm
-	mkXPrompt WindowPrompt prompt_conf compl action
+	mkXPrompt (Prompt_autocomplete "Windows: ") prompt_conf compl action
 
 -- ========================================================================== --
 -- Centered layout
@@ -187,6 +203,8 @@ main =
 		("M-p",						shellPrompt prompt_conf),
 		("M-S-p",					window_prompt prompt_conf),
 		("M-S-o",					preset_prompt prompt_conf),
+
+		("M-;",						password_prompt prompt_conf),
 
 		("M-`",						safeSpawn "indicators.sh" []),
 
