@@ -67,6 +67,10 @@ nnoremap <expr> & expand(v:hlsearch) ? 'n&' : '"vyiw:s/\<\V<C-R>v\>/'
 " Substitution from selection
 vnoremap & "vy:s/\V<C-R>v/
 
+" dP and dO, diffput and diffget the current line
+nnoremap dO V:diffget<return>
+nnoremap dP V:diffput<return>
+
 " Use system clipboard
 set clipboard=unnamedplus
 
