@@ -10,7 +10,7 @@ decrypt_and_print_key_file ()
 create_and_print_key_file ()
 {
 	local passwd
-	passwd=`head -c 60 < /dev/urandom`
+	passwd=`head -c 60 < /dev/urandom | tr -d '\0'`
 	gpg --encrypt --default-recipient-self --quiet --batch -o "$key_file" - <<<"$passwd"
 	echo "$passwd"
 }
