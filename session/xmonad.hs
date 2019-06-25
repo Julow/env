@@ -48,13 +48,11 @@ screen_timeout_locked = 20
 
 set_dpms timeout = "xset dpms 0 0 " ++ show timeout
 
-init_xmodmap = "xmodmap -display :0 ~/.xmodmap"
-
 lock_screen = spawn (
 		(set_dpms screen_timeout_locked) ++ ";"
 		++ "slock;"
 		++ (set_dpms screen_timeout) ++ ";"
-		++ init_xmodmap
+		++ "bash ~/.xreloadrc"
 	)
 
 -- ========================================================================== --

@@ -12,6 +12,8 @@ XMONAD_CONF="$XMONAD_DIR/xmonad.hs"
 mkdir -p "$XMONAD_DIR"
 cp "$SESSION_DIR/xmonad.hs" "$XMONAD_CONF"
 
+xmonad --recompile
+
 # xinitrc
 
 cat > $HOME/.xinitrc << "END"
@@ -30,4 +32,12 @@ xcape -e Hyper_L=space
 pulseaudio -k -D
 
 exec xmonad
+END
+
+cat > $HOME/.xreloadrc << "END"
+xmodmap ~/.xmodmap
+xcape -e Hyper_L=space
+
+xrandr --output eDP-1 --auto --preferred \
+	--output DP-1 --auto --left-of eDP-1
 END
