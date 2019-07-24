@@ -35,6 +35,8 @@ exec xmonad
 END
 
 cat > $HOME/.xreloadrc << "END"
+pkill xcape || true
+
 xmodmap ~/.xmodmap
 xcape -e Hyper_L=space
 
