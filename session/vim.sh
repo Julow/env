@@ -47,7 +47,6 @@ install_git "https://github.com/vim-scripts/argtextobj.vim"
 install_git "https://github.com/plasticboy/vim-markdown"
 install_git "https://github.com/LnL7/vim-nix"
 
-install_link "$OPAM_SWITCH_PREFIX/share/ocp-index/vim" "ocaml-ocp-index"
 install_link "$OPAM_SWITCH_PREFIX/share/ocp-indent/vim" "ocaml-ocp-indent"
 
 # Vimrc
