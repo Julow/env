@@ -18,7 +18,7 @@ c sh "show --summary --stat -p"
 c a '!f() { : git add --all; git add --all "$@" && git t; }; f'
 c u '!f() { : git add -u; git add -u "$@" && git t; }; f'
 c r '!f() { : git reset; git reset -- HEAD -q "$@" && git t; }; f'
-c c "commit -m"
+c c '!f() { if [[ $# -eq 0 ]]; then git commit -v; else git commit -m "$*"; fi; }; f'
 c p "push"
 c pu '!f() { : git push; git push -u "${1:-origin}" HEAD; }; f'
 c logrf '!f () { BEFORE=`git rev-parse HEAD`; "$@" && git l "$BEFORE..HEAD"; }; f'
