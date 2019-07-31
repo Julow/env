@@ -89,7 +89,7 @@ set secure
 hi Folded ctermbg=none ctermfg=blue
 
 hi DiffAdd ctermbg=lightgrey ctermfg=none
-hi DiffDelete ctermbg=lightgrey ctermfg=lightgrey
+hi DiffDelete ctermbg=lightgrey ctermfg=red
 hi DiffChange ctermbg=none ctermfg=none
 hi DiffText ctermbg=lightgrey ctermfg=none
 
