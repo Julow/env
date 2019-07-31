@@ -9,7 +9,7 @@ cat > "$HOME/.Xdefaults" <<"EOF"
 *.faceSize1: 8
 *.faceSize2: 10
 *.faceSize3: 12
-*.faceSize: 12
+*.faceSize: 14
 *.faceSize4: 14
 *.faceSize5: 16
 *.faceSize6: 18
