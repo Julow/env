@@ -31,6 +31,8 @@ xcape -e Hyper_L=space
 
 pulseaudio -k -D
 
+apod_wallpaper.sh &
+
 exec xmonad
 END
 
