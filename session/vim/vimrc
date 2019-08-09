@@ -63,9 +63,9 @@ nnoremap # "vyiwge/\<\V<C-R>v\><return>
 vnoremap # "vyge/\V<C-R>v<return>
 
 " Repeat substitution and search
-nnoremap <expr> & expand(v:hlsearch) ? 'n&' : '"vyiw:s/\<\V<C-R>v\>/'
+nnoremap <expr> & expand(v:hlsearch) ? 'n&' : '"vyiw:s/\C\<\V<C-R>v\>/'
 " Substitution from selection
-vnoremap & "vy:s/\V<C-R>v/
+vnoremap & "vy:s/\C\V<C-R>v/
 
 " dP and dO, diffput and diffget the current line
 nnoremap dO V:diffget<return>
