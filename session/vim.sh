@@ -20,18 +20,22 @@ install_git ()
 {
 	local repo="$1"
 	local dst="$VIM_DIR/bundle/${repo##*/}"
+  local repo_name="${repo##*/}"
 	if ! [[ -d "$dst" ]]; then
-		echo "Install ${repo##*/}"
+		echo "Install $repo_name"
 		git clone -q "$repo" "$dst"
+  else
+    echo "Updating $repo_name"
+    git -C "$dst" pull -q origin HEAD &
 	fi
 }
 
 install_link ()
 {
 	local src="$1" dst="$VIM_DIR/bundle/$2"
-	if [[ -d $src ]] && ! [[ -e $dst ]]; then
-		echo "Link $dst"
-		ln -sf "$src" "$dst"
+	if [[ -d $src ]]; then
+		echo "Link ${dst##*/}"
+		ln -sfn "$src" "$dst"
 	fi
 }
 
@@ -46,6 +50,8 @@ install_git "https://github.com/michaeljsmith/vim-indent-object"
 install_git "https://github.com/vim-scripts/argtextobj.vim"
 install_git "https://github.com/plasticboy/vim-markdown"
 install_git "https://github.com/LnL7/vim-nix"
+
+wait
 
 install_link "$OPAM_SWITCH_PREFIX/share/ocp-indent/vim" "ocaml-ocp-indent"
 
