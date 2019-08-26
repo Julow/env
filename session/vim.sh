@@ -8,6 +8,8 @@ VIM_DIR="$HOME/.vim"
 
 mkdir -p "$VIM_DIR/"{,autoload,bundle}
 
+define -a extra_rc
+
 # Pathogen
 
 PATHOGEN="$VIM_DIR/autoload/pathogen.vim"
@@ -54,7 +56,10 @@ install_git "https://github.com/LnL7/vim-nix"
 wait
 
 install_link "$OPAM_SWITCH_PREFIX/share/ocp-indent/vim" "ocaml-ocp-indent"
+extra_rc+=("let \$PATH = '$OPAM_SWITCH_PREFIX/bin:' . \$PATH")
 
 # Vimrc
 
 cp -r "$SESSION_DIR/vim"/{vimrc,ftplugin} "$VIM_DIR/"
+
+for l in "${extra_rc[@]}"; do echo "$l"; done >> "$VIM_DIR/vimrc"
