@@ -8,6 +8,7 @@ c() { s "alias.$1" "$2"; }
 
 c k "checkout"
 c b "branch -avv --sort=-refname"
+c bb "log --decorate --format=custom --all --simplify-by-decoration"
 c d "diff --stat --summary -p"
 c ds "diff --stat --summary -p --staged"
 c customlog "log --decorate --graph --format=custom"
