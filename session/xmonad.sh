@@ -12,7 +12,11 @@ XMONAD_CONF="$XMONAD_DIR/xmonad.hs"
 mkdir -p "$XMONAD_DIR"
 cp "$SESSION_DIR/xmonad.hs" "$XMONAD_CONF"
 
-xmonad --recompile
+if [[ $UPDATE -eq 1 ]]; then
+  xmonad --recompile
+else
+  echo "To recompile, run with UPDATE=1"
+fi
 
 # xinitrc
 

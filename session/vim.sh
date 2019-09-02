@@ -8,7 +8,7 @@ VIM_DIR="$HOME/.vim"
 
 mkdir -p "$VIM_DIR/"{,autoload,bundle}
 
-define -a extra_rc
+declare -a extra_rc
 
 # Pathogen
 
@@ -25,8 +25,8 @@ install_git ()
   local repo_name="${repo##*/}"
 	if ! [[ -d "$dst" ]]; then
 		echo "Install $repo_name"
-		git clone -q "$repo" "$dst"
-  else
+		git clone -q "$repo" "$dst" &
+  elif [[ $UPDATE -eq 1 ]]; then
     echo "Updating $repo_name"
     git -C "$dst" pull -q origin HEAD &
 	fi
@@ -35,7 +35,8 @@ install_git ()
 install_link ()
 {
 	local src="$1" dst="$VIM_DIR/bundle/$2"
-	if [[ -d $src ]]; then
+  local dst_dst=`readlink "$dst" 2>/dev/null || true`
+	if [[ -d $src ]] && [[ "$dst_dst" != "$src" ]]; then
 		echo "Link ${dst##*/}"
 		ln -sfn "$src" "$dst"
 	fi
@@ -58,8 +59,12 @@ wait
 install_link "$OPAM_SWITCH_PREFIX/share/ocp-indent/vim" "ocaml-ocp-indent"
 extra_rc+=("let \$PATH = '$OPAM_SWITCH_PREFIX/bin:' . \$PATH")
 
+if [[ $UPDATE -ne 1 ]]; then
+  echo "To update, run with UPDATE=1"
+fi
+
 # Vimrc
 
 cp -r "$SESSION_DIR/vim"/{vimrc,ftplugin} "$VIM_DIR/"
 
-for l in "${extra_rc[@]}"; do echo "$l"; done >> "$VIM_DIR/vimrc"
+for l in "${extra_rc[@]}"; do echo; echo "$l"; done >> "$VIM_DIR/vimrc"
