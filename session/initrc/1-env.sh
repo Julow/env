@@ -14,3 +14,6 @@ export LESS="-RiSKF -x 4"
 shopt -s globstar
 
 export EDITOR=vim
+
+# Enable vim-like key bindings
+set -o vi
