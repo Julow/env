@@ -4,7 +4,7 @@ set -e
 
 set_wallpaper () { feh --bg-fill "$1"; }
 
-IMG_DST=/tmp/apod.jpg
+IMG_DST="$HOME/.cache/apod.jpg"
 
 # Temporarily use previous image
 if [[ -e $IMG_DST ]]; then
