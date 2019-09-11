@@ -14,6 +14,7 @@ import XMonad.Layout.Minimize
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.LayoutModifier
 import XMonad.Prompt
+import XMonad.Prompt.FuzzyMatch
 import XMonad.Prompt.Shell
 import XMonad.Util.EZConfig (additionalKeysP, removeKeysP)
 import XMonad.Util.NamedWindows (getName)
@@ -32,6 +33,17 @@ instance XPrompt Prompt_autocomplete where
 	nextCompletion _ = getNextCompletion
 
 home_dir = io $ getEnv "HOME"
+
+compl_fun_from_list :: XPConfig -> [String] -> [String] -> String -> IO [String]
+compl_fun_from_list xp _ if_empty "" = return if_empty
+compl_fun_from_list xp lst _ s =
+  return $
+  case sort . map (rankMatch s) (filter (searchPredicate xp s) lst) of
+    (best_rank, r) : tl -> filter (> best_rank / 2) tl
+    [] -> []
+  -- return (take (max 1 (5 - length s)) ())
+  -- return (sorter xp s lst)
+  -- return (filter (searchPredicate xp s) lst)
 
 -- ========================================================================== --
 -- Wallpaper
@@ -76,13 +88,9 @@ password_prompt prompt_conf = do
 	let pass_script = home ++ "/notes/_pass.sh"
 	ps <- io $ getDirectoryContents pass_dir
 	let ps' = filter (not . isPrefixOf ".") ps
-	let compl = mkComplFunFromList' ps'
-	-- Show nothing if input is empty
-	let compl' s = case s of
-		"" -> return []
-		_ -> compl s
+	let compl = compl_fun_from_list prompt_conf ps' []
 	let get_password p = safeSpawn pass_script [ "get", pass_dir ++ p ]
-	mkXPrompt (Prompt_autocomplete "Password: ") prompt_conf compl' get_password
+	mkXPrompt (Prompt_autocomplete "Password: ") prompt_conf compl get_password
 
 -- ========================================================================== --
 -- Preset prompt
@@ -94,7 +102,8 @@ preset_prompt prompt_conf = do
 	ws <- io $ getDirectoryContents preset_dir
 	let ws' = filter (flip notElem [ ".", ".." ]) ws
 	let open w = spawn ("source \"" ++ preset_dir ++ w ++ "\"")
-	mkXPrompt (Prompt_autocomplete "Preset: ") prompt_conf (mkComplFunFromList' ws') open
+	let compl = compl_fun_from_list prompt_conf ws' ws'
+	mkXPrompt (Prompt_autocomplete "Preset: ") prompt_conf compl open
 
 -- ========================================================================== --
 -- Window prompt
@@ -107,10 +116,11 @@ window_title ws w = do
 	return ("[" ++ tag ++ "] " ++ name)
 
 window_prompt prompt_conf = do
-	wm <- windowMap' window_title
-	let compl = mkComplFunFromList' (M.keys wm)
-	let action = flip whenJust (windows . W.focusWindow) . flip M.lookup wm
-	mkXPrompt (Prompt_autocomplete "Windows: ") prompt_conf compl action
+  wm <- windowMap' window_title
+  let wm' = M.keys wm
+  let compl = compl_fun_from_list prompt_conf wm' wm'
+  let action = flip whenJust (windows . W.focusWindow) . flip M.lookup wm
+  mkXPrompt (Prompt_autocomplete "Windows: ") prompt_conf compl action
 
 -- ========================================================================== --
 -- Centered layout
@@ -147,7 +157,8 @@ prompt_conf = def
 			((controlMask, xK_w), killWord Prev),
 			((controlMask, xK_Left), moveWord Prev),
 			((controlMask, xK_Right), moveWord Next)
-		]
+		],
+    searchPredicate = fuzzyMatch
 	}
 
 on_start = do
