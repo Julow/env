@@ -7,4 +7,6 @@ fi
 cat <<EOF > "$HOME/.ackrc"
 --ignore-directory=is:_opam
 --ignore-directory=is:duniverse
+
+--pager=less
 EOF
