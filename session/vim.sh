@@ -53,6 +53,7 @@ install_git "https://github.com/michaeljsmith/vim-indent-object"
 install_git "https://github.com/vim-scripts/argtextobj.vim"
 install_git "https://github.com/plasticboy/vim-markdown"
 install_git "https://github.com/LnL7/vim-nix"
+install_git "https://github.com/chiel92/vim-autoformat"
 
 wait
 
