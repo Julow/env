@@ -74,4 +74,5 @@ git config --global "core.excludesfile" "$IGNORE_FILE"
 cat > "$IGNORE_FILE" <<"EOF"
 *.swp
 .vimrc
+_opam/*
 EOF
