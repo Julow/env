@@ -36,13 +36,6 @@ instance XPrompt Prompt_autocomplete where
 home_dir = io $ getEnv "HOME"
 
 -- ========================================================================== --
--- Wallpaper
-
-wallpaper = "~/.xmonad/bg.jpg"
-
-init_wallpaper = spawn ("display -window root " ++ wallpaper)
-
--- ========================================================================== --
 -- Lock screen
 
 screen_timeout = 500
@@ -61,12 +54,6 @@ lock_screen = spawn (
 -- Browser
 
 web_browser = "firefox"
-
--- ========================================================================== --
--- Screenshot
-
-take_screenshot = safeSpawn "screenshot.sh" ["screen"]
-take_screenshot_interactive = safeSpawn "screenshot.sh" ["interactive"]
 
 -- ========================================================================== --
 -- Password prompt
@@ -150,10 +137,6 @@ prompt_conf = def {
   ]
 }
 
-on_start = do
-  init_wallpaper
-  safeSpawn "firefox" []
-
 tabbed_theme = def {
   fontName = "xft:"
 }
@@ -169,7 +152,6 @@ main =
   {
     focusFollowsMouse = False,
     borderWidth = 0,
-    startupHook = on_start,
     logHook = updatePointer (0.99, 0.001) (0, 0),
     layoutHook = layout,
     manageHook = manageSpawn <+> manageHook def,
@@ -219,8 +201,8 @@ main =
 
     ("M-`", safeSpawn "indicators.sh" []),
 
-    ("M-S-s", take_screenshot),
-    ("M-s", take_screenshot_interactive)
+    ("M-S-s", safeSpawn "screenshot.sh" ["screen"]),
+    ("M-s", safeSpawn "screenshot.sh" ["interactive"])
 
   ] `removeKeysP`
   [
