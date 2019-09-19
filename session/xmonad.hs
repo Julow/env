@@ -15,7 +15,6 @@ import XMonad.Layout.ResizableTile
 import XMonad.Layout.SubLayouts
 import XMonad.Layout.LayoutModifier
 import XMonad.Layout.Tabbed
-import XMonad.Layout.WindowNavigation
 import XMonad.Prompt
 import XMonad.Prompt.Shell
 import XMonad.Util.EZConfig (additionalKeysP, removeKeysP)
@@ -190,8 +189,7 @@ main =
 		("M-S-m",					clearBoring),
 
     -- SubTabbed
-    -- ("M-u", sendMessage (pullGroup D)),
-    ("M-u", withFocused (sendMessage . mergeDir W.focusDown')),
+    ("M-u", withFocused (\w -> focusDown >> sendMessage (mergeDir id w))),
     ("M-S-u", withFocused (sendMessage . UnMerge)),
     ("M-j", onGroup W.focusDown'),
     ("M-k", onGroup W.focusUp'),
