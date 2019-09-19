@@ -12,7 +12,10 @@ import XMonad.Layout.BoringWindows
 import XMonad.Layout.Spacing
 import XMonad.Layout.Minimize
 import XMonad.Layout.ResizableTile
+import XMonad.Layout.SubLayouts
 import XMonad.Layout.LayoutModifier
+import XMonad.Layout.Tabbed
+import XMonad.Layout.WindowNavigation
 import XMonad.Prompt
 import XMonad.Prompt.Shell
 import XMonad.Util.EZConfig (additionalKeysP, removeKeysP)
@@ -154,10 +157,15 @@ on_start = do
 	init_wallpaper
 	safeSpawn "firefox" []
 
-layout = minimize (boringWindows (tiled_layout ||| centered_layout))
-	where
-		tiled_layout = ResizableTall 1 (5/100) (1/2) []
-		centered_layout = centered_full 600 20
+tabbed_theme = def {
+  fontName = "xft:"
+}
+
+layout = minimize $ boringWindows $ tabbed (tiled_layout ||| centered_layout)
+  where
+    tiled_layout = ResizableTall 1 (5/100) (1/2) []
+    centered_layout = centered_full 600 20
+    tabbed = addTabs shrinkText tabbed_theme . subLayout [] Full
 
 main =
 	xmonad $ def
@@ -180,6 +188,15 @@ main =
 		("M-<Tab>",					focusDown),
 		("M-m",						markBoring),
 		("M-S-m",					clearBoring),
+
+    -- SubTabbed
+    -- ("M-u", sendMessage (pullGroup D)),
+    ("M-u", withFocused (sendMessage . mergeDir W.focusDown')),
+    ("M-S-u", withFocused (sendMessage . UnMerge)),
+    ("M-j", onGroup W.focusDown'),
+    ("M-k", onGroup W.focusUp'),
+
+    ("M-<Space>", toSubl NextLayout),
 
 		("M-d",						withFocused minimizeWindow),
 		("M-S-d",					withLastMinimized maximizeWindowAndFocus),
