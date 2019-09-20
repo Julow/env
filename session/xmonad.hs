@@ -141,11 +141,11 @@ tabbed_theme = def {
   fontName = "xft:"
 }
 
-layout = minimize $ boringWindows $ tabbed (tiled_layout ||| centered_layout)
+layout = minimize $ boringWindows $ add_tabs (tiled_layout ||| centered_layout)
   where
     tiled_layout = ResizableTall 1 (5/100) (1/2) []
     centered_layout = centered_full 600 20
-    tabbed = addTabs shrinkText tabbed_theme . subLayout [] Full
+    add_tabs = subLayout [] (addTabsBottomAlways shrinkText tabbed_theme Full)
 
 main =
   xmonad $ def
@@ -173,8 +173,6 @@ main =
     ("M-S-u", withFocused (sendMessage . UnMerge)),
     ("M-j", onGroup W.focusDown'),
     ("M-k", onGroup W.focusUp'),
-
-    ("M-<Space>", toSubl NextLayout),
 
     ("M-d", withFocused minimizeWindow),
     ("M-S-d", withLastMinimized maximizeWindowAndFocus),
