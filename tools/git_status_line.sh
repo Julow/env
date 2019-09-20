@@ -65,7 +65,8 @@ git status --short --branch --untracked-files --ahead-behind 2>/dev/null | {
 	S_STATE=""
 	if [[ -f .git/REBASE_HEAD ]]; then S_STATE="${C_YELLOW}Rebase in progress";
 	elif [[ -f .git/MERGE_HEAD ]]; then S_STATE="${C_YELLOW}Merge in progress";
-	elif [[ -f .git/BISECT_START ]]; then S_STATE="${C_YELLOW}Bisect in progress"; fi
+	elif [[ -f .git/BISECT_START ]]; then S_STATE="${C_YELLOW}Bisect in progress";
+	elif [[ -f .git/CHERRY_PICK_HEAD ]]; then S_STATE="${C_YELLOW}Cherry-pick in progress"; fi
 
 	echo $S_BRANCH $S_STATE $S_CONFLICT$S_STAGED$S_DIRTY$S_UNTRACKED $S_AHEAD $S_BEHIND $C_RESET
 }
