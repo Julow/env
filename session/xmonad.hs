@@ -159,8 +159,14 @@ main =
   } `additionalKeysP`
   [
 
-    ("M-S-l", sendMessage MirrorShrink),
-    ("M-S-h", sendMessage MirrorExpand),
+    -- Windows management
+
+    -- SubTabbed merge/unmerge
+    ("M-u", withFocused (\w -> focusDown >> sendMessage (mergeDir id w))),
+    ("M-S-u", withFocused (sendMessage . UnMerge)),
+    -- SubTabbed next/prev
+    ("M-j", onGroup W.focusDown'),
+    ("M-k", onGroup W.focusUp'),
 
     -- BoringWindows
     ("M-S-<Tab>", focusUp),
@@ -168,39 +174,51 @@ main =
     ("M-m", markBoring),
     ("M-S-m", clearBoring),
 
-    -- SubTabbed
-    ("M-u", withFocused (\w -> focusDown >> sendMessage (mergeDir id w))),
-    ("M-S-u", withFocused (sendMessage . UnMerge)),
-    ("M-j", onGroup W.focusDown'),
-    ("M-k", onGroup W.focusUp'),
-
+    -- Minimize/restore
     ("M-d", withFocused minimizeWindow),
     ("M-S-d", withLastMinimized maximizeWindowAndFocus),
 
+    -- Shrink/expand vertically
+    ("M-S-l", sendMessage MirrorShrink),
+    ("M-S-h", sendMessage MirrorExpand),
+
+    -- Control
+
+    -- Lock screen
+    ("M-z", lock_screen),
+
+    -- Web browser
+    ("M-S-<Backspace>", safeSpawnProg web_browser),
+
+    -- Shell, window, preset prompts
+    ("M-p", shellPrompt prompt_conf),
+    ("M-S-p", window_prompt prompt_conf),
+    ("M-S-o", preset_prompt prompt_conf),
+
+    -- Password prompt
+    ("M-;", password_prompt prompt_conf),
+
+    -- Indicators
+    ("M-`", safeSpawn "indicators.sh" []),
+
+    -- Small features
+
+    -- Screenshot drag/whole screen
+    ("M-s", safeSpawn "screenshot.sh" ["interactive"]),
+    ("M-S-s", safeSpawn "screenshot.sh" ["screen"]),
+
+    -- Volume keys
     ("<XF86AudioLowerVolume>", safeSpawn "volume.sh" ["-5%"]),
     ("<XF86AudioRaiseVolume>", safeSpawn "volume.sh" ["+5%"]),
+    -- Media keys
     ("<XF86AudioMute>", safeSpawn "volume.sh" ["toggle"]),
     ("<XF86AudioPlay>", spawnOn "9" "playerctl play-pause || spotify.sh"),
     ("<XF86AudioPrev>", safeSpawn "playerctl" ["previous"]),
     ("<XF86AudioNext>", safeSpawn "playerctl" ["next"]),
 
+    -- Backlight keys
     ("<XF86MonBrightnessUp>", safeSpawn "brightness.sh" ["5"]),
-    ("<XF86MonBrightnessDown>", safeSpawn "brightness.sh" ["-5"]),
-
-    ("M-z", lock_screen),
-
-    ("M-S-<Backspace>", safeSpawnProg web_browser),
-
-    ("M-p", shellPrompt prompt_conf),
-    ("M-S-p", window_prompt prompt_conf),
-    ("M-S-o", preset_prompt prompt_conf),
-
-    ("M-;", password_prompt prompt_conf),
-
-    ("M-`", safeSpawn "indicators.sh" []),
-
-    ("M-S-s", safeSpawn "screenshot.sh" ["screen"]),
-    ("M-s", safeSpawn "screenshot.sh" ["interactive"])
+    ("<XF86MonBrightnessDown>", safeSpawn "brightness.sh" ["-5"])
 
   ] `removeKeysP`
   [
