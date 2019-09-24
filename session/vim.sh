@@ -51,9 +51,9 @@ install_git "https://github.com/tpope/vim-commentary"
 install_git "https://github.com/roxma/vim-tmux-clipboard"
 install_git "https://github.com/michaeljsmith/vim-indent-object"
 install_git "https://github.com/vim-scripts/argtextobj.vim"
-install_git "https://github.com/plasticboy/vim-markdown"
 install_git "https://github.com/LnL7/vim-nix"
 install_git "https://github.com/chiel92/vim-autoformat"
+install_git "https://github.com/masukomi/vim-markdown-folding"
 
 wait
 
