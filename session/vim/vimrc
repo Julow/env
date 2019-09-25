@@ -27,6 +27,9 @@ set t_Co=16
 
 set diffopt+=foldcolumn:0
 
+" Disable netrw
+let g:loaded_netrw = 1
+
 " Shift+tab = escape
 inoremap <S-Tab> <Esc>
 vnoremap <S-Tab> <Esc>
