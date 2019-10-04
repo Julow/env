@@ -48,5 +48,5 @@ XTerm.vt100.translations: #override \n\
 	Alt <Key> minus: smaller-vt-font() \n\
 	Alt <Key> equal: larger-vt-font()
 
-XTerm.vt100.saveLines: 0
+XTerm.vt100.saveLines: 1000
 EOF
