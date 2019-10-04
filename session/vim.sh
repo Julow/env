@@ -5,23 +5,16 @@ if ! which vim &>/dev/null; then
 fi
 
 VIM_DIR="$HOME/.vim"
+PACK_DIR="$VIM_DIR/pack/plugins/start"
 
-mkdir -p "$VIM_DIR/"{,autoload,bundle}
+mkdir -p "$PACK_DIR"
 
 declare -a extra_rc
-
-# Pathogen
-
-PATHOGEN="$VIM_DIR/autoload/pathogen.vim"
-if ! [[ -f "$PATHOGEN" ]]; then
-	echo "Instal pathogen"
-	curl -sLo "$PATHOGEN" https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim
-fi
 
 install_git ()
 {
 	local repo="$1"
-	local dst="$VIM_DIR/bundle/${repo##*/}"
+	local dst="$PACK_DIR/${repo##*/}"
   local repo_name="${repo##*/}"
 	if ! [[ -d "$dst" ]]; then
 		echo "Install $repo_name"
@@ -34,7 +27,7 @@ install_git ()
 
 install_link ()
 {
-	local src="$1" dst="$VIM_DIR/bundle/$2"
+	local src="$1" dst="$PACK_DIR/$2"
   local dst_dst=`readlink "$dst" 2>/dev/null || true`
 	if [[ -d $src ]] && [[ "$dst_dst" != "$src" ]]; then
 		echo "Link ${dst##*/}"

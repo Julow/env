@@ -1,7 +1,5 @@
 " Vim config
 
-execute pathogen#infect()
-
 set encoding=utf8
 set ignorecase
 set hlsearch
