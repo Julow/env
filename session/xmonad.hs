@@ -126,8 +126,10 @@ centered_full sp step =
 -- ========================================================================== --
 -- main
 
+font_name size = "xft:Fira Code:style=Medium:antialias=true:size=" ++ show size
+
 prompt_conf = def {
-  font = "xft:",
+  font = font_name 12,
   promptBorderWidth = 0,
   height = 22,
   position = CenteredAt 0.5 0.5,
@@ -144,7 +146,7 @@ tabbed_conf =
   let urgent = "#dc322f" in
   -- let text = "#2d393c" in
   def {
-    fontName = "xft:",
+    fontName = font_name 0,
     decoHeight = 2,
     activeColor = active,
     inactiveColor = inactive,
