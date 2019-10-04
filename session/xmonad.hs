@@ -173,7 +173,7 @@ main =
     logHook = updatePointer (0.99, 0.001) (0, 0),
     layoutHook = layout,
     manageHook = manageSpawn <+> manageHook def,
-    terminal = "xterm tmux"
+    terminal = "xterm"
   } `additionalKeysP`
   [
 
