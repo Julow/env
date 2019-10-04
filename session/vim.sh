@@ -38,10 +38,8 @@ install_link ()
 # Install some packages
 
 install_git "https://github.com/tpope/vim-fugitive"
-install_git "https://github.com/tmux-plugins/vim-tmux-focus-events"
 install_git "https://github.com/tpope/vim-surround"
 install_git "https://github.com/tpope/vim-commentary"
-install_git "https://github.com/roxma/vim-tmux-clipboard"
 install_git "https://github.com/michaeljsmith/vim-indent-object"
 install_git "https://github.com/vim-scripts/argtextobj.vim"
 install_git "https://github.com/LnL7/vim-nix"
