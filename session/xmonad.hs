@@ -12,6 +12,7 @@ import XMonad.Layout.BoringWindows
 import XMonad.Layout.Spacing
 import XMonad.Layout.Minimize
 import XMonad.Layout.ResizableTile
+import XMonad.Layout.Simplest
 import XMonad.Layout.SubLayouts
 import XMonad.Layout.LayoutModifier
 import XMonad.Layout.Tabbed
@@ -34,14 +35,6 @@ instance XPrompt Prompt_autocomplete where
   nextCompletion _ = getNextCompletion
 
 home_dir = io $ getEnv "HOME"
-
--- Tabbed layout with no decoration
-instance Shrinker CustomShrink where
-  shrinkIt _ _ = []
-
-tabbedWithoutDeco =
-  let theme = def { fontName = "xft:", decoHeight = 0 } in
-  tabbedBottom CustomShrink theme
 
 -- ========================================================================== --
 -- Lock screen
@@ -145,11 +138,30 @@ prompt_conf = def {
   ]
 }
 
+tabbed_conf =
+  let active = "#859900" in
+  let inactive = "#eeeada" in
+  let urgent = "#dc322f" in
+  -- let text = "#2d393c" in
+  def {
+    fontName = "xft:",
+    decoHeight = 2,
+    activeColor = active,
+    inactiveColor = inactive,
+    urgentColor = urgent,
+    activeBorderColor = active,
+    inactiveBorderColor = inactive,
+    urgentBorderColor = urgent,
+    activeTextColor = active,
+    inactiveTextColor = inactive,
+    urgentTextColor = urgent
+  }
+
 layout = minimize $ boringWindows $ add_tabs (tiled_layout ||| centered_layout)
   where
     tiled_layout = ResizableTall 1 (5/100) (1/2) []
     centered_layout = centered_full 600 20
-    add_tabs = subLayout [] tabbedWithoutDeco
+    add_tabs = addTabsBottom shrinkText tabbed_conf . subLayout [] Simplest
 
 main =
   xmonad $ def
