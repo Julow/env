@@ -102,6 +102,21 @@ window_prompt prompt_conf = do
   mkXPrompt (Prompt_autocomplete "Windows: ") prompt_conf compl action
 
 -- ========================================================================== --
+-- Workspace prompt
+-- Prompt to open a workspace (in ~/notes/workspaces/) using workspaces.sh
+
+workspace_prompt prompt_conf = do
+  home <- home_dir
+  let workspaces_dir = home ++ "/notes/workspaces/"
+  ws <- io $ getDirectoryContents workspaces_dir
+  let ws' = filter (flip notElem [ ".", ".." ]) ws
+  term <- asks (terminal . config)
+  let open w =
+        let cmd = "workspaces.sh open \"" ++ workspaces_dir ++ w ++ "\"" in
+        safeSpawn term [ "-e", cmd ]
+  mkXPrompt (Prompt_autocomplete "Workspace: ") prompt_conf (mkComplFunFromList' ws') open
+
+-- ========================================================================== --
 -- Centered layout
 -- Improve Layout.Spacing by handling Shink and Expand messages
 
@@ -211,6 +226,7 @@ main =
     -- Shell, window, preset prompts
     ("M-p", shellPrompt prompt_conf),
     ("M-S-p", window_prompt prompt_conf),
+    ("M-o", workspace_prompt prompt_conf),
     ("M-S-o", preset_prompt prompt_conf),
 
     -- Password prompt
