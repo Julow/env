@@ -17,11 +17,15 @@ install_git ()
 	local dst="$PACK_DIR/${repo##*/}"
   local repo_name="${repo##*/}"
 	if ! [[ -d "$dst" ]]; then
+    local clone_args=()
+    if [[ -n $2 ]]; then clone_args=(--branch "$2"); fi
 		echo "Install $repo_name"
-		git clone -q "$repo" "$dst" &
+		git clone -q "${clone_args[@]}" "$repo" "$dst" &
   elif [[ $UPDATE -eq 1 ]]; then
     echo "Updating $repo_name"
-    git -C "$dst" pull -q origin HEAD &
+    ( git -C "$dst" fetch -q origin;
+      if [[ -n $2 ]]; then git -C "$dst" checkout "$2"; fi
+      git -C "$dst" merge --ff-only ) &
 	fi
 }
 
