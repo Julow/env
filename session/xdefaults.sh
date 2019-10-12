@@ -45,8 +45,10 @@ cat > "$HOME/.Xdefaults" <<"EOF"
 ! Xterm specific
 
 XTerm.vt100.translations: #override \n\
-	Alt <Key> minus: smaller-vt-font() \n\
-	Alt <Key> equal: larger-vt-font()
+  Alt <Key>minus: smaller-vt-font() \n\
+  Alt <Key>equal: larger-vt-font() \n\
+  Alt <Key>C: copy-selection(CLIPBOARD) \n\
+  Alt <Key>V: insert-selection(CLIPBOARD)
 
 XTerm.vt100.saveLines: 1000
 EOF
