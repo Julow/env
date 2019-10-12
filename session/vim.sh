@@ -50,6 +50,7 @@ install_git "https://github.com/LnL7/vim-nix"
 install_git "https://github.com/chiel92/vim-autoformat"
 install_git "https://github.com/masukomi/vim-markdown-folding"
 install_git "https://github.com/arp242/xdg_open.vim"
+install_git "https://github.com/Julow/vim-tmux-focus-events" "any-term"
 
 wait
 
