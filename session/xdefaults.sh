@@ -49,7 +49,12 @@ XTerm.vt100.translations: #override \n\
   Alt <Key>equal: larger-vt-font() \n\
   Alt <Key>C: copy-selection(CLIPBOARD) \n\
   Alt <Key>V: insert-selection(CLIPBOARD) \n\
-  Alt <Key>B: spawn-new-terminal()
+  Alt <Key>B: spawn-new-terminal() \n\
+  Alt <Key>Y: print-immediate() \
+              spawn-new-terminal("-e", "vim -R `ls -t /tmp/xterm-print-* | head -n1`")
 
 XTerm.vt100.saveLines: 1000
+
+XTerm.printFileImmediate: /tmp/xterm-print-
+
 EOF
