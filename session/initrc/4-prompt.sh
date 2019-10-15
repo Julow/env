@@ -2,6 +2,8 @@ C_ESC="`printf '\033'`"
 PROMPT_BELL=`if [[ -n $TMUX ]]; then printf '\a'; fi`
 PROMPT_CLEAR_TITLE=`printf '\033]0;\007'`
 
+PROMPT_HOSTNAME="\h "
+
 update_prompt ()
 {
 	local STATUS="$?"
@@ -19,10 +21,10 @@ update_prompt ()
 	local status_=""
 	if [[ $STATUS -ne 0 ]]; then status_="$C_RED[$STATUS] "; fi
 	local shlvl_=""
-	if [[ $SHLVL -ge 1 ]]; then shlvl_="$C_GRAY$SHLVL> "; fi
+	if [[ $SHLVL -gt 1 ]]; then shlvl_="$C_GRAY$SHLVL> "; fi
 	local meta_="\[$PROMPT_BELL$PROMPT_CLEAR_TITLE\]"
 
-	export PS1="$meta_$shlvl_$status_$C_CYAN\h $C_LGREEN\w$C_RESET `. git_status_line.sh`"
+	export PS1="$meta_$shlvl_$status_$C_CYAN$PROMPT_HOSTNAME$C_LGREEN\w$C_RESET `. git_status_line.sh`"
 }
 
 export PROMPT_COMMAND=update_prompt
