@@ -47,7 +47,7 @@ s "rebase.stat" true
 
 # Paging
 
-GIT_PAGER="less"
+GIT_PAGER="less -SF"
 
 DH_PATH=/usr/share/git/diff-highlight/diff-highlight
 
@@ -58,7 +58,7 @@ if [[ -e $DH_PATH ]]; then
 	dh "oldHighlight" "nodim red"
 	dh "newNormal" "dim green"
 	dh "newHighlight" "nodim green"
-	GIT_PAGER="$DH_PATH | less"
+	GIT_PAGER="$DH_PATH | $GIT_PAGER"
 fi
 
 s "pager.diff" "$GIT_PAGER"
