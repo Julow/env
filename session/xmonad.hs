@@ -177,7 +177,7 @@ tabbed_conf =
     urgentTextColor = urgent
   }
 
-layout = minimize $ boringWindows $ add_tabs (tiled_layout ||| centered_layout)
+layout = add_tabs $ minimize $ boringWindows (tiled_layout ||| centered_layout)
   where
     tiled_layout = ResizableTall 1 (5/100) (1/2) []
     centered_layout = centered_full 600 20
