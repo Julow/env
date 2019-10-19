@@ -82,6 +82,35 @@ set t_fs=\\
 autocmd BufEnter * let &titlestring = expand("%:t")
 set title
 
+" Ruler showing filename
+" Show size of the selection in visual mode
+function! S_selection()
+  let l:m = mode()
+  if l:m == "v" || l:m == "\<C-V>"
+    let l:c = getpos(".")
+    let l:v = getpos("v")
+    let l:lines = abs(l:c[1] - l:v[1]) + 1
+    if l:m ==# "v"
+      let l:chars = abs((line2byte(l:c[1]) + l:c[2]) - (line2byte(l:v[1]) + l:v[2])) + 1
+    elseif l:m ==# "V"
+      let l:chars = line2byte(max([l:c[1], l:v[1]]) + 1) - 1 - line2byte(min([l:c[1], l:v[1]])) + 1
+    else
+      let l:chars = abs(l:c[2] - l:v[2]) + 1
+    endif
+    return l:lines . "-" . l:chars
+  else
+    return ""
+  endif
+endfunction
+
+" Show line endings format if it's not unix
+function! S_linef()
+  return &fileformat == "unix" ? "" : &fileformat
+endfunction
+
+set rulerformat=%30(%=%<%f\ %l:%c%(\ (%{S_selection()})%)%q%(\ [%{S_linef()}%R%W%M]%)%)
+set laststatus=0
+
 " Per project vimrc
 set exrc
 set nomodeline " Disable modeline
