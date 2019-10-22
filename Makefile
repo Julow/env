@@ -5,6 +5,10 @@ all::
 # Rules must have a dependency, the source file, and no recipe
 INSTALL =
 
+# Files to link
+# Rules must have a dependency, target file, and no recipe
+LINK =
+
 # Xmonad
 
 XMONAD_HS = $(HOME)/.xmonad/xmonad.hs
@@ -75,6 +79,14 @@ $(INPUTRC): bash/inputrc
 
 INSTALL += $(INPUTRC)
 
+# Htop
+
+HTOPRC = $(HOME)/.config/htop/htoprc
+
+$(HTOPRC): htop/htoprc
+
+LINK += $(HTOPRC)
+
 # Install files
 
 ENV_PATH := $(shell pwd)
@@ -84,4 +96,9 @@ $(INSTALL):
 	@mkdir -p "$(@D)"
 	@sed 's#%ENV_PATH%#$(ENV_PATH)#' "$^" > "$@"
 
-all:: $(INSTALL)
+$(LINK):
+	@echo $@
+	@mkdir -p "$(@D)"
+	@ln -sf "$(abspath $^)" "$@"
+
+all:: $(INSTALL) $(LINK)
