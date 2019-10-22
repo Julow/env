@@ -11,3 +11,6 @@ set shiftwidth=2
 
 let g:formatdef_ocamlformat = '"ocamlformat --enable-outside-detected-project --name % -"'
 let g:formatters_ocaml = ['ocamlformat']
+
+" ocamlformat, ocp-indent
+let $PATH = $OPAM_SWITCH_PREFIX . '/bin:' . $PATH
