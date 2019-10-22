@@ -51,11 +51,21 @@ $(TMUX_CONF): tmux/tmux.conf
 
 INSTALL += $(TMUX_CONF)
 
+# Dunst
+
+DUNSTRC = $(HOME)/.config/dunst/dunstrc
+
+$(DUNSTRC): dunst/dunstrc
+
+INSTALL += $(DUNSTRC)
+
 # Install files
 
 ENV_PATH := $(shell pwd)
 
 $(INSTALL):
-	sed 's#%ENV_PATH%#$(ENV_PATH)#' "$^" > "$@"
+	@echo $@
+	@mkdir -p "$(@D)"
+	@sed 's#%ENV_PATH%#$(ENV_PATH)#' "$^" > "$@"
 
 all:: $(INSTALL)
