@@ -1,0 +1,7 @@
+pkill xcape || true
+
+xmodmap ~/.xmodmap
+xcape -e Hyper_L=space
+
+xrandr --output eDP-1 --auto --preferred \
+	--output DP-1 --auto --left-of eDP-1
