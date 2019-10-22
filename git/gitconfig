@@ -1,0 +1,47 @@
+[core]
+	excludesfile = ~/.gitignore_global
+
+[pager]
+	diff = /usr/share/git/diff-highlight/diff-highlight | less -SF
+	show = /usr/share/git/diff-highlight/diff-highlight | less -SF
+	status = /usr/share/git/diff-highlight/diff-highlight | less -SF
+
+[pretty]
+	custom = tformat:%C(auto)%h %<(12,trunc)%C(cyan)%an%C(reset)%C(black bold)%>(13)%ar%C(auto)%d %s
+
+[rebase]
+	instructionFormat = "tformat:%<(8,trunc)%an%d %s # %ar"
+	stat = true
+
+[alias]
+	k = checkout
+	b = branch -avv --sort=-refname
+	d = diff --stat --summary -p
+	ds = diff --stat --summary -p --staged
+	l = "!f() { : git log; if [ $# -eq 0 ]; then git --no-pager customlog -n15; else git customlog \"$@\"; fi; }; f"
+	t = status --short -b -u
+	a = "!f() { : git add --all; git add --all \"$@\" && git t; }; f"
+	u = "!f() { : git add -u; git add -u \"$@\" && git t; }; f"
+	r = "!f() { : git reset; git reset -- HEAD -q \"$@\" && git t; }; f"
+	c = "!f() { if [[ $# -eq 0 ]]; then git commit -v; else git commit -m \"$*\"; fi; }; f"
+	p = push
+	pl = "!f () { : git pull; git logrf git pull --stat -v --ff-only \"$@\"; }; f"
+	amend = commit --amend --no-edit
+	cln = "!f() { : git clean; git clean -dn \"$@\"; echo \"y = yes, i = interactive\"; read -N1 -s confirm; case \"$confirm\" in y) git clean -df \"$@\";; i) git clean -di \"$@\";; *) echo Nothing done;; esac; }; f"
+	rf = "!f () { : git merge --ff-only; git logrf git merge --ff-only -v --stat \"$@\"; }; f"
+	kpr = "!f() { git checkout --detach HEAD; git fetch -f up \"pull/$1/head:pr/$1\" && git checkout \"pr/$1\" && git l; }; f"
+	ll = customlog --all
+	flog = log --graph --decorate --graph --format=custom
+	sh = show --summary --stat -p
+	customlog = log --decorate --graph --format=custom
+	fpr = "!f() { git fetch -f up \"pull/$1/head:#$1\"; }; f"
+	logrf = "!f () { BEFORE=`git rev-parse HEAD`; \"$@\" && git l \"$BEFORE..HEAD\"; }; f"
+	ft = fetch --all -t --progress -v
+	pu = "!f() { : git push; git push -u \"${1:-origin}\" HEAD; }; f"
+	bb = log --decorate --format=custom --all --simplify-by-decoration
+
+[color "diff-highlight"]
+	oldNormal = dim red
+	oldHighlight = nodim red
+	newNormal = dim green
+	newHighlight = nodim green

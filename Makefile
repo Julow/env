@@ -38,8 +38,8 @@ INSTALL += $(XINITRC) $(XRELOADRC) $(XMODMAP) $(XDEFAULTS)
 GITCONFIG = $(HOME)/.gitconfig
 GITIGNORE_GLOBAL = $(HOME)/.gitignore_global
 
-$(GITCONFIG): git/install_config.sh
-	bash "$^"
+$(GITCONFIG): $(abspath git/gitconfig)
+	git config --global --replace-all include.path "$<" "$<"
 	touch "$@"
 
 $(GITIGNORE_GLOBAL): git/gitignore_global
