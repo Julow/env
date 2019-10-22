@@ -17,6 +17,7 @@ import XMonad.Layout.SubLayouts
 import XMonad.Layout.LayoutModifier
 import XMonad.Layout.Tabbed
 import XMonad.Prompt
+import XMonad.Prompt.FuzzyMatch
 import XMonad.Prompt.Shell
 import XMonad.Util.EZConfig (additionalKeysP, removeKeysP)
 import XMonad.Util.NamedWindows (getName)
@@ -35,6 +36,15 @@ instance XPrompt Prompt_autocomplete where
   nextCompletion _ = getNextCompletion
 
 home_dir = io $ getEnv "HOME"
+
+-- Fuzzy completion
+compl_fun_from_list :: [String] -> String -> IO [String]
+compl_fun_from_list lst s =
+  return $ fuzzySort s (filter (fuzzyMatch s) lst)
+
+-- Don't match anything if query is empty
+compl_no_empty _ "" = return []
+compl_no_empty f s = f s
 
 -- ========================================================================== --
 -- Lock screen
@@ -60,16 +70,13 @@ web_browser = "firefox"
 -- Password prompt
 -- Ask the password manager
 
-compl_no_empty _ "" = return []
-compl_no_empty f s = f s
-
 password_prompt prompt_conf = do
   home <- home_dir
   let pass_dir = home ++ "/notes/pass/"
   let pass_script = home ++ "/notes/_pass.sh"
   ps <- io $ getDirectoryContents pass_dir
   let ps' = filter (not . isPrefixOf ".") ps
-  let compl = compl_no_empty $ mkComplFunFromList' ps'
+  let compl = compl_no_empty $ compl_fun_from_list ps'
   let get_password p = safeSpawn pass_script [ "get", pass_dir ++ p ]
   mkXPrompt (Prompt_autocomplete "Password: ") prompt_conf compl get_password
 
@@ -82,8 +89,9 @@ preset_prompt prompt_conf = do
   let preset_dir = home ++ "/.presets/"
   ws <- io $ getDirectoryContents preset_dir
   let ws' = filter (flip notElem [ ".", ".." ]) ws
+  let compl = compl_fun_from_list ws'
   let open w = spawn ("source \"" ++ preset_dir ++ w ++ "\"")
-  mkXPrompt (Prompt_autocomplete "Preset: ") prompt_conf (mkComplFunFromList' ws') open
+  mkXPrompt (Prompt_autocomplete "Preset: ") prompt_conf compl open
 
 -- ========================================================================== --
 -- Window prompt
@@ -97,7 +105,7 @@ window_title ws w = do
 
 window_prompt prompt_conf = do
   wm <- windowMap' window_title
-  let compl = mkComplFunFromList' (M.keys wm)
+  let compl = compl_fun_from_list (M.keys wm)
   let action = flip whenJust (windows . W.focusWindow) . flip M.lookup wm
   mkXPrompt (Prompt_autocomplete "Windows: ") prompt_conf compl action
 
@@ -112,12 +120,13 @@ workspace_prompt prompt_conf = do
   ws <- io $ getDirectoryContents workspaces_dir
   let ws' = filter (flip notElem [ ".", ".." ]) ws
   term <- asks (terminal . config)
+  let compl = compl_fun_from_list ws'
   let open w =
         let w' = workspaces_dir ++ w in
         let cmd = "nnn" in
         let cmd' = workspaces_sh ++ " open -s \"" ++ w' ++ "\" " ++ cmd in
         safeSpawn term [ "-e", cmd' ]
-  mkXPrompt (Prompt_autocomplete "Workspace: ") prompt_conf (mkComplFunFromList' ws') open
+  mkXPrompt (Prompt_autocomplete "Workspace: ") prompt_conf compl open
 
 -- ========================================================================== --
 -- Centered layout
@@ -155,7 +164,9 @@ prompt_conf = def {
     ((controlMask, xK_w), killWord Prev),
     ((controlMask, xK_Left), moveWord Prev),
     ((controlMask, xK_Right), moveWord Next)
-  ]
+  ],
+  searchPredicate = fuzzyMatch -- This is not used for prompt because not upstreamed, see compl_fun_from_list
+  -- , sorter = fuzzySort
 }
 
 tabbed_conf =
