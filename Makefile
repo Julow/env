@@ -59,6 +59,14 @@ $(DUNSTRC): dunst/dunstrc
 
 INSTALL += $(DUNSTRC)
 
+# Ack
+
+ACKRC = $(HOME)/.ackrc
+
+$(ACKRC): ack/ackrc
+
+INSTALL += $(ACKRC)
+
 # Install files
 
 ENV_PATH := $(shell pwd)
