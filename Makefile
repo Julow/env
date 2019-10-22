@@ -98,6 +98,16 @@ $(HTOPRC): htop/htoprc
 
 LINK += $(HTOPRC)
 
+# Vim
+
+DOTVIM = $(HOME)/.vim
+
+$(DOTVIM): vim $(wildcard vim/vimrc vim/ftplugin/*)
+	! [ -d $(DOTVIM) ]
+	ln -sf "$(abspath $<)" "$@"
+
+all:: $(DOTVIM)
+
 # Install files
 
 ENV_PATH := $(shell pwd)

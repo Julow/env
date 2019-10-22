@@ -60,9 +60,3 @@ extra_rc+=("let \$PATH = '$OPAM_SWITCH_PREFIX/bin:' . \$PATH")
 if [[ $UPDATE -ne 1 ]]; then
   echo "To update, run with UPDATE=1"
 fi
-
-# Vimrc
-
-cp -r "$SESSION_DIR/vim"/{vimrc,ftplugin} "$VIM_DIR/"
-
-for l in "${extra_rc[@]}"; do echo; echo "$l"; done >> "$VIM_DIR/vimrc"
