@@ -124,7 +124,8 @@ update_vim:
 
 # Install files
 
-ENV_PATH := $(shell pwd)
+# Exported for generating bashrc
+export ENV_PATH := $(shell pwd)
 
 $(INSTALL):
 	@echo $@
