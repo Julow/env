@@ -15,9 +15,9 @@ fi
 BASE_URL="https://apod.nasa.gov/apod"
 PAGE_DST=/tmp/apod.html
 
-curl --retry 10 -o "$PAGE_DST" "$BASE_URL/astropix.html"
+curl -L --retry 10 -o "$PAGE_DST" "$BASE_URL/astropix.html"
 
-IMG_PATH=`sed --quiet -E '/^.*<a href="(image\/.+)">.*$/{s//\1/;p}' </tmp/apod.html`
+IMG_PATH=`sed --quiet -E '/^.*<a href="(image\/.+)".*$/{s//\1/;p}' </tmp/apod.html`
 
 curl -o "$IMG_DST" "$BASE_URL/$IMG_PATH"
 
