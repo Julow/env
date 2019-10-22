@@ -67,6 +67,14 @@ $(ACKRC): ack/ackrc
 
 INSTALL += $(ACKRC)
 
+# Bash
+
+INPUTRC = $(HOME)/.inputrc
+
+$(INPUTRC): bash/inputrc
+
+INSTALL += $(INPUTRC)
+
 # Install files
 
 ENV_PATH := $(shell pwd)
