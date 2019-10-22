@@ -27,6 +27,20 @@ $(XDEFAULTS): x/Xdefaults
 
 INSTALL += $(XINITRC) $(XRELOADRC) $(XMODMAP) $(XDEFAULTS)
 
+# Git
+
+GITCONFIG = $(HOME)/.gitconfig
+GITIGNORE_GLOBAL = $(HOME)/.gitignore_global
+
+$(GITCONFIG): git/install_config.sh
+	bash "$^"
+	touch "$@"
+
+$(GITIGNORE_GLOBAL): git/gitignore_global
+
+INSTALL += $(GITIGNORE_GLOBAL)
+all:: $(GITCONFIG)
+
 # Install files
 
 $(INSTALL):

@@ -67,12 +67,4 @@ s "pager.status" "$GIT_PAGER"
 
 # Global ignore
 
-IGNORE_FILE="$HOME/.gitignore_global"
-
-git config --global "core.excludesfile" "$IGNORE_FILE"
-
-cat > "$IGNORE_FILE" <<"EOF"
-*.swp
-.vimrc
-_opam/*
-EOF
+git config --global "core.excludesfile" "$HOME/.gitignore_global"
