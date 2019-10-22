@@ -1,6 +1,8 @@
 all::
 .PHONY: all
 
+# Files to install, %ENV_PATH% will be substituted
+# Rules must have a dependency, the source file, and no recipe
 INSTALL =
 
 # Xmonad
@@ -41,9 +43,19 @@ $(GITIGNORE_GLOBAL): git/gitignore_global
 INSTALL += $(GITIGNORE_GLOBAL)
 all:: $(GITCONFIG)
 
+# Tmux
+
+TMUX_CONF = $(HOME)/.tmux.conf
+
+$(TMUX_CONF): tmux/tmux.conf
+
+INSTALL += $(TMUX_CONF)
+
 # Install files
 
+ENV_PATH := $(shell pwd)
+
 $(INSTALL):
-	cp "$^" "$@"
+	sed 's#%ENV_PATH%#$(ENV_PATH)#' "$^" > "$@"
 
 all:: $(INSTALL)
