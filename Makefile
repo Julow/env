@@ -74,10 +74,21 @@ INSTALL += $(ACKRC)
 # Bash
 
 INPUTRC = $(HOME)/.inputrc
+BASHRC = $(HOME)/.bashrc
 
 $(INPUTRC): bash/inputrc
 
+_bash.sh: $(sort $(wildcard bash/bashrc/*))
+	bash bash/gen_bashrc.sh $^ > $@
+
+BASH_SOURCE_LINE = source "$(abspath _bash.sh)"
+
+$(BASHRC): _bash.sh
+	grep "$(BASH_SOURCE_LINE)" "$@" &>/dev/null || echo "$(BASH_SOURCE_LINE)" >> "$@"
+	touch "$@"
+
 INSTALL += $(INPUTRC)
+all:: $(BASHRC)
 
 # Htop
 
