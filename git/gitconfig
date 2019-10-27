@@ -4,7 +4,8 @@
 [pager]
 	diff = /usr/share/git/diff-highlight/diff-highlight | less -SF
 	show = /usr/share/git/diff-highlight/diff-highlight | less -SF
-	status = /usr/share/git/diff-highlight/diff-highlight | less -SF
+	status = /usr/share/git/diff-highlight/diff-highlight | less -F
+	log = less -F
 
 [pretty]
 	custom = tformat:%C(auto)%h %<(12,trunc)%C(cyan)%an%C(reset)%C(black bold)%>(13)%ar%C(auto)%d %s
@@ -18,7 +19,7 @@
 	b = branch -avv --sort=-refname
 	d = diff --stat --summary -p
 	ds = diff --stat --summary -p --staged
-	l = "!f() { : git log; if [ $# -eq 0 ]; then git --no-pager customlog -n15; else git customlog \"$@\"; fi; }; f"
+	l = "!f() { : git log; if [ $# -eq 0 ]; then set -- "-n15"; fi; git customlog \"$@\"; }; f"
 	t = status --short -b -u
 	a = "!f() { : git add --all; git add --all \"$@\" && git t; }; f"
 	u = "!f() { : git add -u; git add -u \"$@\" && git t; }; f"
@@ -37,7 +38,7 @@
 	fpr = "!f() { git fetch -f up \"pull/$1/head:#$1\"; }; f"
 	logrf = "!f () { BEFORE=`git rev-parse HEAD`; \"$@\" && git l \"$BEFORE..HEAD\"; }; f"
 	ft = fetch --all -t --progress -v
-	pu = "!f() { : git push; git push -u \"${1:-origin}\" HEAD; }; f"
+	pu = "!f() { : git push; git push -u \"${1:-origin}\" \"${2:-HEAD}\"; }; f"
 	bb = log --decorate --format=custom --all --simplify-by-decoration
 
 [color "diff-highlight"]
