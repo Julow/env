@@ -192,7 +192,7 @@ layout = add_tabs $ minimize $ boringWindows (tiled_layout ||| centered_layout)
   where
     tiled_layout = ResizableTall 1 (5/100) (1/2) []
     centered_layout = centered_full 600 20
-    add_tabs = addTabsBottom shrinkText tabbed_conf . subLayout [] Simplest
+    add_tabs = addTabsAlways shrinkText tabbed_conf . subLayout [] Simplest
 
 main =
   xmonad $ def
@@ -212,8 +212,8 @@ main =
     ("M-u", withFocused (\w -> focusDown >> sendMessage (mergeDir id w))),
     ("M-S-u", withFocused (sendMessage . UnMerge)),
     -- SubTabbed next/prev
-    ("M-j", onGroup W.focusDown'),
-    ("M-k", onGroup W.focusUp'),
+    ("M-j", onGroup W.focusUp'),
+    ("M-k", onGroup W.focusDown'),
 
     -- BoringWindows
     ("M-S-<Tab>", focusUp),

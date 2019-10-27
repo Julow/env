@@ -103,8 +103,7 @@ LINK += $(HTOPRC)
 DOTVIM = $(HOME)/.vim
 
 $(DOTVIM): vim $(wildcard vim/vimrc vim/ftplugin/*)
-	! [ -d $(DOTVIM) ]
-	ln -sf "$(abspath $<)" "$@"
+	[ -L "$@" ] || ln -sf "$(abspath $<)" "$@"
 
 all:: $(DOTVIM)
 
