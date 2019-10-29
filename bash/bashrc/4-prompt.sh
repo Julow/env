@@ -1,30 +1,34 @@
-C_ESC="`printf '\033'`"
-PROMPT_BELL=`if [[ -n $TMUX ]]; then printf '\a'; fi`
-PROMPT_CLEAR_TITLE=`printf '\033]0;\007'`
+# Control sequences
+PROMPT_META=""
+if [[ -n $TMUX ]]; then PROMPT_META+=`printf '\a'`; fi
+PROMPT_META+=`printf '\033]0;\007'` # Clean title
 
+C_ESC="`printf '\033'`"
+C_RESET="\[${C_ESC}[39m\]"
+C_RED="\[${C_ESC}[31m\]"
+C_CYAN="\[${C_ESC}[36m\]"
+C_GRAY="\[${C_ESC}[90m\]"
+C_LGREEN="\[${C_ESC}[92m\]"
+# Used by git_status_line.sh
+C_GREEN="\[${C_ESC}[32m\]"
+C_YELLOW="\[${C_ESC}[33m\]"
+C_MAGENTA="\[${C_ESC}[35m\]"
+
+# Hostname or $WORKSPACE if it's set
 PROMPT_HOSTNAME="\h "
+if [[ -n $WORKSPACE ]]; then PROMPT_HOSTNAME="[$WORKSPACE] "; fi
+
+# SHLVL
+PROMPT_SHLVL=""
+if [[ $SHLVL -gt 1 ]]; then PROMPT_SHLVL="$C_GRAY$SHLVL> "; fi
 
 update_prompt ()
 {
-	local STATUS="$?"
-
-	local C_RESET="\[${C_ESC}[39m\]"
-	local C_RED="\[${C_ESC}[31m\]"
-	local C_CYAN="\[${C_ESC}[36m\]"
-	local C_GRAY="\[${C_ESC}[90m\]"
-	local C_LGREEN="\[${C_ESC}[92m\]"
-	# Used by git_status_line.sh
-	local C_GREEN="\[${C_ESC}[32m\]"
-	local C_YELLOW="\[${C_ESC}[33m\]"
-	local C_MAGENTA="\[${C_ESC}[35m\]"
-
-	local status_=""
-	if [[ $STATUS -ne 0 ]]; then status_="$C_RED[$STATUS] "; fi
-	local shlvl_=""
-	if [[ $SHLVL -gt 1 ]]; then shlvl_="$C_GRAY$SHLVL> "; fi
-	local meta_="\[$PROMPT_BELL$PROMPT_CLEAR_TITLE\]"
-
-	export PS1="$meta_$shlvl_$status_$C_CYAN$PROMPT_HOSTNAME$C_LGREEN\w$C_RESET `. git_status_line.sh`"
+  local status="$?"
+  local PROMPT_STATUS=""
+  if [[ $status -ne 0 ]]; then PROMPT_STATUS="$C_RED[$status] "; fi
+  local PROMPT_GIT=`. git_status_line.sh`
+  PS1="\[$PROMPT_META\]$PROMPT_SHLVL$PROMPT_STATUS$C_CYAN$PROMPT_HOSTNAME$C_LGREEN\w$C_RESET $PROMPT_GIT"
 }
 
 export PROMPT_COMMAND=update_prompt
