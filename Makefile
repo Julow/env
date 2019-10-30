@@ -84,7 +84,7 @@ _bash.sh: $(sort $(wildcard bash/bashrc/*))
 BASH_SOURCE_LINE = source "$(abspath _bash.sh)"
 
 $(BASHRC): _bash.sh
-	grep "$(BASH_SOURCE_LINE)" "$@" &>/dev/null || echo "$(BASH_SOURCE_LINE)" >> "$@"
+	grep '$(BASH_SOURCE_LINE)' "$@" &>/dev/null || echo '$(BASH_SOURCE_LINE)' >> "$@"
 	touch "$@"
 
 INSTALL += $(INPUTRC)
@@ -103,7 +103,8 @@ LINK += $(HTOPRC)
 DOTVIM = $(HOME)/.vim
 
 $(DOTVIM): vim $(wildcard vim/vimrc vim/ftplugin/*)
-	[ -L "$@" ] || ln -sf "$(abspath $<)" "$@"
+	[ -L "$@" ] || ! [ -d "$@" ]
+	ln -sfn "$(abspath $<)" "$@"
 
 all:: $(DOTVIM)
 
