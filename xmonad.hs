@@ -123,9 +123,7 @@ workspace_prompt prompt_conf = do
   let compl = compl_fun_from_list ws'
   let open w =
         let w' = workspaces_dir ++ w in
-        let cmd = "nnn" in
-        let cmd' = workspaces_sh ++ " open -s \"" ++ w' ++ "\" " ++ cmd in
-        safeSpawn term [ "-e", cmd' ]
+        safeSpawn workspaces_sh [ "open", "-s", w', term ]
   mkXPrompt (Prompt_autocomplete "Workspace: ") prompt_conf compl open
 
 -- ========================================================================== --
