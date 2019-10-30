@@ -14,9 +14,15 @@ C_GREEN="\[${C_ESC}[32m\]"
 C_YELLOW="\[${C_ESC}[33m\]"
 C_MAGENTA="\[${C_ESC}[35m\]"
 
-# Hostname or $WORKSPACE if it's set
 PROMPT_HOSTNAME="\h "
-if [[ -n $WORKSPACE ]]; then PROMPT_HOSTNAME="[$WORKSPACE] "; fi
+PROMPT_PWD="\w"
+
+# $WORKSPACE replaces the hostname and pwd is relative to $WORKSPACE_ROOT
+if [[ -n $WORKSPACE ]]; then
+  PROMPT_HOSTNAME="$WORKSPACE";
+  PROMPT_PWD=" $PROMPT_PWD"
+  if [[ -n $WORKSPACE_ROOT ]]; then PROMPT_PWD="\${PWD#'$WORKSPACE_ROOT'}"; fi
+fi
 
 # SHLVL
 PROMPT_SHLVL=""
@@ -28,7 +34,7 @@ update_prompt ()
   local PROMPT_STATUS=""
   if [[ $status -ne 0 ]]; then PROMPT_STATUS="$C_RED[$status] "; fi
   local PROMPT_GIT=`. git_status_line.sh`
-  PS1="\[$PROMPT_META\]$PROMPT_SHLVL$PROMPT_STATUS$C_CYAN$PROMPT_HOSTNAME$C_LGREEN\w$C_RESET $PROMPT_GIT"
+  PS1="\[$PROMPT_META\]$PROMPT_SHLVL$PROMPT_STATUS$C_CYAN$PROMPT_HOSTNAME$C_LGREEN$PROMPT_PWD$C_RESET $PROMPT_GIT"
 }
 
 export PROMPT_COMMAND=update_prompt
