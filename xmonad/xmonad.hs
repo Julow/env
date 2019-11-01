@@ -77,7 +77,7 @@ password_prompt prompt_conf = do
   ps <- io $ getDirectoryContents pass_dir
   let ps' = filter (not . isPrefixOf ".") ps
   let compl = compl_no_empty $ compl_fun_from_list ps'
-  let get_password p = safeSpawn pass_script [ "get", pass_dir ++ p ]
+  let get_password p = safeSpawn pass_script [ "get", "-n", pass_dir ++ p ]
   mkXPrompt (Prompt_autocomplete "Password: ") prompt_conf compl get_password
 
 -- ========================================================================== --
