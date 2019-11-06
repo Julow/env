@@ -190,7 +190,7 @@ layout = add_tabs $ minimize $ boringWindows (tiled_layout ||| centered_layout)
   where
     tiled_layout = ResizableTall 1 (5/100) (1/2) []
     centered_layout = centered_full 600 20
-    add_tabs = addTabsAlways shrinkText tabbed_conf . subLayout [] Simplest
+    add_tabs = addTabs shrinkText tabbed_conf . subLayout [] Simplest
 
 main =
   xmonad $ def
