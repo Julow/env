@@ -105,6 +105,7 @@ DOTVIM = $(HOME)/.vim
 $(DOTVIM): vim $(wildcard vim/vimrc vim/ftplugin/*)
 	[ -L "$@" ] || ! [ -d "$@" ]
 	ln -sfn "$(abspath $<)" "$@"
+	touch "$@"
 
 all:: $(DOTVIM)
 
