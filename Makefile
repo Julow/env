@@ -119,6 +119,7 @@ update_vim:
 	git subtree pull --squash -P vim/pack/plugins/start/markdown-folding "https://github.com/masukomi/vim-markdown-folding" master
 	git subtree pull --squash -P vim/pack/plugins/start/xdg_open.vim "https://github.com/arp242/xdg_open.vim" master
 	git subtree pull --squash -P vim/pack/plugins/start/tmux-focus-events" "any-term "https://github.com/Julow/vim-tmux-focus-events" any-term
+	git subtree pull --squash -P vim/pack/plugins/start/mdnav "https://github.com/chmp/mdnav" master
 
 .PHONY: update_vim
 
