@@ -13,11 +13,17 @@ LINK =
 
 XMONAD_HS = $(HOME)/.xmonad/xmonad.hs
 
-$(XMONAD_HS): xmonad/xmonad.hs
-	cp "$^" "$@"
+XMONAD_BIN := $(shell which xmonad 2>/dev/null)
+
+$(XMONAD_HS): xmonad/xmonad.hs $(XMONAD_BIN)
+	cp "$<" "$@"
 	xmonad --recompile
 
+ifneq ($(XMONAD_BIN),)
 all:: $(XMONAD_HS)
+else
+$(info XMonad disabled)
+endif
 
 # X
 
