@@ -4,8 +4,9 @@
 [pager]
 	diff = /usr/share/git/diff-highlight/diff-highlight | less -SF
 	show = /usr/share/git/diff-highlight/diff-highlight | less -SF
-	status = /usr/share/git/diff-highlight/diff-highlight | less -F
-	log = less -F
+	status = less -FX
+	log = less -FX
+	branch = less -FX
 
 [pretty]
 	custom = tformat:%C(auto)%h %<(12,trunc)%C(cyan)%an%C(reset)%C(black bold)%>(13)%ar%C(auto)%d %s
