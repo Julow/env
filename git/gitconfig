@@ -46,3 +46,5 @@
 	oldHighlight = nodim red
 	newNormal = dim green
 	newHighlight = nodim green
+
+# vim: ft=gitconfig
