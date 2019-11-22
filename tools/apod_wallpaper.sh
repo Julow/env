@@ -16,7 +16,7 @@ fi
 exec &>"$DETAILS_DST"
 
 # Fetch lastest image
-API_URL="https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&date=2019-11-17"
+API_URL="https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY"
 JSON_DST="/tmp/apod.json"
 
 curl --silent -L --retry 10 -o "$JSON_DST" "$API_URL"
