@@ -78,6 +78,7 @@
 [shortcuts]
     close = mod1+Escape
     history = mod1+shift+Escape
+    context = mod1+F1
 
 [urgency_low]
     background = "#222222"
