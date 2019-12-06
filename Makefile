@@ -115,6 +115,8 @@ $(DOTVIM): vim $(wildcard vim/vimrc vim/ftplugin/*)
 
 all:: $(DOTVIM)
 
+# External
+
 update_vim:
 	git subtree pull --squash -P vim/pack/plugins/start/fugitive "https://github.com/tpope/vim-fugitive" master
 	git subtree pull --squash -P vim/pack/plugins/start/surround "https://github.com/tpope/vim-surround" master
@@ -128,7 +130,12 @@ update_vim:
 	git subtree pull --squash -P vim/pack/plugins/start/tmux-focus-events" "any-term "https://github.com/Julow/vim-tmux-focus-events" any-term
 	git subtree pull --squash -P vim/pack/plugins/start/mdnav "https://github.com/chmp/mdnav" master
 
-.PHONY: update_vim
+update_fzf:
+	git fetch "https://github.com/junegunn/fzf"
+	git read-tree --prefix=bash/external/fzf -u FETCH_HEAD:shell
+	git read-tree --prefix=vim/pack/plugins/start/fzf/plugin -u FETCH_HEAD:plugin
+
+.PHONY: update_vim update_fzf
 
 # Install files
 
