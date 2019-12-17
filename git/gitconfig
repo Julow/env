@@ -41,6 +41,7 @@
 	ft = fetch --all -t --progress -v
 	pu = "!f() { : git push; git push -u \"${1:-origin}\" \"${2:-HEAD}\"; }; f"
 	bb = log --decorate --format=custom --all --simplify-by-decoration
+	web = "!f() { : git push; U=`git remote get-url \"${1-origin}\"` && xdg-open \"$U\"; }; f"
 
 [color "diff-highlight"]
 	oldNormal = dim red
