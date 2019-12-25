@@ -79,7 +79,10 @@ while true; do
 			echo "Connecting to $SWITCH_TO"
 			su -c "netctl switch-to '$SWITCH_TO'" || wait_failed
 			echo "Wait online"
-			netctl wait-online "$SWITCH_TO" || wait_failed
+			if netctl wait-online "$SWITCH_TO"
+			then exit 0
+			else wait_failed
+			fi
 			;;
 	esac
 
