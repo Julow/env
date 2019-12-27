@@ -28,13 +28,29 @@ fi
 PROMPT_SHLVL=""
 if [[ $SHLVL -gt 1 ]]; then PROMPT_SHLVL="$C_GRAY$SHLVL> "; fi
 
+# Show command duration if it's longer than 1s
+PROMPT_TIMER_BEGIN=0
+PROMPT_TIMER=""
+
+prompt_start_timer () { PROMPT_TIMER_BEGIN=${PROMPT_TIMER_BEGIN:-$SECONDS}; }
+prompt_end_timer ()
+{
+  prompt_start_timer
+  local t=$((SECONDS - PROMPT_TIMER_BEGIN))
+  unset PROMPT_TIMER_BEGIN
+  PROMPT_TIMER=""
+  if [[ $t -gt 0 ]]; then PROMPT_TIMER="$C_YELLOW${t}s "; fi
+}
+trap prompt_start_timer DEBUG
+
 update_prompt ()
 {
+  prompt_end_timer
   local status="$?"
   local PROMPT_STATUS=""
   if [[ $status -ne 0 ]]; then PROMPT_STATUS="$C_RED[$status] "; fi
   local PROMPT_GIT=`. git_status_line.sh`
-  PS1="\[$PROMPT_META\]$PROMPT_SHLVL$PROMPT_STATUS$C_CYAN$PROMPT_HOSTNAME$C_LGREEN$PROMPT_PWD$C_RESET $PROMPT_GIT"
+  PS1="\[$PROMPT_META\]$PROMPT_SHLVL$PROMPT_STATUS$PROMPT_TIMER$C_CYAN$PROMPT_HOSTNAME$C_LGREEN$PROMPT_PWD$C_RESET $PROMPT_GIT"
 }
 
 export PROMPT_COMMAND=update_prompt
