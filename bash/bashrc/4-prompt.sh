@@ -45,8 +45,8 @@ trap prompt_start_timer DEBUG
 
 update_prompt ()
 {
-  prompt_end_timer
   local status="$?"
+  prompt_end_timer
   local PROMPT_STATUS=""
   if [[ $status -ne 0 ]]; then PROMPT_STATUS="$C_RED[$status] "; fi
   local PROMPT_GIT=`. git_status_line.sh`
