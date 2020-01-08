@@ -134,3 +134,13 @@ command -nargs=1 -complete=custom,fugitive#CompleteObject Gdiffb execute ':Gdiff
 
 " vim-autoformat
 nnoremap <C-_> :Autoformat<CR>
+
+" Ctrl+k and Ctrl+j to move up and down inside wrapped lines
+nnoremap <C-j> gj
+nnoremap <C-k> gk
+
+" Movements in insert mode
+inoremap <C-h> <C-o>h
+inoremap <C-l> <C-o>l
+inoremap <C-j> <C-o>gj
+inoremap <C-k> <C-o>gk
