@@ -135,7 +135,11 @@ update_fzf:
 	git read-tree --prefix=bash/external/fzf -u FETCH_HEAD:shell
 	git read-tree --prefix=vim/pack/plugins/start/fzf/plugin -u FETCH_HEAD:plugin
 
-.PHONY: update_vim update_fzf
+update_vim_merlin:
+	git fetch "https://github.com/ocaml/merlin"
+	git read-tree --prefix=vim/pack/plugins/start/merlin -u FETCH_HEAD:vim/merlin
+
+.PHONY: update_vim update_fzf update_vim_merlin
 
 # Install files
 
