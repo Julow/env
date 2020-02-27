@@ -58,6 +58,7 @@ def git_status():
 
 STAGED_COLORS = ("\033[92m", "\033[91m")
 UNSTAGED_COLORS = ("\033[32m", "\033[31m")
+BRANCH_COLORS = ("\033[35m", "\033[95m")
 
 unstaged_stats, staged_stats = git_stats(False), git_stats(True)
 branch, status = git_status()
@@ -94,13 +95,25 @@ def count_untracked():
 
 #
 
+def print_branch(out, extra_msg=""):
+    s = branch.split("...")
+    local = s[0]
+    branch_s = local
+    if len(s) > 1:
+        remote = s[1]
+        s = remote.split("/", 1)
+        remote = s[0] if len(s) == 1 or s[1] == local else remote
+        if remote != "origin":
+            branch_s = "%s\033[0m...%s%s" % (local, BRANCH_COLORS[1], remote)
+    out.write("%s##\033[0m %s%s\033[0m%s\n" % (BRANCH_COLORS[1], BRANCH_COLORS[0], branch_s, extra_msg))
+
 if len(status) == 0:
-	sys.stdout.write("\033[97m##\033[0m %s clean\n" % branch)
+	print_branch(sys.stdout, extra_msg=" clean")
 	sys.exit(0)
 
 max_file_name_len = max(36, max(map(len, status.keys())))
 
-sys.stdout.write("\033[97m##\033[0m %s\n" % branch)
+print_branch(sys.stdout)
 
 for file_name in sorted(status.keys(), key=sorted_status):
 	s = status[file_name]
