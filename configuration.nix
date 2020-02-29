@@ -36,14 +36,20 @@
 
   time.timeZone = "Europe/Paris";
 
+  # Nixpkgs config and package overrides
+  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.packageOverrides = pkgs: with pkgs; {
+    dunst = dunst.override { dunstify = true; };
+  };
+
   environment.systemPackages = with pkgs; [
     firefox rxvt_unicode
     htop curl gnumake wget vim_configurable git mkpasswd
     xcape xorg.xmodmap dunst htop xclip xorg.xev
     fd ack fzf
-    opam
     gnupg gitAndTools.gitRemoteGcrypt python3 encfs
-    zip file vlc
+    zip file vlc spotifyd playerctl
+    opam ocaml
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -76,8 +82,6 @@
   users.users.juloo = {
     isNormalUser = true;
   };
-
-  nixpkgs.config.allowUnfree = true;
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
