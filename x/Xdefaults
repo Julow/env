@@ -55,4 +55,4 @@ XTerm.vt100.saveLines: 1000
 
 XTerm.printFileImmediate: /tmp/xterm-print-
 
-# vim:ft=xdefaults
+! vim:ft=xdefaults
