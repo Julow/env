@@ -45,7 +45,7 @@
   environment.systemPackages = with pkgs; [
     firefox rxvt_unicode
     htop curl gnumake wget vim_configurable git mkpasswd
-    xcape xorg.xmodmap dunst htop xclip xorg.xev
+    dunst htop xclip xorg.xev
     fd ack fzf
     gnupg gitAndTools.gitRemoteGcrypt python3 encfs
     zip file vlc spotifyd playerctl
@@ -66,7 +66,6 @@
 
   services.xserver = {
     enable = true;
-    layout = "us";
     libinput.enable = true; # Touchpad support
     videoDrivers = [ "nvidia" ];
 
@@ -78,12 +77,17 @@
       enableContribAndExtras = true;
     };
 
+    # Keyboard
+    layout = "us";
     displayManager.sessionCommands =
       let custom_keymap = pkgs.runCommand "keymap.xkb" {} ''
-          ${pkgs.xorg.xkbcomp}/bin/xkbcomp ${./keymap.xkb} $out
+          ${pkgs.xorg.xkbcomp}/bin/xkbcomp ${./keymap.xkb} "$out" 2>/dev/null
         '';
       in
-      "${pkgs.xorg.xkbcomp}/bin/xkbcomp ${custom_keymap} $DISPLAY";
+      ''
+        ${pkgs.xorg.xkbcomp}/bin/xkbcomp ${custom_keymap} "$DISPLAY"
+        ${pkgs.xcape}/bin/xcape -e Shift_R=space
+      '';
   };
 
   users.users.juloo = {
