@@ -45,11 +45,12 @@
   environment.systemPackages = with pkgs; [
     firefox rxvt_unicode
     htop curl gnumake wget vim_configurable git mkpasswd
-    dunst htop xclip xorg.xev
+    dunst htop xclip xorg.xev xcape
     fd ack fzf
     gnupg gitAndTools.gitRemoteGcrypt python3 encfs
     zip file vlc spotifyd playerctl
     opam ocaml
+    lightlocker
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -85,8 +86,9 @@
         '';
       in
       ''
+        ${pkgs.lightlocker}/bin/light-locker &
         ${pkgs.xorg.xkbcomp}/bin/xkbcomp ${custom_keymap} "$DISPLAY"
-        ${pkgs.xcape}/bin/xcape -e Shift_R=space
+        ${pkgs.xcape}/bin/xcape -e Shift_R=space &
       '';
 
     # Disable screen going off
