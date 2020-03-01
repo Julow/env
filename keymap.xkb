@@ -11,6 +11,9 @@ xkb_keymap {
     // Swap Space and Right Shift
     replace key <RTSH> { [ space ] };
     replace key <SPCE> { [ Shift_R ] };
+
+    // Eject is Delete
+    replace key <I169> { [ Delete ] };
   };
 	xkb_geometry  { include "pc(pc104)"	};
 };
