@@ -77,6 +77,13 @@
       enable = true;
       enableContribAndExtras = true;
     };
+
+    displayManager.sessionCommands =
+      let custom_keymap = pkgs.runCommand "keymap.xkb" {} ''
+          ${pkgs.xorg.xkbcomp}/bin/xkbcomp ${./keymap.xkb} $out
+        '';
+      in
+      "${pkgs.xorg.xkbcomp}/bin/xkbcomp ${custom_keymap} $DISPLAY";
   };
 
   users.users.juloo = {

@@ -1,0 +1,16 @@
+xkb_keymap {
+	xkb_keycodes  { include "evdev+aliases(qwerty)"	};
+	xkb_types     { include "complete"	};
+	xkb_compat    { include "complete"	};
+	xkb_symbols   {
+    include "pc+us+inet(evdev)+terminate(ctrl_alt_bksp)"
+    include "ctrl(swap_lwin_lctl)" // Left ctrl is win
+    include "ctrl(nocaps)" // Caps lock is ctrl
+    include "compose(lwin)+compose(rwin)" // Both Win are Compose
+
+    // Swap Space and Right Shift
+    replace key <RTSH> { [ space ] };
+    replace key <SPCE> { [ Shift_R ] };
+  };
+	xkb_geometry  { include "pc(pc104)"	};
+};

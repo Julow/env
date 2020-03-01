@@ -3,6 +3,6 @@
 cd "`dirname "$0"`"
 
 su -c '
-cp configuration.nix /etc/nixos/configuration.nix
+cp -r . /etc/nixos/
 nixos-rebuild switch
 '
