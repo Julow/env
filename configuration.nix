@@ -88,6 +88,14 @@
         ${pkgs.xorg.xkbcomp}/bin/xkbcomp ${custom_keymap} "$DISPLAY"
         ${pkgs.xcape}/bin/xcape -e Shift_R=space
       '';
+
+    # Disable screen going off
+    serverFlagsSection = ''
+      Option "StandbyTime" "0"
+      Option "SuspendTime" "0"
+      Option "OffTime"     "0"
+      Option "BlankTime"   "0"
+    '';
   };
 
   users.users.juloo = {
