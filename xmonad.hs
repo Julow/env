@@ -49,16 +49,15 @@ compl_no_empty f s = f s
 -- ========================================================================== --
 -- Lock screen
 
-screen_timeout = 500
-screen_timeout_locked = 20
+screen_timeout = 0
+screen_timeout_locked = 10
 
 set_dpms timeout = "xset dpms 0 0 " ++ show timeout
 
 lock_screen = spawn (
     (set_dpms screen_timeout_locked) ++ ";"
     ++ "slock;"
-    ++ (set_dpms screen_timeout) ++ ";"
-    ++ "bash ~/.xreloadrc"
+    ++ (set_dpms screen_timeout)
   )
 
 -- ========================================================================== --
