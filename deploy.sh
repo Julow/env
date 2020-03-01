@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
-cd "`dirname "$0"`"
+set -e
 
-su -c '
-cp -r . /etc/nixos/
-nixos-rebuild switch
-'
+config=$(realpath "$(dirname "$0")/configuration.nix")
+
+[[ -e $config ]]
+
+su -c "NIXOS_CONFIG='$config' nixos-rebuild switch"
