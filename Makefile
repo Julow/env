@@ -27,17 +27,11 @@ endif
 
 # X
 
-XINITRC = $(HOME)/.xinitrc
-XRELOADRC = $(HOME)/.xreloadrc
-XMODMAP = $(HOME)/.xmodmap
 XDEFAULTS = $(HOME)/.Xdefaults
 
-$(XINITRC): x/xinitrc
-$(XRELOADRC): x/xreloadrc
-$(XMODMAP): x/xmodmap
 $(XDEFAULTS): x/Xdefaults
 
-INSTALL += $(XINITRC) $(XRELOADRC) $(XMODMAP) $(XDEFAULTS)
+INSTALL += $(XDEFAULTS)
 
 # Git
 
