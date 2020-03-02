@@ -3,6 +3,7 @@
 {
   imports = [
     /etc/nixos/hardware-configuration.nix
+    modules/apod_wallpaper
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -103,6 +104,8 @@
   users.users.juloo = {
     isNormalUser = true;
   };
+
+  modules.apod_wallpaper.enable = true;
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
