@@ -14,6 +14,10 @@ case "$1" in
     result/bin/run-nixos-vm
     ;;
 
+  trace)
+    NIXOS_CONFIG=$config nixos-rebuild dry-build --show-trace 2>&1 | less
+    ;;
+
   "")
     su -c "NIXOS_CONFIG='$config' nixos-rebuild switch"
     ;;
