@@ -72,6 +72,7 @@
 
   services.xserver = {
     enable = true;
+    layout = "us";
     libinput.enable = true; # Touchpad support
     videoDrivers = [ "nvidia" ];
 
@@ -83,8 +84,6 @@
       enableContribAndExtras = true;
     };
 
-    # Keyboard
-    layout = "us";
     displayManager.sessionCommands =
       let custom_keymap = pkgs.runCommand "keymap.xkb" {} ''
           ${pkgs.xorg.xkbcomp}/bin/xkbcomp ${./keymap.xkb} "$out" 2>/dev/null
@@ -95,6 +94,17 @@
         ${pkgs.xorg.xkbcomp}/bin/xkbcomp ${custom_keymap} "$DISPLAY"
         ${pkgs.xcape}/bin/xcape -e Shift_R=space &
       '';
+
+    # Login prompt
+    displayManager.lightdm.greeters.mini = {
+      enable = true;
+      user = "juloo";
+      extraConfig = ''
+        [greeter]
+        show-password-label = false
+        password-alignment = left
+      '';
+    };
 
     # Disable screen going off
     serverFlagsSection = ''
