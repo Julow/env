@@ -12,26 +12,20 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  # Enable sound.
+  sound.enable = true;
+  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.package = pkgs.pulseaudioFull; # Required for bluetooth audio
 
-  # The global useDHCP flag is deprecated, therefore explicitly set to false here.
-  # Per-interface useDHCP will be mandatory in the future, so this generated config
-  # replicates the default behaviour.
+  # Bluetooth
+  hardware.bluetooth.enable = true;
+
+  # Network
   networking.useDHCP = false;
   networking.interfaces.eno1.useDHCP = true;
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Select internationalisation properties.
-  # i18n = {
-  #   consoleFont = "Lat2-Terminus16";
-  #   consoleKeyMap = "us";
-  #   defaultLocale = "en_US.UTF-8";
-  # };
-
+  # networking.hostName = "nixos"; # Define your hostname.
   time.timeZone = "Europe/Paris";
 
   # Nixpkgs config and package overrides
@@ -39,28 +33,18 @@
   nixpkgs.overlays = [ (import ./packageOverlay.nix) ];
 
   environment.systemPackages = with pkgs; [
-    firefox rxvt_unicode
-    htop curl gnumake wget vim_configurable git mkpasswd
-    dunst htop xclip xorg.xev xcape
+    firefox
+    curl gnumake mkpasswd zip file
+    vim_configurable git
+    gnupg gitAndTools.gitRemoteGcrypt encfs
+    dunst htop
     fd ack fzf
-    gnupg gitAndTools.gitRemoteGcrypt python3 encfs
-    zip file vlc spotifyd playerctl
+    python3
     opam ocaml
-    lightlocker
+    vlc spotifyd playerctl
   ];
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
-
-  # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
-  hardware.pulseaudio.package = pkgs.pulseaudioFull; # Required for bluetooth audio
-
-  hardware.bluetooth.enable = true;
-
+  # Graphical interface
   services.xserver = {
     enable = true;
     libinput.enable = true; # Touchpad support
@@ -92,10 +76,5 @@
   modules.keyboard.enable = true;
   modules.display_manager = { enable = true; user = "juloo"; };
 
-  # This value determines the NixOS release with which your system is to be
-  # compatible, in order to avoid breaking some software such as database
-  # servers. You should change this only after NixOS release notes say you
-  # should.
-  system.stateVersion = "19.09"; # Did you read the comment?
-
+  system.stateVersion = "19.09";
 }

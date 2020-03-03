@@ -15,6 +15,9 @@ let conf = config.modules.display_manager; in
   };
 
   config = lib.mkIf conf.enable {
+    # Make light-locker available to the users
+    environment.systemPackages = [ pkgs.lightlocker ];
+
     services.xserver.displayManager = {
       # Use lightlocker to lock using lightdm
       sessionCommands = ''
