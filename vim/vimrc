@@ -108,6 +108,7 @@ function! S_linef()
   return &fileformat == "unix" ? "" : &fileformat
 endfunction
 
+set ruler
 set rulerformat=%30(%=%<%f\ %l:%c%(\ (%{S_selection()})%)%q%(\ [%{S_linef()}%R%W%M]%)%)
 set laststatus=0
 
