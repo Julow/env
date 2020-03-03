@@ -4,16 +4,12 @@
   imports = [
     /etc/nixos/hardware-configuration.nix
     modules/apod_wallpaper
+    modules/keyboard
   ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
-  boot.extraModprobeConfig = ''
-    options hid_apple swap_opt_cmd=1
-  '';
-  boot.kernelModules = [ "hid-apple" ];
 
   # networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -66,7 +62,6 @@
 
   services.xserver = {
     enable = true;
-    layout = "us";
     libinput.enable = true; # Touchpad support
     videoDrivers = [ "nvidia" ];
 
@@ -78,16 +73,9 @@
       enableContribAndExtras = true;
     };
 
-    displayManager.sessionCommands =
-      let custom_keymap = pkgs.runCommand "keymap.xkb" {} ''
-          ${pkgs.xorg.xkbcomp}/bin/xkbcomp ${./keymap.xkb} "$out" 2>/dev/null
-        '';
-      in
-      ''
-        ${pkgs.lightlocker}/bin/light-locker &
-        ${pkgs.xorg.xkbcomp}/bin/xkbcomp ${custom_keymap} "$DISPLAY"
-        ${pkgs.xcape}/bin/xcape -e Shift_R=space &
-      '';
+    displayManager.sessionCommands = ''
+      ${pkgs.lightlocker}/bin/light-locker &
+    '';
 
     # Login prompt
     displayManager.lightdm.greeters.mini = {
@@ -114,6 +102,7 @@
   };
 
   modules.apod_wallpaper.enable = true;
+  modules.keyboard.enable = true;
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
