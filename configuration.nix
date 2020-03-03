@@ -5,6 +5,7 @@
     /etc/nixos/hardware-configuration.nix
     modules/apod_wallpaper
     modules/keyboard
+    modules/display_manager.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -73,21 +74,6 @@
       enableContribAndExtras = true;
     };
 
-    displayManager.sessionCommands = ''
-      ${pkgs.lightlocker}/bin/light-locker &
-    '';
-
-    # Login prompt
-    displayManager.lightdm.greeters.mini = {
-      enable = true;
-      user = "juloo";
-      extraConfig = ''
-        [greeter]
-        show-password-label = false
-        password-alignment = left
-      '';
-    };
-
     # Disable screen going off
     serverFlagsSection = ''
       Option "StandbyTime" "0"
@@ -99,10 +85,12 @@
 
   users.users.juloo = {
     isNormalUser = true;
+    initialPassword = "test";
   };
 
   modules.apod_wallpaper.enable = true;
   modules.keyboard.enable = true;
+  modules.display_manager = { enable = true; user = "juloo"; };
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
