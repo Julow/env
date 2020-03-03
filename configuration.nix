@@ -39,13 +39,7 @@
 
   # Nixpkgs config and package overrides
   nixpkgs.config.allowUnfree = true;
-
-  nixpkgs.config.packageOverrides = pkgs: with pkgs; {
-    dunst = dunst.override { dunstify = true; };
-    xterm = xterm.overrideAttrs (attrs: {
-      configureFlags = attrs.configureFlags ++ [ "--enable-exec-xterm" ];
-    });
-  };
+  nixpkgs.overlays = [ (import ./packageOverlay.nix) ];
 
   environment.systemPackages = with pkgs; [
     firefox rxvt_unicode
