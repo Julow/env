@@ -59,8 +59,8 @@
 
     ### Misc/Advanced ###
 
-    dmenu = /usr/bin/dmenu -p dunst:
-    browser = /usr/bin/firefox -new-tab
+    dmenu = /usr/bin/env dmenu -p dunst:
+    browser = /usr/bin/env firefox -new-tab
 
     always_run_script = true
 
@@ -78,7 +78,7 @@
 [shortcuts]
     close = mod1+Escape
     history = mod1+shift+Escape
-    context = mod1+F1
+    context = mod1+BackSpace
 
 [urgency_low]
     background = "#222222"
