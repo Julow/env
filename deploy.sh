@@ -2,7 +2,16 @@
 
 set -e
 
-config=$(realpath "$(dirname "$0")/configuration.nix")
+case $HOSTNAME in
+  "jules-work") config=configuration-work.nix ;;
+  "jules-pc") config=configuration-home.nix ;;
+
+  *)
+    echo "Unknown hostname $HOSTNAME" >&2
+    exit 1
+esac
+
+config=$(realpath "$(dirname "$0")/$config")
 
 [[ -e $config ]]
 
@@ -22,5 +31,5 @@ case "$1" in
     su -c "NIXOS_CONFIG='$config' nixos-rebuild switch"
     ;;
 
-  *) echo "Usage: $0 [vm]" >&2 ;;
+  *) echo "Usage: $0 [vm|trace]" >&2 ;;
 esac

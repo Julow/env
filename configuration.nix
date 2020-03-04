@@ -1,3 +1,5 @@
+{ main_user, host_name, extra_config }:
+
 { config, pkgs, ... }:
 
 {
@@ -7,6 +9,7 @@
     modules/keyboard
     modules/display_manager.nix
     modules/desktop.nix
+    extra_config
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -21,12 +24,7 @@
   # Bluetooth
   hardware.bluetooth.enable = true;
 
-  # Network
-  networking.useDHCP = false;
-  networking.interfaces.eno1.useDHCP = true;
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = host_name;
   time.timeZone = "Europe/Paris";
 
   # Video drivers
@@ -48,14 +46,19 @@
     vlc spotifyd playerctl
   ];
 
-  users.users.juloo = {
+  # Gpg with Yubikey support
+  programs.gnupg.agent = { enable = true; };
+  services.udev.packages = [ pkgs.yubikey-personalization ];
+  services.pcscd.enable = true;
+
+  users.users."${main_user}" = {
     isNormalUser = true;
     initialPassword = "test";
   };
 
   modules.apod_wallpaper.enable = true;
   modules.keyboard.enable = true;
-  modules.display_manager = { enable = true; user = "juloo"; };
+  modules.display_manager = { enable = true; user = main_user; };
   modules.desktop.enable = true;
 
   system.stateVersion = "19.09";
