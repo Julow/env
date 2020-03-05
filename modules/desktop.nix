@@ -23,14 +23,6 @@ let conf = config.modules.desktop; in
         enableContribAndExtras = true;
       };
 
-      # Disable screen going off
-      serverFlagsSection = ''
-        Option "StandbyTime" "0"
-        Option "SuspendTime" "0"
-        Option "OffTime"     "0"
-        Option "BlankTime"   "0"
-      '';
     };
-
   };
 }

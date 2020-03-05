@@ -9,6 +9,7 @@
     modules/keyboard
     modules/display_manager.nix
     modules/desktop.nix
+    modules/screen_off.nix
     extra_config
   ];
 
@@ -67,6 +68,7 @@
   modules.keyboard.enable = true;
   modules.display_manager = { enable = true; user = main_user; };
   modules.desktop.enable = true;
+  modules.screen_off = { enable = true; locked = 15; unlocked = 3000; };
 
   system.stateVersion = "19.09";
 }
