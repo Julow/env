@@ -15,7 +15,6 @@ acpi -b | while read line; do
 done
 
 # Wifi
-WIFI=`netctl list | grep -e "^\S"`
-if [[ -n $WIFI ]]; then
-	dunstify -r 101012 -a "Indicator" -u low "" "<b>Wifi</b> $WIFI"
+if which iwgetid &>/dev/null && SSID=`iwgetid -r` 2>/dev/null; then
+	dunstify -r 101012 -a "Indicator" -u low "" "<b>Wifi</b> $SSID"
 fi
