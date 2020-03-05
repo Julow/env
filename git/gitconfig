@@ -2,8 +2,8 @@
 	excludesfile = ~/.gitignore_global
 
 [pager]
-	diff = /usr/share/git/diff-highlight/diff-highlight | less -SF
-	show = /usr/share/git/diff-highlight/diff-highlight | less -SF
+	diff = diff-highlight | less -SF
+	show = diff-highlight | less -SF
 	status = less -FX
 	log = less -FX
 	branch = less -FX
