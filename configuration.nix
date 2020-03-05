@@ -52,9 +52,15 @@
   services.udev.packages = [ pkgs.yubikey-personalization ];
   services.pcscd.enable = true;
 
+  virtualisation.docker = {
+    enable = true;
+    enableOnBoot = false;
+  };
+
   users.users."${main_user}" = {
     isNormalUser = true;
     initialPassword = "test";
+    extraGroups = [ "docker" ];
   };
 
   modules.apod_wallpaper.enable = true;
