@@ -75,20 +75,28 @@ INSTALL += $(ACKRC)
 
 INPUTRC = $(HOME)/.inputrc
 BASHRC = $(HOME)/.bashrc
+BASH_PROFILE = $(HOME)/.bash_profile
 
 $(INPUTRC): bash/inputrc
 
 _bash.sh: $(sort $(wildcard bash/bashrc/*))
 	bash bash/gen_bashrc.sh $^ > $@
 
-BASH_SOURCE_LINE = source "$(abspath _bash.sh)"
+_bash_profile.sh: $(sort $(wildcard bash/bash_profile/*))
+	bash bash/gen_bashrc.sh $^ > $@
 
-$(BASHRC): _bash.sh
-	grep '$(BASH_SOURCE_LINE)' "$@" &>/dev/null || echo '$(BASH_SOURCE_LINE)' >> "$@"
+$(BASHRC) $(BASH_PROFILE):
+	grep '$(SOURCE_LINE)' "$@" &>/dev/null || echo '$(SOURCE_LINE)' >> "$@"
 	touch "$@"
 
+$(BASHRC): _bash.sh
+$(BASHRC): SOURCE_LINE = source "$(abspath _bash.sh)"
+
+$(BASH_PROFILE): _bash_profile.sh
+$(BASH_PROFILE): SOURCE_LINE = source "$(abspath _bash_profile.sh)"
+
 INSTALL += $(INPUTRC)
-all:: $(BASHRC)
+all:: $(BASHRC) $(BASH_PROFILE)
 
 # Htop
 
