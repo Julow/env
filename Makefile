@@ -28,10 +28,12 @@ endif
 # X
 
 XDEFAULTS = $(HOME)/.Xdefaults
+XPROFILE = $(HOME)/.xprofile
 
 $(XDEFAULTS): x/Xdefaults
+$(XPROFILE): x/xprofile
 
-INSTALL += $(XDEFAULTS)
+INSTALL += $(XDEFAULTS) $(XPROFILE)
 
 # Git
 
