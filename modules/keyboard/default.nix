@@ -2,12 +2,12 @@
 
 # Keyboard configuration
 # - Custom keymap
-# - Use xcape to turn space into shift
+# - Run xcape
 # - Load the hid-apple kernel module
 
 let conf = config.modules.keyboard; in
 
-let xcape_expr = "Shift_R=space"; in
+let xcape_expr = "Shift_R=space;Control_L=Escape"; in
 
 {
   options.modules.keyboard = with lib; {
