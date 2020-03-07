@@ -7,12 +7,7 @@
 
 let conf = config.modules.keyboard; in
 
-# Check errors in the keymap at build time
-let custom_keymap =
-  pkgs.runCommand "keymap.xkb" {} ''
-    ${pkgs.xorg.xkbcomp}/bin/xkbcomp ${./keymap.xkb} "$out" 2>/dev/null
-  '';
-in
+let xcape_expr = "Shift_R=space"; in
 
 {
   options.modules.keyboard = with lib; {
@@ -20,7 +15,6 @@ in
       type = types.bool;
       default = false;
     };
-
   };
 
   config = lib.mkIf conf.enable {
@@ -28,13 +22,25 @@ in
     boot.kernelModules = [ "hid-apple" ];
 
     services.xserver = {
-      layout = "us";
+      layout = "custom-qwerty";
 
-      displayManager.sessionCommands = ''
-        ${pkgs.xorg.xkbcomp}/bin/xkbcomp ${custom_keymap} "$DISPLAY"
-        ${pkgs.xcape}/bin/xcape -e Shift_R=space &
-      '';
-
+      extraLayouts.custom-qwerty = {
+        description = "Custom qwerty layout";
+        languages = [ "en" ];
+        symbolsFile = ./keymap.xkb;
+      };
     };
+
+    # Use a service to run xcape so it can be restarted by the user
+    # xcape does nothing if setxkbmap has never been called since boot.
+    systemd.user.services.xcape = {
+      enable = true;
+      wantedBy = [ "graphical-session.target" ];
+      script = ''
+        ${pkgs.xorg.setxkbmap}/bin/setxkbmap
+        exec ${pkgs.xcape}/bin/xcape -f -e "${xcape_expr}"
+      '';
+    };
+
   };
 }
