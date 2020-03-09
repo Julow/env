@@ -53,8 +53,13 @@ nnoremap <space> za
 
 " Double escape to clear highlight
 " A custom event is used to allow extensibility
-nnoremap <esc><esc> :doautocmd User ClearHighlight<return>
-autocmd User ClearHighlight call feedkeys("\<esc>:nohlsearch\<return>")
+nnoremap <silent> <CR> :doautocmd User ClearHighlight<return>
+function! s:clear_highlight()
+  if v:hlsearch
+    call feedkeys(":nohlsearch\<return>")
+  endif
+endfunction
+autocmd User ClearHighlight call s:clear_highlight()
 
 " Scroll
 set scrolloff=10
