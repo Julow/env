@@ -8,7 +8,7 @@ else
 	pactl set-sink-volume "$SINK" "$1"
 fi
 
-if which notify-send &>/dev/null; then
+if which dunstify &>/dev/null; then
 
 	eval `pacmd list-sinks | sed -ne '
 	/\* index: \([0-9]\+\)/,/index: / {
