@@ -21,7 +21,7 @@
     networking.interfaces.wlp2s0.useDHCP = true;
 
     # Video drivers
-    services.xserver.videoDrivers = [ "intel" "nvidia" ];
+    services.xserver.videoDrivers = [ "intel" ];
 
   };
 }
