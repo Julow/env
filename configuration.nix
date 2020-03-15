@@ -37,7 +37,7 @@
 
   environment.systemPackages = with pkgs; [
     firefox
-    gcc binutils-unwrapped
+    gcc_multi binutils-unwrapped
     curl gnumake mkpasswd zip file
     vim_configurable git
     gnupg gitAndTools.gitRemoteGcrypt encfs
