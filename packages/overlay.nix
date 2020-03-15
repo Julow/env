@@ -15,5 +15,5 @@ with super;
     let src = import (builtins.fetchTarball "https://github.com/timbertson/opam2nix/archive/v1.tar.gz"); in
     self.callPackage src {};
 
-  rss_to_mail = self.callPackage packages/rss_to_mail {};
+  rss_to_mail = self.callPackage ./rss_to_mail {};
 }
