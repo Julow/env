@@ -46,6 +46,8 @@
     python3
     opam ocaml
     vlc spotifyd playerctl
+    opam2nix
+    rss_to_mail
   ];
 
   # Gpg with Yubikey support
