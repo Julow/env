@@ -150,3 +150,6 @@ inoremap <C-h> <C-o>h
 inoremap <C-l> <C-o>l
 inoremap <C-j> <C-o>gj
 inoremap <C-k> <C-o>gk
+
+" Syntax for some extensions
+autocmd BufNewFile,BufRead *.xkb set ft=xkb
