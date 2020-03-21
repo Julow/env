@@ -11,9 +11,7 @@ with super;
 
   ocamlPackages = self.ocaml-ng.ocamlPackages_4_08;
 
-  opam2nix =
-    let src = import (builtins.fetchTarball "https://github.com/timbertson/opam2nix/archive/v1.tar.gz"); in
-    self.callPackage src {};
+  opam2nix = self.callPackage ./opam2nix.nix {};
 
   rss_to_mail = self.callPackage ./rss_to_mail {};
 }
