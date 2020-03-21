@@ -14,3 +14,6 @@ let g:formatters_ocaml = ['ocamlformat']
 
 " ocamlformat, ocp-indent
 let $PATH = $OPAM_SWITCH_PREFIX . '/bin:' . $PATH
+
+" C-l: Clear merlin highlights
+autocmd User ClearHighlight call merlin#StopHighlight()
