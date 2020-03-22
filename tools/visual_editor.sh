@@ -7,4 +7,4 @@ if [[ -z $EDITOR ]]; then
   exit 2
 fi
 
-xterm -e "$EDITOR $@" &
+xterm -e "$EDITOR" "$@" &
