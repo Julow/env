@@ -1,7 +1,6 @@
 xkb_symbols "custom-qwerty" {
   include "pc+us+inet(evdev)+terminate(ctrl_alt_bksp)"
-  include "ctrl(swap_lwin_lctl)" // Left ctrl is win
-  include "ctrl(nocaps)" // Caps lock is ctrl
+  include "ctrl(swapcaps)" // Caps lock is ctrl, left ctrl is not ctrl
   include "compose(lwin)+compose(rwin)" // Both Win are Compose
 
   // Swap Space and Right Shift
@@ -10,4 +9,14 @@ xkb_symbols "custom-qwerty" {
 
   // Eject is Delete
   replace key <I169> { [ Delete ] };
+
+  // Left ctrl is level3
+  replace key <LCTL> { [ ISO_Level3_Shift ] };
+  include "level3(modifier_mapping)"
+
+  // mod3 + hjkl are arrow keys
+  replace key <AC06> { [ h, H, Left ] };
+  replace key <AC07> { [ j, J, Down ] };
+  replace key <AC08> { [ k, K, Up ] };
+  replace key <AC09> { [ l, L, Right ] };
 };
