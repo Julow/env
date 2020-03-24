@@ -15,6 +15,9 @@
 	instructionFormat = "tformat:%<(8,trunc)%an%d %s # %ar"
 	stat = true
 
+[advice]
+  detachedHead = false
+
 [alias]
 	k = checkout
 	b = branch -avv --sort=-refname
