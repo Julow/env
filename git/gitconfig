@@ -18,6 +18,9 @@
 [advice]
   detachedHead = false
 
+[merge]
+  conflictStyle = diff3
+
 [alias]
 	k = checkout
 	b = branch -avv --sort=-refname
