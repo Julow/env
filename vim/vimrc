@@ -153,3 +153,6 @@ inoremap <C-k> <C-o>gk
 
 " Syntax for some extensions
 autocmd BufNewFile,BufRead *.xkb set ft=xkb
+
+" Enable matchit
+packadd! matchit
