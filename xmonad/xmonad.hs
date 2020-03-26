@@ -109,11 +109,10 @@ workspace_prompt prompt_conf = do
   let workspaces_sh = home ++ "/notes/setup/tools/workspaces.sh"
   ws <- io $ getDirectoryContents workspaces_dir
   let ws' = filter (flip notElem [ ".", ".." ]) ws
-  term <- asks (terminal . config)
   let compl = compl_fun_from_list ws'
   let open w =
         let w' = workspaces_dir ++ w in
-        safeSpawn workspaces_sh [ "open", "-s", w', term ]
+        safeSpawn workspaces_sh [ "open", "-s", w' ]
   mkXPrompt (Prompt_autocomplete "Workspace: ") prompt_conf compl open
 
 -- ========================================================================== --
