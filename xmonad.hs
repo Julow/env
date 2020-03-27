@@ -22,6 +22,7 @@ import XMonad.Prompt.Shell
 import XMonad.Util.EZConfig (additionalKeysP, removeKeysP)
 import XMonad.Util.NamedWindows (getName)
 import XMonad.Util.Run
+import XMonad.Hooks.EwmhDesktops
 import qualified XMonad.StackSet as W
 import qualified Data.Map as M
 
@@ -182,13 +183,14 @@ layout = add_tabs $ minimize $ boringWindows (tiled_layout ||| centered_layout)
     add_tabs = addTabs shrinkText tabbed_conf . subLayout [] Simplest
 
 main =
-  xmonad $ def
+  xmonad $ ewmh def
   {
     focusFollowsMouse = False,
     borderWidth = 0,
     logHook = updatePointer (0.99, 0.001) (0, 0),
     layoutHook = layout,
     manageHook = manageSpawn <+> manageHook def,
+    handleEventHook = handleEventHook def <+> fullscreenEventHook,
     terminal = "xterm"
   } `additionalKeysP`
   [
