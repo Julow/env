@@ -11,11 +11,20 @@
     modules/desktop.nix
     modules/screen_off.nix
     extra_config
+
+    forked_modules/dhcpcd.nix # Forked for https://github.com/NixOS/nixpkgs/pull/78745
   ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.systemd-boot.editor = false;
+  boot.loader.timeout = 2;
+  forked.networking.dhcpcd.wait = "background"; # Don't wait for dhcp before starting session
+
+  # Forked dhcpcd
+  forked.networking.dhcpcd.enable = true;
+  networking.dhcpcd.enable = false;
 
   # Enable sound.
   sound.enable = true;
