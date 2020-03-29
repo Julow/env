@@ -21,6 +21,9 @@
 [merge]
   conflictStyle = diff3
 
+[diff]
+  algorithm = histogram
+
 [alias]
 	k = checkout
 	b = branch -avv --sort=-refname
