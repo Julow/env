@@ -20,7 +20,7 @@ cd /tmp
 case "$1" in
   vm)
     NIXOS_CONFIG=$config nixos-rebuild build-vm
-    result/bin/run-nixos-vm
+    "result/bin/run-$HOSTNAME-vm"
     ;;
 
   trace)
