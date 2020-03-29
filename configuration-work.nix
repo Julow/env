@@ -16,9 +16,10 @@
 
     # Network
     networking.useDHCP = false;
-    networking.wireless.enable = true; # Enables wireless support via wpa_supplicant.
     networking.interfaces.enp0s31f6.useDHCP = true;
     networking.interfaces.wlp2s0.useDHCP = true;
+    networking.interfaces.wlan0.useDHCP = true;
+    networking.wireless.iwd.enable = true; # Enable wireless support via iwd
 
     # Video drivers
     services.xserver.videoDrivers = [ "intel" ];
