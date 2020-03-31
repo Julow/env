@@ -4,10 +4,12 @@
 # - Custom keymap
 # - Run xcape
 # - Load the hid-apple kernel module
+# - Enable mousekeys
 
 let conf = config.modules.keyboard; in
 
 let xcape_expr = "Shift_R=space;Control_L=Escape"; in
+let mouse_keys_accel = "30 10 20 40 15"; in
 
 {
   options.modules.keyboard = with lib; {
@@ -31,13 +33,15 @@ let xcape_expr = "Shift_R=space;Control_L=Escape"; in
       };
     };
 
-    # Use a service to run xcape so it can be restarted by the user
+    # Use a service so it can be restarted by the user
     # xcape does nothing if setxkbmap has never been called since boot.
-    systemd.user.services.xcape = {
+    systemd.user.services.keyboard = {
       enable = true;
       wantedBy = [ "graphical-session.target" ];
       script = ''
         ${pkgs.xorg.setxkbmap}/bin/setxkbmap
+        ${pkgs.xkbset}/bin/xkbset m
+        ${pkgs.xkbset}/bin/xkbset ma ${mouse_keys_accel}
         exec ${pkgs.xcape}/bin/xcape -f -e "${xcape_expr}"
       '';
     };
