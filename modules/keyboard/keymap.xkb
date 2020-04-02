@@ -23,6 +23,10 @@ xkb_symbols "custom-qwerty" {
   key <AD08> { type[Group2] = "ONE_LEVEL", symbols[Group2] = [ Next ] };
   key <AD09> { type[Group2] = "ONE_LEVEL", symbols[Group2] = [ Prior ] };
 
+  // group2 + up are home and end
+  key <AD07> { type[Group2] = "ONE_LEVEL", symbols[Group2] = [ Home ] };
+  key <AD10> { type[Group2] = "ONE_LEVEL", symbols[Group2] = [ End ] };
+
   // Less/greater key is mouse buttons
   replace key <LSGT> { [ Pointer_Button1, Pointer_Button3, Pointer_Button1 ] };
 };
