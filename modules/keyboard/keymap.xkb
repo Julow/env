@@ -10,21 +10,18 @@ xkb_symbols "custom-qwerty" {
   // Eject is Delete
   replace key <I169> { [ Delete ] };
 
-  // Left ctrl is level3
-  replace key <LCTL> { [ ISO_Level3_Shift ] };
-  include "level3(modifier_mapping)"
+  // Left ctrl is group2
+  replace key <LCTL> { [ ISO_Group_Latch ] };
 
-  // mod3 + hjkl are arrow keys
-  replace key <AC06> { [ h, H, Left ] };
-  replace key <AC07> { [ j, J, Down ] };
-  replace key <AC08> { [ k, K, Up ] };
-  replace key <AC09> { [ l, L, Right ] };
+  // group2 + hjkl are arrow keys
+  key <AC06> { type[Group2] = "ONE_LEVEL", symbols[Group2] = [ Left ] };
+  key <AC07> { type[Group2] = "ONE_LEVEL", symbols[Group2] = [ Down ] };
+  key <AC08> { type[Group2] = "ONE_LEVEL", symbols[Group2] = [ Up ] };
+  key <AC09> { type[Group2] = "ONE_LEVEL", symbols[Group2] = [ Right ] };
 
-  // mod3 + uiop are moving the mouse
-  replace key <AD07> { [ u, U, KP_4 ] };
-  replace key <AD08> { [ i, I, KP_2 ] };
-  replace key <AD09> { [ o, O, KP_8 ] };
-  replace key <AD10> { [ p, P, KP_6 ] };
+  // group2 + io are pagedown and pageup
+  key <AD08> { type[Group2] = "ONE_LEVEL", symbols[Group2] = [ Next ] };
+  key <AD09> { type[Group2] = "ONE_LEVEL", symbols[Group2] = [ Prior ] };
 
   // Less/greater key is mouse buttons
   replace key <LSGT> { [ Pointer_Button1, Pointer_Button3, Pointer_Button1 ] };
