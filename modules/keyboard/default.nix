@@ -9,7 +9,6 @@
 let conf = config.modules.keyboard; in
 
 let xcape_expr = "Shift_R=space;Control_L=Escape"; in
-let mouse_keys_accel = "30 10 20 40 15"; in
 
 {
   options.modules.keyboard = with lib; {
@@ -41,7 +40,6 @@ let mouse_keys_accel = "30 10 20 40 15"; in
       script = ''
         ${pkgs.xorg.setxkbmap}/bin/setxkbmap
         ${pkgs.xkbset}/bin/xkbset m
-        ${pkgs.xkbset}/bin/xkbset ma ${mouse_keys_accel}
         exec ${pkgs.xcape}/bin/xcape -f -e "${xcape_expr}"
       '';
     };
