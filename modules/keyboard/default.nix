@@ -38,10 +38,12 @@ let xcape_expr = "Shift_R=space;Control_L=Escape"; in
     # xcape does nothing if setxkbmap has never been called since boot.
     systemd.user.services.keyboard = {
       enable = true;
+      wants = [ "display-manager.service" ];
       wantedBy = [ "graphical-session.target" ];
       script = ''
         ${pkgs.xorg.setxkbmap}/bin/setxkbmap
         ${pkgs.xkbset}/bin/xkbset m
+        ${pkgs.xkbset}/bin/xkbset exp =m
         exec ${pkgs.xcape}/bin/xcape -f -e "${xcape_expr}"
       '';
     };
