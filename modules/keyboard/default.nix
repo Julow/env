@@ -24,11 +24,13 @@ let xcape_expr = "Shift_R=space;Control_L=Escape"; in
 
     services.xserver = {
       layout = "custom-qwerty";
+      xkbOptions = "custom-compat";
 
       extraLayouts.custom-qwerty = {
         description = "Custom qwerty layout";
         languages = [ "en" ];
         symbolsFile = ./keymap.xkb;
+        compatFile = ./compat.xkb;
       };
     };
 
