@@ -51,9 +51,12 @@ set foldmethod=indent
 set foldlevelstart=99
 nnoremap <space> za
 
-" C-l to clear highlighted text
+" C-c to clear highlighted text
+" This override default C-c
 " A custom event is used to allow extensibility
-nnoremap <silent> <C-l> :doautocmd User ClearHighlight<return><C-l>
+nnoremap <silent> <C-c> :doautocmd User ClearHighlight<return>
+inoremap <silent> <C-c> <Esc><C-c>
+
 function! s:clear_highlight()
   if v:hlsearch
     call feedkeys(":nohlsearch\<return>")
