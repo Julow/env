@@ -176,3 +176,33 @@ function! Delete_endofline_or_pair()
 endfunction
 
 nnoremap D :call Delete_endofline_or_pair()<return>
+
+" ---
+
+" Require plugin https://github.com/mkotha/conflict3
+" [C and ]C to navigate between conflict and enable conflict3 highlighting
+" <Leader>C to try to automatically resolve
+" <Leader>K to resolve the conflict by taking the version the cursor is in
+
+" Search a conflict and highlight it with conflict3
+" Flag can be 'b' to search backward
+function! Next_conflict(flag)
+  let next = search('\V\^<<<<<<<', a:flag)
+  if next == 0
+    echohl ErrorMsg
+    echomsg "No conflict found"
+    echohl None
+    return
+  endif
+  call setpos('.', next)
+  echomsg "Found"
+  Conflict3Highlight
+endfunction
+
+nnoremap [C :call Next_conflict('b')<return>
+nnoremap ]C :call Next_conflict('')<return>
+nnoremap <Leader>C :Conflict3ResolveAll \| Conflict3Shrink!<return>
+nnoremap <Leader>K :Conflict3TakeThis<return>
+
+" Clear conflict3 highlight on C-c
+autocmd User ClearHighlight Conflict3Clear
