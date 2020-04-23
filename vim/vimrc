@@ -177,6 +177,10 @@ endfunction
 
 nnoremap D :call Delete_endofline_or_pair()<return>
 
+" Delete text without yanking
+nnoremap <Leader>d "_d
+vnoremap <Leader>d "_d
+
 " ---
 
 " Require plugin https://github.com/mkotha/conflict3
