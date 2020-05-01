@@ -23,5 +23,8 @@
     hardware.opengl.extraPackages32 = with pkgs.pkgsi686Linux; [ libva ];
     hardware.pulseaudio.support32Bit = true;
 
+    # Seems necessary for bluetooth headset mode (call)
+    hardware.enableAllFirmware = true;
+
   };
 }
