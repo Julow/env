@@ -16,7 +16,7 @@ let conf = config.modules.desktop; in
       libinput.enable = true; # Touchpad support
 
       # Xmonad
-      windowManager.default = "xmonad";
+      displayManager.defaultSession = "none+xmonad";
       desktopManager.xterm.enable = false; # Required
       windowManager.xmonad = {
         enable = true;
