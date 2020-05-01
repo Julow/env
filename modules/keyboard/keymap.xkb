@@ -1,23 +1,29 @@
 xkb_symbols "custom-qwerty" {
   include "pc+us+inet(evdev)+terminate(ctrl_alt_bksp)"
   include "ctrl(nocaps)" // Caps lock is ctrl
-  include "compose(lwin)+compose(rwin)" // Both Win are Compose
 
-  // Swap Space and Right Shift
-  replace key <RTSH> { [ space ] };
+  // Space is Right Shift
   replace key <SPCE> { [ Shift_R ] };
 
   // Eject is Delete
   replace key <I169> { [ Delete ] };
+
+  // Both Shift are Compose
+  replace key <RTSH> { [ Multi_key ] };
+  replace key <LFSH> { [ Multi_key ] };
+
+  // Alternative Tab and space keys (Left ctrl and right win)
+  // Needed for xcape
+  replace key <LCTL> { [ Tab ] };
+  replace key <RWIN> { [ space ] };
+
+  // Overlay1
 
   // Tab is overlay1
   replace key <TAB> {
     [ Overlay1_Enable, Tab ], // Overlay1_Enable is dummy here, for xcape
     actions = [ SetControls(controls=Overlay1) ]
   };
-
-  // Add an alternative Tab key. Also needed for xcape
-  replace key <LCTL> { [ Tab ] };
 
   // overlay1 + h/j/k/l are arrow keys
   key <AC06> { overlay1 = <LEFT> };
@@ -36,6 +42,8 @@ xkb_symbols "custom-qwerty" {
   // overlay1 + w/e are mouse buttons
   key <AD02> { overlay1 = <KPSU> };
   key <AD03> { overlay1 = <KPAD> };
+
+  // Keypad keys, redirected from overlay1
 
   // Keypad -/+ for mouse buttons
   replace key <KPSU> { [ Pointer_Button1 ] };
