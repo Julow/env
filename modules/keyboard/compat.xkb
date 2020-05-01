@@ -1,6 +1,0 @@
-xkb_compatibility "custom-compat" {
-  include "complete"
-  interpret ISO_Group_Latch {
-    action = LatchGroup(group=2);
-  };
-};

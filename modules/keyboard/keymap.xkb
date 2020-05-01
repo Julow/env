@@ -11,21 +11,21 @@ xkb_symbols "custom-qwerty" {
   replace key <I169> { [ Delete ] };
 
   // Left ctrl is group2
-  replace key <LCTL> { [ ISO_Group_Latch ] };
+  replace key <LCTL> { actions = [ SetControls(controls=Overlay1) ] };
 
   // group2 + hjkl are arrow keys
-  key <AC06> { type[Group2] = "ONE_LEVEL", symbols[Group2] = [ Left ] };
-  key <AC07> { type[Group2] = "ONE_LEVEL", symbols[Group2] = [ Down ] };
-  key <AC08> { type[Group2] = "ONE_LEVEL", symbols[Group2] = [ Up ] };
-  key <AC09> { type[Group2] = "ONE_LEVEL", symbols[Group2] = [ Right ] };
+  key <AC06> { overlay1 = <LEFT> };
+  key <AC07> { overlay1 = <DOWN> };
+  key <AC08> { overlay1 = <UP> };
+  key <AC09> { overlay1 = <RGHT> };
 
   // group2 + io are pagedown and pageup
-  key <AD08> { type[Group2] = "ONE_LEVEL", symbols[Group2] = [ Next ] };
-  key <AD09> { type[Group2] = "ONE_LEVEL", symbols[Group2] = [ Prior ] };
+  key <AD08> { overlay1 = <PGDN> };
+  key <AD09> { overlay1 = <PGUP> };
 
   // group2 + up are home and end
-  key <AD07> { type[Group2] = "ONE_LEVEL", symbols[Group2] = [ Home ] };
-  key <AD10> { type[Group2] = "ONE_LEVEL", symbols[Group2] = [ End ] };
+  key <AD07> { overlay1 = <HOME> };
+  key <AD10> { overlay1 = <END> };
 
   // Less/greater key is mouse buttons
   replace key <LSGT> { [ Pointer_Button1, Pointer_Button3, Pointer_Button1 ] };
