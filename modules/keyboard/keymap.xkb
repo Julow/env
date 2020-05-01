@@ -19,20 +19,25 @@ xkb_symbols "custom-qwerty" {
   // Add an alternative Tab key. Also needed for xcape
   replace key <LCTL> { [ Tab ] };
 
-  // group2 + hjkl are arrow keys
+  // overlay1 + h/j/k/l are arrow keys
   key <AC06> { overlay1 = <LEFT> };
   key <AC07> { overlay1 = <DOWN> };
   key <AC08> { overlay1 = <UP> };
   key <AC09> { overlay1 = <RGHT> };
 
-  // group2 + io are pagedown and pageup
+  // overlay1 + i/o are pagedown and pageup
   key <AD08> { overlay1 = <PGDN> };
   key <AD09> { overlay1 = <PGUP> };
 
-  // group2 + up are home and end
+  // overlay1 + u/p are home and end
   key <AD07> { overlay1 = <HOME> };
   key <AD10> { overlay1 = <END> };
 
-  // Less/greater key is mouse buttons
-  replace key <LSGT> { [ Pointer_Button1, Pointer_Button3, Pointer_Button1 ] };
+  // overlay1 + w/e are mouse buttons
+  key <AD02> { overlay1 = <KPSU> };
+  key <AD03> { overlay1 = <KPAD> };
+
+  // Keypad -/+ for mouse buttons
+  replace key <KPSU> { [ Pointer_Button1 ] };
+  replace key <KPAD> { [ Pointer_Button3 ] };
 };
