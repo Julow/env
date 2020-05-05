@@ -42,14 +42,17 @@
   environment.systemPackages = with pkgs; [
     firefox
     gcc_multi binutils-unwrapped
-    curl gnumake mkpasswd zip file
-    vim_configurable git
+    curl gnumake mkpasswd zip unzip file jq
+    vim_configurable git rlwrap tig tree cloc
     gnupg gitAndTools.gitRemoteGcrypt encfs
-    dunst htop
+    htop
+    dunst xdotool dmenu imagemagick
+    pavucontrol
     fd ack fzf
     python3
     opam ocaml
-    vlc spotifyd playerctl
+    flamegraph
+    mpv playerctl
     opam2nix
     rss_to_mail
   ];
