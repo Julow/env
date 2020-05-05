@@ -61,6 +61,17 @@ web_browser = "firefox"
 -- Password prompt
 -- Ask the password manager
 
+data XPrompt_autocomplete = XPrompt_autocomplete String ComplFunction (String -> X ())
+
+-- XPrompt instance suitable for mkXPromptWithModes
+-- Example: @mkXPromptWithModes [ XPT (XPrompt_autocomplete prompt compl action) ]@
+instance XPrompt XPrompt_autocomplete where
+  showXPrompt (XPrompt_autocomplete prompt _ _) = prompt
+  commandToComplete _ c = c
+  nextCompletion _ = getNextCompletion
+  completionFunction (XPrompt_autocomplete _ compl _) = compl
+  modeAction (XPrompt_autocomplete _ _ action) _ q = action q
+
 password_prompt prompt_conf = do
   home <- home_dir
   let pass_dir = home ++ "/notes/pass/"
@@ -68,8 +79,12 @@ password_prompt prompt_conf = do
   ps <- io $ getDirectoryContents pass_dir
   let ps' = filter (not . isPrefixOf ".") ps
   let compl = compl_no_empty $ compl_fun_from_list ps'
-  let get_password p = safeSpawn pass_script [ "get", "-n", pass_dir ++ p ]
-  mkXPrompt (Prompt_autocomplete "Password: ") prompt_conf compl get_password
+  let type_password p = safeSpawn pass_script [ "type", "-n", pass_dir ++ p ]
+  let copy_password p = safeSpawn pass_script [ "get", "-n", pass_dir ++ p ]
+  mkXPromptWithModes [
+      (XPT (XPrompt_autocomplete "Type Password: " compl type_password)),
+      (XPT (XPrompt_autocomplete "Copy Password: " compl copy_password))
+    ] prompt_conf
 
 -- ========================================================================== --
 -- Preset prompt
@@ -233,7 +248,7 @@ main =
     ("M-S-o", preset_prompt prompt_conf),
 
     -- Password prompt
-    ("M-;", password_prompt prompt_conf),
+    ("M-;", password_prompt (prompt_conf { changeModeKey = xK_semicolon })),
 
     -- Indicators
     ("M-`", safeSpawn "indicators.sh" []),
