@@ -9,8 +9,7 @@ set tabstop=2
 set softtabstop=2
 set shiftwidth=2
 
-let g:formatdef_ocamlformat = '"ocamlformat --enable-outside-detected-project --name ".bufname("%")." -"'
-let g:formatters_ocaml = ['ocamlformat']
+set formatprg=ocamlformat\ --enable-outside-detected-project\ --name\ %\ -
 
 " ocamlformat, ocp-indent
 let $PATH = $OPAM_SWITCH_PREFIX . '/bin:' . $PATH
