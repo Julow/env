@@ -128,7 +128,6 @@ update_vim:
 	git subtree pull --squash -P vim/pack/plugins/start/indent-object "https://github.com/michaeljsmith/vim-indent-object" master
 	git subtree pull --squash -P vim/pack/plugins/start/argtextobj.vim "https://github.com/vim-scripts/argtextobj.vim" master
 	git subtree pull --squash -P vim/pack/plugins/start/nix "https://github.com/LnL7/vim-nix" master
-	git subtree pull --squash -P vim/pack/plugins/start/autoformat "https://github.com/chiel92/vim-autoformat" master
 	git subtree pull --squash -P vim/pack/plugins/start/markdown-folding "https://github.com/masukomi/vim-markdown-folding" master
 	git subtree pull --squash -P vim/pack/plugins/start/xdg_open.vim "https://github.com/arp242/xdg_open.vim" master
 	git subtree pull --squash -P vim/pack/plugins/start/tmux-focus-events" "any-term "https://github.com/Julow/vim-tmux-focus-events" any-term
