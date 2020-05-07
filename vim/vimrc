@@ -179,6 +179,8 @@ endfunction
 onoremap <silent> up :<C-U>call End_of_line_or_pair()<return>
 
 nmap D dup
+nmap C cup
+nmap Y yup
 
 " Delete text without yanking
 nnoremap <Leader>d "_d
