@@ -141,9 +141,6 @@ hi StatusLineNC ctermbg=none ctermfg=black cterm=none
 " Opens vim-fugitive split diff with the merge-base
 command -nargs=1 -complete=custom,fugitive#CompleteObject Gdiffb execute ':Gdiffsplit ' . system("git merge-base " . <q-args> . " HEAD")
 
-" vim-autoformat
-nnoremap <C-_> :Autoformat<CR>
-
 " Ctrl+k and Ctrl+j to move up and down inside wrapped lines
 nnoremap <C-j> gj
 nnoremap <C-k> gk
