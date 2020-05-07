@@ -239,3 +239,6 @@ function! Run_formatter()
 endfunction
 
 set formatexpr=Run_formatter()
+
+" Format a paragraph
+nnoremap gQ gqip
