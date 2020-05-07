@@ -43,6 +43,10 @@ xkb_symbols "custom-qwerty" {
   key <AD02> { overlay1 = <KPSU> };
   key <AD03> { overlay1 = <KPAD> };
 
+  // overlay1 + b/n are backspace/enter
+  key <AB05> { overlay1 = <BKSP> };
+  key <AB06> { overlay1 = <RTRN> };
+
   // Keypad keys, redirected from overlay1
 
   // Keypad -/+ for mouse buttons
