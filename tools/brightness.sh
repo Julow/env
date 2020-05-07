@@ -25,7 +25,7 @@ if [[ $NEW -lt 0 ]]; then NEW=0; fi
 echo $NEW > "$1"
 echo "$NEW / $MAX"
 
-if which notify-send &>/dev/null; then
+if which dunstify &>/dev/null; then
 	VAL=$((NEW * 100 / MAX))
 	dunstify -r 1234 -a "Brightness" -u low "" "`progress-bar.sh "$VAL"`"
 fi
