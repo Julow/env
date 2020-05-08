@@ -2,13 +2,26 @@
 
 set -e
 
+# Args: $config $@
+build ()
+{
+  local config="$1"
+  local -a nixpkgs
+  shift
+  if [[ -d nixpkgs ]]; then
+    echo "Using nixpkgs at './nixpkgs'" >&2
+    nixpkgs=(-I nixpkgs=./nixpkgs)
+  fi
+  echo "Building $config" >&2
+  nix-build --no-out-link '<nixpkgs/nixos>' -I nixos-config="$config" "${nixpkgs[@]}" "$@"
+}
+
 case "$1" in
   deploy)
     target=${2?"Usage: $0 deploy <target>"}
     config=${3-configuration.nix}
 
-    echo "Building $config"
-    result=$(nix-build --no-out-link '<nixpkgs/nixos>' -A system -I nixos-config="$config")
+    result=$(build "$config" -A system)
     echo "Built $result"
 
     echo "Uploading to $target"
@@ -23,8 +36,7 @@ case "$1" in
   vm)
     config=${2-configuration.nix}
 
-    echo "Building $config"
-    result=$(nix-build --no-out-link '<nixpkgs/nixos>' -A vm -I nixos-config="$config")
+    result=$(build "$config" -A vm)
     echo "Built $result"
 
     "$result"/bin/run-*-vm
@@ -33,14 +45,16 @@ case "$1" in
   trace)
     config=${2-configuration.nix}
 
-    echo "Building $config"
-    result=$(nix-build --show-trace --no-out-link '<nixpkgs/nixos>' -A system -I nixos-config="$config")
+    result=$(build "$config" -A system --show-trace)
     echo "Built $result"
     ;;
 
   *)
     cat <<EOF >&2
 Usage: nixos-deploy { deploy <target> | vm | trace } [configuration.nix]
+
+  If a directory named 'nixpkgs' exists in the current directory, it is used
+  instead of the global nixpkgs channel.
 
   deploy
     Build then deploy a NixOS system. <target> is an SSH uri, eg. root@remote.
