@@ -3,33 +3,42 @@
 set -e
 
 case $HOSTNAME in
-  "jules-work") config=configuration-work.nix ;;
-  "jules-pc") config=configuration-home.nix ;;
+  "jules-work") config=./configuration-work.nix ;;
+  "jules-pc") config=./configuration-home.nix ;;
 
   *)
     echo "Unknown hostname $HOSTNAME" >&2
     exit 1
 esac
 
-config=$(realpath "$(dirname "$0")/$config")
-
-[[ -e $config ]]
-
-cd /tmp
+build ()
+{
+  local target="$1"
+  shift
+  echo "Building $config" >&2
+  nix-build --no-out-link "$@" -A "$target" \
+    -E "import nixpkgs/nixos { configuration = import $config; }"
+}
 
 case "$1" in
   vm)
-    NIXOS_CONFIG=$config nixos-rebuild build-vm
-    "result/bin/run-$HOSTNAME-vm"
+    result=$(build vm)
+    "$result"/bin/run-*-vm
     ;;
 
   trace)
-    NIXOS_CONFIG=$config nixos-rebuild dry-build --show-trace 2>&1 | less
+    result=$(build system --show-trace)
+    echo "Built $result"
     ;;
 
   "")
-    su -c "NIXOS_CONFIG='$config' nixos-rebuild switch"
+    result=$(build system)
+    echo "Built $result"
+    echo "Switching..."
+    su -c \
+"nix-env --profile /nix/var/nix/profiles/system --set '$result' && \
+/nix/var/nix/profiles/system/bin/switch-to-configuration switch"
     ;;
 
-  *) echo "Usage: $0 [vm|trace]" >&2 ;;
+  *) echo "Usage: $0 [vm|trace|]" >&2 ;;
 esac
