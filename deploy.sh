@@ -16,8 +16,10 @@ build ()
   local target="$1"
   shift
   echo "Building $config" >&2
-  nix-build --no-out-link "$@" -A "$target" \
-    -E "import nixpkgs/nixos { configuration = import $config; }"
+  # Clear NIX_PATH and other variables
+  env -i \
+  nix-build --no-out-link -A "$target" "$@" '<nixpkgs/nixos>' \
+    -I nixos-config="$config" -I nixpkgs=nixpkgs
 }
 
 case "$1" in

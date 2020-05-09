@@ -39,6 +39,9 @@
   nixpkgs.config.allowUnfree = true;
   nixpkgs.overlays = [ (import ./packages/overlay.nix) ];
 
+  # The same nixpkgs used to build the system. No channel
+  nix.nixPath = [ "nixpkgs=${<nixpkgs>}" ];
+
   environment.systemPackages = with pkgs; [
     firefox
     gcc_multi binutils-unwrapped
