@@ -5,9 +5,7 @@
 
   extra_config = {
     imports = [
-      # Requires https://github.com/NixOS/nixos-hardware
-      # This laptop definitely has quirks
-      <nixos-hardware/lenovo/thinkpad/x1/6th-gen>
+      nixos-hardware/lenovo/thinkpad/x1/6th-gen
     ];
 
     # Use the systemd-boot EFI boot loader.
