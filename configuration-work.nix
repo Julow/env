@@ -5,12 +5,10 @@
 
   extra_config = {
     imports = [
+      /etc/nixos/hardware-configuration.nix
       nixos-hardware/lenovo/thinkpad/x1/6th-gen
     ];
 
-    # Use the systemd-boot EFI boot loader.
-    boot.loader.systemd-boot.enable = true;
-    boot.loader.efi.canTouchEfiVariables = true;
 
     # Network
     networking.useDHCP = false;

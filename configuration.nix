@@ -4,7 +4,6 @@
 
 {
   imports = [
-    /etc/nixos/hardware-configuration.nix
     modules/apod_wallpaper
     modules/keyboard
     modules/display_manager.nix
@@ -31,9 +30,6 @@
 
   networking.hostName = host_name;
   time.timeZone = "Europe/Paris";
-
-  # Video drivers
-  services.xserver.videoDrivers = [ "nvidia" ];
 
   # Nixpkgs config and package overrides
   nixpkgs.config.allowUnfree = true;

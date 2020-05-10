@@ -4,9 +4,9 @@
   main_user = "juloo";
 
   extra_config = { pkgs, ... }: {
-    # Use the systemd-boot EFI boot loader.
-    boot.loader.systemd-boot.enable = true;
-    boot.loader.efi.canTouchEfiVariables = true;
+    imports = [
+      /etc/nixos/hardware-configuration.nix
+    ];
 
     # Network
     networking.useDHCP = false;
