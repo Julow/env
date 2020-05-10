@@ -202,7 +202,7 @@ main =
   {
     focusFollowsMouse = False,
     borderWidth = 0,
-    logHook = updatePointer (0.99, 0.001) (0, 0),
+    logHook = updatePointer (0.5, 0.5) (0, 0),
     layoutHook = layout,
     manageHook = manageSpawn <+> manageHook def,
     handleEventHook = handleEventHook def <+> fullscreenEventHook,
