@@ -6,6 +6,7 @@ import System.Environment
 import XMonad
 import XMonad.Actions.Minimize
 import XMonad.Actions.SpawnOn
+import XMonad.Actions.UpdatePointer
 import XMonad.Actions.WindowBringer
 import XMonad.Layout.BoringWindows
 import XMonad.Layout.Spacing
@@ -201,6 +202,7 @@ main =
   {
     focusFollowsMouse = False,
     borderWidth = 0,
+    logHook = updatePointer (0.99, 0.001) (0, 0),
     layoutHook = layout,
     manageHook = manageSpawn <+> manageHook def,
     handleEventHook = handleEventHook def <+> fullscreenEventHook,
