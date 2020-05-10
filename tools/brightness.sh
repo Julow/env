@@ -6,26 +6,15 @@
 
 set -e
 
-INC="$1"
-
-set /sys/class/backlight/*/brightness
-
-if [[ $# -eq 0 ]]; then
-	echo "Cannot change brightness" >&2
-	exit 1
+INC=$1
+if [[ $INC -gt 0 ]]; then
+  INC=+$INC
 fi
 
-CUR=`cat "$1"`
-MAX=`cat "${1%brightness}max_brightness"`
-NEW=$((MAX * INC / 100 + CUR))
-
-if [[ $NEW -gt $MAX ]]; then NEW=$MAX; fi
-if [[ $NEW -lt 0 ]]; then NEW=0; fi
-
-echo $NEW > "$1"
-echo "$NEW / $MAX"
+brightnessctl set -- "$INC%"
 
 if which dunstify &>/dev/null; then
-	VAL=$((NEW * 100 / MAX))
-	dunstify -r 1234 -a "Brightness" -u low "" "`progress-bar.sh "$VAL"`"
+  IFS=, read _ _ _ VAL _ < <(brightnessctl info -m)
+  VAL=${VAL%\%}
+  dunstify -r 1234 -a "Brightness" -u low "" "`progress-bar.sh "$VAL"`"
 fi
