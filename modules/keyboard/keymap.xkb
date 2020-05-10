@@ -47,9 +47,18 @@ xkb_symbols "custom-qwerty" {
   key <AB05> { overlay1 = <BKSP> };
   key <AB06> { overlay1 = <RTRN> };
 
-  // Keypad keys, redirected from overlay1
+  // overlay1 + space latches Shift
+  key <SPCE> { overlay1 = <PAUS> };
+
+  // Dummy keys, redirected from overlay1
 
   // Keypad -/+ for mouse buttons
   replace key <KPSU> { [ Pointer_Button1 ] };
   replace key <KPAD> { [ Pointer_Button3 ] };
+
+  // Pause key is shift latch
+  replace key <PAUS> {
+    [ ISO_Level2_Latch ],
+    actions = [ LatchMods(modifiers=Shift, clearLocks, latchToLock) ]
+  };
 };
