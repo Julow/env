@@ -9,6 +9,8 @@ set tabstop=2
 set softtabstop=2
 set shiftwidth=2
 
+set fo-=c fo-=r fo-=o
+
 set formatprg=ocamlformat\ --enable-outside-detected-project\ --name\ %\ -
 
 " ocamlformat, ocp-indent

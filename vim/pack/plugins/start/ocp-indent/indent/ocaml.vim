@@ -14,7 +14,6 @@ setlocal indentexpr=GetOcpIndent(v:lnum)
 if !exists("no_ocaml_comments")
  if (has("comments"))
    setlocal comments=sr:(*,mb:*,ex:*)
-   setlocal fo+=cqor
  endif
 endif
 
