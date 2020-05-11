@@ -154,6 +154,9 @@ inoremap <C-k> <C-o>gk
 " Syntax for some extensions
 autocmd BufNewFile,BufRead *.xkb set ft=xkb
 
+" Q to save file
+nnoremap Q :w<return>
+
 " Enable matchit
 packadd! matchit
 
