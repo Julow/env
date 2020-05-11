@@ -66,6 +66,10 @@
     enableOnBoot = false;
   };
 
+  # Disable polkit. Unused for now, I want to know when it's required
+  security.polkit.enable = false;
+  security.rtkit.enable = pkgs.lib.mkForce false;
+
   users.users."${main_user}" = {
     isNormalUser = true;
     initialPassword = "test";
