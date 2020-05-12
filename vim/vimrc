@@ -20,6 +20,7 @@ filetype indent on
 set backspace=eol,start,indent
 
 set autoread
+autocmd BufEnter * :checktime
 
 set t_Co=16
 
