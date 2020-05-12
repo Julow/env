@@ -40,6 +40,7 @@
 
   environment.systemPackages = with pkgs; [
     firefox
+    spotify
     gcc_multi binutils-unwrapped
     curl gnumake mkpasswd zip unzip file jq
     vim_configurable git rlwrap tig tree cloc

@@ -11,7 +11,7 @@
 
     # Extra packages
     environment.systemPackages = with pkgs; [
-      brightnessctl
+      brightnessctl slack
     ];
 
     # Network
