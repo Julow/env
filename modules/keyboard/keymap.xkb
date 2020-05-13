@@ -1,6 +1,10 @@
 xkb_symbols "custom-qwerty" {
   include "pc+us+inet(evdev)+terminate(ctrl_alt_bksp)"
-  include "ctrl(nocaps)" // Caps lock is ctrl
+
+  // Caps lock is Ctrl
+  // Not using "ctrl(nocaps)" to avoid <LCTL> being in the modifier_map
+  replace key <CAPS> { [ Control_L, Control_L ] };
+  modifier_map Control { <CAPS> };
 
   // Space is Right Shift
   replace key <SPCE> { [ Shift_R ] };
