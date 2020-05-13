@@ -248,3 +248,8 @@ set formatexpr=Run_formatter()
 
 " Format a paragraph
 nnoremap gQ gqip
+
+" Map C-= to reindent the current line
+" Also in insert mode
+inoremap <C-=> <C-o>==
+nnoremap <C-=> ==
