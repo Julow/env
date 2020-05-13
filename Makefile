@@ -108,6 +108,14 @@ $(HTOPRC): htop/htoprc
 
 LINK += $(HTOPRC)
 
+# Mpv
+
+MPV_CONF = $(HOME)/.config/mpv/mpv.conf
+
+$(MPV_CONF): mpv/mpv.conf
+
+LINK += $(MPV_CONF)
+
 # Vim
 
 DOTVIM = $(HOME)/.vim
