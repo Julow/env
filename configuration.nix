@@ -33,10 +33,13 @@
 
   # Nixpkgs config and package overrides
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.overlays = [ (import ./packages/overlay.nix) ];
+  nixpkgs.overlays = (import ./packages/overlay.nix);
 
   # The same nixpkgs used to build the system. No channel
-  nix.nixPath = [ "nixpkgs=${<nixpkgs>}" ];
+  nix.nixPath = [
+    "nixpkgs=${<nixpkgs>}"
+    "nixpkgs-overlays=${./packages}/overlay.nix"
+  ];
 
   environment.systemPackages = with pkgs; [
     firefox

@@ -1,8 +1,5 @@
-self: super:
+let overlay = self: super: with super; {
 
-with super;
-
-{
   dunst = dunst.override { dunstify = true; };
 
   xterm = xterm.overrideAttrs (attrs: {
@@ -14,4 +11,8 @@ with super;
   opam2nix = self.callPackage ./opam2nix.nix {};
 
   rss_to_mail = self.callPackage ./rss_to_mail {};
-}
+
+};
+in
+
+[ overlay ]
