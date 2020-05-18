@@ -10,7 +10,7 @@ let overlay = self: super: with super; {
 
   opam2nix = self.callPackage ./opam2nix.nix {};
 
-  rss_to_mail = self.callPackage ./rss_to_mail {};
+  rss_to_mail = self.callPackage ./rss_to_mail.nix {};
 
 };
 in
