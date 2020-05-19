@@ -25,7 +25,7 @@ case "$1" in
     echo "Built $result"
 
     echo "Uploading to $target"
-    nix-copy-closure --to --use-substitutes "$target" "$result"
+    nix copy --no-check-sigs --to "$target" -s "$result"
 
     echo "Activating"
     ssh "$target" -- \
