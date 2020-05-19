@@ -8,4 +8,6 @@ let
   };
 in
 
-pkgs.callPackage src {}
+pkgs.callPackage src {
+  ocamlPackages = pkgs.ocaml-ng.ocamlPackages_4_08;
+}
