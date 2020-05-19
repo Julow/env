@@ -15,14 +15,6 @@
     # Video drivers
     services.xserver.videoDrivers = [ "nvidia" ];
 
-    # Extra packages
-    environment.systemPackages = with pkgs; [ steam ];
-
-    # Support for 32bit games
-    hardware.opengl.driSupport32Bit = true;
-    hardware.opengl.extraPackages32 = with pkgs.pkgsi686Linux; [ libva ];
-    hardware.pulseaudio.support32Bit = true;
-
     # Seems necessary for bluetooth headset mode (call)
     hardware.enableAllFirmware = true;
 

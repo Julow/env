@@ -9,6 +9,7 @@
     modules/display_manager.nix
     modules/desktop.nix
     modules/screen_off.nix
+    modules/games.nix
     extra_config
   ];
 
@@ -81,6 +82,7 @@
   modules.display_manager = { enable = true; user = main_user; };
   modules.desktop.enable = true;
   modules.screen_off = { enable = true; locked = 15; unlocked = 3000; };
+  modules.games.enable = true;
 
   system.stateVersion = "19.09";
 }
