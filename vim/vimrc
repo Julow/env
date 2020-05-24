@@ -152,6 +152,9 @@ inoremap <C-l> <C-o>l
 inoremap <C-j> <C-o>gj
 inoremap <C-k> <C-o>gk
 
+" Don't move the cursor to first column when scrolling
+set nostartofline
+
 " Syntax for some extensions
 autocmd BufNewFile,BufRead *.xkb set ft=xkb
 
