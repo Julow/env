@@ -264,5 +264,8 @@ autocmd QuickFixCmdPost * cwindow
 nnoremap <Leader>[ :cprevious<return>
 nnoremap <Leader>] :cnext<return>
 
+" Use 'git grep' as :grep
+set grepprg=git\ grep\ -n
+
 " Close the quickfix window
 nnoremap <Leader>M :cclose<return>
