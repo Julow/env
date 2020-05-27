@@ -59,4 +59,8 @@
 	newNormal = dim green
 	newHighlight = nodim green
 
+[grep]
+  lineNumber = true
+  fallbackToNoIndex = true
+
 # vim: ft=gitconfig
