@@ -256,3 +256,13 @@ nnoremap gQ gqip
 " Also in insert mode
 inoremap <C-=> <C-o>==
 nnoremap <C-=> ==
+
+" Open the quickfix window when it changes and is not empty
+autocmd QuickFixCmdPost * cwindow
+
+" Bind \[ and \] to navigate between quickfixes
+nnoremap <Leader>[ :cprevious<return>
+nnoremap <Leader>] :cnext<return>
+
+" Close the quickfix window
+nnoremap <Leader>M :cclose<return>
