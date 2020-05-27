@@ -267,5 +267,7 @@ nnoremap <Leader>] :cnext<return>
 " Use 'git grep' as :grep
 set grepprg=git\ grep\ -n
 
+nnoremap <Leader>m :make<return>
+
 " Close the quickfix window
 nnoremap <Leader>M :cclose<return>
