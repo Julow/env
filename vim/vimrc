@@ -47,10 +47,8 @@ set wrap
 set formatoptions+=roj
 
 " Fold
-set foldenable
 set foldmethod=indent
 set foldlevelstart=99
-nnoremap <space> za
 
 " C-c to clear highlighted text
 " This override default C-c
@@ -271,3 +269,6 @@ nnoremap <Leader>m :make<return>
 
 " Close the quickfix window
 nnoremap <Leader>M :cclose<return>
+
+" wincmd
+nmap <Space> <C-w>
