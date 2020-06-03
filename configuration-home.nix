@@ -18,5 +18,9 @@
     # Seems necessary for bluetooth headset mode (call)
     hardware.enableAllFirmware = true;
 
+    sound.extraConfig = ''
+      options snd-hda-intel model=generic
+    '';
+
   };
 }
