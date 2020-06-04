@@ -46,6 +46,9 @@ set wrap
 " Formatting
 set formatoptions+=roj
 
+" Show number of match when searching
+set shortmess-=S
+
 " Fold
 set foldmethod=indent
 set foldlevelstart=99
