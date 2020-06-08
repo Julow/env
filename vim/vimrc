@@ -50,8 +50,13 @@ set formatoptions+=roj
 set shortmess-=S
 
 " Fold
+" Override ZZ and ZQ bindings
 set foldmethod=indent
 set foldlevelstart=99
+nnoremap Z za
+vnoremap Z zf
+nnoremap z1 :set foldlevel=1<return>
+nnoremap z2 :set foldlevel=2<return>
 
 " C-c to clear highlighted text
 " This override default C-c
