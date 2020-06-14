@@ -24,8 +24,10 @@ case "$1" in
     result=$(build "$config" -A system)
     echo "Built $result"
 
+    if [[ ${USE_SUBSTITUTE-1} -eq 1 ]]; then use_substitute="-s"; else use_substitute=""; fi
+
     echo "Uploading to $target"
-    nix copy --no-check-sigs --to "$target" -s "$result"
+    nix copy --no-check-sigs --to "$target" $use_substitute "$result"
 
     echo "Activating"
     ssh "$target" -- \
@@ -60,6 +62,10 @@ Usage: nixos-deploy { deploy <target> | vm | trace } [configuration.nix]
     Build then deploy a NixOS system. <target> is an SSH uri, eg. root@remote.
     This is a thin wrapper around 'nix-build' and 'nix-copy-closure'. The system is
     built locally, uploaded to the remote machine then activated (switched to).
+
+    Env:
+      USE_SUBSTITUTE    1 or 0, default: 1
+        Enable or disable the option "--substitute-on-destination" of 'nix copy'.
 
   vm
     Build a NixOS system and run it inside a qemu VM.
