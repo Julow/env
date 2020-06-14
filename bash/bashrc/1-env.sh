@@ -7,7 +7,7 @@ function l()
 
 alias ll="l"
 
-export LESS="-Ri -x 4"
+export LESS="-Ri -x 4 -j .3"
 
 shopt -s globstar
 
