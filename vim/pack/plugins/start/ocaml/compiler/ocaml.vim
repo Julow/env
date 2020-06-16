@@ -31,9 +31,15 @@ let s:cpo_save = &cpo
 set cpo&vim
 
 CompilerSet errorformat =
-      \%EFile\ \"%f\"\\,\ line\ %l\\,\ characters\ %c-%*\\d:,
-      \%EFile\ \"%f\"\\,\ line\ %l\\,\ characters\ %c-%*\\d\ %.%#,
-      \%EFile\ \"%f\"\\,\ line\ %l\\,\ character\ %c:%m,
+      \%E\ %#File\ \"%f\"\\,\ line\ %l\\,\ characters\ %c-%*\\d:,
+      \%E\ %#File\ \"%f\"\\,\ line\ %l\\,\ characters\ %c-%*\\d:%m,
+      \%E\ %#File\ \"%f\"\\,\ line\ %l\\,\ character\ %c:,
+      \%E\ %#File\ \"%f\"\\,\ line\ %l\\,\ character\ %c:%m,
+      \%E\ %#File\ \"%f\"\\,\ line\ %l:,
+      \%C%*\\d\ \|\ %.%#,
+      \%C\ %#^^%#\ %#,
+      \%CError:\ %m,
+      \%C\ \ \ \ \ \ \ %m,
       \%+EReference\ to\ unbound\ regexp\ name\ %m,
       \%Eocamlyacc:\ e\ -\ line\ %l\ of\ \"%f\"\\,\ %m,
       \%Wocamlyacc:\ w\ -\ %m,
