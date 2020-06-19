@@ -43,7 +43,6 @@ git status --short --branch --untracked-files --ahead-behind 2>/dev/null | {
 	S_REMOTE=${REMOTE%origin/$BRANCH}
 	S_REMOTE=${S_REMOTE%/$BRANCH}
 	if [[ -n $S_REMOTE ]]; then S_REMOTE="...$S_REMOTE"; fi
-	S_BRANCH="$C_MAGENTA($BRANCH$S_REMOTE)"
 
 	# Status
 	S_STAGED=""
@@ -63,10 +62,17 @@ git status --short --branch --untracked-files --ahead-behind 2>/dev/null | {
 
 	# Rebase and merge
 	S_STATE=""
-	if [[ -f .git/REBASE_HEAD ]]; then S_STATE="${C_YELLOW}Rebase in progress";
+  if [[ -d .git/rebase-merge ]]; then
+    read BRANCH < .git/rebase-merge/head-name
+    read MSGNUM < .git/rebase-merge/msgnum
+    read END < .git/rebase-merge/end
+    BRANCH=${BRANCH##refs/heads/}
+    S_STATE="${C_YELLOW}Rebase in progress $MSGNUM/$END";
+	elif [[ -d .git/rebase-apply ]]; then S_STATE="${C_YELLOW}Apply in progress";
 	elif [[ -f .git/MERGE_HEAD ]]; then S_STATE="${C_YELLOW}Merge in progress";
-	elif [[ -f .git/BISECT_START ]]; then S_STATE="${C_YELLOW}Bisect in progress";
+	elif [[ -f .git/BISECT_LOG ]]; then S_STATE="${C_YELLOW}Bisect in progress";
 	elif [[ -f .git/CHERRY_PICK_HEAD ]]; then S_STATE="${C_YELLOW}Cherry-pick in progress"; fi
 
+	S_BRANCH="$C_MAGENTA($BRANCH$S_REMOTE)"
 	echo $S_BRANCH $S_STATE $S_CONFLICT$S_STAGED$S_DIRTY$S_UNTRACKED $S_AHEAD $S_BEHIND $C_RESET
 }
