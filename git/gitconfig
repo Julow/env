@@ -26,27 +26,26 @@
 
 [alias]
 	k = checkout
-	b = branch -avv --sort=-refname
+  b = branch -avv --sort=-authordate --no-merge master --list
 	d = diff --stat --summary -p
 	ds = diff --stat --summary -p --staged
-	l = "!f() { : git log; if [ $# -eq 0 ]; then set -- "-n15"; fi; git customlog \"$@\"; }; f"
+	l = "!f() { : git log; if [ $# -eq 0 ]; then set -- \"-n15\"; fi; git customlog \"$@\"; }; f"
 	t = status --short -b -u
 	a = "!f() { : git add --all; git add --all \"$@\" && git t; }; f"
 	u = "!f() { : git add -u; git add -u \"$@\" && git t; }; f"
 	r = "!f() { : git reset; git reset -- HEAD -q \"$@\" && git t; }; f"
 	c = "!f() { if [[ $# -eq 0 ]]; then git commit -v; else git commit -m \"$*\"; fi; }; f"
 	p = push
-	pl = "!f () { : git pull; git logrf git pull --stat -v --ff-only \"$@\"; }; f"
+	pl = "!f () { : git pull; git pull --stat -v --ff-only \"$@\"; git log ORIG_HEAD..; }; f"
 	amend = commit --amend --no-edit
 	cln = "!f() { : git clean; git clean -dn \"$@\"; echo \"y = yes, i = interactive\"; read -N1 -s confirm; case \"$confirm\" in y) git clean -df \"$@\";; i) git clean -di \"$@\";; *) echo Nothing done;; esac; }; f"
-	rf = "!f () { : git merge --ff-only; git logrf git merge --ff-only -v --stat \"$@\"; }; f"
+	ff = "!f () { : git merge --ff-only; git merge --ff-only -v --stat \"$@\"; git log ORIG_HEAD..; }; f"
 	kpr = "!f() { git fpr \"$1\" && git checkout \"pr/$1\" && git l; }; f"
 	ll = customlog --all
 	flog = log --graph --decorate --graph --format=custom
 	sh = show --summary --stat -p
 	customlog = log --decorate --graph --format=custom
 	fpr = "!f() { git checkout --detach HEAD; git fetch -f `git get-upstream` \"pull/$1/head:pr/$1\"; }; f"
-	logrf = "!f () { BEFORE=`git rev-parse HEAD`; \"$@\" && git l \"$BEFORE..HEAD\"; }; f"
 	ft = fetch --all -t --progress -v
 	pu = "!f() { : git push; git push -u \"${1:-origin}\" \"${2:-HEAD}\"; }; f"
 	bb = log --decorate --format=custom --all --simplify-by-decoration
