@@ -15,6 +15,13 @@
     # Video drivers
     services.xserver.videoDrivers = [ "nvidia" ];
 
+    # Screens
+    services.xserver.dpi = 108;
+    services.xserver.xrandrHeads = [
+      { output = "HDMI-0"; }
+      { output = "DP-1"; primary = true; }
+    ];
+
     # Seems necessary for bluetooth headset mode (call)
     hardware.enableAllFirmware = true;
 
