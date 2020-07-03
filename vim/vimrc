@@ -280,3 +280,19 @@ nnoremap <Leader>M :cclose<return>
 
 " wincmd
 nmap <Space> <C-w>
+
+" Runtest key
+" Example: let g:runtestprg = "make test"
+function! Runtest()
+  if !exists("g:runtestprg")
+    echohl
+    echon "g:runtestprg is not set"
+    echohl None
+    return
+  endif
+  silent cexpr system(expandcmd(g:runtestprg))
+  caddexpr ""
+  cwindow
+endfunction
+
+nnoremap <Leader>r :call Runtest()<return>

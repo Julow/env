@@ -18,3 +18,7 @@ let $PATH = $OPAM_SWITCH_PREFIX . '/bin:' . $PATH
 
 " C-l: Clear merlin highlights
 autocmd User ClearHighlight call merlin#StopHighlight()
+
+" Default to dune
+set makeprg=dune\ build
+let g:runtestprg = "dune runtest"
