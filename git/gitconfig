@@ -36,7 +36,7 @@
 	r = "!f() { : git reset; git reset -- HEAD -q \"$@\" && git t; }; f"
 	c = "!f() { if [[ $# -eq 0 ]]; then git commit -v; else git commit -m \"$*\"; fi; }; f"
 	p = push
-	pl = "!f () { : git pull; git pull --stat -v --ff-only \"$@\"; git log ORIG_HEAD..; }; f"
+	pl = "!f () { : git pull; git pull --stat -v --ff-only \"$@\"; git customlog -n15 ORIG_HEAD..; }; f"
 	amend = commit --amend --no-edit
 	cln = "!f() { : git clean; git clean -dn \"$@\"; echo \"y = yes, i = interactive\"; read -N1 -s confirm; case \"$confirm\" in y) git clean -df \"$@\";; i) git clean -di \"$@\";; *) echo Nothing done;; esac; }; f"
 	ff = "!f () { : git merge --ff-only; git merge --ff-only -v --stat \"$@\"; git log ORIG_HEAD..; }; f"
