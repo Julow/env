@@ -9,6 +9,7 @@ import XMonad.Actions.SpawnOn
 import XMonad.Actions.UpdatePointer
 import XMonad.Actions.WindowBringer
 import XMonad.Layout.BoringWindows
+import XMonad.Layout.Decoration
 import XMonad.Layout.Spacing
 import XMonad.Layout.Minimize
 import XMonad.Layout.ResizableTile
@@ -22,6 +23,7 @@ import XMonad.Prompt.Shell
 import XMonad.Util.EZConfig (additionalKeysP, removeKeysP)
 import XMonad.Util.NamedWindows (getName)
 import XMonad.Util.Run
+import XMonad.Util.Types
 import XMonad.Hooks.EwmhDesktops
 import qualified XMonad.StackSet as W
 import qualified Data.Map as M
@@ -56,6 +58,33 @@ lock_screen = spawn "light-locker-command -l"
 -- Browser
 
 web_browser = "firefox"
+
+-- ========================================================================== --
+-- Border between
+-- Put a decoration on the right *or* the bottom, except if it's next to the
+-- edge of the screen.
+-- Show one border per window, except for the bottom-right most window.
+
+data BorderBetween a = BorderBetween deriving (Show, Read)
+
+instance Eq a => DecorationStyle BorderBetween a where
+
+  shrink BorderBetween (Rectangle dx dy dw dh) (Rectangle x y w h)
+    | dw >= dh && dy < y + div (fi h) 2 = -- Top
+      let y' = dy + fi dh in
+      Rectangle x y' w (fi $ y + fi h - y')
+    | dw >= dh = -- Bottom
+      Rectangle x y w (fi $ dy - y)
+    | dw < dh && dx < x + div (fi w) 2 = -- Left
+      let x' = dx + fi dw in
+      Rectangle x' y (fi $ x + fi w - x') h
+    | dw < dh = -- Right
+      Rectangle x y (fi $ dx - x) h
+
+  pureDecoration BorderBetween dw dh (Rectangle _ _ sw sh) _ _ (_, Rectangle x y w h)
+    | fi x+w < sw = Just $ Rectangle (x + fi (w - dw)) y dw h -- Right
+    | fi y+h < sh = Just $ Rectangle x (y + fi (h - dh)) w dh -- Bottom
+    | otherwise = Nothing
 
 -- ========================================================================== --
 -- Password prompt
@@ -172,14 +201,10 @@ prompt_conf = def {
   -- , sorter = fuzzySort
 }
 
-tabbed_conf =
-  let active = "#859900" in
-  let inactive = "#eeeada" in
-  let urgent = "#dc322f" in
-  -- let text = "#2d393c" in
+-- Decoration with invisible text and no border
+set_colors_no_text active inactive urgent =
   def {
     fontName = font_name 0,
-    decoHeight = 2,
     activeColor = active,
     inactiveColor = inactive,
     urgentColor = urgent,
@@ -191,11 +216,25 @@ tabbed_conf =
     urgentTextColor = urgent
   }
 
-layout = add_tabs $ minimize $ boringWindows (tiled_layout ||| centered_layout)
+tabbed_conf =
+  (set_colors_no_text "#859900" "#eeeada" "#dc322f") {
+    decoHeight = 2
+  }
+
+border_conf =
+  (set_colors_no_text "#2878c8" "#000000" "#dc322f") {
+    decoWidth = 1,
+    decoHeight = 1
+  }
+
+layout =
+    border_between $ add_tabs $ minimize $ boringWindows $
+      (tiled_layout ||| centered_layout)
   where
     tiled_layout = ResizableTall 1 (5/100) (1/2) []
     centered_layout = centered_full 600 20
     add_tabs = addTabs shrinkText tabbed_conf . subLayout [] Simplest
+    border_between = decoration shrinkText border_conf BorderBetween
 
 main =
   xmonad $ ewmh def
