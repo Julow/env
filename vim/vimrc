@@ -45,6 +45,7 @@ set wrap
 
 " Formatting
 set formatoptions+=roj
+set nojoinspaces
 
 " Show number of match when searching
 set shortmess-=S
@@ -273,7 +274,7 @@ nnoremap <Leader>] :cnext<return>
 " Use 'git grep' as :grep
 set grepprg=git\ grep\ -n
 
-nnoremap <Leader>m :make<return>
+nnoremap <Leader>m :make!<return>
 
 " Close the quickfix window
 nnoremap <Leader>M :cclose<return>
@@ -290,7 +291,7 @@ function! Runtest()
     echohl None
     return
   endif
-  silent cexpr system(expandcmd(g:runtestprg))
+  cexpr system(expandcmd(g:runtestprg))
   caddexpr ""
   cwindow
 endfunction
