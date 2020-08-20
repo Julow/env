@@ -32,7 +32,7 @@
     services.xserver.videoDrivers = [ "intel" ];
 
     # This screen has too much pixels
-    services.xserver.dpi = 110;
+    services.xserver.dpi = 138;
 
   };
 }
