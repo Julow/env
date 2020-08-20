@@ -11,7 +11,7 @@
 
     # Extra packages
     environment.systemPackages = with pkgs; [
-      brightnessctl slack
+      brightnessctl slack networkmanager
     ];
 
     # Network
@@ -20,6 +20,13 @@
     networking.interfaces.wlp2s0.useDHCP = true;
     networking.interfaces.wlan0.useDHCP = true;
     networking.wireless.iwd.enable = true; # Enable wireless support via iwd
+
+    networking.networkmanager = {
+      enable = true;
+      wifi.backend = "iwd";
+    };
+
+    users.users.jules.extraGroups = [ "networkmanager" ];
 
     # Video drivers
     services.xserver.videoDrivers = [ "intel" ];
