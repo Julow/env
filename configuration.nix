@@ -60,6 +60,7 @@
     mpv playerctl
     opam2nix
     rss_to_mail
+    nixos-deploy
   ];
 
   # Gpg with Yubikey support

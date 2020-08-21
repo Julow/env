@@ -12,6 +12,8 @@ let overlay = self: super: with super; {
 
   rss_to_mail = self.callPackage ./rss_to_mail.nix {};
 
+  nixos-deploy = self.callPackage ./nixos-deploy.nix {};
+
 };
 in
 
