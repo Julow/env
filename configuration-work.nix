@@ -15,12 +15,8 @@
     ];
 
     # Network
-    networking.useDHCP = false;
-    networking.interfaces.enp0s31f6.useDHCP = true;
-    networking.interfaces.wlp2s0.useDHCP = true;
-    networking.interfaces.wlan0.useDHCP = true;
-    networking.wireless.iwd.enable = true; # Enable wireless support via iwd
-
+    # Use NetworkManager and iwd
+    networking.wireless.iwd.enable = true;
     networking.networkmanager = {
       enable = true;
       wifi.backend = "iwd";
