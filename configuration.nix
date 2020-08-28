@@ -54,7 +54,7 @@
     dunst xdotool dmenu imagemagick
     pavucontrol
     fd ack fzf
-    python3
+    python3 perl
     opam ocaml
     flamegraph
     mpv playerctl
