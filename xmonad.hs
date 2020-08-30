@@ -188,16 +188,22 @@ centered_full sp step =
 
 scratchpads = [
     NS "pavucontrol" "pavucontrol" (className =? "Pavucontrol")
-      (floating_centered (1/4) 0),
-    NS "htop" "xterm -T scratch-htop -e htop" (title =? "scratch-htop")
-      (floating_centered (1/8) (1/8))
+      (floating_centered (1/4) (1/8)),
+    ns_term "htop" (floating_centered (1/8) (1/8)),
+    ns_term "bash" (floating_centered (1/4) 0), -- Quick terminal
+    ns_term "bluetoothctl" (floating_centered (1/3) (1/8))
   ]
   where
+    ns_term cmd =
+      let t = "Scratchpad " ++ cmd in
+      NS cmd ("xterm -T '" ++ t ++ "' -e '" ++ cmd ++ "'") (title =? t)
     floating_centered x y = customFloating $ W.RationalRect x y (1 - x*2) (1 - y*2)
 
 scratchpad_actions = [
     s "p" "pavucontrol",
-    s "h" "htop"
+    s "h" "htop",
+    s "t" "bash",
+    s "b" "bluetoothctl"
   ]
   where
     s key name = ("M-a " ++ key, namedScratchpadAction scratchpads name)
