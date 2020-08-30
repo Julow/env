@@ -21,6 +21,7 @@ import XMonad.Prompt
 import XMonad.Prompt.FuzzyMatch
 import XMonad.Prompt.Shell
 import XMonad.Util.EZConfig (additionalKeysP, removeKeysP)
+import XMonad.Util.NamedScratchpad
 import XMonad.Util.NamedWindows (getName)
 import XMonad.Util.Run
 import XMonad.Util.Types
@@ -183,6 +184,25 @@ centered_full sp step =
   Full
 
 -- ========================================================================== --
+-- Scratchpads
+
+scratchpads = [
+    NS "pavucontrol" "pavucontrol" (className =? "Pavucontrol")
+      (floating_centered (1/4) 0),
+    NS "htop" "xterm -T scratch-htop -e htop" (title =? "scratch-htop")
+      (floating_centered (1/8) (1/8))
+  ]
+  where
+    floating_centered x y = customFloating $ W.RationalRect x y (1 - x*2) (1 - y*2)
+
+scratchpad_actions = [
+    s "p" "pavucontrol",
+    s "h" "htop"
+  ]
+  where
+    s key name = ("M-a " ++ key, namedScratchpadAction scratchpads name)
+
+-- ========================================================================== --
 -- main
 
 font_name size = "xft:Fira Code:style=Medium:antialias=true:size=" ++ show size
@@ -243,11 +263,11 @@ main =
     borderWidth = 0,
     logHook = updatePointer (0.5, 0.5) (0, 0),
     layoutHook = layout,
-    manageHook = manageSpawn <+> manageHook def,
+    manageHook = manageSpawn <+> manageHook def <+> namedScratchpadManageHook scratchpads,
     handleEventHook = handleEventHook def <+> fullscreenEventHook,
     terminal = "xterm"
-  } `additionalKeysP`
-  [
+  }
+  `additionalKeysP` [
 
     -- Windows management
 
@@ -311,7 +331,8 @@ main =
     ("<XF86MonBrightnessUp>", safeSpawn "brightness.sh" ["5"]),
     ("<XF86MonBrightnessDown>", safeSpawn "brightness.sh" ["-5"])
 
-  ] `removeKeysP`
-  [
+  ]
+  `additionalKeysP` scratchpad_actions
+  `removeKeysP` [
     "M-S-q"
   ]
