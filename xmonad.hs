@@ -1,9 +1,11 @@
 {-# LANGUAGE FlexibleInstances, MultiParamTypeClasses, TypeSynonymInstances #-}
 import Control.Monad
 import Data.List
+import Data.Ratio ((%))
 import System.Directory
 import System.Environment
 import XMonad
+import XMonad.Actions.FloatKeys
 import XMonad.Actions.Minimize
 import XMonad.Actions.SpawnOn
 import XMonad.Actions.UpdatePointer
@@ -209,6 +211,35 @@ scratchpad_actions = [
     s key name = ("M-a " ++ key, namedScratchpadAction scratchpads name)
 
 -- ========================================================================== --
+-- Resize floating windows
+
+-- The dimentions of the screen a floating window is on
+current_screen_size = do
+  screen <- W.current <$> gets windowset
+  let Rectangle _ _ sw sh = screenRect $ W.screenDetail screen
+  return (sw, sh)
+
+-- Resize the focused floating window by step
+resize_float_x step =
+  withFocused $ \w -> do
+    (sw, _) <- current_screen_size
+    keysResizeWindow ((truncate (step * toRational sw)), 0) (1%2, 1%2) w
+
+resize_float_y step =
+  withFocused $ \w -> do
+    (_, sh) <- current_screen_size
+    keysResizeWindow (0, truncate (step * toRational sh)) (1%2, 1%2) w
+
+-- Return its second argument if the focused window is floating, its first
+-- argument otherwise
+tiled_or_float if_tiled if_float =
+  withFocused $ \w -> do
+  wins <- gets windowset
+  if M.member w (W.floating wins)
+  then if_float
+  else if_tiled
+
+-- ========================================================================== --
 -- main
 
 font_name size = "xft:Fira Code:style=Medium:antialias=true:size=" ++ show size
@@ -253,11 +284,13 @@ border_conf =
     decoHeight = 1
   }
 
+resize_step = 3%100
+
 layout =
     border_between $ add_tabs $ minimize $ boringWindows $
       (tiled_layout ||| centered_layout)
   where
-    tiled_layout = ResizableTall 1 (5/100) (1/2) []
+    tiled_layout = ResizableTall 1 resize_step (1/2) []
     centered_layout = centered_full 600 20
     add_tabs = addTabs shrinkText tabbed_conf . subLayout [] Simplest
     border_between = decoration shrinkText border_conf BorderBetween
@@ -295,8 +328,10 @@ main =
     ("M-S-d", withLastMinimized maximizeWindowAndFocus),
 
     -- Shrink/expand vertically
-    ("M-S-l", sendMessage MirrorShrink),
-    ("M-S-h", sendMessage MirrorExpand),
+    ("M-h", tiled_or_float (sendMessage Shrink) (resize_float_x resize_step)),
+    ("M-l", tiled_or_float (sendMessage Expand) (resize_float_x (-resize_step))),
+    ("M-S-l", tiled_or_float (sendMessage MirrorShrink) (resize_float_y resize_step)),
+    ("M-S-h", tiled_or_float (sendMessage MirrorExpand) (resize_float_y (-resize_step))),
 
     -- Control
 
