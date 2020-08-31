@@ -52,6 +52,12 @@ compl_fun_from_list lst s =
 compl_no_empty _ "" = return []
 compl_no_empty f s = f s
 
+-- The dimentions of the screen a floating window is on
+current_screen_size = do
+  screen <- W.current <$> gets windowset
+  let Rectangle _ _ sw sh = screenRect $ W.screenDetail screen
+  return (sw, sh)
+
 -- ========================================================================== --
 -- Lock screen
 
@@ -167,7 +173,7 @@ workspace_prompt prompt_conf = do
 -- Centered layout
 -- Improve Layout.Spacing by handling Shink and Expand messages
 
-data CenteredLayout a = CenteredLayout Integer deriving (Show, Read)
+data CenteredLayout a = CenteredLayout Rational deriving (Show, Read)
 
 instance LayoutModifier CenteredLayout a where
   handleMess (CenteredLayout step) m
@@ -175,7 +181,9 @@ instance LayoutModifier CenteredLayout a where
     | Just Expand <- fromMessage m = modify_lr step
     | otherwise = return Nothing
     where
-      modify_lr d = do
+      modify_lr step = do
+        (sw, _) <- current_screen_size
+        let d = truncate (toRational sw * step / 2)
         let m (Border t b r l) = Border t b (r + d) (l + d)
         _ <- sendMessage (ModifyWindowBorder m)
         return Nothing
@@ -212,12 +220,6 @@ scratchpad_actions = [
 
 -- ========================================================================== --
 -- Resize floating windows
-
--- The dimentions of the screen a floating window is on
-current_screen_size = do
-  screen <- W.current <$> gets windowset
-  let Rectangle _ _ sw sh = screenRect $ W.screenDetail screen
-  return (sw, sh)
 
 -- Resize the focused floating window by step
 resize_float_x step =
@@ -291,7 +293,7 @@ layout =
       (tiled_layout ||| centered_layout)
   where
     tiled_layout = ResizableTall 1 resize_step (1/2) []
-    centered_layout = centered_full 600 20
+    centered_layout = centered_full 600 resize_step
     add_tabs = addTabs shrinkText tabbed_conf . subLayout [] Simplest
     border_between = decoration shrinkText border_conf BorderBetween
 
