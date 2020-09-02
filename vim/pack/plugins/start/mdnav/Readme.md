@@ -1,3 +1,6 @@
+**NOTE: this project is no longer maintained, as I stopped using it. If you forked the project and continue to develop it, feel free to send me a message to include a link**.
+
+
 # mdnav - vim plugin for navigating links in markdown files
 
 Vim plugin for navigating links in markdown files.
@@ -32,8 +35,9 @@ It can handle:
     This way fixed name references can be defined to prevent links from going
     stale after headings have been changed.
 - **local link format of pelican**:
-    mdnav handles `|filename| ...` links as expected, for example
-    `[link](|filename|./second.md)`.
+    mdnav handles `|filename| ...` and `{filename} ...` links as expected, for
+    example `[link](|filename|./second.md)` and
+    `[link]({filename}../posts/second.md)`.
 
 Note, all links above are functional with vim and mdnav installed.
 While mdnav is inspired by [follow-markdown-links][fml], mdnav can handle many

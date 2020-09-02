@@ -80,6 +80,9 @@ def open_link(target, current_file, open_in_vim_extensions=set()):
     if target.startswith('|filename|'):
         target = target[len('|filename|'):]
 
+    if target.startswith('{filename}'):
+        target = target[len('{filename}'):]
+
     return VimOpen(anchor_path(target, current_file))
 
 
@@ -284,12 +287,12 @@ def parse_link(cursor, lines):
     if not indirect_ref:
         indirect_ref = m.group('text')
 
-    indrect_link_pattern = re.compile(
+    indirect_link_pattern = re.compile(
         r'^\[' + re.escape(indirect_ref) + r'\]:(.*)$'
     )
 
     for line in lines:
-        m = indrect_link_pattern.match(line)
+        m = indirect_link_pattern.match(line)
 
         if m:
             return m.group(1).strip()
