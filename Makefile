@@ -150,7 +150,9 @@ update_fzf:
 
 update_vim_merlin:
 	git fetch "https://github.com/ocaml/merlin"
+	git rm -r vim/pack/plugins/start/merlin
 	git read-tree --prefix=vim/pack/plugins/start/merlin -u FETCH_HEAD:vim/merlin
+	git commit -m "Vim: Updated merlin"
 
 .PHONY: update_vim update_fzf update_vim_merlin
 
