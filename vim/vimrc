@@ -272,7 +272,7 @@ nnoremap <Leader>[ :cprevious<return>
 nnoremap <Leader>] :cnext<return>
 
 " Use 'git grep' as :grep
-set grepprg=git\ grep\ -n
+set grepprg=git\ grep\ --recurse-submodules\ -n
 
 nnoremap <Leader>m :make!<return>
 
