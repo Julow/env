@@ -305,4 +305,4 @@ function! Fd(...)
   cwindow
 endfunction
 
-command -nargs=+ Fd call Fd(<f-args>)
+command -nargs=* Fd call Fd(<f-args>)
