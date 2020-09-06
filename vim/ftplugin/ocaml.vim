@@ -11,7 +11,7 @@ set shiftwidth=2
 
 set fo-=c fo-=r fo-=o
 
-set formatprg=ocamlformat\ --enable-outside-detected-project\ --name\ %\ -
+set formatprg=ocamlformat\ --enable-outside-detected-project\ --no-version-check\ --name\ %\ -
 
 " ocamlformat, ocp-indent
 let $PATH = $OPAM_SWITCH_PREFIX . '/bin:' . $PATH
