@@ -306,3 +306,10 @@ function! Fd(...)
 endfunction
 
 command -nargs=* Fd call Fd(<f-args>)
+
+" gf open file that don't exist
+nnoremap gf :e <cfile><return>
+" gF to open a file in a new window
+nnoremap gF :split <cfile><return>
+" open a file in a new tab
+nnoremap <C-w>gf :tab new <cfile><return>
