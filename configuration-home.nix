@@ -29,5 +29,6 @@
       options snd-hda-intel model=generic
     '';
 
+    system.stateVersion = "19.09";
   };
 }

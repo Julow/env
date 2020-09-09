@@ -30,5 +30,6 @@
     # This screen has too much pixels
     services.xserver.dpi = 138;
 
+    system.stateVersion = "19.09";
   };
 }

@@ -92,6 +92,4 @@
 
   # Quick service for dunst, until https://github.com/NixOS/nixpkgs/pull/58209 is merged
   systemd.user.services.dunst.serviceConfig.ExecStart = [ "" "${pkgs.dunst}/bin/dunst" ];
-
-  system.stateVersion = "19.09";
 }
