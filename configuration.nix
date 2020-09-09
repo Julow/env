@@ -43,24 +43,28 @@
   ];
 
   environment.systemPackages = with pkgs; [
-    firefox thunderbird
-    spotify
-    tdesktop
-    gcc_multi binutils-unwrapped
-    curl gnumake mkpasswd zip unzip file jq
-    vim_configurable git rlwrap tig tree cloc
+    # Base tools
+    curl gnumake zip unzip file jq
+    rlwrap fd ack fzf tree cloc
+    # Admin
+    mkpasswd rsync
+    htop acpi
     gnupg gitAndTools.gitRemoteGcrypt encfs
-    htop
-    dunst xdotool dmenu imagemagick
-    pavucontrol
-    fd ack fzf
-    python3 perl
+    # Dev
+    vim_configurable git tig
+    gcc_multi binutils-unwrapped
     opam ocaml
+    python3 perl
     flamegraph
-    mpv playerctl
-    opam2nix
+    # Apps
+    firefox thunderbird spotify tdesktop
+    # Desktop
+    dunst xdotool dmenu playerctl
+    pavucontrol mpv
+    # Other
+    opam2nix nixos-deploy
+    imagemagick
     rss_to_mail
-    nixos-deploy
   ];
 
   # Gpg with Yubikey support
