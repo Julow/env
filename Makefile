@@ -141,6 +141,7 @@ update_vim:
 	git subtree pull --squash -P vim/pack/plugins/start/conflict3 "https://github.com/mkotha/conflict3" master
 	git subtree pull --squash -P vim/pack/plugins/start/capnp "https://github.com/cstrahan/vim-capnp" master
 	git subtree pull --squash -P vim/pack/plugins/start/markdown "https://github.com/plasticboy/vim-markdown" master
+	git subtree pull --squash -P vim/pack/plugins/start/ctrlp "https://github.com/ctrlpvim/ctrlp.vim" master
 
 update_fzf:
 	git fetch "https://github.com/junegunn/fzf"
