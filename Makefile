@@ -143,18 +143,13 @@ update_vim:
 	git subtree pull --squash -P vim/pack/plugins/start/markdown "https://github.com/plasticboy/vim-markdown" master
 	git subtree pull --squash -P vim/pack/plugins/start/ctrlp "https://github.com/ctrlpvim/ctrlp.vim" master
 
-update_fzf:
-	git fetch "https://github.com/junegunn/fzf"
-	git read-tree --prefix=bash/external/fzf -u FETCH_HEAD:shell
-	git read-tree --prefix=vim/pack/plugins/start/fzf/plugin -u FETCH_HEAD:plugin
-
 update_vim_merlin:
 	git fetch "https://github.com/ocaml/merlin"
 	git rm -r vim/pack/plugins/start/merlin
 	git read-tree --prefix=vim/pack/plugins/start/merlin -u FETCH_HEAD:vim/merlin
 	git commit -m "Vim: Updated merlin"
 
-.PHONY: update_vim update_fzf update_vim_merlin
+.PHONY: update_vim update_vim_merlin
 
 # Install files
 
