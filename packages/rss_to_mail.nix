@@ -3,8 +3,8 @@
 let
   src = fetchgit {
     url = "https://github.com/Julow/rss_to_mail.git";
-    rev = "4e0f866d192d0ec169c72c0f83b089fb93b9a4a5";
-    sha256 = "0l3zl0ik7kwczc6zswfyfxxzif7qk2w0siwb0w1qgiainxs7zhl3";
+    rev = "5abe83bd73c33e9d377140042ddd44b75c852aca";
+    sha256 = "02k2rdccsdw61c54hqw07162pkki829a1wys662563g087b3ww2r";
   };
 in
 
