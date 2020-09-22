@@ -22,3 +22,5 @@ autocmd User ClearHighlight call merlin#StopHighlight()
 " Default to dune
 set makeprg=dune\ build
 let g:runtestprg = "dune runtest"
+
+nmap <Leader>e :MerlinErrorCheck<return>
