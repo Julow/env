@@ -129,8 +129,27 @@ function! S_readonly()
   return (!&modifiable || &readonly) ? "RO" : ""
 endfunction
 
+" Ruler color depending on the current mode
+function! S_update_mode()
+  let l:m = mode()
+  if l:m == "n"
+    let l:l = "S_mode_n"
+  elseif l:m == "v" || l:m == "\<C-V>"
+    let l:l = "S_mode_v"
+  elseif l:m == "i" || l:m == "R"
+    let l:l = "S_mode_i"
+  elseif l:m == "t"
+    let l:l = "S_mode_t"
+  else
+    let l:l = "S_mode_other"
+  endif
+  execute "highlight link S_mode_link " . l:l
+  return ""
+endfunction
+
 set ruler
-set rulerformat=%50(%=%f%)%<
+set rulerformat=%50(%=%)
+set rulerformat+=%{S_update_mode()}%#S_mode_link#%f%*%< " Mode and file name
 set rulerformat+=\ %(%h\ %)%(%q\ %)%(%w\ %) " Vim's flags
 set rulerformat+=%l:%c%(\ (%{S_selection()})%) " Cursor position and selection
 set rulerformat+=%#S_linef#%(\ %{S_linef()}%) " Line feed format
@@ -156,6 +175,11 @@ hi StatusLine ctermbg=none ctermfg=black cterm=underline
 hi StatusLineNC ctermbg=none ctermfg=black cterm=none
 hi S_readonly ctermbg=none ctermfg=yellow cterm=none
 hi S_linef ctermbg=none ctermfg=red cterm=none
+hi S_mode_n ctermbg=none ctermfg=none cterm=none
+hi S_mode_i ctermbg=none ctermfg=yellow cterm=none
+hi S_mode_v ctermbg=none ctermfg=green cterm=none
+hi S_mode_t ctermbg=none ctermfg=blue cterm=none
+hi S_mode_other ctermbg=none ctermfg=red cterm=none
 
 " :Gdiffb
 " Opens vim-fugitive split diff with the merge-base
