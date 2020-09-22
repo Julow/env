@@ -124,8 +124,18 @@ function! S_linef()
   return &fileformat == "unix" ? "" : &fileformat
 endfunction
 
+" More discreet indicator for unmodifiable or readonly buffers
+function! S_readonly()
+  return (!&modifiable || &readonly) ? "RO" : ""
+endfunction
+
 set ruler
-set rulerformat=%50(%=%f\ %<\ %l:%c%(\ (%{S_selection()})%)%q%(\ [%{S_linef()}%R%W%M]%)%)
+set rulerformat=%=%f%<
+set rulerformat+=\ %(%h\ %)%(%q\ %)%(%w\ %) " Vim's flags
+set rulerformat+=%l:%c%(\ (%{S_selection()})%) " Cursor position and selection
+set rulerformat+=%#S_linef#%(\ %{S_linef()}%) " Line feed format
+set rulerformat+=%#S_readonly#%(\ %{S_readonly()}%) " Readonly flag
+let &statusline=&rulerformat
 set laststatus=0
 
 " Per project vimrc
@@ -144,6 +154,8 @@ hi DiffText ctermbg=lightgrey ctermfg=none
 hi VertSplit ctermbg=none ctermfg=lightgrey cterm=none
 hi StatusLine ctermbg=none ctermfg=black cterm=underline
 hi StatusLineNC ctermbg=none ctermfg=black cterm=none
+hi S_readonly ctermbg=none ctermfg=yellow cterm=none
+hi S_linef ctermbg=none ctermfg=red cterm=none
 
 " :Gdiffb
 " Opens vim-fugitive split diff with the merge-base
