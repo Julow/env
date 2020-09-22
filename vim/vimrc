@@ -186,12 +186,20 @@ function! End_of_line_or_pair()
   endif
 endfunction
 
-" Operator for End_of_line_or_pair
-onoremap <silent> up :<C-U>call End_of_line_or_pair()<return>
+" Text object for End_of_line_or_pair
+noremap <silent> up :<C-U>call End_of_line_or_pair()<return>
 
 nmap D dup
 nmap C cup
 nmap Y yup
+
+" Mapping for vim-surround with operator up
+nmap g( ysup(
+nmap g) ysup)
+nmap g{ ysup{
+nmap g} ysup}
+nmap g[ ysup[
+nmap g] ysup]
 
 " Delete text without yanking
 nnoremap <Leader>d "_d
