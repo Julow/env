@@ -130,7 +130,7 @@ function! S_readonly()
 endfunction
 
 set ruler
-set rulerformat=%=%f%<
+set rulerformat=%50(%=%f%)%<
 set rulerformat+=\ %(%h\ %)%(%q\ %)%(%w\ %) " Vim's flags
 set rulerformat+=%l:%c%(\ (%{S_selection()})%) " Cursor position and selection
 set rulerformat+=%#S_linef#%(\ %{S_linef()}%) " Line feed format
