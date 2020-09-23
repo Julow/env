@@ -150,13 +150,14 @@ function! S_update_mode()
 endfunction
 
 set ruler
-set rulerformat=%50(%=%)
-set rulerformat+=%{S_update_mode()}%#S_mode_link#%f%*%< " Mode and file name
-set rulerformat+=\ %(%h\ %)%(%q\ %)%(%w\ %) " Vim's flags
-set rulerformat+=%l:%c%(\ (%{S_selection()})%) " Cursor position and selection
-set rulerformat+=%#S_linef#%(\ %{S_linef()}%) " Line feed format
-set rulerformat+=%#S_readonly#%(\ %{S_readonly()}%) " Readonly flag
-let &statusline=&rulerformat
+set statusline=%=%{S_update_mode()}%#S_mode_link#%f%*%< " Mode and file name
+set statusline+=\ %(%h\ %)%(%q\ %)%(%w\ %) " Vim's flags
+set statusline+=%l:%c%(\ (%{S_selection()})%) " Cursor position and selection
+set statusline+=%#S_linef#%(\ %{S_linef()}%) " Line feed format
+set statusline+=%#S_readonly#%(\ %{S_readonly()}%) " Readonly flag
+let &rulerformat = "%50(%)" . &statusline " The ruler is the status line of the last window
+set rulerformat+=%#S_fugitive#%(\ %{FugitiveHead(8)}%) " Current Git branch
+set statusline^=--
 set laststatus=0
 
 " Per project vimrc
@@ -173,7 +174,8 @@ hi DiffChange ctermbg=none ctermfg=none
 hi DiffText ctermbg=lightgrey ctermfg=none
 
 hi VertSplit ctermbg=none ctermfg=lightgrey cterm=none
-hi StatusLine ctermbg=none ctermfg=black cterm=underline
+hi StatusLine ctermbg=none ctermfg=black cterm=nocombine
+" nocombine is dummy to avoid Vim printing '^^^'
 hi StatusLineNC ctermbg=none ctermfg=black cterm=none
 hi S_readonly ctermbg=none ctermfg=yellow cterm=none
 hi S_linef ctermbg=none ctermfg=red cterm=none
@@ -182,6 +184,7 @@ hi S_mode_i ctermbg=none ctermfg=yellow cterm=none
 hi S_mode_v ctermbg=none ctermfg=green cterm=none
 hi S_mode_t ctermbg=none ctermfg=blue cterm=none
 hi S_mode_other ctermbg=none ctermfg=red cterm=none
+hi S_fugitive ctermbg=none ctermfg=magenta cterm=none
 
 " :Gdiffb
 " Opens vim-fugitive split diff with the merge-base
