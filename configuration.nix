@@ -4,7 +4,6 @@
 
 {
   imports = [
-    modules/apod_wallpaper
     modules/keyboard
     modules/display_manager.nix
     modules/desktop.nix
@@ -83,7 +82,6 @@
     extraGroups = [ "docker" ];
   };
 
-  modules.apod_wallpaper.enable = true;
   modules.keyboard.enable = true;
   modules.display_manager = { enable = true; user = main_user; };
   modules.desktop.enable = true;
