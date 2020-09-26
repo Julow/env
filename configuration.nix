@@ -4,6 +4,7 @@
 
 {
   imports = [
+    modules/spacetelescope_wallpaper.nix
     modules/keyboard
     modules/display_manager.nix
     modules/desktop.nix
@@ -82,6 +83,7 @@
     extraGroups = [ "docker" ];
   };
 
+  modules.spacetelescope_wallpaper.enable = true;
   modules.keyboard.enable = true;
   modules.display_manager = { enable = true; user = main_user; };
   modules.desktop.enable = true;
