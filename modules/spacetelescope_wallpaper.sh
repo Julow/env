@@ -35,7 +35,7 @@ if [[ $ID = $CACHED_ID ]]; then
   exit 0
 fi
 
-fetch "$IMG_CACHE" "https://cdn.spacetelescope.org/archives/images/wallpaper5/$ID.jpg"
+fetch "$IMG_CACHE" "https://cdn.spacetelescope.org/archives/images/publicationjpg/$ID.jpg"
 echo "$ID" > "$ID_CACHE"
 
 set_wallpaper "$IMG_CACHE"
