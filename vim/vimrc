@@ -346,6 +346,16 @@ autocmd QuickFixCmdPost * cwindow
 nnoremap <Leader>[ :cprevious<return>
 nnoremap <Leader>] :cnext<return>
 
+function! Quickfix_open_split()
+  let l:n = line(".")
+  execute "new"
+  execute l:n "cc"
+endfunction
+
+" Bind C-Enter to open a quickfix entry in a new split
+" Bind C-w Enter for new tabs
+autocmd FileType qf nnoremap <buffer> <C-Enter> :call Quickfix_open_split()<return>
+
 " Use 'git grep' as :grep
 set grepprg=git\ grep\ --recurse-submodules\ -n
 
