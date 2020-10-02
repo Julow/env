@@ -49,27 +49,23 @@ endfunction
 " :Opam {{{1
 
 function! s:Opam(bang,...) abort
-  if len(a:000) > 1 && a:1 ==# "switch"
-    let l:switch = 1
-    let l:version = a:2
+  if len(a:000) == 0
+    call opam#eval_env()
+    let g:opam_current_compiler = opam#compiler_version()
+    return 'echomsg "Using ' . g:opam_current_compiler . '"'
   else
-    let l:switch = 1
     let l:version = a:1
-  end
-  if switch
     let success = opam#switch(l:version)
     if success
       return 'echomsg "Using ' . g:opam_current_compiler . '"'
     else
       return 'echoerr "Switching to ' . l:version . ' failed"'
     endif
-  else
-    return 'echoerr "Only switching is supported for now"'
-  else
+  endif
 endfunction
 
 function! s:Complete(A,L,P)
-  let installed = split((system("opam switch -s -i 2> /dev/null")), "\n")
+  let installed = split((system("opam switch -s 2> /dev/null")), "\n")
   call map(installed, 'opam#chomp(v:val)')
   return join(installed, "\n")
 endfunction
