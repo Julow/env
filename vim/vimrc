@@ -173,16 +173,17 @@ function! S_update_mode()
   return ""
 endfunction
 
-set ruler
 set statusline=%=%{S_update_mode()}%#S_mode_link#%f%*%< " Mode and file name
 set statusline+=\ %(%h\ %)%(%q\ %)%(%w\ %) " Vim's flags
 set statusline+=%l:%c%(\ (%{S_selection()})%) " Cursor position and selection
 set statusline+=%#S_linef#%(\ %{S_linef()}%) " Line feed format
 set statusline+=%#S_readonly#%(\ %{S_readonly()}%) " Readonly flag
-let &rulerformat = "%50(%)" . &statusline " The ruler is the status line of the last window
+set ruler " The ruler is the status line when there is only one window
+let &rulerformat = "%50(%)" . &statusline
 set rulerformat+=%#S_fugitive#%(\ %{FugitiveHead(8)}%) " Current Git branch
 set statusline^=--
-set laststatus=0
+set laststatus=1
+set noshowmode
 
 " Per project vimrc
 set exrc
@@ -201,12 +202,14 @@ hi VertSplit ctermbg=none ctermfg=lightgrey cterm=none
 hi StatusLine ctermbg=none ctermfg=black cterm=nocombine
 " nocombine is dummy to avoid Vim printing '^^^'
 hi StatusLineNC ctermbg=none ctermfg=black cterm=none
+hi StatusLineTerm ctermbg=none ctermfg=none cterm=none
+hi StatusLineTermNC ctermbg=none ctermfg=none cterm=none
 hi S_readonly ctermbg=none ctermfg=yellow cterm=none
 hi S_linef ctermbg=none ctermfg=red cterm=none
 hi S_mode_n ctermbg=none ctermfg=none cterm=none
 hi S_mode_i ctermbg=none ctermfg=yellow cterm=none
 hi S_mode_v ctermbg=none ctermfg=green cterm=none
-hi S_mode_t ctermbg=none ctermfg=blue cterm=none
+hi S_mode_t ctermbg=blue ctermfg=none cterm=none
 hi S_mode_other ctermbg=none ctermfg=red cterm=none
 hi S_fugitive ctermbg=none ctermfg=magenta cterm=none
 
