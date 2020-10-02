@@ -380,9 +380,8 @@ function! Runtest()
     echohl None
     return
   endif
-  cexpr system(expandcmd(g:runtestprg))
-  caddexpr ""
-  cwindow
+  let l:cmd = expandcmd(g:runtestprg)
+  call term_start(l:cmd)
 endfunction
 
 nnoremap <Leader>r :call Runtest()<return>
