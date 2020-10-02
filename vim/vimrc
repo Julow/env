@@ -445,3 +445,8 @@ function! s:add_mappings() abort
   11copen
   wincmd p
 endfunction
+
+" Shortcut for open running a program in the terminal
+nnoremap ! :term<space>
+nnoremap <C-1> :tab term<space>
+tnoremap <C-w>! <C-w>:term<space>
