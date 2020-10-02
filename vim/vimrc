@@ -27,9 +27,7 @@ set t_Co=16
 set diffopt+=foldcolumn:0
 
 " Netrw
-let g:netrw_liststyle = 3
 let g:netrw_banner = 0
-let g:netrw_browse_split = 4
 let g:netrw_nogx = 1
 
 let g:netrw_gx = "<cWORD>"
@@ -53,6 +51,9 @@ endfunction
 
 nnoremap gx :call Gx(expand(g:netrw_gx))<return>
 vnoremap gx :<C-u>call Gx(VisualSelection())<return>
+
+" Open netrw
+nnoremap <Leader>n :Vex<return>
 
 " Shift+tab = escape
 inoremap <S-Tab> <Esc>
