@@ -155,18 +155,14 @@ window_prompt prompt_conf = do
 
 -- ========================================================================== --
 -- Workspace prompt
--- Prompt to open a workspace (in ~/notes/workspaces/) using workspaces.sh
 
 workspace_prompt prompt_conf = do
   home <- home_dir
-  let workspaces_dir = home ++ "/notes/workspaces/"
-  let workspaces_sh = home ++ "/notes/setup/tools/workspaces.sh"
-  ws <- io $ getDirectoryContents workspaces_dir
-  let ws' = filter (flip notElem [ ".", ".." ]) ws
+  let workspaces_desc = home ++ "/notes/workspaces/workspaces.nix"
+  ws <- io $ runProcessWithInput "workspaces" ["list", "-f", workspaces_desc] []
+  let ws' = lines ws
   let compl = compl_fun_from_list ws'
-  let open w =
-        let w' = workspaces_dir ++ w in
-        safeSpawn workspaces_sh [ "open", "-s", w' ]
+  let open w = safeSpawn "xterm" ["-e", "workspaces", "open", "-f", workspaces_desc, w]
   mkXPrompt (Prompt_autocomplete "Workspace: ") prompt_conf compl open
 
 -- ========================================================================== --
