@@ -180,7 +180,7 @@ set statusline+=%#S_linef#%(\ %{S_linef()}%) " Line feed format
 set statusline+=%#S_readonly#%(\ %{S_readonly()}%) " Readonly flag
 set ruler " The ruler is the status line when there is only one window
 let &rulerformat = "%50(%)" . &statusline
-set rulerformat+=%#S_fugitive#%(\ %{FugitiveHead(8)}%) " Current Git branch
+set rulerformat+=%#S_workspace#%(\ %{$WORKSPACE}%)%#S_fugitive#%(\ %{FugitiveHead(8)}%) " Current Git branch
 set statusline^=--
 set laststatus=1
 set noshowmode
@@ -212,6 +212,7 @@ hi S_mode_v ctermbg=none ctermfg=green cterm=none
 hi S_mode_t ctermbg=blue ctermfg=none cterm=none
 hi S_mode_other ctermbg=none ctermfg=red cterm=none
 hi S_fugitive ctermbg=none ctermfg=magenta cterm=none
+hi S_workspace ctermbg=none ctermfg=green cterm=none
 
 " :Gdiffb
 " Opens vim-fugitive split diff with the merge-base
