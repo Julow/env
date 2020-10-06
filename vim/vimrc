@@ -173,6 +173,18 @@ function! S_update_mode()
   return ""
 endfunction
 
+function! S_terminal_status()
+  let buf = bufnr("%")
+  if getbufvar(buf, "&buftype", "") == "terminal"
+    let job = term_getjob(buf)
+    let info = job_info(job)
+    let s = info["exitval"]
+    return (s == 0) ? "" : s
+  else
+    return ""
+  endif
+endfunction
+
 set statusline=%=%{S_update_mode()}%#S_mode_link#%f%*%< " Mode and file name
 set statusline+=\ %(%h\ %)%(%q\ %)%(%w\ %) " Vim's flags
 set statusline+=%l:%c%(\ (%{S_selection()})%) " Cursor position and selection
@@ -181,7 +193,7 @@ set statusline+=%#S_readonly#%(\ %{S_readonly()}%) " Readonly flag
 set ruler " The ruler is the status line when there is only one window
 let &rulerformat = "%50(%)" . &statusline
 set rulerformat+=%#S_workspace#%(\ %{$WORKSPACE}%)%#S_fugitive#%(\ %{FugitiveHead(8)}%) " Current Git branch
-set statusline^=--
+set statusline^=--%#S_terminal_fail#%(\ [exit\ %{S_terminal_status()}]%)
 set laststatus=1
 set noshowmode
 
@@ -213,6 +225,7 @@ hi S_mode_t ctermbg=blue ctermfg=none cterm=none
 hi S_mode_other ctermbg=none ctermfg=red cterm=none
 hi S_fugitive ctermbg=none ctermfg=magenta cterm=none
 hi S_workspace ctermbg=none ctermfg=green cterm=none
+hi S_terminal_fail ctermbg=none ctermfg=red cterm=none
 
 " :Gdiffb
 " Opens vim-fugitive split diff with the merge-base
