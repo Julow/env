@@ -466,7 +466,7 @@ nnoremap <C-1> :tab term<space>
 tnoremap <C-w>! <C-w>:term<space>
 
 " Restart a terminal job
-function! Restart_terminal_job()
+function! Restart_terminal_job(...)
   let buf = bufnr("%")
   let job = term_getjob(buf)
   let info = job_info(job)
@@ -477,8 +477,28 @@ function! Restart_terminal_job()
     endif
     call term_wait(buf)
   endif
-  call term_start(info["cmd"], #{ curwin: 1 })
+  let cmd = (len(a:000) > 0) ? copy(a:000) : info["cmd"]
+  call term_start(cmd, #{ curwin: 1 })
 endfunction
 
-" Restart a job in a terminal
-autocmd TerminalOpen * nnoremap <buffer> <C-return> :call Restart_terminal_job()<return>
+function! Last_job_command()
+  let info = job_info(term_getjob(bufnr("%")))
+  return join(info["cmd"], " ")
+endfunction
+
+" Terminal normal mapping
+function! Setup_terminal_map()
+
+  " Restart a job in the current terminal
+  " If no arguments are given, restart the previous command
+  command! -nargs=* -complete=file RestartJob call Restart_terminal_job(<f-args>)
+
+  " Restart a job in a terminal
+  nnoremap <buffer> <C-return> :RestartJob<return>
+
+  " Type RestartJob command and allow to edit it
+  nnoremap <buffer> <C-1> :RestartJob <C-r>=Last_job_command()<return>
+
+endfunction
+
+autocmd TerminalOpen * call Setup_terminal_map()
