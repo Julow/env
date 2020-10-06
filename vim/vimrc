@@ -464,3 +464,21 @@ endfunction
 nnoremap ! :term<space>
 nnoremap <C-1> :tab term<space>
 tnoremap <C-w>! <C-w>:term<space>
+
+" Restart a terminal job
+function! Restart_terminal_job()
+  let buf = bufnr("%")
+  let job = term_getjob(buf)
+  let info = job_info(job)
+  if info["status"] == "run"
+    if job_stop(job) != 1
+      echo "Couldn't kill current job"
+      return
+    endif
+    call term_wait(buf)
+  endif
+  call term_start(info["cmd"], #{ curwin: 1 })
+endfunction
+
+" Restart a job in a terminal
+autocmd TerminalOpen * nnoremap <buffer> <C-return> :call Restart_terminal_job()<return>
