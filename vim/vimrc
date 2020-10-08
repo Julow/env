@@ -173,6 +173,31 @@ function! S_update_mode()
   return ""
 endfunction
 
+" Do some processing on the current filename
+function! Update_s_filename()
+  let l:f = bufname("%")
+
+  if l:f =~ "^fugitive://"
+    " Fugitive URIs are shortened to "symbolic:path"
+    " Useful to know which is which when using Fugitive diffsplit
+    let l:obj = fugitive#Object(l:f) " Returns a string "HASH:PATH"
+    let [ l:hash; path ] = split(l:obj, ":")
+    let l:symbolic = systemlist("git name-rev --name-only " . l:hash)[0]
+    let l:f = join([ l:symbolic ] + path, ":")
+  endif
+
+  if l:f =~ "^/"
+    " Convert absolute paths to relative paths
+    let l:f = fnamemodify(l:f, ":~:.")
+  endif
+
+  if l:f != ""
+    call setbufvar("%", "s_filename", l:f)
+  endif
+endfunction
+
+autocmd BufEnter * call Update_s_filename()
+
 function! S_terminal_status()
   let buf = bufnr("%")
   if getbufvar(buf, "&buftype", "") == "terminal"
@@ -185,7 +210,7 @@ function! S_terminal_status()
   endif
 endfunction
 
-set statusline=%=%{S_update_mode()}%#S_mode_link#%f%*%< " Mode and file name
+set statusline=%=%{S_update_mode()}%#S_mode_link#%{exists('b:s_filename')?b:s_filename:'<no\ filename>'}%*%< " Mode and file name
 set statusline+=\ %(%h\ %)%(%q\ %)%(%w\ %) " Vim's flags
 set statusline+=%l:%c%(\ (%{S_selection()})%) " Cursor position and selection
 set statusline+=%#S_linef#%(\ %{S_linef()}%) " Line feed format
