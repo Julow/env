@@ -15,13 +15,7 @@
     ];
 
     # Network
-    # Use NetworkManager and iwd
-    networking.wireless.iwd.enable = true;
-    networking.networkmanager = {
-      enable = true;
-      wifi.backend = "iwd";
-    };
-
+    networking.networkmanager.enable = true;
     users.users.jules.extraGroups = [ "networkmanager" ];
 
     # Video drivers
