@@ -26,6 +26,10 @@
 
     # Video drivers
     services.xserver.videoDrivers = [ "intel" ];
+    services.xserver.xrandrHeads = [
+      { output = "DP1-1"; primary = true; }
+      { output = "eDP1"; }
+    ];
 
     # This screen has too much pixels
     services.xserver.dpi = 138;
