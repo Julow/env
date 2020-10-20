@@ -170,6 +170,9 @@ function! S_update_mode()
     let l:l = "S_mode_other"
   endif
   execute "highlight link S_mode_link " . l:l
+  if !exists('b:s_filename') " Ensure s_filename is set
+    call Update_s_filename()
+  endif
   return ""
 endfunction
 
@@ -191,12 +194,10 @@ function! Update_s_filename()
     let l:f = fnamemodify(l:f, ":~:.")
   endif
 
-  if l:f != ""
-    call setbufvar("%", "s_filename", l:f)
-  endif
+  call setbufvar("%", "s_filename", (l:f != "") ? l:f : "<no filename>")
 endfunction
 
-autocmd BufEnter * call Update_s_filename()
+autocmd BufEnter,BufNew,TerminalOpen * call Update_s_filename()
 
 function! S_terminal_status()
   let buf = bufnr("%")
@@ -210,7 +211,7 @@ function! S_terminal_status()
   endif
 endfunction
 
-set statusline=%=%{S_update_mode()}%#S_mode_link#%{exists('b:s_filename')?b:s_filename:'<no\ filename>'}%*%< " Mode and file name
+set statusline=%=%{S_update_mode()}%#S_mode_link#%{b:s_filename}%*%< " Mode and file name
 set statusline+=\ %(%h\ %)%(%q\ %)%(%w\ %) " Vim's flags
 set statusline+=%l:%c%(\ (%{S_selection()})%) " Cursor position and selection
 set statusline+=%#S_linef#%(\ %{S_linef()}%) " Line feed format
