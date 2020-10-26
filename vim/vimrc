@@ -419,6 +419,9 @@ nnoremap <Leader>M :cclose<return>
 " wincmd
 nmap <Space> <C-w>
 
+" Open a new tab page
+nmap <Leader>T :tab new<return>
+
 " Runtest key
 " Example: let g:runtestprg = "make test"
 function! Runtest()
