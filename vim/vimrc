@@ -394,9 +394,6 @@ nnoremap gQ gqip
 inoremap <C-=> <C-o>==
 nnoremap <C-=> ==
 
-" Open the quickfix window when it changes and is not empty
-autocmd QuickFixCmdPost * cwindow
-
 " Bind \[ and \] to navigate between quickfixes
 nnoremap <Leader>[ :cprevious<return>
 nnoremap <Leader>] :cnext<return>
@@ -440,8 +437,15 @@ nnoremap <Leader>r :call Runtest()<return>
 " Find a file by name with fd
 function! Fd(...)
   let args = map(copy(a:000), 'shellescape(v:val)')
-  call setqflist([], 'r', {'lines': systemlist('fd ' . join(args)), 'efm': '%f'})
-  cwindow
+  let lines = systemlist('fd ' . join(args))
+  if len(lines) == 0
+    echohl WarningMsg
+    echo "No match found"
+    echohl None
+  else
+    call setqflist([], 'r', {'lines': lines, 'efm': '%f'})
+    cwindow
+  endif
 endfunction
 
 command -nargs=* Fd call Fd(<f-args>)
