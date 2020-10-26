@@ -6,7 +6,7 @@ let overlay = self: super: with super; {
     configureFlags = attrs.configureFlags ++ [ "--enable-exec-xterm" ];
   });
 
-  ocamlPackages = self.ocaml-ng.ocamlPackages_4_08;
+  ocamlPackages = self.ocaml-ng.ocamlPackages_4_10;
 
   opam2nix = self.callPackage ./opam2nix.nix {};
 
