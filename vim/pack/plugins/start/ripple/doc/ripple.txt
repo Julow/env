@@ -1,0 +1,139 @@
+*ripple.txt*
+
+Author:  Urbain Vaes <https://urbain.vaes.uk/>
+License: MIT
+
+==============================================================================
+OVERVIEW                                                               *ripple*
+
+Ripple is a tool to seamlessly send code chunks to an interactive language
+shell, or read-eval-print loop (REPL).
+
+    1. Usage ............... |ripple-usage|
+    2. Commands ............ |ripple-commands|
+    3. Mappings ............ |ripple-mappings|
+    3. Configuration ....... |ripple-config|
+
+==============================================================================
+USAGE                                                            *ripple-usage*
+
+Ripple aims to provide vim users with the ability to easily send code chunks
+to a language shell. This can prove very useful for quickly testing a subset
+of a script, or for running a script bit by bit without a debugger.
+
+==============================================================================
+COMMANDS                                                      *ripple-commands*
+
+                                                               *ripple-:Ripple*
+:[range] Ripple [text]
+    If the argument [text] is specified, send it to the REPL. Else, if the
+    command is called with a [range], send the corresponding line range in
+    the current buffer to the REPL.
+
+    It can be convenient to combine this command with a mapping, e.g. >
+        nnoremap yrc :Ripple clear<cr>
+
+==============================================================================
+MAPPINGS                                                      *ripple-mappings*
+
+Global~
+
+The <Plug> mappings are always defined, but the mappings to physical keys are
+enabled only if |g:ripple_enable_mappings| is set to `1`.
+
+<Plug>(ripple_open_repl), |y<cr>|
+    Open the REPL window (Normal mode mapping).
+    Mnemonic: "you enter (the REPL)"
+
+<Plug>(ripple_send_motion), |yr|
+    Send text object to the REPL window (Normal mode mapping).
+    Mnemonic: "you run".
+
+<Plug>(ripple_send_selection), |R|
+    Send text object to the REPL window (Visual mode mapping).
+    Mnemonic: "run".
+
+<Plug>(ripple_send_previous), |yp|
+    Resend the latest selection sent to the REPL. More precisely, send the
+    code that is currently at the location of the latest code chunk sent to
+    the REPL. If the contents of the buffer changed in the meantime, this code
+    might be different from the latest code chunk.
+
+<Plug>(ripple_send_buffer), |yr<cr>|
+    Send the whole buffer to the REPL.
+
+<Plug>(ripple_send_line), |yrr|
+    Send the current line to the REPL. This is equivalent to >
+        <Plug>(ripple_send_motion)_
+
+==============================================================================
+CONFIGURATION                                                   *ripple-config*
+
+Global configuration~
+
+*g:ripple_repls*
+    Dictionary for user-defined REPLs. For buffer-local repl definitions, see
+    |b:ripple_repl| below.
+
+    Internally, a REPL configuration for a given filetype is a combination of
+    four variables:
+          - A {command} to start the REPL;
+          - A pair of strings {string1} and {string2} to prepend and append to
+            code sent to the REPL, respectively. This is sometimes necessary
+            to enable sending several lines of code to the REPL at once.
+          - A boolean {extra_cr} that controls whether an additional <cr>
+            should be appended to the code chunks that are followed by a blank
+            line. (This can be useful to avoid the need to press <cr> manually
+            in the terminal window. In ipython, for example, two <cr> are
+            required to run an indented block.)
+
+    In the dictionary |g:ripple_repl|, the keys are |filetype|s and the values
+    are either of the following:
+        - A string containing the {command} to start the REPL (e.g. 'bash',
+          'guile'). In this case the other parameters are assumed to be as
+          follows: {string1} = "",  {string2} = "" and {extra_cr} = 0.
+        - A list of with four entries:
+              [{command}, {string1}, {string2}, {extra_cr}]
+
+    Default: >
+       {  "python": ["ipython", "\<c-u>\<esc>[200~", "\<esc>[201~", 1],
+        \ "julia": "julia",
+        \ "lua": "lua",
+        \ "r": "R",
+        \ "ruby": "irb",
+        \ "scheme": "guile",
+        \ "sh": "bash",
+        \ "zsh": "zsh"}
+
+*g:ripple_winpos*
+    Modifier for the window position. In nvim, this modifier is prepended to
+    the |new| command when opening the terminal window. In vim, it is
+    prepended to the |term| command.
+    Default: 'vertical'.
+
+*g:ripple_enable_mappings*
+    Set this to 0 to disable all mappings apart from the <plug> mappings.
+    Default: 1.
+
+*g:ripple_highlight*
+    Highlight group employed to highlight text objects sent to the REPL.
+    Default: '|DiffAdd|'.
+
+*g:ripple_term_name*
+    Name of the REPL buffer.
+
+*g:ripple_term_options* (vim only)
+    Dictionary with additional options to pass to `term_start()`.
+
+Buffer-local configuration~
+
+*b:ripple_repl*
+    REPL configuration for current buffer. This takes precedence over
+    the global option `g:ripple_repls[&filetype]`.
+
+*b:ripple_term_name*
+    Name of the REPL buffer. This takes precedence over
+    the global option `g:ripple_term_name`.
+
+==============================================================================
+ vim:tw=78:ts=4:et:ft=help:norl:
