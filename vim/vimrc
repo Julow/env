@@ -185,7 +185,11 @@ function! Update_s_filename()
     " Useful to know which is which when using Fugitive diffsplit
     let l:obj = fugitive#Object(l:f) " Returns a string "HASH:PATH"
     let [ l:hash; path ] = split(l:obj, ":")
-    let l:symbolic = systemlist("git name-rev --name-only " . l:hash)[0]
+    if l:hash == '0'
+      let l:symbolic = "staged"
+    else
+      let l:symbolic = systemlist("git name-rev --name-only " . l:hash)[0]
+    endif
     let l:f = join([ l:symbolic ] + path, ":")
   endif
 
