@@ -8,6 +8,15 @@ C_MAGENTA=${C_MAGENTA:-"$ESC[35m"}
 C_GRAY=${C_GRAY:-"$ESC[37m"}
 C_RESET=${C_RESET:-"$ESC[0m"}
 
+if [[ $# -gt 0 ]]; then
+  if [[ -d $1 ]]; then
+    cd "$1"
+  else
+    echo "${C_GRAY}not checkout${C_RESET}"
+    exit
+  fi
+fi
+
 git status --short --branch --untracked-files --ahead-behind 2>/dev/null | {
 
 	if ! read line; then exit 1; fi
