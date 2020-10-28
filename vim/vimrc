@@ -408,6 +408,9 @@ function! Quickfix_open_split()
   execute l:n "cc"
 endfunction
 
+" Open the quickfix window when it changes and is not empty
+autocmd QuickFixCmdPost * cwindow
+
 " Bind C-Enter to open a quickfix entry in a new split
 " Bind C-w Enter for new tabs
 autocmd FileType qf nnoremap <buffer> <C-Enter> :call Quickfix_open_split()<return>
