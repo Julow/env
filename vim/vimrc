@@ -422,17 +422,35 @@ nmap <Space> <C-w>
 " Open a new tab page
 nmap <Leader>T :tab new<return>
 
+let g:runtest_buf = -1
+
 " Runtest key
 " Example: let g:runtestprg = "make test"
 function! Runtest()
   if !exists("g:runtestprg")
-    echohl
+    echohl WarningMsg
     echon "g:runtestprg is not set"
     echohl None
     return
   endif
-  let l:cmd = expandcmd(g:runtestprg)
-  call term_start(l:cmd)
+  let options = {}
+  let previous_buf = bufnr(g:runtest_buf)
+  if previous_buf > 0 " Reuse previous terminal window if any
+    let job = term_getjob(previous_buf)
+    let info = job_info(job)
+    if info["status"] == "run" " Kill the previous job if running
+      if job_stop(job) != 1
+        echo "Couldn't kill current job"
+        return
+      endif
+      call term_wait(previous_buf)
+    endif
+    let win = bufwinnr(previous_buf)
+    execute win "wincmd w"
+    let options['curwin'] = 1
+  endif
+  let cmd = expandcmd(g:runtestprg)
+  let g:runtest_buf = term_start(cmd, options)
 endfunction
 
 nnoremap <Leader>r :call Runtest()<return>
