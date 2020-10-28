@@ -24,6 +24,8 @@ autocmd BufEnter * :checktime
 
 set t_Co=16
 
+set ttimeoutlen=10
+
 set diffopt+=foldcolumn:0
 
 " Netrw
