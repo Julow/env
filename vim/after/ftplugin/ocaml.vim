@@ -16,3 +16,7 @@ autocmd User ClearHighlight call merlin#StopHighlight()
 
 nmap <buffer> <Leader>e :MerlinErrorCheck<return>
 nmap <buffer> gD :MerlinILocate<return>
+
+let g:ripple_repls = {
+    \ "ocaml": ["dune exec -- ocaml", "", ";;", 0],
+    \ }
