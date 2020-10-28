@@ -2,25 +2,17 @@ let no_plugin_maps = 1
 
 setlocal commentstring=(*\ %s\ *)
 
-nmap K :call ocpindex#print()<return>
+setlocal expandtab
+setlocal tabstop=2
+setlocal softtabstop=2
+setlocal shiftwidth=2
 
-set expandtab
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
+setlocal fo-=c fo-=r fo-=o
 
-set fo-=c fo-=r fo-=o
+setlocal formatprg=ocamlformat\ --enable-outside-detected-project\ --no-version-check\ --name\ %\ -
 
-set formatprg=ocamlformat\ --enable-outside-detected-project\ --no-version-check\ --name\ %\ -
-
-" ocamlformat, ocp-indent
-let $PATH = $OPAM_SWITCH_PREFIX . '/bin:' . $PATH
-
-" C-l: Clear merlin highlights
+" C-c: Clear merlin highlights
 autocmd User ClearHighlight call merlin#StopHighlight()
 
-" Default to dune
-set makeprg=dune\ build
-let g:runtestprg = "dune runtest"
-
-nmap <Leader>e :MerlinErrorCheck<return>
+nmap <buffer> <Leader>e :MerlinErrorCheck<return>
+nmap <buffer> gD :MerlinILocate<return>
