@@ -80,7 +80,7 @@
   users.users."${main_user}" = {
     isNormalUser = true;
     initialPassword = "test";
-    extraGroups = [ "docker" ];
+    extraGroups = [ "docker" "dialout" ];
   };
 
   modules.spacetelescope_wallpaper.enable = true;
