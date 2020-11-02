@@ -573,3 +573,6 @@ function! Setup_terminal_map()
 endfunction
 
 autocmd TerminalOpen * call Setup_terminal_map()
+
+" Clear Sneak highlighting and states with C-c
+autocmd User ClearHighlight call sneak#cancel()
