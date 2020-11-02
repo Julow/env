@@ -7,6 +7,10 @@ set tabstop=2
 set softtabstop=2
 set shiftwidth=2
 
+" Enable concealing
+set conceallevel=2
+let g:vim_markdown_conceal_code_blocks = 0
+
 if !exists("*With_variable")
   function! With_variable(key, val, exc)
     if exists('g:' . a:key)
