@@ -7,6 +7,3 @@ setlocal statusline+=%=%t " Right part
 setlocal statusline+=\ %l/%L%(\ (%{S_selection()})%) " Cursor position and selection
 
 setlocal number
-
-" 'q' to close the window
-nnoremap q <C-w>q
