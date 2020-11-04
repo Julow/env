@@ -2,13 +2,13 @@
 let g:markdown_fold_style = 'nested'
 
 " Tabs to 2 spaces
-set expandtab
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
+setlocal expandtab
+setlocal tabstop=2
+setlocal softtabstop=2
+setlocal shiftwidth=2
 
 " Enable concealing
-set conceallevel=2
+setlocal conceallevel=2
 let g:vim_markdown_conceal_code_blocks = 0
 
 if !exists("*With_variable")
@@ -26,6 +26,6 @@ if !exists("*With_variable")
   endfunction
 endif
 
-nmap gf <Plug>Markdown_EditUrlUnderCursor
-nmap gF :call With_variable('vim_markdown_edit_url_in', 'hsplit', 'normal gf')<return>
-nmap <C-w>gf :call With_variable('vim_markdown_edit_url_in', 'tab', 'normal gf')<return>
+nmap <buffer> gf <Plug>Markdown_EditUrlUnderCursor
+nmap <buffer> gF :call With_variable('vim_markdown_edit_url_in', 'hsplit', 'normal gf')<return>
+nmap <buffer> <C-w>gf :call With_variable('vim_markdown_edit_url_in', 'tab', 'normal gf')<return>

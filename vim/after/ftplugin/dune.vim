@@ -1,1 +1,1 @@
-set formatprg=dune\ format-dune-file
+setlocal formatprg=dune\ format-dune-file
