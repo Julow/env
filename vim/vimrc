@@ -329,6 +329,11 @@ nmap g{ ysa%{
 nmap g} ysa%}
 nmap g[ ysa%[
 nmap g] ysa%]
+nmap g"" ysa%"
+nmap g"' ysa%'
+nmap g"` ysa%`
+nmap g< ysa%<
+nmap g> ysa%>
 
 " Delete text without yanking
 nnoremap <Leader>d "_d
