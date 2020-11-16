@@ -203,7 +203,7 @@ function! Update_s_filename(buf)
   call setbufvar(a:buf, "s_filename", (l:f != "") ? l:f : "<new>")
 endfunction
 
-autocmd BufReadPost,BufNew,TerminalOpen,BufFilePost * call Update_s_filename("%")
+autocmd BufReadPost,TerminalOpen,BufFilePost * call Update_s_filename("%")
 
 function! S_terminal_update()
   let buf = bufnr("%")
