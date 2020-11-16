@@ -231,13 +231,14 @@ set statusline+=\ %(%h\ %)%(%q\ %)%(%w\ %) " Vim's flags
 set statusline+=%l:%c%(\ (%{S_selection()})%) " Cursor position and selection
 set statusline+=%#S_linef#%(\ %{S_linef()}%) " Line feed format
 set statusline+=%#S_readonly#%(\ %{S_readonly()}%) " Readonly flag
-set ruler " The ruler is the status line when there is only one window
-let &rulerformat = "%50(%)" . &statusline
-set rulerformat+=%#S_workspace#%(\ %{$WORKSPACE}%)%#S_fugitive#%(\ %{FugitiveHead(8)}%) " Current Git branch
-set statusline^=%#S_terminal_time#%(\ Terminated\ after\ %{b:s_terminal_time}%) " Terminal running time
-set statusline^=--%{S_terminal_update()}%#S_terminal_fail#%(\ [exit\ %{b:s_terminal_status}]%) " Terminal exit status
-set laststatus=1
+set statusline+=\  " An extra space
+set statusline^=%#S_terminal_time#%(\ Terminated\ after\ %{b:s_terminal_time}%)%* " Terminal running time
+set statusline^=%{S_terminal_update()}%#S_terminal_fail#%(\ [exit\ %{b:s_terminal_status}]%) " Terminal exit status
+set laststatus=2
+set noruler
 set noshowmode
+
+" set rulerformat+=%#S_workspace#%(\ %{$WORKSPACE}%)%#S_fugitive#%(\ %{FugitiveHead(8)}%) " Current Git branch
 
 " Per project vimrc
 set exrc
@@ -253,22 +254,22 @@ hi DiffChange ctermbg=none ctermfg=none
 hi DiffText ctermbg=lightgrey ctermfg=none
 
 hi VertSplit ctermbg=none ctermfg=lightgrey cterm=none
-hi StatusLine ctermbg=none ctermfg=black cterm=nocombine
+hi StatusLine ctermbg=lightgrey ctermfg=black cterm=nocombine
 " nocombine is dummy to avoid Vim printing '^^^'
-hi StatusLineNC ctermbg=none ctermfg=black cterm=none
-hi StatusLineTerm ctermbg=none ctermfg=none cterm=none
-hi StatusLineTermNC ctermbg=none ctermfg=none cterm=none
-hi S_readonly ctermbg=none ctermfg=yellow cterm=none
-hi S_linef ctermbg=none ctermfg=red cterm=none
-hi S_mode_n ctermbg=none ctermfg=none cterm=none
-hi S_mode_i ctermbg=none ctermfg=yellow cterm=none
-hi S_mode_v ctermbg=none ctermfg=green cterm=none
+hi StatusLineNC ctermbg=lightgrey ctermfg=black cterm=none
+hi StatusLineTerm ctermbg=lightgrey ctermfg=none cterm=none
+hi StatusLineTermNC ctermbg=lightgrey ctermfg=none cterm=none
+hi S_readonly ctermbg=lightgrey ctermfg=yellow cterm=none
+hi S_linef ctermbg=lightgrey ctermfg=red cterm=none
+hi S_mode_n ctermbg=lightgrey ctermfg=none cterm=none
+hi S_mode_i ctermbg=lightgrey ctermfg=yellow cterm=none
+hi S_mode_v ctermbg=lightgrey ctermfg=green cterm=none
 hi S_mode_t ctermbg=blue ctermfg=none cterm=none
-hi S_mode_other ctermbg=none ctermfg=red cterm=none
-hi S_fugitive ctermbg=none ctermfg=magenta cterm=none
-hi S_workspace ctermbg=none ctermfg=green cterm=none
-hi S_terminal_fail ctermbg=none ctermfg=red cterm=none
-hi S_terminal_time ctermbg=none ctermfg=yellow cterm=none
+hi S_mode_other ctermbg=lightgrey ctermfg=red cterm=none
+hi S_fugitive ctermbg=lightgrey ctermfg=magenta cterm=none
+hi S_workspace ctermbg=lightgrey ctermfg=green cterm=none
+hi S_terminal_fail ctermbg=lightgrey ctermfg=red cterm=none
+hi S_terminal_time ctermbg=lightgrey ctermfg=yellow cterm=none
 
 " :Gdiffb
 " Opens vim-fugitive split diff with the merge-base
