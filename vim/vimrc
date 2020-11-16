@@ -173,14 +173,14 @@ function! S_update_mode()
   endif
   execute "highlight link S_mode_link " . l:l
   if !exists('b:s_filename') " Ensure s_filename is set
-    call Update_s_filename()
+    call Update_s_filename("%")
   endif
   return ""
 endfunction
 
 " Do some processing on the current filename
-function! Update_s_filename()
-  let l:f = bufname("%")
+function! Update_s_filename(buf)
+  let l:f = bufname(a:buf)
 
   if l:f =~ "^fugitive://"
     " Fugitive URIs are shortened to "symbolic:path"
@@ -200,10 +200,10 @@ function! Update_s_filename()
     let l:f = fnamemodify(l:f, ":~:.")
   endif
 
-  call setbufvar("%", "s_filename", (l:f != "") ? l:f : "<no filename>")
+  call setbufvar(a:buf, "s_filename", (l:f != "") ? l:f : "<new>")
 endfunction
 
-autocmd BufReadPost,BufNew,TerminalOpen,BufFilePost * call Update_s_filename()
+autocmd BufReadPost,BufNew,TerminalOpen,BufFilePost * call Update_s_filename("%")
 
 function! S_terminal_update()
   let buf = bufnr("%")
@@ -238,7 +238,33 @@ set laststatus=2
 set noruler
 set noshowmode
 
-" set rulerformat+=%#S_workspace#%(\ %{$WORKSPACE}%)%#S_fugitive#%(\ %{FugitiveHead(8)}%) " Current Git branch
+" Show project-wide informations on the right
+function Tabline()
+  let s = ""
+  let curr_tp = tabpagenr()
+  for i in range(1, tabpagenr("$"))
+    let s .= (i == curr_tp) ? "%#TabLineSel#" : "%#TabLine#"
+    let s .= "%" . i . "T %{Tabline_label(" . i . ")} "
+  endfor
+  let s .= "%#TabLineFill#%="
+  let s .= "%#S_workspace#%(" . $WORKSPACE . " %)" " Workspace name, if any
+  let s .= "%#S_fugitive#%(%{FugitiveHead(8)} %)" " Current Git branch
+  return s
+endfunction
+
+function Tabline_label(i)
+  let buflist = tabpagebuflist(a:i)
+  let winnr = tabpagewinnr(a:i)
+  let buf = buflist[winnr - 1]
+  let name = getbufvar(buf, "s_filename")
+  if name == ""
+    call Update_s_filename(buf)
+    let name = getbufvar(buf, "s_filename")
+  endif
+  return name
+endfunction
+
+set tabline=%!Tabline()
 
 " Per project vimrc
 set exrc
@@ -254,6 +280,8 @@ hi DiffChange ctermbg=none ctermfg=none
 hi DiffText ctermbg=lightgrey ctermfg=none
 
 hi VertSplit ctermbg=none ctermfg=lightgrey cterm=none
+
+" Statusline
 hi StatusLine ctermbg=lightgrey ctermfg=black cterm=nocombine
 " nocombine is dummy to avoid Vim printing '^^^'
 hi StatusLineNC ctermbg=lightgrey ctermfg=black cterm=none
@@ -266,10 +294,15 @@ hi S_mode_i ctermbg=lightgrey ctermfg=yellow cterm=none
 hi S_mode_v ctermbg=lightgrey ctermfg=green cterm=none
 hi S_mode_t ctermbg=blue ctermfg=none cterm=none
 hi S_mode_other ctermbg=lightgrey ctermfg=red cterm=none
-hi S_fugitive ctermbg=lightgrey ctermfg=magenta cterm=none
-hi S_workspace ctermbg=lightgrey ctermfg=green cterm=none
 hi S_terminal_fail ctermbg=lightgrey ctermfg=red cterm=none
 hi S_terminal_time ctermbg=lightgrey ctermfg=yellow cterm=none
+
+" Tabline
+hi TabLine ctermbg=lightgrey ctermfg=none cterm=none
+hi TabLineSel ctermbg=none ctermfg=none cterm=none
+hi TabLineFill ctermbg=lightgrey ctermfg=none cterm=none
+hi S_fugitive ctermbg=lightgrey ctermfg=magenta cterm=none
+hi S_workspace ctermbg=lightgrey ctermfg=green cterm=none
 
 " :Gdiffb
 " Opens vim-fugitive split diff with the merge-base
