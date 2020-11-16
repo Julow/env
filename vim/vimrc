@@ -204,6 +204,14 @@ function! Update_s_filename(buf)
   elseif l:f =~ "^/"
     " Convert absolute paths to relative paths
     let l:f = fnamemodify(l:f, ":~:.")
+    if l:f =~ "^/"
+      " Couldn't convert to relative
+
+      if getbufvar(a:buf, "current_syntax") == "help"
+        " Help buffers are in this case
+        let l:f = "Help " . fnamemodify(l:f, ":t:r")
+      endif
+    endif
   endif
 
   if has_key(g:s_filename_const, l:f)
@@ -237,7 +245,7 @@ endfunction
 autocmd TerminalOpen * let b:terminal_start_time = reltime()
 
 set statusline=%=%{S_update_mode()}%#S_mode_link#%{b:s_filename}%*%< " Mode and file name
-set statusline+=\ %(%h\ %)%(%q\ %)%(%w\ %) " Vim's flags
+set statusline+=\ %(%q\ %)%(%w\ %) " Vim's flags
 set statusline+=%l:%c%(\ (%{S_selection()})%) " Cursor position and selection
 set statusline+=%#S_linef#%(\ %{S_linef()}%) " Line feed format
 set statusline+=%#S_readonly#%(\ %{S_readonly()}%) " Readonly flag
