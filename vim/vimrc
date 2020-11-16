@@ -178,6 +178,13 @@ function! S_update_mode()
   return ""
 endfunction
 
+" Rewrite some filenames (see Update_s_filename)
+let g:s_filename_const = {
+  \ ".git/index": "Git Status",
+  \ ".git/COMMIT_EDITMSG": "Git Commit",
+  \ ".git/rebase-merge/git-rebase-todo": "Git Rebase",
+  \ }
+
 " Do some processing on the current filename
 function! Update_s_filename(buf)
   let l:f = bufname(a:buf)
@@ -193,11 +200,14 @@ function! Update_s_filename(buf)
       let l:symbolic = systemlist("git name-rev --name-only " . l:hash)[0]
     endif
     let l:f = join([ l:symbolic ] + path, ":")
-  endif
 
-  if l:f =~ "^/"
+  elseif l:f =~ "^/"
     " Convert absolute paths to relative paths
     let l:f = fnamemodify(l:f, ":~:.")
+  endif
+
+  if has_key(g:s_filename_const, l:f)
+    let l:f = get(g:s_filename_const, l:f)
   endif
 
   call setbufvar(a:buf, "s_filename", (l:f != "") ? l:f : "<new>")
