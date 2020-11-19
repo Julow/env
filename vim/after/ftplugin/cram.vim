@@ -27,9 +27,9 @@ hi link cramCommandStart Keyword
 hi link cramComment Normal
 hi link cramOutput Comment
 
-if exists("cram_fold")
+" if exists("cram_fold")
   setlocal foldmethod=syntax
-endif
+" endif
 
 syn sync match cramSync grouphere NONE "^$"
 syn sync maxlines=200
