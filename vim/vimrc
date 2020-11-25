@@ -635,5 +635,37 @@ autocmd TerminalOpen * call Setup_terminal_map()
 " Clear Sneak highlighting and states with C-c
 autocmd User ClearHighlight call sneak#cancel()
 
+function! Update_word_highlighting()
+  if b:wh_match_id != -1
+    call matchdelete(b:wh_match_id)
+  endif
+  " Find the word under the cursor
+  let [_, l, c, _] = getpos('.')
+  let word = matchstr(getline(l), '\k\+\%' . c . 'c\k*')
+  if word == ""
+    let b:wh_match_id = -1
+  else
+    let b:wh_match_id = matchadd("Word_highlight", '\V\<' . word . '\>', 42)
+  endif
+endfunction
+
+function! Enable_word_highlighting()
+  let b:wh_match_id = -1
+  call Update_word_highlighting()
+endfunction
+
+function! Disable_word_highlighting()
+  if b:wh_match_id != -1
+    call matchdelete(b:wh_match_id)
+    let b:wh_match_id = -1
+  endif
+endfunction
+
+autocmd InsertEnter * set hlsearch | call Enable_word_highlighting()
+autocmd CursorMovedI * call Update_word_highlighting()
+autocmd InsertLeave * call Disable_word_highlighting()
+
+hi Word_highlight ctermbg=none ctermfg=none cterm=underline
+
 " Detect cram syntax
 autocmd BufNewFile,BufRead *.t setlocal ft=cram
