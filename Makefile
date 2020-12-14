@@ -145,6 +145,7 @@ update_vim:
 	git subtree pull --squash -P vim/pack/plugins/start/ripple "https://github.com/urbainvaes/vim-ripple" master
 	git subtree pull --squash -P vim/pack/plugins/start/sneak "https://github.com/justinmk/vim-sneak" master
 	git subtree pull --squash -P vim/pack/plugins/start/easy-align "https://github.com/junegunn/vim-easy-align" master
+	git subtree pull --squash -P vim/pack/plugins/start/futhark "https://github.com/BeneCollyridam/futhark-vim" master
 
 update_vim_merlin:
 	git fetch "https://github.com/ocaml/merlin"
