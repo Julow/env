@@ -77,6 +77,9 @@
   services.udev.packages = [ pkgs.yubikey-personalization ];
   services.pcscd.enable = true;
 
+  # Adb, need "adbusers" group
+  programs.adb.enable = true;
+
   virtualisation.docker = {
     enable = true;
     enableOnBoot = false;
@@ -85,7 +88,7 @@
   users.users."${main_user}" = {
     isNormalUser = true;
     initialPassword = "test";
-    extraGroups = [ "docker" "dialout" ];
+    extraGroups = [ "docker" "dialout" "adbusers" ];
   };
 
   modules.spacetelescope_wallpaper.enable = true;
