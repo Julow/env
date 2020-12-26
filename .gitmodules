@@ -1,6 +1,6 @@
 [submodule "nixpkgs"]
 	path = nixpkgs
-	url = https://github.com/NixOS/nixpkgs
+	url = https://github.com/Julow/nixpkgs
   shallow = true
 [submodule "nixos-hardware"]
 	path = nixos-hardware
