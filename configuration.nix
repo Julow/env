@@ -62,7 +62,7 @@
     python3 perl
     flamegraph
     # Apps
-    firefox thunderbird spotify tdesktop
+    firefox thunderbird spotify slack
     # Desktop
     dunst xdotool dmenu playerctl
     pavucontrol mpv
@@ -79,6 +79,14 @@
 
   # Adb, need "adbusers" group
   programs.adb.enable = true;
+
+  # Firejail, wrap some propietary programs
+  programs.firejail = {
+    enable = true;
+    wrappedBinaries = {
+      telegram-desktop = "${pkgs.tdesktop}/bin/telegram-desktop";
+    };
+  };
 
   virtualisation.docker = {
     enable = true;
