@@ -3,7 +3,6 @@
 # Keyboard configuration
 # - Custom keymap
 # - Run xcape
-# - Load the hid-apple kernel module
 # - Enable mousekeys
 
 let conf = config.modules.keyboard; in
@@ -19,9 +18,6 @@ let xcape_expr = "Shift_R=space;Control_L=Escape;Overlay1_Enable=Tab"; in
   };
 
   config = lib.mkIf conf.enable {
-    boot.extraModprobeConfig = "options hid_apple swap_opt_cmd=1";
-    boot.kernelModules = [ "hid-apple" ];
-
     services.xserver = {
       layout = "custom-qwerty";
 
