@@ -140,7 +140,6 @@ update_vim:
 	git subtree pull --squash -P vim/pack/plugins/start/capnp "https://github.com/cstrahan/vim-capnp" master
 	git subtree pull --squash -P vim/pack/plugins/start/markdown "https://github.com/plasticboy/vim-markdown" master
 	git subtree pull --squash -P vim/pack/plugins/start/ctrlp "https://github.com/ctrlpvim/ctrlp.vim" master
-	git subtree pull --squash -P vim/pack/plugins/start/vinegar "https://github.com/tpope/vim-vinegar" master
 	git subtree pull --squash -P vim/pack/plugins/start/json "https://github.com/elzr/vim-json" master
 	git subtree pull --squash -P vim/pack/plugins/start/ripple "https://github.com/urbainvaes/vim-ripple" master
 	git subtree pull --squash -P vim/pack/plugins/start/sneak "https://github.com/justinmk/vim-sneak" master
