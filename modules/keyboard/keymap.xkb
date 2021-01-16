@@ -12,13 +12,12 @@ xkb_symbols "custom-qwerty" {
   // Eject is Delete
   replace key <I169> { [ Delete ] };
 
-  // Both Shift are Compose
+  // Right Shift are Compose
   replace key <RTSH> { [ Multi_key ] };
-  replace key <LFSH> { [ Multi_key ] };
 
-  // Alternative Tab and space keys (Left ctrl and right win)
+  // Alternative Tab and space keys (Left shift and right win)
   // Needed for xcape
-  replace key <LCTL> { [ Tab ] };
+  replace key <LFSH> { [ Tab ] };
   replace key <RWIN> { [ space ] };
 
   // Overlay1
