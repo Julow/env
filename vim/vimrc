@@ -32,30 +32,6 @@ set diffopt+=foldcolumn:0
 let loaded_netrw = 1
 let loaded_netrwPlugin = 1
 
-" Override netrw's gx
-let g:netrw_nogx = 1
-let g:netrw_gx = "<cWORD>"
-let g:netrw_browsex_viewer = "xdg-open"
-
-" Default gx is crazy.
-function! Gx(url)
-  call system(g:netrw_browsex_viewer . " " . shellescape(a:url) . " &")
-endfunction
-
-" https://stackoverflow.com/questions/1533565/how-to-get-visually-selected-text-in-vimscript
-function! VisualSelection()
-  let a_save = @a
-  try
-    silent! normal! gv"ay
-    return @a
-  finally
-    let @a = a_save
-  endtry
-endfunction
-
-nnoremap gx :call Gx(expand(g:netrw_gx))<return>
-vnoremap gx :<C-u>call Gx(VisualSelection())<return>
-
 " Shift+tab = escape
 inoremap <S-Tab> <Esc>
 vnoremap <S-Tab> <Esc>
