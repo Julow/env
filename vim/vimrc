@@ -644,3 +644,35 @@ hi Word_highlight ctermbg=none ctermfg=none cterm=underline
 
 " Detect cram syntax
 autocmd BufNewFile,BufRead *.t setlocal ft=cram
+
+function! Pos_equal(a, b)
+  return (a:a[1] == a:b[1] && a:a[2] == a:b[2])
+endfunction
+
+function! Cursor_in_the_middle(dir)
+  let last_pos = getpos("''")
+  let curr_pos = getcurpos()
+  let a_pos = get(b:, "a_pos", last_pos)
+  let b_pos = get(b:, "b_pos", curr_pos)
+  if a_pos[1] > b_pos[1] || (a_pos[1] == b_pos[1] && a_pos[2] > b_pos[2])
+    let [a_pos, b_pos] = [b_pos, a_pos] " a_pos <= b_pos
+  endif
+  if Pos_equal(get(b:, "curr_pos", last_pos), curr_pos)
+    " Didn't move since. Defaults to 'last_pos' to avoid the initial state
+    " a_pos <= curr_pos <= b_pos
+    let b:a_pos = (a:dir > 0) ? b_pos : a_pos
+    let b:b_pos = curr_pos
+  else
+    let b:a_pos = last_pos
+    let b:b_pos = curr_pos
+  endif
+  let b:curr_pos = copy(curr_pos)
+  let i = (b:a_pos[1] != b:b_pos[1]) ? 1 : 2 " Vertical or horizontal
+  let b:curr_pos[i] = (b:a_pos[i] + b:b_pos[i]) / 2
+  call setpos(".", b:curr_pos)
+endfunction
+
+nnoremap <C-n> :call Cursor_in_the_middle(-1)<return>
+nnoremap <C-m> :call Cursor_in_the_middle(1)<return>
+vnoremap <C-n> :<C-u>call Cursor_in_the_middle(-1)<return>
+vnoremap <C-m> :<C-u>call Cursor_in_the_middle(1)<return>
