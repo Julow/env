@@ -12,19 +12,22 @@ xkb_symbols "custom-qwerty" {
   // Eject is Delete
   replace key <I169> { [ Delete ] };
 
-  // Right Shift are Compose
-  replace key <RTSH> { [ Multi_key ] };
-
-  // Alternative Tab and space keys (Left shift and right win)
+  // Alternative Tab and space keys
   // Needed for xcape
-  replace key <LFSH> { [ Tab ] };
+  replace key <LWIN> { [ Tab ] };
   replace key <RWIN> { [ space ] };
+  // Also map Multi_key somewhere
+  replace key <LFSH> { [ Multi_key ] };
 
   // Overlay1
 
-  // Tab is overlay1
+  // Tab and right shift are overlay1
   replace key <TAB> {
     [ Overlay1_Enable, Tab ], // Overlay1_Enable is dummy here, for xcape
+    actions = [ SetControls(controls=Overlay1) ]
+  };
+  replace key <RTSH> {
+    [ Overlay2_Enable ], // Overlay2_Enable is dummy for xcape, there is no overlay 2
     actions = [ SetControls(controls=Overlay1) ]
   };
 

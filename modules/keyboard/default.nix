@@ -7,7 +7,7 @@
 
 let conf = config.modules.keyboard; in
 
-let xcape_expr = "Shift_R=space;Control_L=Escape;Overlay1_Enable=Tab"; in
+let xcape_expr = "Shift_R=space;Control_L=Escape;Overlay1_Enable=Tab;Overlay2_Enable=Multi_key"; in
 
 {
   options.modules.keyboard = with lib; {
