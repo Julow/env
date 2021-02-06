@@ -49,8 +49,8 @@
 
   environment.systemPackages = with pkgs; [
     # Base tools
-    curl gnumake zip unzip file jq
-    rlwrap fd ack fzf tree cloc
+    curl gnumake zip unzip jq
+    rlwrap fd ack tree cloc
     # Admin
     mkpasswd rsync
     htop acpi
@@ -62,14 +62,13 @@
     python3 perl
     flamegraph
     # Apps
-    firefox thunderbird spotify slack
+    firefox spotify slack
     # Desktop
-    dunst xdotool dmenu playerctl
+    dunst xdotool playerctl
     pavucontrol mpv
     # Other
     opam2nix nixos-deploy
     imagemagick
-    rss_to_mail
   ];
 
   # Gpg with Yubikey support
@@ -79,14 +78,6 @@
 
   # Adb, need "adbusers" group
   programs.adb.enable = true;
-
-  # Firejail, wrap some propietary programs
-  programs.firejail = {
-    enable = true;
-    wrappedBinaries = {
-      telegram-desktop = "${pkgs.tdesktop}/bin/telegram-desktop";
-    };
-  };
 
   virtualisation.docker = {
     enable = true;
@@ -104,7 +95,7 @@
   modules.display_manager = { enable = true; user = main_user; };
   modules.desktop.enable = true;
   modules.screen_off = { enable = true; locked = 15; unlocked = 3000; };
-  modules.games.enable = true;
+  # modules.games.enable = true;
 
   # Quick service for dunst, until https://github.com/NixOS/nixpkgs/pull/58209 is merged
   systemd.user.services.dunst.serviceConfig.ExecStart = [ "" "${pkgs.dunst}/bin/dunst" ];
