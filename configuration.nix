@@ -99,4 +99,7 @@
 
   # Quick service for dunst, until https://github.com/NixOS/nixpkgs/pull/58209 is merged
   systemd.user.services.dunst.serviceConfig.ExecStart = [ "" "${pkgs.dunst}/bin/dunst" ];
+
+  # "multi-user.target" shouldn't wait on "network-online.target"
+  systemd.targets.network-online.wantedBy = pkgs.lib.mkForce [];
 }
