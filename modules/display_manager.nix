@@ -18,10 +18,15 @@ let conf = config.modules.display_manager; in
     # Make light-locker available to the users
     environment.systemPackages = [ pkgs.lightlocker ];
 
+    # Enable autorandr
+    services.autorandr.enable = true;
+
     services.xserver.displayManager = {
-      # Use lightlocker to lock using lightdm
+      # Starts light-locker
+      # Run autorandr once
       sessionCommands = ''
         ${pkgs.lightlocker}/bin/light-locker &
+        ${pkgs.autorandr}/bin/autorandr --change &
       '';
 
       # Login prompt, use mini greeter
