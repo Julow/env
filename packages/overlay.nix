@@ -14,6 +14,12 @@ let overlay = self: super: with super; {
 
   nixos-deploy = self.callPackage ./nixos-deploy.nix {};
 
+  nix-workspaces = self.callPackage (pkgs.fetchgit {
+      url = "https://github.com/Julow/nix-workspaces";
+      rev = "db356cbaa787c399139e817187e97183104cbb10";
+      sha256 = "1lxr0rkg0yxn9km2hjryn0rf4a62jqrnfyjhdrx4jc5r9kgj67bj";
+    }) {};
+
 };
 in
 
