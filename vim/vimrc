@@ -460,9 +460,8 @@ nnoremap <Leader>M :cclose<return>
 
 " wincmd
 nmap <Space> <C-w>
-
-" Open a new tab page
-nmap <Leader>T :tab new<return>
+" Add a binding for :tabonly
+nnoremap <C-w>O :tabonly<return>
 
 let g:runtest_buf = -1
 
@@ -517,8 +516,6 @@ command -nargs=* Fd call Fd(<f-args>)
 nnoremap gf :e <cfile><return>
 " gF to open a file in a new window
 nnoremap gF :split <cfile><return>
-" open a file in a new tab
-nnoremap <C-w>gf :tab new <cfile><return>
 
 " Originally from kristijanhusak, https://github.com/tpope/vim-fugitive/issues/132#issuecomment-649516204
 " With some improvements
