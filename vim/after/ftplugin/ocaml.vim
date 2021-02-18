@@ -9,7 +9,10 @@ setlocal shiftwidth=2
 
 setlocal fo-=c fo-=r fo-=o
 
-setlocal formatprg=ocamlformat\ --enable-outside-detected-project\ --no-version-check\ --name\ %\ -
+setlocal formatprg=ocamlformat\ --no-disable\ --no-version-check\ --enable-outside-detected-project\ --name\ %\ -
+" This is used instead of &formatprg when formatting an entire buffer
+" &formatprg disables the 'disable' option and the version check
+let b:full_formatprg = "ocamlformat --enable-outside-detected-project --name % -"
 
 " C-c: Clear merlin highlights
 autocmd User ClearHighlight call merlin#StopHighlight()
