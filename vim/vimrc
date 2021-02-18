@@ -396,23 +396,19 @@ nnoremap <Leader>K :Conflict3TakeThis<return>
 " Clear conflict3 highlight on C-c
 autocmd User ClearHighlight Conflict3Clear
 
-" Run &formatprg (like the default), handle non-zero exit code and stderr
+" Run the formatter, handle non-zero exit code and stderr
 " "%" is expanded to the current file name, shell escaped
-function! Run_formatter()
-  if &formatprg == ""
-    return 1 " No formatprg, fallback to default
-  endif
-  if v:char != ""
-    return 1 " Automatic formatting, fallback to default
-  endif
+function! Run_formatter(formatprg, lnum, count)
   " Expand %
-  let cmd = substitute(&formatprg, "%", expand("%::S"), "")
-  let lines = getline(v:lnum, v:lnum + v:count - 1)
+  let cmd = substitute(a:formatprg, "%", expand("%::S"), "")
+  let lines = getline(a:lnum, a:lnum + a:count - 1)
+  " Format, redirect output to a temporary file
   let tempfile = tempname()
   let errors = systemlist(cmd . " > " . tempfile, lines)
   if v:shell_error == 0
-    execute v:lnum "delete _" v:count
-    let read_at = max([v:lnum - 1, 0])
+    " Update buffer
+    execute a:lnum "delete _" a:count
+    let read_at = max([a:lnum - 1, 0])
     execute read_at "read" tempfile
   else
     echohl ErrorMsg
@@ -423,10 +419,32 @@ function! Run_formatter()
   return 0
 endfunction
 
-set formatexpr=Run_formatter()
+" formatexpr, this is better than the default because it handles errors
+function! Format_expr()
+  if &formatprg == ""
+    return 1 " No formatprg, fallback to default
+  endif
+  if v:char != ""
+    return 1 " Automatic formatting, fallback to default
+  endif
+  call Run_formatter(&formatprg, v:lnum, v:count)
+endfunction
+
+set formatexpr=Format_expr()
+
+" Format the whole buffer
+" Use b:full_formatprg over &formatprg if set.
+function! Format_buffer()
+  let formatprg = exists('b:full_formatprg') ? b:full_formatprg : &formatprg
+  let cpos = getcurpos()
+  call Run_formatter(formatprg, 0, line("$") + 1)
+  call setpos('.', cpos) " Restore the cursor position
+endfunction
 
 " Format a paragraph
 nnoremap gQ gqip
+" Format the whole buffer
+nnoremap \Q :call Format_buffer()<return>
 
 " Map C-= to reindent the current line
 " Also in insert mode
