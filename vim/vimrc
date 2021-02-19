@@ -396,6 +396,20 @@ nnoremap <Leader>K :Conflict3TakeThis<return>
 " Clear conflict3 highlight on C-c
 autocmd User ClearHighlight Conflict3Clear
 
+" Replace the range lnum,lnum+count by the content of a file
+function! Replace_from_file(file, lnum, count)
+  " :delete will insert an emtpy blank line if we clear the whole buffer
+  " We'll need to remove it later
+  let extra_blank_line = (a:lnum == 1 && a:count == line("$")) ? 1 : 0
+  execute a:lnum "delete _" a:count
+  execute (a:lnum - 1) "read" a:file
+  if extra_blank_line == 1
+    let last_line = line("$")
+    call assert_true(getline(last_line) == "")
+    execute last_line "delete _"
+  endif
+endfunction
+
 " Run the formatter, handle non-zero exit code and stderr
 " "%" is expanded to the current file name, shell escaped
 function! Run_formatter(formatprg, lnum, count)
@@ -407,9 +421,7 @@ function! Run_formatter(formatprg, lnum, count)
   let errors = systemlist(cmd . " > " . tempfile, lines)
   if v:shell_error == 0
     " Update buffer
-    execute a:lnum "delete _" a:count
-    let read_at = max([a:lnum - 1, 0])
-    execute read_at "read" tempfile
+    call Replace_from_file(tempfile, a:lnum, a:count)
   else
     echohl ErrorMsg
     echon "Error while executing '" cmd "' (" v:shell_error "):\n" join(errors, "\n")
@@ -437,7 +449,7 @@ set formatexpr=Format_expr()
 function! Format_buffer()
   let formatprg = exists('b:full_formatprg') ? b:full_formatprg : &formatprg
   let cpos = getcurpos()
-  call Run_formatter(formatprg, 0, line("$") + 1)
+  call Run_formatter(formatprg, 1, line("$"))
   call setpos('.', cpos) " Restore the cursor position
 endfunction
 
