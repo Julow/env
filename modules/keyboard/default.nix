@@ -44,7 +44,7 @@ let xcape_expr = "Shift_R=space;Control_L=Escape;Overlay1_Enable=Tab;Overlay2_En
 
     services.xbanish = {
       enable = true;
-      arguments = "-m se";
+      arguments = "-m se -i mod1 -i shift";
     };
 
   };
