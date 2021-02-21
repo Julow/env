@@ -3,8 +3,8 @@
 let
   src = fetchgit {
     url = "https://github.com/timbertson/opam2nix";
-    rev = "baeffc1078309f9fdd4e0abd7e1a1f762e92bbe3";
-    sha256 = "0asm16amhyfjppd92imrr4z5xq2f72f44phkc301l95gkwzp6v47";
+    rev = "d1d4cb15131bf45c9402aeff7df05dc78a92add7";
+    sha256 = "1v65w65hiqjcgcgavjgcc6nbdjw3c1rcnpripp86ni5gmry548p1";
   };
 in
 

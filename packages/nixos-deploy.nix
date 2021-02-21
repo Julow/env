@@ -3,8 +3,8 @@
 let
   src = pkgs.fetchgit {
     url = "https://github.com/Julow/nixos-deploy";
-    rev = "8a33c8dc7f966a5d1e1cb62f9765d07ad86c1ca3";
-    sha256 = "0qiljlbgslm2wdndi1wimxxv0qfpxczfl9vg3ajawldk8iqi0l7v";
+    rev = "9332940f9051e87d47c6d89148451c259a32b8e5";
+    sha256 = "1y7x9n7v309prr7090rrlqwlrs2m6pikl3flyhyv2b9zs2kzm5vx";
   };
 
 in
