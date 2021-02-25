@@ -496,6 +496,7 @@ nnoremap <Leader>M :cclose<return>
 nmap <Space> <C-w>
 " Add a binding for :tabonly
 nnoremap <C-w>O :tabonly<return>
+tnoremap <C-w>O <C-w>:tabonly<return>
 
 let g:runtest_buf = -1
 
