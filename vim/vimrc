@@ -467,6 +467,10 @@ nnoremap <C-=> ==
 nnoremap <Leader>[ :cprevious<return>
 nnoremap <Leader>] :cnext<return>
 
+" Other settings are unreliable.
+" <C-Enter> in qf is remapped to open a new window.
+set switchbuf=uselast
+
 function! Quickfix_open_split()
   let l:n = line(".")
   execute "new"
