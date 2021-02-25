@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -e
+
+if which dunstify &>/dev/null; then
+  dunstify -r 202020 -a "Autorandr" -u low "$AUTORANDR_CURRENT_PROFILE"
+fi
