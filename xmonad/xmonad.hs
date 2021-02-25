@@ -304,7 +304,7 @@ main =
     handleEventHook = handleEventHook def <+> fullscreenEventHook,
     terminal = "xterm"
   }
-  `additionalKeysP` [
+  `additionalKeysP` ([
 
     -- Windows management
 
@@ -370,8 +370,9 @@ main =
     ("<XF86MonBrightnessUp>", safeSpawn "brightness.sh" ["5"]),
     ("<XF86MonBrightnessDown>", safeSpawn "brightness.sh" ["-5"])
 
-  ]
-  `additionalKeysP` scratchpad_actions
+    -- Autorandr
+    , ("M-a r", safeSpawn "autorandr" ["--change"])
+  ] ++ scratchpad_actions) -- Can't use `additionalKeysP` again because that would shadow the previous M-a submap
   `removeKeysP` [
     "M-S-q"
   ]
