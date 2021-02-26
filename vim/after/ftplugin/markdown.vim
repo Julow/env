@@ -7,6 +7,9 @@ setlocal tabstop=2
 setlocal softtabstop=2
 setlocal shiftwidth=2
 
+" Indent in lists
+let g:vim_markdown_new_list_item_indent = 2
+
 " Enable concealing
 setlocal conceallevel=2
 let g:vim_markdown_conceal_code_blocks = 0
