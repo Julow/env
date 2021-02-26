@@ -500,15 +500,10 @@ tnoremap <C-w>O <C-w>:tabonly<return>
 
 let g:runtest_buf = -1
 
-" Runtest key
-" Example: let g:runtestprg = "make test"
-function! Runtest()
-  if !exists("g:runtestprg")
-    echohl WarningMsg
-    echon "g:runtestprg is not set"
-    echohl None
-    return
-  endif
+" Run a command in a new terminal window.
+" Reuse the previous terminal buffer if any, killing the previous job if it's
+" still running.
+function! Runtest(cmd)
   let options = {}
   let previous_buf = bufnr(g:runtest_buf)
   if previous_buf > 0 " Reuse previous terminal window if any
@@ -525,11 +520,22 @@ function! Runtest()
     execute win "wincmd w"
     let options['curwin'] = 1
   endif
-  let cmd = expandcmd(g:runtestprg)
-  let g:runtest_buf = term_start(cmd, options)
+  let g:runtest_buf = term_start(a:cmd, options)
 endfunction
 
-nnoremap <Leader>r :call Runtest()<return>
+function! Runtest_runtestprg()
+  if !exists("g:runtestprg")
+    echohl WarningMsg
+    echon "g:runtestprg is not set"
+    echohl None
+    return
+  endif
+  call Runtest(expandcmd(g:runtestprg))
+endfunction
+
+" Runtest
+" Example: let g:runtestprg = "make test"
+nnoremap <Leader>r :call Runtest_runtestprg()<return>
 
 " Find a file by name with fd
 function! Fd(...)
