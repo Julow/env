@@ -714,3 +714,6 @@ nnoremap <C-n> :call Cursor_in_the_middle(-1)<return>
 nnoremap <C-m> :call Cursor_in_the_middle(1)<return>
 vnoremap <C-n> :<C-u>call Cursor_in_the_middle(-1)<return>
 vnoremap <C-m> :<C-u>call Cursor_in_the_middle(1)<return>
+
+" Copy the path to the current file into clipboard
+nnoremap y<C-f> :let @+ = expand("%")<return>
