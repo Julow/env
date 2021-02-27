@@ -41,10 +41,11 @@
   # using the new version as soon as the system switches.
   # No need to reboot to take $NIX_PATH changes (it doesn't change).
   environment.etc.nixpkgs.source = pkgs.lib.cleanSource <nixpkgs>;
+  environment.etc.nixpkgs-overlays.source = pkgs.lib.cleanSource ./packages;
 
   nix.nixPath = [
     "nixpkgs=/etc/nixpkgs"
-    "nixpkgs-overlays=${./packages}/overlay.nix"
+    "nixpkgs-overlays=/etc/nixpkgs-overlays/overlay.nix"
   ];
 
   environment.systemPackages = with pkgs; [
