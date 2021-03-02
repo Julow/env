@@ -304,16 +304,6 @@ command -nargs=1 -complete=custom,fugitive#CompleteObject Gdiffb execute ':Gdiff
 " \g to open fugitive status
 nnoremap <Leader>g :tab Git<return>
 
-" Ctrl+k and Ctrl+j to move up and down inside wrapped lines
-nnoremap <C-j> gj
-nnoremap <C-k> gk
-
-" Ctrl+hjkl to Ctrl+w hjkl
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-
 " Don't move the cursor to first column when scrolling
 set nostartofline
 
@@ -717,3 +707,18 @@ vnoremap <C-m> :<C-u>call Cursor_in_the_middle(1)<return>
 
 " Copy the path to the current file into clipboard
 nnoremap y<C-f> :let @+ = expand("%")<return>
+
+" Configuration for plugin 'dwm.vim'
+let g:dwm_map_keys = 0 " Disable default bindings
+
+" Map C-j and C-k like the default
+nnoremap <C-j> <C-w>w
+nnoremap <C-k> <C-w>W
+
+" Map C-h and C-l for switching between the right and left panes
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+
+" C-Enter in the right pane will focus that window,
+" in the master pane will focus the previous master.
+nmap <C-Enter> <Plug>DWMFocus
