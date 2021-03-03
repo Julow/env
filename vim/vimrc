@@ -721,4 +721,4 @@ nnoremap <C-l> <C-w>l
 
 " C-Enter in the right pane will focus that window,
 " in the master pane will focus the previous master.
-nmap <C-Enter> <Plug>DWMFocus
+nmap <C-Space> <Plug>DWMFocus
