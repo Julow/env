@@ -404,7 +404,7 @@ endfunction
 " "%" is expanded to the current file name, shell escaped
 function! Run_formatter(formatprg, lnum, count)
   " Expand %
-  let cmd = substitute(a:formatprg, "%", expand("%::S"), "")
+  let cmd = expandcmd(a:formatprg)
   let lines = getline(a:lnum, a:lnum + a:count - 1)
   " Format, redirect output to a temporary file
   let tempfile = tempname()
