@@ -18,6 +18,10 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.editor = false;
   boot.loader.timeout = 2;
+  # Quiet boot
+  boot.initrd.verbose = false;
+  boot.consoleLogLevel = 3;
+  boot.kernelParams = [ "quiet" "udev.log_priority=3" ];
   networking.dhcpcd.wait = "background"; # Don't wait for dhcp before starting session
 
   # Enable sound.
