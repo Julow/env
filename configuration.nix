@@ -25,10 +25,32 @@
   networking.dhcpcd.wait = "background"; # Don't wait for dhcp before starting session
 
   # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
-  hardware.pulseaudio.extraModules = [ pkgs.pulseaudio-modules-bt ];
-  hardware.pulseaudio.package = pkgs.pulseaudioFull; # Required for bluetooth audio
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    pulse.enable = true;
+
+    # https://github.com/NixOS/nixpkgs/pull/114482
+    media-session.bluezMonitorConfig = {
+      properties.bluez5 = {
+        msbc-support = true;
+        sbc-xq-support = true;
+      };
+      # TODO: Remove this, it's probably not necessary anyway
+      rules = [
+        {
+          matches = [ {device.name = "~bluez_card.*";} ];
+          actions = { update-props = {}; };
+        }
+        {
+          matches = [ { device.name = "~bluez_input.*"; } { device.name = "~bluez_output.*"; } ];
+          actions = { update-props = {}; };
+        }
+      ];
+    };
+
+  };
 
   # Bluetooth
   hardware.bluetooth.enable = true;
@@ -92,7 +114,7 @@
   users.users."${main_user}" = {
     isNormalUser = true;
     initialPassword = "test";
-    extraGroups = [ "docker" "dialout" "adbusers" ];
+    extraGroups = [ "docker" "dialout" "adbusers" "audio" ];
   };
 
   modules.spacetelescope_wallpaper.enable = true;

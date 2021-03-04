@@ -20,5 +20,6 @@ let conf = config.modules.games; in
     hardware.opengl.driSupport32Bit = true;
     hardware.opengl.extraPackages32 = with pkgs.pkgsi686Linux; [ libva ];
     hardware.pulseaudio.support32Bit = true;
+    services.pipewire.alsa.support32Bit = true;
   };
 }
