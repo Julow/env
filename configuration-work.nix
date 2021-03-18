@@ -20,6 +20,8 @@
 
     # This screen has too much pixels
     services.xserver.dpi = 138;
+    # Autorandr profiles
+    modules.display_manager.autorandr_config = etc/work/autorandr;
 
     # Power saving
     # https://discourse.nixos.org/t/thinkpad-t470s-power-management/8141
