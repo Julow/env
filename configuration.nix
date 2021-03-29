@@ -31,25 +31,10 @@
     alsa.enable = true;
     pulse.enable = true;
 
-    # https://github.com/NixOS/nixpkgs/pull/114482
-    media-session.bluezMonitorConfig = {
-      properties.bluez5 = {
-        msbc-support = true;
-        sbc-xq-support = true;
-      };
-      # TODO: Remove this, it's probably not necessary anyway
-      rules = [
-        {
-          matches = [ {device.name = "~bluez_card.*";} ];
-          actions = { update-props = {}; };
-        }
-        {
-          matches = [ { device.name = "~bluez_input.*"; } { device.name = "~bluez_output.*"; } ];
-          actions = { update-props = {}; };
-        }
-      ];
+    media-session.config.bluez-monitor.properties.bluez5 = {
+      msbc-support = true;
+      sbc-xq-support = true;
     };
-
   };
 
   # Bluetooth
