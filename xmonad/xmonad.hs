@@ -364,7 +364,7 @@ main =
     ("<XF86AudioRaiseVolume>", safeSpawn "volume.sh" ["+5%"]),
     -- Media keys
     ("<XF86AudioMute>", safeSpawn "volume.sh" ["toggle"]),
-    ("<XF86AudioPlay>", safeSpawn "playerctl" ["play-pause"]),
+    ("<XF86AudioPlay>", safeSpawn "bash" ["play-pause.sh"]),
     ("<XF86AudioPrev>", safeSpawn "playerctl" ["previous"]),
     ("<XF86AudioNext>", safeSpawn "playerctl" ["next"]),
 
