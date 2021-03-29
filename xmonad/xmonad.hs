@@ -197,19 +197,22 @@ scratchpads = [
       (floating_centered (1/4) (1/8)),
     ns_term "htop" (floating_centered (1/8) (1/8)),
     ns_term "bash" (floating_centered (1/4) 0), -- Quick terminal
-    ns_term "bluetoothctl" (floating_centered (1/3) (1/8))
+    ns_term "bluetoothctl" (floating_centered (1/3) (1/8)),
+    ns_term "vim ~/quick_notes" (floating (2/3) (1/6) (1/3 - 1/10) (4/6))
   ]
   where
     ns_term cmd =
       let t = "Scratchpad " ++ cmd in
       NS cmd ("xterm -T '" ++ t ++ "' -e '" ++ cmd ++ "'") (title =? t)
     floating_centered x y = customFloating $ W.RationalRect x y (1 - x*2) (1 - y*2)
+    floating x y w h = customFloating $ W.RationalRect x y w h
 
 scratchpad_actions = [
     s "p" "pavucontrol",
     s "h" "htop",
     s "t" "bash",
-    s "b" "bluetoothctl"
+    s "b" "bluetoothctl",
+    s "w" "vim ~/quick_notes"
   ]
   where
     s key name = ("M-a " ++ key, namedScratchpadAction scratchpads name)
