@@ -7,7 +7,6 @@ import System.Environment
 import XMonad
 import XMonad.Actions.FloatKeys
 import XMonad.Actions.Minimize
-import XMonad.Actions.SpawnOn
 import XMonad.Actions.UpdatePointer
 import XMonad.Actions.WindowBringer
 import XMonad.Layout.BoringWindows
@@ -303,7 +302,7 @@ main =
     borderWidth = 0,
     logHook = updatePointer (0.5, 0.5) (0, 0),
     layoutHook = layout,
-    manageHook = manageSpawn <+> manageHook def <+> namedScratchpadManageHook scratchpads,
+    manageHook = manageHook def <+> namedScratchpadManageHook scratchpads,
     handleEventHook = handleEventHook def <+> fullscreenEventHook,
     terminal = "xterm"
   }
@@ -365,7 +364,7 @@ main =
     ("<XF86AudioRaiseVolume>", safeSpawn "volume.sh" ["+5%"]),
     -- Media keys
     ("<XF86AudioMute>", safeSpawn "volume.sh" ["toggle"]),
-    ("<XF86AudioPlay>", spawnOn "9" "playerctl play-pause || spotify.sh"),
+    ("<XF86AudioPlay>", safeSpawn "playerctl" ["play-pause"]),
     ("<XF86AudioPrev>", safeSpawn "playerctl" ["previous"]),
     ("<XF86AudioNext>", safeSpawn "playerctl" ["next"]),
 
