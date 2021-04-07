@@ -62,25 +62,27 @@
   environment.systemPackages = with pkgs; [
     # Base tools
     curl gnumake zip unzip jq
-    rlwrap fd ack tree cloc
     # Admin
     mkpasswd rsync
     htop acpi
     gnupg gitAndTools.gitRemoteGcrypt encfs
     # Dev
+    rlwrap fd ack tree cloc
     vim_configurable git tig
     gcc_multi binutils-unwrapped
-    opam ocaml
     python3 perl
     flamegraph
     # Apps
-    firefox spotify slack
+    firefox slack
+    pinta
     # Desktop
-    dunst xdotool playerctl
-    pavucontrol mpv
+    dunst xdotool playerctl dmenu pamixer
+    pipewire.pulse pavucontrol mpv xclip
+    msmtp
     # Other
-    opam2nix nixos-deploy
-    imagemagick
+    nixos-deploy nix-workspaces
+    opam2nix
+    imagemagick graphviz
   ];
 
   # Gpg with Yubikey support
@@ -108,6 +110,16 @@
   modules.desktop.enable = true;
   modules.screen_off = { enable = true; locked = 15; unlocked = 3000; };
   # modules.games.enable = true;
+
+  # Enable xdg portals
+  xdg.portal = {
+    enable = true;
+    gtkUsePortal = true;
+    extraPortals = [ pkgs.xdg-desktop-portal ];
+  };
+
+  # Flatpak
+  services.flatpak.enable = true;
 
   # Quick service for dunst, until https://github.com/NixOS/nixpkgs/pull/58209 is merged
   systemd.user.services.dunst.serviceConfig.ExecStart = [ "" "${pkgs.dunst}/bin/dunst" ];

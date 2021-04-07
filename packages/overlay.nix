@@ -14,8 +14,8 @@ let overlay = self: super: with super; {
 
   nix-workspaces = self.callPackage (pkgs.fetchgit {
       url = "https://github.com/Julow/nix-workspaces";
-      rev = "0f7070e2dbe6ad5866af353e68ff071c77f4d434";
-      sha256 = "0dhcb0pcyj6ylcl5bkyj5h4jvfmkavwnh4m0sa9iq1l60sa5v30x";
+      rev = "f29f5646ec92d86360a847be64d192b92192b14e";
+      sha256 = "18r0m30h4195cmnga1aqydy5cnkb7wx157k6lk1j5hsywa1acbqp";
     }) {};
 
 };
