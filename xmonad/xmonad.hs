@@ -360,8 +360,8 @@ main =
     ("M-S-s", safeSpawn "screenshot.sh" ["screen"]),
 
     -- Volume keys
-    ("<XF86AudioLowerVolume>", safeSpawn "volume.sh" ["-5%"]),
-    ("<XF86AudioRaiseVolume>", safeSpawn "volume.sh" ["+5%"]),
+    ("<XF86AudioLowerVolume>", safeSpawn "volume.sh" ["dec"]),
+    ("<XF86AudioRaiseVolume>", safeSpawn "volume.sh" ["inc"]),
     -- Media keys
     ("<XF86AudioMute>", safeSpawn "volume.sh" ["toggle"]),
     ("<XF86AudioPlay>", safeSpawn "bash" ["play-pause.sh"]),
