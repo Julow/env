@@ -75,11 +75,6 @@
 [experimental]
     per_monitor_dpi = false
 
-[shortcuts]
-    close = mod1+Escape
-    history = mod1+shift+Escape
-    context = mod1+BackSpace
-
 [urgency_low]
     background = "#222222"
     foreground = "#888888"

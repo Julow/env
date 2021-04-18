@@ -351,6 +351,12 @@ main =
     -- Password prompt
     ("M-;", password_prompt (prompt_conf { changeModeKey = xK_semicolon })),
 
+    -- Dunst shortcuts
+    ("M-e", safeSpawn "dunstctl" ["close"]),
+    ("M-S-e", safeSpawn "dunstctl" ["close-all"]),
+    ("M-r", safeSpawn "dunstctl" ["history-pop"]),
+    ("M-:", safeSpawn "dunstctl" ["action"]),
+
     -- Indicators
     ("M-`", safeSpawn "indicators.sh" []),
 
