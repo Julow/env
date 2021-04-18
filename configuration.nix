@@ -45,18 +45,18 @@
 
   # Nixpkgs config and package overrides
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.overlays = (import ./packages/overlay.nix);
+  nixpkgs.overlays = [ (import ./packages) ];
 
   # The same nixpkgs used to build the system. No channel.
   # Link nixpkgs at an arbitrary path so currently running programs can start
   # using the new version as soon as the system switches.
   # No need to reboot to take $NIX_PATH changes (it doesn't change).
   environment.etc.nixpkgs.source = pkgs.lib.cleanSource <nixpkgs>;
-  environment.etc.nixpkgs-overlays.source = pkgs.lib.cleanSource ./packages;
+  environment.etc.nixpkgs-overlay.source = pkgs.lib.cleanSource ./packages;
 
   nix.nixPath = [
     "nixpkgs=/etc/nixpkgs"
-    "nixpkgs-overlays=/etc/nixpkgs-overlays/overlay.nix"
+    "nixpkgs-overlays=/etc/nixpkgs-overlay"
   ];
 
   environment.systemPackages = with pkgs; [
