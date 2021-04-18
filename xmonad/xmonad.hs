@@ -5,6 +5,7 @@ import Data.Ratio ((%))
 import System.Directory
 import System.Environment
 import XMonad
+import XMonad.Actions.CopyWindow (copyToAll, killAllOtherCopies)
 import XMonad.Actions.FloatKeys
 import XMonad.Actions.Minimize
 import XMonad.Actions.UpdatePointer
@@ -295,6 +296,8 @@ layout =
     centered_layout = centered_full 600 resize_step
     border_between = decoration shrinkText border_conf BorderBetween
 
+copy_rect = W.RationalRect (2%3 - 1%20) (2%3 - 1%20) (1%3) (1%3)
+
 main =
   xmonad $ ewmh def
   {
@@ -317,6 +320,13 @@ main =
     -- Minimize/restore
     ("M-d", withFocused minimizeWindow),
     ("M-S-d", withLastMinimized maximizeWindowAndFocus),
+
+    -- Float, mark as boring then copy to every workspaces
+    ("M-i", windows $ \ws ->
+        case W.peek ws of
+          Just w -> copyToAll (W.float w copy_rect ws)
+          Nothing -> ws),
+    ("M-S-i", killAllOtherCopies),
 
     -- Shrink/expand vertically
     ("M-h", tiled_or_float (sendMessage Shrink) (resize_float_x resize_step)),
