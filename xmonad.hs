@@ -288,12 +288,11 @@ border_conf =
 resize_step = 3%100
 
 layout =
-    border_between $ add_tabs $ minimize $ boringWindows $
+    border_between $ minimize $ boringWindows $
       (tiled_layout ||| centered_layout)
   where
     tiled_layout = ResizableTall 1 resize_step (1/2) []
     centered_layout = centered_full 600 resize_step
-    add_tabs = addTabs shrinkText tabbed_conf . subLayout [] Simplest
     border_between = decoration shrinkText border_conf BorderBetween
 
 main =
@@ -308,15 +307,6 @@ main =
     terminal = "xterm"
   }
   `additionalKeysP` ([
-
-    -- Windows management
-
-    -- SubTabbed merge/unmerge
-    ("M-u", withFocused (\w -> focusDown >> sendMessage (mergeDir id w))),
-    ("M-S-u", withFocused (sendMessage . UnMerge)),
-    -- SubTabbed next/prev
-    ("M-j", onGroup W.focusUp'),
-    ("M-k", onGroup W.focusDown'),
 
     -- BoringWindows
     ("M-S-<Tab>", focusUp),
