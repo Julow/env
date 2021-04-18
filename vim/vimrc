@@ -32,6 +32,10 @@ set diffopt+=foldcolumn:0
 let loaded_netrw = 1
 let loaded_netrwPlugin = 1
 
+" Even if netrw is disabled, this is used by other plugins
+" (eg. 'xdg_open.vim')
+let g:netrw_gx = "<cfile>"
+
 " Useful when backspace is near the center of the keyboard
 nmap <Backspace> -
 
