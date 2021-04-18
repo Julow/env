@@ -29,4 +29,22 @@ if which nmcli &>/dev/null; then
   fi
 fi
 
+# Media
+if which playerctl &>/dev/null; then
+  IFS="|" read player status title < \
+    <(playerctl metadata -f "{{playerName}}|{{status}}|{{artist}} - {{title}}")
+  if [[ $status = "Playing" ]]; then
+    INFOS+=("<b>${player^}</b> $title")
+
+    # Volume muted status
+    if which pamixer &>/dev/null; then
+      # TODO: Print sink name when [pamixer --get-default-sink] is available
+      vol=`pamixer --get-volume-human`
+      if [[ $vol = muted ]]; then
+        INFOS+=("<b>Volume</b> Muted")
+      fi
+    fi
+  fi
+fi
+
 dunstify -r "101010" -a "Indicator" -u low "" "`IFS=$'\n'; echo "${INFOS[*]}"`"
