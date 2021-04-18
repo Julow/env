@@ -47,7 +47,10 @@ set autoindent
 set smartindent
 set expandtab
 
+" Line wrapping
 set wrap
+set showbreak=⎥
+set breakindent
 
 " Formatting
 set formatoptions+=roj
