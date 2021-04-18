@@ -13,5 +13,11 @@ else
   DIV=$PREC
 fi
 
-printf "<span#color=\"cyan\">%*s</span>%*s<span#color=\"red\">%*s</span>" \
-  "$DIV" "" "$REM" "" "$OVER" "" | tr " #" "- "
+repeat() {
+  x=`printf "%*s" "$1" ""`
+  echo "${x// /$2}"
+}
+
+bar() { repeat "$1" "━"; }
+
+echo "<span color=\"cyan\">`bar "$DIV"`</span>`bar "$REM"`<span color=\"red\">`bar "$OVER"`</span>"
