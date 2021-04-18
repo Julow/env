@@ -24,27 +24,15 @@
     modules.display_manager.autorandr_config = etc/work/autorandr;
 
     # Power saving
-    # https://discourse.nixos.org/t/thinkpad-t470s-power-management/8141
     services.tlp = {
       enable = true;
-      extraConfig = ''
-        CPU_SCALING_GOVERNOR_ON_AC=performance
-        CPU_SCALING_GOVERNOR_ON_BAT=powersave
-      '';
+      settings = {
+        CPU_SCALING_GOVERNOR_ON_AC = "performance";
+        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+      };
     };
 
     boot.initrd.availableKernelModules = [ "thinkpad_acpi" ];
-
-    boot.extraModprobeConfig = pkgs.lib.mkMerge [
-      "options snd_hda_intel power_save=1" # Enable power_save for the audio card
-      "options iwlwifi power_save=1 uapsd_disable=1" # Wifi power save
-    ];
-
-    services.udev.extraRules = pkgs.lib.mkMerge [
-      # Autosuspend USB and PCI devices
-      ''ACTION=="add", SUBSYSTEM=="usb", TEST=="power/control", ATTR{power/control}="auto"''
-      ''ACTION=="add", SUBSYSTEM=="pci", TEST=="power/control", ATTR{power/control}="auto"''
-    ];
 
     # Other
     hardware.cpu.intel.updateMicrocode = true;
