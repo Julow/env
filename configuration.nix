@@ -10,6 +10,7 @@
     modules/desktop.nix
     modules/screen_off.nix
     modules/games.nix
+    modules/autorandr.nix
     extra_config
   ];
 

@@ -20,8 +20,12 @@
 
     # This screen has too much pixels
     services.xserver.dpi = 138;
+
     # Autorandr profiles
-    modules.display_manager.autorandr_config = etc/work/autorandr;
+    modules.autorandr = {
+      enable = true;
+      config = etc/work/autorandr;
+    };
 
     # Power saving
     services.tlp = {
