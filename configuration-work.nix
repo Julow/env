@@ -19,7 +19,7 @@
     users.users.jules.extraGroups = [ "networkmanager" ];
 
     # This screen has too much pixels
-    services.xserver.dpi = 138;
+    services.xserver.dpi = 152;
 
     # Autorandr profiles
     modules.autorandr = {

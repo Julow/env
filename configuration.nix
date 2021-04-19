@@ -9,7 +9,6 @@
     modules/display_manager.nix
     modules/desktop.nix
     modules/screen_off.nix
-    modules/games.nix
     modules/autorandr.nix
     extra_config
   ];
@@ -74,7 +73,7 @@
     python3 perl
     flamegraph
     # Apps
-    firefox slack
+    firefox
     pinta
     # Desktop
     dunst xdotool playerctl dmenu pamixer
@@ -110,7 +109,6 @@
   modules.display_manager = { enable = true; user = main_user; };
   modules.desktop.enable = true;
   modules.screen_off = { enable = true; locked = 15; unlocked = 3000; };
-  # modules.games.enable = true;
 
   # Enable xdg portals
   xdg.portal = {
@@ -127,4 +125,10 @@
 
   # "multi-user.target" shouldn't wait on "network-online.target"
   systemd.targets.network-online.wantedBy = pkgs.lib.mkForce [];
+
+  # Support for 32bit games
+  hardware.opengl.driSupport32Bit = true;
+  hardware.opengl.extraPackages32 = with pkgs.pkgsi686Linux; [ libva ];
+  hardware.pulseaudio.support32Bit = true;
+  services.pipewire.alsa.support32Bit = true;
 }
