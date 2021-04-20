@@ -198,7 +198,10 @@ scratchpads = [
     ns_term "htop" (floating_centered (1/8) (1/8)),
     ns_term "bash" (floating_centered (1/4) 0), -- Quick terminal
     ns_term "bluetoothctl" (floating_centered (1/3) (1/8)),
-    ns_term' "quick_notes" "vim ~/quick_notes" (floating (2/3) (1/6) (1/3 - 1/10) (4/6))
+    ns_term' "quick_notes" "vim ~/quick_notes" (floating (2/3) (1/6) (1/3 - 1/10) (4/6)),
+    NS "spotify" "com.spotify.Client" (className =? "spotify") nonFloating,
+    NS "slack" "com.slack.Slack" (className =? "slack") nonFloating,
+    ns_term' "mail" "nix-shell ~/notes/setup/mail" nonFloating
   ]
   where
     ns_term cmd = ns_term' cmd cmd
@@ -213,7 +216,10 @@ scratchpad_actions = [
     s "h" "htop",
     s "t" "bash",
     s "b" "bluetoothctl",
-    s "w" "quick_notes"
+    s "w" "quick_notes",
+    s "i" "spotify",
+    s "o" "slack",
+    s "m" "mail"
   ]
   where
     s key name = ("M-a " ++ key, namedScratchpadAction scratchpads name)
