@@ -4,7 +4,7 @@
 
 {
   imports = [
-    modules/spacetelescope_wallpaper.nix
+    modules/spacetelescope_wallpaper
     modules/keyboard
     modules/display_manager.nix
     modules/desktop.nix
