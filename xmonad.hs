@@ -13,11 +13,13 @@ import XMonad.Layout.BoringWindows
 import XMonad.Layout.Decoration
 import XMonad.Layout.Spacing
 import XMonad.Layout.Minimize
+import XMonad.Layout.NoBorders
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.Simplest
 import XMonad.Layout.SubLayouts
 import XMonad.Layout.LayoutModifier
 import XMonad.Layout.Tabbed
+import XMonad.ManageHook
 import XMonad.Prompt
 import XMonad.Prompt.FuzzyMatch
 import XMonad.Prompt.Shell
@@ -89,9 +91,9 @@ instance Eq a => DecorationStyle BorderBetween a where
     | dw < dh = -- Right
       Rectangle x y (fi $ dx - x) h
 
-  pureDecoration BorderBetween dw dh (Rectangle _ _ sw sh) _ _ (_, Rectangle x y w h)
-    | fi x+w < sw = Just $ Rectangle (x + fi (w - dw)) y dw h -- Right
-    | fi y+h < sh = Just $ Rectangle x (y + fi (h - dh)) w dh -- Bottom
+  pureDecoration BorderBetween dw dh (Rectangle sx sy sw sh) stack _ (win, Rectangle x y w h)
+    | fi x+w < fi sx+sw = Just $ Rectangle (x + fi (w - dw)) y dw h -- Right
+    | fi y+h < fi sy+sh = Just $ Rectangle x (y + fi (h - dh)) w dh -- Bottom
     | otherwise = Nothing
 
 -- ========================================================================== --
@@ -236,14 +238,17 @@ resize_float_y step =
     (_, sh) <- current_screen_size
     keysResizeWindow (0, truncate (step * toRational sh)) (1%2, 1%2) w
 
--- Return its second argument if the focused window is floating, its first
--- argument otherwise
-tiled_or_float if_tiled if_float =
-  withFocused $ \w -> do
+-- Returns [True] if the current window is floating
+current_is_floating = do
   wins <- gets windowset
-  if M.member w (W.floating wins)
-  then if_float
-  else if_tiled
+  return $
+    case W.peek wins of
+      Just w -> M.member w (W.floating wins)
+      Nothing -> False
+
+tiled_or_float if_tiled if_float =
+  current_is_floating >>= \floating ->
+  if floating then if_float else if_tiled
 
 -- ========================================================================== --
 -- main
@@ -264,41 +269,39 @@ prompt_conf = def {
   -- , sorter = fuzzySort
 }
 
--- Decoration with invisible text and no border
-set_colors_no_text active inactive urgent =
-  def {
-    fontName = font_name 0,
-    activeColor = active,
-    inactiveColor = inactive,
-    urgentColor = urgent,
-    activeBorderColor = active,
-    inactiveBorderColor = inactive,
-    urgentBorderColor = urgent,
-    activeTextColor = active,
-    inactiveTextColor = inactive,
-    urgentTextColor = urgent
-  }
-
-tabbed_conf =
-  (set_colors_no_text "#859900" "#eeeada" "#dc322f") {
-    decoHeight = 2
-  }
+border_width = 2
+active_color = "#2878c8"
+inactive_color = "#000000"
+urgent_color = "#dc322f"
 
 border_conf =
-  (set_colors_no_text "#2878c8" "#000000" "#dc322f") {
-    decoWidth = 1,
-    decoHeight = 1
+  def {
+    fontName = font_name 0,
+    activeColor = active_color,
+    inactiveColor = inactive_color,
+    urgentColor = urgent_color,
+    activeBorderColor = active_color,
+    inactiveBorderColor = inactive_color,
+    urgentBorderColor = urgent_color,
+    activeTextColor = active_color,
+    inactiveTextColor = inactive_color,
+    urgentTextColor = urgent_color,
+    decoWidth = border_width,
+    decoHeight = border_width
   }
 
 resize_step = 3%100
 
 layout =
-    border_between $ minimize $ boringWindows $
+    noBorders $ border_between $ minimize $ boringWindows $
       (tiled_layout ||| centered_layout)
   where
     tiled_layout = ResizableTall 1 resize_step (1/2) []
     centered_layout = centered_full 600 resize_step
     border_between = decoration shrinkText border_conf BorderBetween
+
+border_hooks =
+  liftX current_is_floating --> hasBorder True
 
 copy_rect = W.RationalRect (2%3 - 1%20) (2%3 - 1%20) (1%3) (1%3)
 
@@ -306,9 +309,11 @@ main =
   xmonad $ ewmh def
   {
     focusFollowsMouse = False,
-    borderWidth = 0,
+    borderWidth = border_width,
+    focusedBorderColor = active_color,
+    normalBorderColor = inactive_color,
     layoutHook = layout,
-    manageHook = manageHook def <+> namedScratchpadManageHook scratchpads,
+    manageHook = manageHook def <+> border_hooks <+> scratchpads_manageHooks,
     handleEventHook = handleEventHook def <+> fullscreenEventHook,
     terminal = "xterm"
   }
