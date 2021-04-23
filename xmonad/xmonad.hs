@@ -191,37 +191,36 @@ centered_full sp step =
 -- ========================================================================== --
 -- Scratchpads
 
+scratch_prog key cmd selector manageHook id =
+  (key, NS id cmd selector manageHook)
+
+scratch_xterm key cmd manageHook id =
+  let xterm_cmd = "xterm -xrm 'xterm*allowTitleOps: false' -T '" ++ id ++ "' -e '" ++ cmd ++ "'" in
+  let selector = title =? id in
+  scratch_prog key xterm_cmd selector manageHook id
+
 scratchpads = [
-    NS "pavucontrol" "pavucontrol" (className =? "Pavucontrol")
-      (floating_centered (1/4) (1/8)),
-    ns_term "htop" (floating_centered (1/8) (1/8)),
-    ns_term "bash" (floating_centered (1/4) 0), -- Quick terminal
-    ns_term "bluetoothctl" (floating_centered (1/3) (1/8)),
-    ns_term' "quick_notes" "vim ~/quick_notes" (floating (2/3) (1/6) (1/3 - 1/10) (4/6)),
-    NS "spotify" "com.spotify.Client" (className =? "spotify") nonFloating,
-    NS "slack" "com.slack.Slack" (className =? "slack") nonFloating,
-    ns_term' "mail" "nix-shell ~/notes/setup/mail" nonFloating
+    scratch_prog "p" "pavucontrol" (className =? "Pavucontrol") (floating_centered (1/4) (1/8)),
+    scratch_xterm "h" "htop" (floating_centered (1/8) (1/8)),
+    scratch_xterm "t" "bash" (floating_centered (1/4) 0), -- Quick terminal
+    scratch_xterm "b" "bluetoothctl" (floating_centered (1/3) (1/8)),
+    scratch_xterm "w" "vim ~/quick_notes" (floating (2/3) (1/6) (1/3 - 1/10) (4/6)),
+    scratch_prog "i" "com.spotify.Client" (className =? "spotify") nonFloating,
+    scratch_prog "o" "com.slack.Slack" (className =? "slack") nonFloating,
+    scratch_xterm "m" "nix-shell ~/notes/setup/mail" nonFloating
   ]
   where
-    ns_term cmd = ns_term' cmd cmd
-    ns_term' name cmd =
-      let t = "Scratchpad " ++ name in
-      NS name ("xterm -xrm 'xterm*allowTitleOps: false' -T '" ++ t ++ "' -e '" ++ cmd ++ "'") (title =? t)
     floating_centered x y = customFloating $ W.RationalRect x y (1 - x*2) (1 - y*2)
     floating x y w h = customFloating $ W.RationalRect x y w h
 
-scratchpad_actions = [
-    s "p" "pavucontrol",
-    s "h" "htop",
-    s "t" "bash",
-    s "b" "bluetoothctl",
-    s "w" "quick_notes",
-    s "i" "spotify",
-    s "o" "slack",
-    s "m" "mail"
-  ]
+(scratchpads_actions, scratchpads_manageHooks) = (actions, hooks)
   where
-    s key name = ("M-a " ++ key, namedScratchpadAction scratchpads name)
+    hooks = namedScratchpadManageHook nss
+    (actions, nss) = unzip (zipWith make_id scratchpads [0..])
+    make_id scrtch i =
+      let id = show i in
+      let (key, ns) = scrtch id in
+      (("M-a " ++ key, namedScratchpadAction nss id), ns)
 
 -- ========================================================================== --
 -- Resize floating windows
@@ -325,7 +324,7 @@ main =
     ("M-d", withFocused minimizeWindow),
     ("M-S-d", withLastMinimized maximizeWindowAndFocus),
 
-    -- Float, mark as boring then copy to every workspaces
+    -- Float and copy to every workspaces
     ("M-i", windows $ \ws ->
         case W.peek ws of
           Just w -> copyToAll (W.float w copy_rect ws)
@@ -385,7 +384,7 @@ main =
 
     -- Autorandr
     , ("M-a r", safeSpawn "autorandr" ["--change"])
-  ] ++ scratchpad_actions) -- Can't use `additionalKeysP` again because that would shadow the previous M-a submap
+  ] ++ scratchpads_actions) -- Can't use `additionalKeysP` again because that would shadow the previous M-a submap
   `removeKeysP` [
     "M-S-q"
   ]
