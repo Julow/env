@@ -8,7 +8,6 @@ import XMonad
 import XMonad.Actions.CopyWindow (copyToAll, killAllOtherCopies)
 import XMonad.Actions.FloatKeys
 import XMonad.Actions.Minimize
-import XMonad.Actions.UpdatePointer
 import XMonad.Actions.WindowBringer
 import XMonad.Layout.BoringWindows
 import XMonad.Layout.Decoration
@@ -309,7 +308,6 @@ main =
   {
     focusFollowsMouse = False,
     borderWidth = 0,
-    logHook = updatePointer (0.5, 0.5) (0, 0),
     layoutHook = layout,
     manageHook = manageHook def <+> namedScratchpadManageHook scratchpads,
     handleEventHook = handleEventHook def <+> fullscreenEventHook,
