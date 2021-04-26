@@ -251,6 +251,23 @@ tiled_or_float if_tiled if_float =
   if floating then if_float else if_tiled
 
 -- ========================================================================== --
+-- Move the cursor when changing workspace.
+-- Similar to XMonad.Actions.UpdatePointer.
+
+updatePointerScreen = do
+  ws <- gets windowset
+  disp <- asks display
+  root <- asks theRoot
+  let rect = screenRect (W.screenDetail (W.current ws))
+  let (px, py) =
+        let (Rectangle x y w h) = rect in
+        (x + round (fi w / 2), y + round (fi h / 2))
+  io $ do
+    (_, _, _, rx, ry, _, _, _) <- queryPointer disp root
+    unless (pointWithin (fi rx) (fi ry) rect)
+      (warpPointer disp none root 0 0 0 0 px py)
+
+-- ========================================================================== --
 -- main
 
 font_name size = "xft:Fira Code:style=Medium:antialias=true:size=" ++ show size
@@ -317,6 +334,7 @@ main =
     focusedBorderColor = active_color,
     normalBorderColor = inactive_color,
     layoutHook = layout,
+    logHook = updatePointerScreen,
     manageHook = composeAll manageHooks,
     handleEventHook = handleEventHook def <+> fullscreenEventHook,
     terminal = "xterm"
