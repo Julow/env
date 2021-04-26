@@ -209,7 +209,7 @@ scratchpads = [
     scratch_xterm "w" "vim ~/quick_notes" (floating (2/3) (1/6) (1/3 - 1/10) (4/6)),
     scratch_prog "i" "com.spotify.Client" (className =? "spotify") nonFloating,
     scratch_prog "o" "com.slack.Slack" (className =? "slack") nonFloating,
-    scratch_xterm "m" "nix-shell ~/notes/setup/mail" nonFloating
+    scratch_xterm "m" "mail_client" nonFloating
   ]
   where
     floating_centered x y = customFloating $ W.RationalRect x y (1 - x*2) (1 - y*2)
@@ -270,7 +270,7 @@ prompt_conf = def {
 }
 
 border_width = 2
-active_color = "#2878c8"
+active_color = "#e33e14"
 inactive_color = "#000000"
 urgent_color = "#dc322f"
 
@@ -300,10 +300,14 @@ layout =
     centered_layout = centered_full 600 resize_step
     border_between = decoration shrinkText border_conf BorderBetween
 
-border_hooks =
-  liftX current_is_floating --> hasBorder True
-
 copy_rect = W.RationalRect (2%3 - 1%20) (2%3 - 1%20) (1%3) (1%3)
+
+manageHooks =
+  [ manageHook def
+  , liftX current_is_floating --> hasBorder True -- Borders around floating windows
+  , title =? "Slack | mini panel" --> doIgnore -- Hide slack's minipanel
+  , scratchpads_manageHooks
+  ]
 
 main =
   xmonad $ ewmh def
@@ -313,7 +317,7 @@ main =
     focusedBorderColor = active_color,
     normalBorderColor = inactive_color,
     layoutHook = layout,
-    manageHook = manageHook def <+> border_hooks <+> scratchpads_manageHooks,
+    manageHook = composeAll manageHooks,
     handleEventHook = handleEventHook def <+> fullscreenEventHook,
     terminal = "xterm"
   }
@@ -360,10 +364,10 @@ main =
     ("M-;", password_prompt (prompt_conf { changeModeKey = xK_semicolon })),
 
     -- Dunst shortcuts
-    ("M-e", safeSpawn "dunstctl" ["close"]),
-    ("M-S-e", safeSpawn "dunstctl" ["close-all"]),
-    ("M-r", safeSpawn "dunstctl" ["history-pop"]),
-    ("M-:", safeSpawn "dunstctl" ["action"]),
+    ("M-r", safeSpawn "dunstctl" ["close"]),
+    ("M-S-r", safeSpawn "dunstctl" ["close-all"]),
+    ("M-S-`", safeSpawn "dunstctl" ["history-pop"]),
+    ("M-S-:", safeSpawn "dunstctl" ["action"]),
 
     -- Indicators
     ("M-`", safeSpawn "indicators.sh" []),
