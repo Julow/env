@@ -22,6 +22,9 @@ if which nmcli &>/dev/null; then
     if [[ $state = connected ]]; then
       INFOS+=("<b>Connected to $type</b> <span foreground=\"green\">$ssid</span>")
       CONN=1
+    elif [[ $state = connecting* ]]; then
+      INFOS+=("<b>Connecting to $type</b> <span foreground=\"darkorange\">$ssid</span>...")
+      CONN=1
     fi
   done < <(nmcli -g all d)
   if [[ $CONN -eq 0 ]]; then
