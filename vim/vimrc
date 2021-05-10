@@ -20,7 +20,8 @@ filetype indent on
 set backspace=eol,start,indent
 
 set autoread
-autocmd BufEnter * :checktime
+" Autoread when a buffer is focused. Don't apply to cmd prompt
+autocmd BufEnter * if getcmdwintype() == '' | checktime % | endif
 
 set t_Co=16
 
