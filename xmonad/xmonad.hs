@@ -54,10 +54,9 @@ compl_no_empty _ "" = return []
 compl_no_empty f s = f s
 
 -- The dimentions of the screen a floating window is on
-current_screen_size = do
+current_screen_rect = do
   screen <- W.current <$> gets windowset
-  let Rectangle _ _ sw sh = screenRect $ W.screenDetail screen
-  return (sw, sh)
+  return $ screenRect $ W.screenDetail screen
 
 -- ========================================================================== --
 -- Lock screen
@@ -179,7 +178,7 @@ instance LayoutModifier CenteredLayout a where
     | otherwise = return Nothing
     where
       modify_lr step = do
-        (sw, _) <- current_screen_size
+        (Rectangle _ _ sw _) <- current_screen_rect
         let d = truncate (toRational sw * step / 2)
         let m (Border t b r l) = Border t b (r + d) (l + d)
         _ <- sendMessage (ModifyWindowBorder m)
@@ -227,16 +226,32 @@ scratchpads = [
 -- ========================================================================== --
 -- Resize floating windows
 
--- Resize the focused floating window by step
-resize_float_x step =
-  withFocused $ \w -> do
-    (sw, _) <- current_screen_size
-    keysResizeWindow ((truncate (step * toRational sw)), 0) (1%2, 1%2) w
+-- Move a window if it crosses the screen borders. Don't resize
+clamp_window_to_screen screen_rect w =
+  withDisplay $ \display -> do
+    wa <- io $ getWindowAttributes display w
+    let (Rectangle sx sy sw sh) = screen_rect
+    let borders = wa_border_width wa * 2
+    let move_x = clamp1d (fi sx) (fi sw) (wa_x wa) (wa_width wa + borders)
+    let move_y = clamp1d (fi sy) (fi sh) (wa_y wa) (wa_height wa + borders)
+    if move_x /= 0 || move_y /= 0 then
+      keysMoveWindow (fi move_x, fi move_y) w
+    else
+      return ()
+    where
+        clamp1d sx sw wx ww =
+          if wx < sx
+            then sx - wx else min 0 (sx + sw - wx - ww)
 
-resize_float_y step =
+-- Resize the focused floating window by step
+resize_float step_x step_y =
   withFocused $ \w -> do
-    (_, sh) <- current_screen_size
-    keysResizeWindow (0, truncate (step * toRational sh)) (1%2, 1%2) w
+    screen_rect <- current_screen_rect
+    let (Rectangle _ _ sw sh) = screen_rect
+    let resz_x = truncate (min 1 step_x * toRational sw)
+    let resz_y = truncate (min 1 step_y * toRational sh)
+    keysResizeWindow (resz_x, resz_y) (1%2, 1%2) w
+    clamp_window_to_screen screen_rect w
 
 -- Returns [True] if the current window is floating
 current_is_floating = do
@@ -359,10 +374,10 @@ main =
     ("M-S-i", killAllOtherCopies),
 
     -- Shrink/expand vertically
-    ("M-h", tiled_or_float (sendMessage Shrink) (resize_float_x resize_step)),
-    ("M-l", tiled_or_float (sendMessage Expand) (resize_float_x (-resize_step))),
-    ("M-S-l", tiled_or_float (sendMessage MirrorShrink) (resize_float_y resize_step)),
-    ("M-S-h", tiled_or_float (sendMessage MirrorExpand) (resize_float_y (-resize_step))),
+    ("M-h", tiled_or_float (sendMessage Shrink) (resize_float resize_step 0)),
+    ("M-l", tiled_or_float (sendMessage Expand) (resize_float (-resize_step) 0)),
+    ("M-S-l", tiled_or_float (sendMessage MirrorShrink) (resize_float 0 resize_step)),
+    ("M-S-h", tiled_or_float (sendMessage MirrorExpand) (resize_float 0 (-resize_step))),
 
     -- Control
 
