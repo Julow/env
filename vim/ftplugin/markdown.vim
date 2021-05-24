@@ -1,5 +1,7 @@
-" Nested folding
+" Plugin 'vim-markdown-folding'
 let g:markdown_fold_style = 'nested'
+let g:markdown_fold_override_foldtext = 0
+let g:vim_markdown_folding_disabled = 1
 
 " Tabs to 2 spaces
 setlocal expandtab
@@ -8,13 +10,13 @@ setlocal softtabstop=2
 setlocal shiftwidth=2
 
 " Break line at word boundaries
-set linebreak
+setlocal linebreak
 
 " Indent in lists
 let g:vim_markdown_new_list_item_indent = 2
 
 " Enable concealing
-setlocal conceallevel=2
+setlocal conceallevel=3
 let g:vim_markdown_conceal_code_blocks = 0
 
 if !exists("*With_variable")

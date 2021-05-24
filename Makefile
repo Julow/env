@@ -149,6 +149,7 @@ update_vim:
 	git subtree pull --squash -P vim/pack/plugins/start/xdg_open "https://github.com/arp242/xdg_open.vim" master
 	git subtree pull --squash -P vim/pack/plugins/start/gv "https://github.com/junegunn/gv.vim" master
 	git subtree pull --squash -P vim/pack/plugins/start/dwm "https://github.com/spolu/dwm.vim" master
+	git subtree pull --squash -P vim/pack/plugins/start/markdown-folding "https://github.com/masukomi/vim-markdown-folding" master
 
 update_vim_merlin:
 	git fetch "https://github.com/ocaml/merlin"
