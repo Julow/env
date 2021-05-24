@@ -351,10 +351,17 @@ main =
     layoutHook = layout,
     logHook = updatePointerScreen,
     manageHook = composeAll manageHooks,
-    handleEventHook = handleEventHook def <+> fullscreenEventHook,
-    terminal = "xterm"
+    handleEventHook = handleEventHook def <+> fullscreenEventHook
   }
+  `removeKeysP` [
+    "M-S-<Return>",
+    "M-S-q"
+  ]
   `additionalKeysP` ([
+    -- Spawn terminal. Override the default because the 'terminal'
+    -- configuration field shouldn't exist (it's only used for defining one
+    -- binding, contrib modules need to assume too much)
+    ("M-S-<Return>", safeSpawn "xterm" ["-e", "vim"]),
 
     -- BoringWindows
     ("M-S-<Tab>", focusUp),
@@ -427,6 +434,3 @@ main =
     -- Autorandr
     , ("M-a r", safeSpawn "autorandr" ["--change"])
   ] ++ scratchpads_actions) -- Can't use `additionalKeysP` again because that would shadow the previous M-a submap
-  `removeKeysP` [
-    "M-S-q"
-  ]
