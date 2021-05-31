@@ -62,26 +62,20 @@
   environment.systemPackages = with pkgs; [
     # Base tools
     curl gnumake zip unzip jq
+    vim_configurable git
+    python3
     # Admin
     mkpasswd rsync
     htop acpi
     gnupg gitAndTools.gitRemoteGcrypt encfs
-    # Dev
-    rlwrap fd ack tree cloc
-    vim_configurable git tig
-    gcc_multi binutils-unwrapped
-    python3 perl
-    flamegraph
     # Apps
     firefox
     pinta
     # Desktop
     dunst xdotool playerctl dmenu pamixer
     pipewire.pulse pavucontrol mpv xclip
-    msmtp
     # Other
     nixos-deploy nix-workspaces
-    opam2nix
     imagemagick graphviz
   ];
 
@@ -113,7 +107,6 @@
   # Enable xdg portals
   xdg.portal = {
     enable = true;
-    gtkUsePortal = true;
     extraPortals = [ pkgs.xdg-desktop-portal ];
   };
 
