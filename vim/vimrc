@@ -318,8 +318,10 @@ nnoremap <Leader>g :tab Git<return>
 " Don't move the cursor to first column when scrolling
 set nostartofline
 
-" Syntax for some extensions
-autocmd BufNewFile,BufRead *.xkb set ft=xkb
+" ftdetect
+autocmd BufNewFile,BufRead *.xkb setlocal ft=xkb
+autocmd BufNewFile,BufRead *.t setlocal ft=cram
+autocmd BufNewFile,BufRead *.tsv setlocal ft=tsv
 
 " Q to save file
 nnoremap Q :w<return>
@@ -682,9 +684,6 @@ autocmd CursorMovedI * call Update_word_highlighting()
 autocmd InsertLeave * call Disable_word_highlighting()
 
 hi Word_highlight ctermbg=none ctermfg=none cterm=underline
-
-" Detect cram syntax
-autocmd BufNewFile,BufRead *.t setlocal ft=cram
 
 function! Pos_equal(a, b)
   return (a:a[1] == a:b[1] && a:a[2] == a:b[2])
