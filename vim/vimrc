@@ -202,6 +202,8 @@ function! Update_s_filename(buf)
 
   if has_key(g:s_filename_const, l:f)
     let l:f = get(g:s_filename_const, l:f)
+  " elseif len(l:f) > 20
+  "   let l:f = pathshorten(l:f)
   endif
 
   call setbufvar(a:buf, "s_filename", (l:f != "") ? l:f : "<new>")
@@ -734,3 +736,8 @@ nnoremap <C-l> <C-w>l
 " C-Enter in the right pane will focus that window,
 " in the master pane will focus the previous master.
 nmap <C-Space> <Plug>DWMFocus
+
+set winwidth=80
+
+" Remap visual mode <p> to not change registers
+vnoremap p "_dP

@@ -34,6 +34,10 @@ if !exists("*With_variable")
   endfunction
 endif
 
+" Links
+
+let g:vim_markdown_follow_anchor = 1
+
 nmap <buffer> gf <Plug>Markdown_EditUrlUnderCursor
 nmap <buffer> gF :call With_variable('vim_markdown_edit_url_in', 'hsplit', 'normal gf')<return>
 nmap <buffer> <C-w>gf :call With_variable('vim_markdown_edit_url_in', 'tab', 'normal gf')<return>
@@ -57,3 +61,4 @@ endfunction
 " Insert a markdown link. Expect a path in clipboard ("+) (either relative to
 " the current directory or absolute)
 nnoremap c<C-l> "=Markdown_link_of_path(@+, @%)<return>p
+inoremap <C-l> <C-r>=Markdown_link_of_path(@+, @%)<return>
