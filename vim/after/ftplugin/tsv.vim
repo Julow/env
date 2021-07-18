@@ -7,6 +7,10 @@ setlocal shiftwidth=0
 setlocal listchars=tab:\ \ ⎸
 setlocal list
 
+" <Tab> and <S-Tab> to navigate between cells
+nnoremap <Tab> f<Tab>l
+nnoremap <S-Tab> F<Tab>:exe "norm!" ((search("	", "bs", line(".")) == 0) ? "^" : "l")<return>
+
 " Return the width of each columns in a line (without the tab character)
 function! TSV_column_widths(line)
   " Comment lines
