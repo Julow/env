@@ -25,16 +25,35 @@
   networking.dhcpcd.wait = "background"; # Don't wait for dhcp before starting session
 
   # Enable sound.
+  sound.enable = true;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     pulse.enable = true;
 
-    media-session.config.bluez-monitor.properties.bluez5 = {
-      msbc-support = true;
-      sbc-xq-support = true;
-    };
+    # Bluetooth
+    media-session.config.bluez-monitor.rules = [
+      {
+        # Matches all cards
+        matches = [{ "device.name" = "~bluez_card.*"; }];
+        actions = {
+          "update-props" = {
+            "bluez5.reconnect-profiles" = [ "hfp_hf" "hsp_hs" "a2dp_sink" ];
+            "bluez5.msbc-support" = true;
+            "bluez5.sbc-xq-support" = true;
+          };
+        };
+      }
+      {
+        # Matches all sources and all outputs
+        matches = [
+          { "node.name" = "~bluez_input.*"; }
+          { "node.name" = "~bluez_output.*"; }
+        ];
+        actions = { "node.pause-on-idle" = false; };
+      }
+    ];
   };
 
   # Bluetooth
@@ -79,6 +98,12 @@
     imagemagick graphviz
   ];
 
+  fonts = {
+    fonts = with pkgs; [
+      fira-code
+    ];
+  };
+
   # Gpg with Yubikey support
   programs.gnupg.agent = { enable = true; };
   services.udev.packages = [ pkgs.yubikey-personalization ];
@@ -122,6 +147,5 @@
   # Support for 32bit games
   hardware.opengl.driSupport32Bit = true;
   hardware.opengl.extraPackages32 = with pkgs.pkgsi686Linux; [ libva ];
-  hardware.pulseaudio.support32Bit = true;
   services.pipewire.alsa.support32Bit = true;
 }
