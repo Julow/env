@@ -64,11 +64,6 @@ current_screen_rect = do
 lock_screen = spawn "light-locker-command -l"
 
 -- ========================================================================== --
--- Browser
-
-web_browser = "firefox"
-
--- ========================================================================== --
 -- Border between
 -- Put a decoration on the right *or* the bottom, except if it's next to the
 -- edge of the screen.
@@ -158,11 +153,10 @@ window_prompt prompt_conf = do
 
 workspace_prompt prompt_conf = do
   home <- home_dir
-  let workspaces_desc = home ++ "/notes/workspaces/workspaces.nix"
-  ws <- io $ runProcessWithInput "workspaces" ["list", "-f", workspaces_desc] []
+  ws <- io $ runProcessWithInput "workspaces" ["list"] []
   let ws' = lines ws
   let compl = compl_fun_from_list ws'
-  let open w = safeSpawn "xterm" ["-e", "workspaces", "open", "-f", workspaces_desc, w]
+  let open w = safeSpawn "xterm" ["-e", "workspaces", "open", w]
   mkXPrompt (Prompt_autocomplete "Workspace: ") prompt_conf compl open
 
 -- ========================================================================== --
@@ -361,11 +355,12 @@ main =
     -- Spawn terminal. Override the default because the 'terminal'
     -- configuration field shouldn't exist (it's only used for defining one
     -- binding, contrib modules need to assume too much)
-    ("M-S-<Return>", safeSpawn "xterm" ["-e", "vim"]),
+    ("M-a <Return>", safeSpawn "xterm" ["-e", "vim"]),
+    ("M-a <Space>", safeSpawn "firefox" []),
 
     -- BoringWindows
-    ("M-S-<Tab>", focusUp),
-    ("M-<Tab>", focusDown),
+    ("M-k", focusUp),
+    ("M-j", focusDown),
     ("M-m", markBoring),
     ("M-S-m", clearBoring),
 
@@ -390,9 +385,6 @@ main =
 
     -- Lock screen
     ("M-z", lock_screen),
-
-    -- Web browser
-    ("M-S-<Backspace>", safeSpawnProg web_browser),
 
     -- Shell, window, preset prompts
     ("M-p", shellPrompt prompt_conf),
