@@ -15,6 +15,5 @@ brightnessctl set -- "$INC%"
 
 if which dunstify &>/dev/null; then
   IFS=, read _ _ _ VAL _ < <(brightnessctl info -m)
-  VAL=${VAL%\%}
-  dunstify -r 1234 -a "Brightness" -u low "" "`progress-bar.sh "$VAL"`"
+  dunstify -r 1234 -a "Indicator" -u low -h "int:value:${VAL%\%}" "Brightness"
 fi

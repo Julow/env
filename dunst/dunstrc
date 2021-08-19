@@ -1,108 +1,73 @@
 [global]
-    ### Display ###
+  ### Display ###
 
-    monitor = 0
-    follow = none
+  monitor = 0
+  follow = none
 
-    geometry = "0x10-20+20"
+  geometry = "0x10-20+20"
 
-    indicate_hidden = yes
-    shrink = no
-    transparency = 0
+  padding = 6
+  horizontal_padding = 10
 
-    notification_height = 0
+  separator_height = 4
+  frame_width = 0
+  frame_color = "#aaaaaa"
+  separator_color = "#000000"
 
-    padding = 5
-    horizontal_padding = 10
+  ### Text ###
 
-    separator_height = 6
-    frame_width = 0
-    frame_color = "#aaaaaa"
-    separator_color = transparent
+  font = Fira Mono 12
+  line_height = 0
+  alignment = right
 
-    sort = yes
+  markup = full
+  format = "<b>%a</b> %s\n%b"
 
-    idle_threshold = 120
+  ### Progress bar ###
 
-    ### Text ###
+  progress_bar = true
+  progress_bar_height = 15
+  progress_bar_frame_width = 0
+  progress_bar_min_width = 200
+  progress_bar_max_width = 1000
 
-    font = Fira Mono 12
-    line_height = 0
-    alignment = right
+  ### Icons ###
 
-    markup = full
-    format = "<b>%a</b> %s %p\n%b"
+  icon_position = off
 
-    show_age_threshold = 60
+  ### Mouse ###
 
-    word_wrap = yes
-    ellipsize = middle
+  mouse_left_click = do_action
+  mouse_middle_click = close_current
+  mouse_right_click = context
 
-    ignore_newline = no
+  ### Misc/Advanced ###
 
-    stack_duplicates = true
-    hide_duplicate_count = false
-
-    show_indicators = yes
-
-    ### Icons ###
-
-    icon_position = off
-    max_icon_size = 32
-    icon_path = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/
-
-    ### History ###
-
-    sticky_history = yes
-
-    history_length = 20
-
-    ### Misc/Advanced ###
-
-    dmenu = /usr/bin/env dmenu -p dunst:
-    browser = /usr/bin/env firefox -new-tab
-
-    always_run_script = true
-
-    title = Dunst
-    class = Dunst
-
-    startup_notification = false
-
-    ### Legacy
-    force_xinerama = false
+  dmenu = /usr/bin/env dmenu -p dunst:
+  browser = /usr/bin/env firefox -new-tab
 
 [experimental]
-    per_monitor_dpi = false
+  per_monitor_dpi = false
 
 [urgency_low]
-    background = "#222222"
-    foreground = "#888888"
-    timeout = 10
-    #icon = /path/to/icon
+  background = "#222222"
+  foreground = "#888888"
+  timeout = 10
 
 [urgency_normal]
-    background = "#285577"
-    foreground = "#ffffff"
-    timeout = 10
-    #icon = /path/to/icon
+  background = "#285577"
+  foreground = "#ffffff"
+  timeout = 10
 
 [urgency_critical]
-    background = "#900000"
-    foreground = "#ffffff"
-    frame_color = "#ff0000"
-    timeout = 0
-    #icon = /path/to/icon
+  background = "#900000"
+  foreground = "#ffffff"
+  frame_color = "#ff0000"
+  timeout = 0
 
-[brightness_indicator]
-	appname = Brightness
-	format = "<b>%a</b> %b"
-	history_ignore = yes
-	timeout = 1
-
-[volume_indicator]
-	appname = Volume
-	format = "<b>%a</b> %b"
+[indicator]
+	appname = Indicator
+  format = "<b>%s</b> %b"
 	history_ignore = yes
 	timeout = 1
 
@@ -111,9 +76,9 @@
 	history_ignore = yes
 	timeout = 2
 
-[indicator]
-	appname = Indicator
-	format = "%b"
+[status_indicator]
+	appname = Status
+	format = "%b" 
 	history_ignore = yes
 	timeout = 2
 

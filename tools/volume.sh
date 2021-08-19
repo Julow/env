@@ -10,11 +10,11 @@ if which dunstify &>/dev/null; then
 
   vol=`pamixer --get-volume-human`
   if [[ $vol = muted ]]; then
-    MSG=Muted
+    args=(Muted)
   else
-    MSG=`progress-bar.sh "${vol%"%"}"`
+    args=(-h "int:value:${vol%"%"}")
   fi
 
-  dunstify -r 1234 -a "Volume" -u low "" "$MSG"
+  dunstify -r 1234 -a "Indicator" -u low "Volume" "${args[@]}"
 
 fi

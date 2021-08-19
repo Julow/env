@@ -50,4 +50,4 @@ if which playerctl &>/dev/null; then
   fi
 fi
 
-dunstify -r "101010" -a "Indicator" -u low "" "`IFS=$'\n'; echo "${INFOS[*]}"`"
+dunstify -r "101010" -a "Status" -u low "" "`IFS=$'\n'; echo "${INFOS[*]}"`"
