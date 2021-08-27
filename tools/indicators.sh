@@ -8,10 +8,13 @@ INFOS+=("$DATE")
 
 # Battery
 while read line; do
-	if [[ $line =~ ^Battery\ [0-9]*:\ (.*),\ ([0-9]+)%.*$ ]] &&
-		[[ ${BASH_REMATCH[2]} -ne 0 ]]; then
-		PROGRESS=`progress-bar.sh "${BASH_REMATCH[2]}"`
-    INFOS+=("<b>Battery</b> $PROGRESS ${BASH_REMATCH[1]}")
+	if [[ $line =~ ^Battery\ [0-9]*:\ (.*),\ ([0-9]+)%.*$ ]]; then
+    STATUS=${BASH_REMATCH[1]}
+    VAL=${BASH_REMATCH[2]}
+    BAR_COLOR=
+    if [[ $VAL -le 20 ]] && [[ $STATUS = Discharging ]]; then BAR_COLOR=red; fi
+		PROGRESS=`BAR_COLOR=$BAR_COLOR progress-bar.sh "$VAL"`
+    INFOS+=("<b>Battery</b> $PROGRESS $STATUS")
 	fi
 done < <(acpi -b)
 

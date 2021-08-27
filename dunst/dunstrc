@@ -88,4 +88,8 @@
   background = "#558833"
   foreground = "#ffffff"
 
+[battery]
+  appname = Battery
+  format = "<b>%a</b> %s, %b"
+
 # vim: ft=cfg

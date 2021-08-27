@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+COLOR=${BAR_COLOR:-cyan}
+
 VALUE="$1"
 PREC=20
 
@@ -20,4 +22,4 @@ repeat() {
 
 bar() { repeat "$1" "━"; }
 
-echo "<span color=\"cyan\">`bar "$DIV"`</span>`bar "$REM"`<span color=\"red\">`bar "$OVER"`</span>"
+echo "<span color=\"$COLOR\">`bar "$DIV"`</span>`bar "$REM"`<span color=\"red\">`bar "$OVER"`</span>"
