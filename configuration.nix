@@ -10,6 +10,7 @@
     modules/desktop.nix
     modules/screen_off.nix
     modules/autorandr.nix
+    modules/battery_monitor.nix
     extra_config
   ];
 

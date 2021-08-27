@@ -27,6 +27,8 @@
       config = etc/work/autorandr;
     };
 
+    modules.battery_monitor.enable = true;
+
     # Power saving
     services.tlp = {
       enable = true;
