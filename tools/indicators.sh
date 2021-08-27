@@ -53,4 +53,15 @@ if which playerctl &>/dev/null; then
   fi
 fi
 
+# Rfkill status
+for dev in /sys/class/rfkill/*; do
+  read hard < "$dev/hard"
+  read soft < "$dev/soft"
+  if [[ $hard -ne 0 ]] || [[ $soft -ne 0 ]]; then
+    read name < "$dev/name"
+    read typ < "$dev/type"
+    INFOS+=("<b>${typ^} blocked</b> $name")
+  fi
+done
+
 dunstify -r "101010" -a "Status" -u low "" "`IFS=$'\n'; echo "${INFOS[*]}"`"
