@@ -202,7 +202,7 @@ scratchpads = [
     scratch_xterm "w" "vim ~/quick_notes" (floating (2/3) (1/6) (1/3 - 1/10) (4/6)),
     scratch_prog "i" "com.spotify.Client" (className =? "spotify") nonFloating,
     scratch_prog "o" "com.slack.Slack" (className =? "slack") nonFloating,
-    scratch_xterm "m" "mail_client" nonFloating
+    scratch_prog "u" "nheko" (className =? "nheko") nonFloating
   ]
   where
     floating_centered x y = customFloating $ W.RationalRect x y (1 - x*2) (1 - y*2)
@@ -357,6 +357,7 @@ main =
     -- binding, contrib modules need to assume too much)
     ("M-a <Return>", safeSpawn "xterm" ["-e", "vim"]),
     ("M-a <Space>", safeSpawn "firefox" []),
+    ("M-a m", safeSpawn "xterm" ["-e", "mail_client"]),
 
     -- BoringWindows
     ("M-k", focusUp),
@@ -424,5 +425,5 @@ main =
     ("<XF86MonBrightnessDown>", safeSpawn "brightness.sh" ["-5"])
 
     -- Autorandr
-    , ("M-a r", safeSpawn "autorandr" ["--change"])
+    , ("M-a r", safeSpawn "autorandr" ["--default", "default", "--change"])
   ] ++ scratchpads_actions) -- Can't use `additionalKeysP` again because that would shadow the previous M-a submap
