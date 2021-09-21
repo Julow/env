@@ -14,6 +14,13 @@ let
 
   profiles = read_dir conf.config;
 
+  default_profile = if conf.default_profile == null then
+    [ ]
+  else [{
+    name = "default";
+    path = conf.default_profile;
+  }];
+
   hooks = if conf.notify_hook then [{
     name = "postswitch.d/notify";
     path = pkgs.writeShellScript "autorandr-notify" conf.notify_cmd;
@@ -43,6 +50,16 @@ in {
       '';
     };
 
+    default_profile = mkOption {
+      type = types.nullOr types.str;
+      default = "vertical";
+      description = ''
+        The profile 'default' will be a symlink to this profile.
+        It will be used as the default profile when autorandr is run with the arguments '--default default'.
+        Can be the name of a built-in profile, a defined profile, an absolute path or 'null'.
+      '';
+    };
+
   };
 
   config = lib.mkIf conf.enable {
@@ -50,7 +67,7 @@ in {
 
     # Before the greeter
     services.xserver.displayManager.setupCommands = ''
-      ${pkgs.autorandr}/bin/autorandr --change &
+      ${pkgs.autorandr}/bin/autorandr --default default --change &
     '';
 
     # Autorandr service
@@ -58,7 +75,7 @@ in {
 
     # Install configuration files
     environment.etc."xdg/autorandr".source =
-      pkgs.linkFarm "xdg-autorandr" (hooks ++ profiles);
+      pkgs.linkFarm "xdg-autorandr" (hooks ++ default_profile ++ profiles);
 
   };
 }
