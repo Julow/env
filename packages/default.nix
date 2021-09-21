@@ -35,4 +35,5 @@ in {
     sha256 = "18r0m30h4195cmnga1aqydy5cnkb7wx157k6lk1j5hsywa1acbqp";
   };
 
+  mpv = super.mpv.override { scripts = with super.mpvScripts; [ mpris ]; };
 }
