@@ -5,7 +5,7 @@
 "              Pierre Vittet       <pierre-vittet@pvittet.com>
 "              Stefano Zacchiroli  <zack@bononia.it>
 "              Vincent Aravantinos <firstname.name@imag.fr>
-" URL:         http://www.ocaml.info/vim/ftplugin/ocaml.vim
+" URL:         https://github.com/ocaml/vim-ocaml
 " Last Change:
 "              2013 Oct 27 - Added commentstring (MM)
 "              2013 Jul 26 - load default compiler settings (MM)
@@ -38,7 +38,8 @@ let s:cposet=&cpoptions
 set cpo&vim
 
 " Comment string
-setlocal comments=
+setlocal comments=sr:(*\ ,mb:\ ,ex:*)
+setlocal comments^=sr:(**,mb:\ \ ,ex:*)
 setlocal commentstring=(*%s*)
 
 " Add mappings, unless the user didn't want this.
@@ -368,7 +369,7 @@ endfunction
               endif
             else
               let annot_file_name = ''
-              "(Pierre Vittet: I have commented 4b because this was chrashing
+              "(Pierre Vittet: I have commented 4b because this was crashing
               "my vim (it produced infinite loop))
               "
               " 4b. anarchy : the renamed _build directory may be higher in the hierarchy
@@ -459,8 +460,8 @@ endfunction
 
   "b. 'search' and 'match' work to find the type information
 
-      "In:  - lin1,col1: postion of expression first char
-      "     - lin2,col2: postion of expression last char
+      "In:  - lin1,col1: position of expression first char
+      "     - lin2,col2: position of expression last char
       "Out: - the pattern to be looked for to find the block
       " Must be called in the source buffer (use of line2byte)
     function! s:Block_pattern(lin1,lin2,col1,col2)
@@ -521,7 +522,7 @@ endfunction
   "c. link this stuff with what the user wants
   " ie. get the expression selected/under the cursor
 
-    let s:ocaml_word_char = '\w|[À-ÿ]|'''
+    let s:ocaml_word_char = '\w|[\xc0-\xff]|'''
 
       "In:  the current mode (eg. "visual", "normal", etc.)
       "Out: the borders of the expression we are looking for the type
@@ -578,7 +579,7 @@ endfunction
       let res = substitute (a:res, "\n", "", "g" )
       "remove double space
       let res =substitute(res , "  ", " ", "g")
-      "remove space at begining of string.
+      "remove space at beginning of string.
       let res = substitute(res, "^ *", "", "g")
       return res
     endfunction
