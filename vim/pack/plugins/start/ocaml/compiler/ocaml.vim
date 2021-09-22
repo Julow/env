@@ -1,11 +1,11 @@
 " Vim Compiler File
 " Compiler:    ocaml
 " Maintainer:  Markus Mottl <markus.mottl@gmail.com>
-" URL:         http://www.ocaml.info/vim/compiler/ocaml.vim
+" URL:         https://github.com/ocaml/vim-ocaml
 " Last Change:
+"              2020 Mar 28 - Improved error format (Thomas Leonard)
 "              2017 Nov 26 - Improved error format (Markus Mottl)
 "              2013 Aug 27 - Added a new OCaml error format (Markus Mottl)
-"              2013 Jun 30 - Initial version (Marc Weber)
 "
 " Marc Weber's comments:
 " Setting makeprg doesn't make sense, because there is ocamlc, ocamlopt,
@@ -31,18 +31,15 @@ let s:cpo_save = &cpo
 set cpo&vim
 
 CompilerSet errorformat =
-      \%E\ %#File\ \"%f\"\\,\ line\ %l\\,\ characters\ %c-%*\\d:,
-      \%E\ %#File\ \"%f\"\\,\ line\ %l\\,\ characters\ %c-%*\\d:%m,
-      \%E\ %#File\ \"%f\"\\,\ line\ %l\\,\ character\ %c:,
-      \%E\ %#File\ \"%f\"\\,\ line\ %l\\,\ character\ %c:%m,
-      \%E\ %#File\ \"%f\"\\,\ line\ %l:,
-      \%C%*\\d\ \|\ %.%#,
-      \%C\ %#^^%#\ %#,
-      \%CError:\ %m,
+      \%EFile\ \"%f\"\\,\ lines\ %*\\d-%l\\,\ characters\ %c-%*\\d:,
+      \%EFile\ \"%f\"\\,\ line\ %l\\,\ characters\ %c-%*\\d:,
+      \%EFile\ \"%f\"\\,\ line\ %l\\,\ characters\ %c-%*\\d\ %.%#,
+      \%EFile\ \"%f\"\\,\ line\ %l\\,\ character\ %c:%m,
       \%+EReference\ to\ unbound\ regexp\ name\ %m,
       \%Eocamlyacc:\ e\ -\ line\ %l\ of\ \"%f\"\\,\ %m,
       \%Wocamlyacc:\ w\ -\ %m,
       \%-Zmake%.%#,
+      \%C%m,
       \%D%*\\a[%*\\d]:\ Entering\ directory\ `%f',
       \%X%*\\a[%*\\d]:\ Leaving\ directory\ `%f',
       \%D%*\\a:\ Entering\ directory\ `%f',
