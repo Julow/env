@@ -139,9 +139,7 @@ update_vim:
 	git subtree pull --squash -P vim/pack/plugins/start/conflict3 "https://github.com/mkotha/conflict3" master
 	git subtree pull --squash -P vim/pack/plugins/start/capnp "https://github.com/cstrahan/vim-capnp" master
 	git subtree pull --squash -P vim/pack/plugins/start/markdown "https://github.com/plasticboy/vim-markdown" master
-	git subtree pull --squash -P vim/pack/plugins/start/ctrlp "https://github.com/ctrlpvim/ctrlp.vim" master
 	git subtree pull --squash -P vim/pack/plugins/start/json "https://github.com/elzr/vim-json" master
-	git subtree pull --squash -P vim/pack/plugins/start/ripple "https://github.com/urbainvaes/vim-ripple" master
 	git subtree pull --squash -P vim/pack/plugins/start/sneak "https://github.com/justinmk/vim-sneak" master
 	git subtree pull --squash -P vim/pack/plugins/start/easy-align "https://github.com/junegunn/vim-easy-align" master
 	git subtree pull --squash -P vim/pack/plugins/start/futhark "https://github.com/BeneCollyridam/futhark-vim" master
