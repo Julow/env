@@ -26,7 +26,7 @@
 
 [alias]
 	k = checkout
-  b = branch -avv --sort=-authordate --no-merge master --list
+  b = branch -avv --sort=-authordate --no-merge MAIN --list
 	d = diff --stat --summary -p
 	ds = diff --stat --summary -p --staged
 	l = "!f() { : git log; if [ $# -eq 0 ]; then set -- \"-n15\"; fi; git customlog \"$@\"; }; f"
@@ -51,7 +51,9 @@
 	bb = log --decorate --format=custom --all --simplify-by-decoration
 	web = "!f() { : git push; U=`git get-upstream \"$1\"` && xdg-open \"$U\"; }; f"
   get-upstream = "!f() { git remote get-url ${1:-up} 2>/dev/null || git remote get-url origin; }; f"
-  dm = diff --stat --summary -p master...
+  dm = diff --stat --summary -p MAIN...
+  dr = "!f() { : git range-diff; git range-diff ${1:-MAIN} @{u} @; }; f"
+  do = diff --stat --summary -p ORIG_HEAD
 
 [color "diff-highlight"]
 	oldNormal = dim red
