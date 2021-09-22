@@ -164,7 +164,7 @@ def command2(args, context=None, track_verbosity=None):
         log_errors = []
     cmdline = ["server"] + list(args) + ["-filename",filename] + verbosity + \
             concat_map(lambda ext: ("-extension",ext), vim_list_if_set("b:merlin_extensions")) + \
-            concat_map(lambda pkg: ("-package",pkg), vim_list_if_set("b:merlin_packages")) + \
+            concat_map(lambda pkg: ("-I",pkg), vim_list_if_set("b:merlin_packages_path")) + \
             concat_map(lambda dm: ("-dot-merlin",dm), vim_list_if_set("b:merlin_dot_merlins")) + \
             log_errors + \
             vim.eval('g:merlin_binary_flags') + \
@@ -250,6 +250,38 @@ def differs_from_current_file(path):
 def vim_fnameescape(s):
     return vim.eval("fnameescape('%s')" % s.replace("'","''"))
 
+def goto_file_and_point(pos_or_err):
+    if not isinstance(pos_or_err, dict):
+        print(pos_or_err)
+    else:
+        l = pos_or_err['pos']['line']
+        c = pos_or_err['pos']['col']
+        split_method = vim.eval('g:merlin_split_method')
+        # save the current position in the jump list
+        vim.command("normal! m'")
+        if "file" in pos_or_err and differs_from_current_file(pos_or_err['file']):
+            fname = vim_fnameescape(pos_or_err['file'])
+            if split_method == "never":
+                vim.command(":keepjumps e %s" % fname)
+            elif "tab" in split_method:
+                if "always" in split_method:
+                    vim.command(":keepjumps tab split %s" % fname)
+                else:
+                    vim.command(":keepjumps tab drop %s" % fname)
+            elif "vertical" in split_method:
+                vim.command(":keepjumps vsplit %s" % fname)
+            else:
+                vim.command(":keepjumps split %s" % fname)
+        elif "always" in split_method:
+            if "tab" in split_method:
+                vim.command(":tab split")
+            elif "vertical" in split_method:
+                vim.command(":vsplit")
+            else:
+                vim.command(":split")
+        # TODO: move the cursor using vimscript, so we can :keepjumps?
+        vim.current.window.cursor = (l, c)
+
 def command_locate(path, pos):
     try:
         choice = vim.eval('g:merlin_locate_preference')
@@ -260,36 +292,16 @@ def command_locate(path, pos):
                 pos_or_err = command("locate", "-look-for", choice, "-position", fmtpos(pos))
             else:
                 pos_or_err = command("locate", "-prefix", path, "-look-for", choice, "-position", fmtpos(pos))
-        if not isinstance(pos_or_err, dict):
-            print(pos_or_err)
-        else:
-            l = pos_or_err['pos']['line']
-            c = pos_or_err['pos']['col']
-            split_method = vim.eval('g:merlin_split_method')
-            # save the current position in the jump list
-            vim.command("normal! m'")
-            if "file" in pos_or_err and differs_from_current_file(pos_or_err['file']):
-                fname = vim_fnameescape(pos_or_err['file'])
-                if split_method == "never":
-                    vim.command(":keepjumps e %s" % fname)
-                elif "tab" in split_method:
-                    if "always" in split_method:
-                        vim.command(":keepjumps tab split %s" % fname)
-                    else:
-                        vim.command(":keepjumps tab drop %s" % fname)
-                elif "vertical" in split_method:
-                    vim.command(":keepjumps vsplit %s" % fname)
-                else:
-                    vim.command(":keepjumps split %s" % fname)
-            elif "always" in split_method:
-                if "tab" in split_method:
-                    vim.command(":tab split")
-                elif "vertical" in split_method:
-                    vim.command(":vsplit")
-                else:
-                    vim.command(":split")
-            # TODO: move the cursor using vimscript, so we can :keepjumps?
-            vim.current.window.cursor = (l, c)
+        goto_file_and_point(pos_or_err)
+    except MerlinExc as e:
+        try_print_error(e)
+
+
+def command_locate_type(pos):
+    try:
+        pos_or_err = command("locate-type", "-position", fmtpos(pos))
+        goto_file_and_point(pos_or_err)
+            
     except MerlinExc as e:
         try_print_error(e)
 
@@ -314,6 +326,16 @@ def command_motion(cmd, target, pos):
 def command_occurrences(pos):
     try:
         lst_or_err = command("occurrences", "-identifier-at", fmtpos(pos))
+        if not isinstance(lst_or_err, list):
+            print(lst_or_err)
+        else:
+            return lst_or_err
+    except MerlinExc as e:
+        try_print_error(e)
+
+def command_holes():
+    try:
+        lst_or_err = command("holes")
         if not isinstance(lst_or_err, list):
             print(lst_or_err)
         else:
@@ -433,6 +455,9 @@ def vim_locate_at_cursor(path):
 
 def vim_locate_under_cursor():
     vim_locate_at_cursor(None)
+
+def vim_locate_type_at_cursor():
+    command_locate_type(vim.current.window.cursor)
 
 # Jump and Phrase motion
 def vim_jump_to(target):
@@ -557,7 +582,7 @@ def vim_type_reset():
     enclosing_types = [] # reset
     current_enclosing = -1
 
-def replace_buffer_portion(start, end, txt):
+def replace_buffer_portion(start, end, txt, jump = True):
     (encode,decode) = vim_codec()
 
     start_line = start['line'] - 1
@@ -581,7 +606,11 @@ def replace_buffer_portion(start, end, txt):
 
     # Properly reindent the modified lines
     vim.current.window.cursor = (start['line'], 0)
-    vim.command("call feedkeys('%d==', 'n')" % nb_lines)
+    vim.command('silent normal %d==' % nb_lines)
+
+    if jump:
+      # We look for a hole to move the cursor to in the range we replaced
+      vim_next_hole(start_line, start_line + nb_lines)
 
 def vim_case_analysis():
     global enclosing_types
@@ -608,6 +637,8 @@ def vim_case_analysis():
         tmp = result[0]
         txt = result[1]
         replace_buffer_portion(tmp['start'], tmp['end'], txt)
+
+
     except MerlinExc as e:
         try_print_error(e)
 
@@ -638,6 +669,81 @@ def vim_type_enclosing():
     except MerlinExc as e:
         try_print_error(e)
         return '{}'
+
+def move_cursor_and_type(line, col):
+    vim.current.window.cursor = (line, col)
+    typ = json.loads(vim_type_enclosing())
+    return typ['type']
+
+def vim_previous_hole():
+    line, col = vim.current.window.cursor
+    holes = command_holes()
+    holes.reverse()
+    for hole in holes:
+      hline = hole['start']['line']
+      hcol = hole['start']['col']
+      if (hline, hcol) < (line, col):
+        vim.current.window.cursor = (hline, hcol)
+        print(hole['type'])
+        return
+    # If no hole was found before the cursor we jump
+    # to the last hole of the file if any.
+    if len(holes) > 0:
+      hline = holes[0]['start']['line']
+      hcol = holes[0]['start']['col']
+      vim.current.window.cursor = (hline, hcol)
+      print(holes[0]['type'])
+
+def vim_next_hole(min = 0, max = float('inf')):
+    min = float(min)
+    max = float(max)
+    line, col = vim.current.window.cursor
+    holes = command_holes()
+
+    for hole in holes:
+      hline = hole['start']['line']
+      hcol = hole['start']['col']
+      if hline >= min and (hline, hcol) >= (line, col) and hline <= max:
+        vim.current.window.cursor = (hline, hcol)
+        print(hole['type'])
+        return
+
+    # If no hole was found after the cursor we jump
+    # to the first hole of the file if any.
+    if max == float('inf') and len(holes) > 0:
+      hline = holes[0]['start']['line']
+      hcol = holes[0]['start']['col']
+      vim.current.window.cursor = (hline, hcol)
+      print(holes[0]['type'])
+
+def vim_construct(depth):
+    vimvar = "b:constr_result"
+    vim.command("let %s = []" % vimvar)
+    line, col = vim.current.window.cursor
+    try:
+      result = command(
+        "construct",
+        "-max-depth", depth,
+        "-position", fmtpos((line, col)))
+      loc = result[0]
+      txts = result[1]
+
+      if len(txts) == 1:
+        # If there is only one answer we replace it immediately
+        vim.current.window.cursor = (loc['start']['line'], loc['start']['col'])
+        replace_buffer_portion(loc['start'], loc['end'], txts[0])
+
+      elif len(txts) > 1:
+        # If there is more we remove the hole
+        replace_buffer_portion(loc['start'], loc['end'], " ", jump = False)
+        vim.current.window.cursor = (loc['start']['line'], loc['start']['col'])
+
+        # and write the alternatives in the b:constr_result list:
+        for txt in txts:
+          vim.command("call add(%s, {'word':'%s'})" % (vimvar, txt))
+
+    except MerlinExc as e:
+      try_print_error(e)
 
 def easy_matcher_wide(start, stop):
     startl = ""

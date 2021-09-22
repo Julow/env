@@ -164,11 +164,20 @@ function! merlin#Extensions(...)
 endfunction
 
 function! merlin#CompletePackages(ArgLead, CmdLine, CursorPos)
-  return s:MakeCompletionList("b:merlin_packages", "merlin.vim_findlib_list")
+  let l:all = map(systemlist("ocamlfind list"), "split(v:val)[0]")
+  if exists("b:merlin_packages")
+    let l:existing = copy(b:merlin_packages)
+    let l:all = filter(l:all, "index(l:existing, v:val) == -1")
+    call insert(l:all, join(map(l:existing, "fnameescape(v:val)"), " "))
+  endif
+  return join(l:all, "\n")
 endfunction
 
 function! merlin#Packages(...)
-  let b:merlin_packages = a:000
+  let b:merlin_packages = copy(a:000)
+  let arguments = join(map(b:merlin_packages, "shellescape(v:val)"), ' ')
+  let cmd = 'ocamlfind query ' . arguments
+  let b:merlin_packages_path = systemlist(cmd)
 endfunction
 
 function! merlin#CompleteFlags(ArgLead, CmdLine, CursorPos)
@@ -265,7 +274,7 @@ function! merlin#PolaritySearch(debug,query)
   let s:search_result = []
   MerlinPy merlin.vim_polarity_search(vim.eval("a:query"), "s:search_result")
   if a:debug != 1 && s:search_result != []
-    call feedkeys("i=merlin#PolarityComplete()","n")
+    call feedkeys("i=merlin#PolarityComplete()\<CR>","n")
   endif
 endfunction
 
@@ -376,12 +385,30 @@ endfunction
 
 function! merlin#Locate(...)
   if (a:0 > 1)
-    echoerr "Locate: to many arguments (expected 0 or 1)"
+    echoerr "Locate: too many arguments (expected 0 or 1)"
   elseif (a:0 == 0) || (a:1 == "")
     MerlinPy merlin.vim_locate_under_cursor()
   else
     MerlinPy merlin.vim_locate_at_cursor(vim.eval("a:1"))
   endif
+endfunction
+
+function! merlin#LocateType()
+  MerlinPy merlin.vim_locate_type_at_cursor()
+endfunction
+
+function! merlin#LocateImpl(...)
+  let l:pref = g:merlin_locate_preference
+  let g:merlin_locate_preference = 'implementation'
+  call call("merlin#Locate", a:000)
+  let g:merlin_locate_preference = l:pref
+endfunction
+
+function! merlin#LocateIntf(...)
+  let l:pref = g:merlin_locate_preference
+  let g:merlin_locate_preference = 'interface'
+  call call("merlin#Locate", a:000)
+  let g:merlin_locate_preference = l:pref
 endfunction
 
 function! merlin#Jump(...)
@@ -496,6 +523,112 @@ function! merlin#Destruct()
   MerlinPy merlin.vim_case_analysis()
 endfunction
 
+function! merlin#PreviousHole()
+  MerlinPy merlin.vim_previous_hole()
+endfunction
+
+function! merlin#NextHole()
+  MerlinPy merlin.vim_next_hole()
+endfunction
+
+"'''''''''''"
+" CONSTRUCT "
+"'''''''''''"
+
+let b:merlin_construct_depth = 1
+let b:merlin_construct_done = 1
+let b:merlin_construct_lines_before = 0
+
+function! merlin#ConstructComplete(findstart, base)
+  " The function is called in two different ways:
+  " - First the function is called to find the start of the text to be completed.
+  " - Later the function is called to actually find the matches.
+  if a:findstart
+    let start = col('.') - 1
+    return start
+  endif
+  return b:constr_result
+endfunction
+
+function! merlin#ConstructDone()
+  if b:merlin_construct_done
+    " After the subtitution we try to go to the the next hole
+    " TODO Don't if no substitution happened and rewrite the hole
+    call setpos('.', b:construct_saved_pos)
+    let start_line = b:construct_saved_pos[1]
+    let end_line = start_line + line('$') - b:merlin_construct_lines_before
+    MerlinPy merlin.vim_next_hole(vim.eval("start_line"), vim.eval("end_line"))
+    :call feedkeys("\<esc>")
+    :call feedkeys("\<Right>")
+
+    " We reset the depth and the mappings
+    let b:merlin_construct_depth = 1
+    :iunmap <buffer><expr> <c-i>
+    :iunmap <buffer><expr> <c-u>
+
+    " And we hook back the standard completion
+    setlocal omnifunc=merlin#Complete
+  else
+    let b:merlin_construct_done = 1
+  endif
+endfunction
+
+function! merlin#ConstructMore()
+  let b:merlin_construct_depth += 1
+  let b:merlin_construct_done = 0
+
+  " We cancel the previous omnicomplete and trigger a new Construct
+  return "\<c-e>\_\<esc>:MerlinConstruct\<enter>"
+endfunction
+
+function! merlin#ConstructLess()
+  if b:merlin_construct_depth > 1
+    let b:merlin_construct_depth -= 1
+    let b:merlin_construct_done = 0
+
+    " We cancel the previous omnicomplete and trigger a new Construct
+    return "\<c-e>\_\<esc>:MerlinConstruct\<enter>"
+  else
+    return ""
+  endif
+endfunction
+
+function! merlin#Construct()
+  " We save the number of lines in the file for future comparison
+  let b:merlin_construct_lines_before = line('$')
+
+  " We call construct
+  MerlinPy merlin.vim_construct(vim.eval("b:merlin_construct_depth"))
+  let b:construct_saved_pos = getpos(".")
+
+  " If multiple choices where found they are in the b:constr_result list
+  if len(b:constr_result) > 0
+    " We start Omnicomplete with the custom complete function
+    setlocal omnifunc=merlin#ConstructComplete
+    startinsert
+    call feedkeys("\<c-x>\<c-o>")
+
+    " Map keys for more or less
+    " TODO better choice of keys ?
+    :inoremap <buffer><expr> <c-i> merlin#ConstructMore()
+    :inoremap <buffer><expr> <c-u> merlin#ConstructLess()
+
+    " When it's done we switch back to merlin default completion
+    augroup MerlinConstruct
+      au!
+      autocmd CompleteDone <buffer> call merlin#ConstructDone()
+    augroup END
+  endif
+endfunction
+
+function! merlin#PreviousHole()
+  MerlinPy merlin.vim_previous_hole()
+endfunction
+
+function! merlin#NextHole()
+  MerlinPy merlin.vim_next_hole()
+endfunction
+
 function! merlin#Restart()
   MerlinPy merlin.vim_restart()
 endfunction
@@ -568,10 +701,21 @@ function! merlin#Register()
   """ Destruct  ----------------------------------------------------------------
   command! -buffer -nargs=0 MerlinDestruct call merlin#Destruct()
 
+  """ Holes  ---------------------------------------------------------------
+  command! -buffer -nargs=0 MerlinNextHole call merlin#NextHole()
+  command! -buffer -nargs=0 MerlinPreviousHole call merlin#PreviousHole()
+
+  """ Construct  ---------------------------------------------------------------
+  command! -buffer -nargs=0 MerlinNextHole call merlin#NextHole()
+  command! -buffer -nargs=0 MerlinPreviousHole call merlin#PreviousHole()
+  command! -buffer -nargs=0 MerlinConstruct call merlin#Construct()
+
   """ Locate  ------------------------------------------------------------------
   command! -buffer -complete=customlist,merlin#ExpandPrefix -nargs=? MerlinLocate call merlin#Locate(<q-args>)
+  command! -buffer -complete=customlist,merlin#ExpandPrefix -nargs=? MerlinLocateImpl call merlin#LocateImpl(<q-args>)
+  command! -buffer -complete=customlist,merlin#ExpandPrefix -nargs=? MerlinLocateIntf call merlin#LocateIntf(<q-args>)
   command! -buffer -nargs=0 MerlinILocate call merlin#InteractiveLocate()
-
+  command! -buffer -nargs=0 MerlinLocateType call merlin#LocateType()
 
   if !exists('g:merlin_disable_default_keybindings') || !g:merlin_disable_default_keybindings
     nmap <silent><buffer> gd  :MerlinLocate<return>
