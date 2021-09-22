@@ -120,7 +120,7 @@ syn region nixWithExpr matchgroup=nixWithExprKeyword start="\<with\>" matchgroup
 
 syn region nixAssertExpr matchgroup=nixAssertKeyword start="\<assert\>" matchgroup=NONE end=";" contains=@nixExpr
 
-syn cluster nixExpr contains=nixBoolean,nixNull,nixOperator,nixParen,nixInteger,nixRecKeyword,nixConditional,nixBuiltin,nixSimpleBuiltin,nixComment,nixFunctionCall,nixFunctionArgument,nixSimpleFunctionArgument,nixPath,nixHomePath,nixSearchPathRef,nixURI,nixAttributeSet,nixList,nixSimpleString,nixString,nixLetExpr,nixIfExpr,nixWithExpr,nixAssertExpr,nixInterpolation
+syn cluster nixExpr contains=nixBoolean,nixNull,nixOperator,nixParen,nixInteger,nixRecKeyword,nixConditional,nixBuiltin,nixSimpleBuiltin,nixComment,nixFunctionCall,nixFunctionArgument,nixArgOperator,nixSimpleFunctionArgument,nixPath,nixHomePath,nixSearchPathRef,nixURI,nixAttributeSet,nixList,nixSimpleString,nixString,nixLetExpr,nixIfExpr,nixWithExpr,nixAssertExpr,nixInterpolation
 
 " These definitions override @nixExpr and have to come afterwards:
 
@@ -147,7 +147,8 @@ syn keyword nixNamespacedBuiltin contained
       \ removeAttrs replaceStrings scopedImport seq sort split splitVersion
       \ storeDir storePath stringLength sub substring tail throw toFile toJSON
       \ toPath toString toXML trace tryEval typeOf unsafeDiscardOutputDependency
-      \ unsafeDiscardStringContext unsafeGetAttrPos valueSize fromTOML
+      \ unsafeDiscardStringContext unsafeGetAttrPos valueSize fromTOML bitAnd
+      \ bitOr bitXor
 
 syn match nixBuiltin "builtins\.[a-zA-Z']\+"he=s+9 contains=nixComment,nixNamespacedBuiltin
 
