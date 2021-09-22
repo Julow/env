@@ -24,37 +24,67 @@ let s:default_autoinsert = 1
 let s:default_highlight = "DiffAdd"
 let s:default_winpos = "vertical"
 let s:default_delay = "500m"
+let s:default_term_name = "term: ripple"
+let s:default_always_return = 0
 
 function! s:remove_comments(code)
     return substitute(a:code, "^#[^\r]*\r\\|\r#[^\r]*", "", "g")
 endfunction
 
+
 let s:default_repls = {
-            \ "python": ["ipython", "\<c-u>\<esc>[200~", "\<esc>[201~", 1],
+            \ "python": {
+                \ "command": "ipython",
+                \ "pre": "\<esc>[200~",
+                \ "post": "\<esc>[201~",
+                \ "addcr": 0,
+                \ "filter": 0,
+                \ },
             \ "julia": "julia",
             \ "lua": "lua",
             \ "r": "R",
             \ "ruby": "irb",
             \ "scheme": "guile",
             \ "sh": "bash",
-            \ "zsh": ["zsh", "", "", 0, function('s:remove_comments')],
+            \ "zsh": {
+                \ "command": "zsh",
+                \ "filter": function('s:remove_comments'),
+                \ }
             \ }
 
 " Memory for the state of the plugin
-let s:source = {}
-let s:term_buffer_nr = {}
+let s:sources = {}
 let s:repl_params = {}
-let s:ft = -1
+let s:buf_to_term = {}
+let s:ft_to_term = {}
+
+" Last used source
+let s:source = ""
+
+function! s:echo(string)
+    echohl Type
+    echon "vim-ripple: "
+    echohl None
+    echon a:string
+    echon "\<cr>"
+endfunction
 
 function! ripple#status()
-    if !has_key(s:term_buffer_nr, &ft)
-        echom "No term buffer opened for filetype '".&ft."'…"
+    let [bufn, ft] = [bufnr('%'), &ft]
+    if !has_key(s:buf_to_term, bufn)
+        call s:echo("Buffer is not paired to any terminal yet…")
+    elseif s:is_isolated()
+        call s:echo("Buffer is paired with isolated REPL in buffer number ".s:buf_to_term[bufn].".")
     else
-        echom "Term buffer:" s:term_buffer_nr[&ft]."."
+        call s:echo("Buffer is paired with shared ".ft." REPL in buffer number ".s:buf_to_term[bufn].".")
     endif
+    echom s:repl_params[&ft]
 endfunction
 
 function! s:set_repl_params()
+    " FIXME: The keys of s:repl_params should probably be buffers instead of
+    " filetypes… Also, the presence of this buffer variable should force a
+    " separate REPL.
     if has_key(b:, 'ripple_repl')
         let repl = b:ripple_repl
     else
@@ -68,20 +98,84 @@ function! s:set_repl_params()
             echom "No repl for filetype '".&ft."'…"
             return -1
         endif
+
     if type(repl) == 1
-        let repl = [repl, "", "", 0]
+        let repl = {"command": repl}
     endif
-    let s:repl_params[&ft] = repl
+
+    " Legacy
+    if type(repl) == 3
+        let repl = {
+                    \ "command": repl[0],
+                    \ "pre": repl[1],
+                    \ "post": repl[2],
+                    \ "addcr": repl[3],
+                    \ "filter": len(repl) > 4 ? repl[4] : 0
+                    \ }
+    endif
+
+    let params = {"pre": "", "post": "", "addcr": 0, "filter": 0}
+    call extend(params, repl)
+
+    let s:repl_params[&ft] = params
     return 0
 endfunction
 
-function! ripple#open_repl()
-    let ft = &ft
-    if has_key(s:term_buffer_nr, ft) && buffer_exists(s:term_buffer_nr[ft])
-        return
-    endif
-    let winid = win_getid()
+function! s:is_isolated()
+    let [bufn, ft] = [bufnr('%'), &ft]
 
+    " If term opened
+    if has_key(s:buf_to_term, bufn)
+        if !has_key(s:ft_to_term, ft)
+            return 1
+        elseif s:ft_to_term[ft] != s:buf_to_term[bufn]
+            return 1
+        else
+            return 0
+        endif
+    endif
+
+    " If term not opened
+    if has_key(b:, 'ripple_term_name') || has_key(b:, 'ripple_repl')
+        return 1
+    else
+        return 0
+    endif
+endfunction
+
+function! s:assign_repl()
+    if has_key(b:, 'ripple_term_name') || has_key(b:, 'ripple_repl')
+        return ripple#open_repl(1)
+    endif
+
+    let [bufn, ft] = [bufnr('%'), &ft]
+    if has_key(s:ft_to_term, ft) && bufexists(s:ft_to_term[ft])
+            \ && (has('nvim') || term_getstatus(s:buf_to_term[bufn]) != "finished")
+        let s:buf_to_term[bufn] = s:ft_to_term[ft]
+        return 0
+    endif
+    return ripple#open_repl(0)
+endfunction
+
+function! ripple#open_repl(isolated)
+    let [bufn, ft] = [bufnr('%'), &ft]
+
+    if a:isolated
+        echohl Type
+        echon "vim-ripple: "
+        echohl None
+        echon "Opening an isolated REPL. To open a REPL common to all buffers of filetype '"
+        echohl Identifier
+        echon ft
+        echohl None
+        echon "', use '"
+        echohl Identifier
+        echon "yr<motion>"
+        echohl None
+        echon "' directly.\<cr>"
+    endif
+
+    let winid = win_getid()
     if s:set_repl_params() == -1
         return -1
     endif
@@ -90,7 +184,7 @@ function! ripple#open_repl()
     if has_key(g:, 'ripple_window')
         let legacy = 'g:ripple_window'
     elseif has_key(g:, 'ripple_term_command')
-        let legacy = 'ripple_term_command'
+        let legacy = 'g:ripple_term_command'
     endif
     if legacy == 'no'
         let winpos = get(g:, 'ripple_winpos', s:default_winpos)
@@ -98,19 +192,28 @@ function! ripple#open_repl()
         let term_name = ""
         if has_key(b:, 'ripple_term_name')
             let term_name = b:ripple_term_name
-        elseif has_key(g:, 'ripple_term_name_root')
-            let term_name = g:ripple_term_name_root."_".&ft
-        elseif has_key(g:, 'ripple_term_name')
-            let term_name = g:ripple_term_name
-            if bufexists(term_name)
-                echom "Buffer '".term_name."' already exists, appending _".&ft."…"
-                let term_name = term_name."_".&ft
+        else
+            let term_name = get(g:, 'ripple_term_name', s:default_term_name)
+            if a:isolated
+                let term_name = term_name."_".ft."_b".bufn
+            else
+                let term_name = term_name."_".ft."_common"
             endif
         endif
 
-        silent execute winpos." new"
+        if bufexists(term_name)
+            echom "Buffer '".term_name."' already exists…"
+            return -1
+        endif
+
+        if has_key(g:, 'ripple_winexpr')
+          silent execute winpos.eval(g:ripple_winexpr)." new"
+        else
+          silent execute winpos." new"
+        endif
+
         if has("nvim")
-            silent execute "term" s:repl_params[ft][0]
+            silent execute "term" s:repl_params[ft]["command"]
             if term_name != ""
                 exec "file ".term_name
             endif
@@ -122,7 +225,7 @@ function! ripple#open_repl()
             if has_key(g:, 'ripple_term_options')
                 call extend(term_options, g:ripple_term_options)
             endif
-            silent call term_start(s:repl_params[ft][0], term_options)
+            silent call term_start(s:repl_params[ft]["command"], term_options)
         endif
     else
         " Legacy code
@@ -142,13 +245,12 @@ function! ripple#open_repl()
         if has("nvim")
             let new_window = get(g:, 'ripple_window', s:default_window)
             silent execute new_window
-            silent execute "term" s:repl_params[ft][0]
+            silent execute "term" s:repl_params[ft]["command"]
         else
             let term_command = get(g:, 'ripple_term_command', s:default_term_command)
-            silent execute term_command s:repl_params[ft][0]
+            silent execute term_command s:repl_params[ft]["command"]
         endif
     endif
-    let s:term_buffer_nr[ft] = bufnr('%')
 
     if has("nvim")
         " Move cursor to last line to follow output
@@ -158,23 +260,36 @@ function! ripple#open_repl()
         endif
     endif
 
+    let term_buf = bufnr('%')
     call win_gotoid(winid)
-    execute "sleep" s:default_delay
+
+    let delay = get(g:, 'ripple_delay', s:default_delay)
+    execute "sleep" delay
+
+    let s:buf_to_term[bufn] = term_buf
+    if !a:isolated
+       let s:ft_to_term[ft] = term_buf
+    endif
     return 0
 endfunction
 
-function! s:send_to_buffer(formatted, ft)
-    if !has_key(s:term_buffer_nr, &ft)
-        echom "No term buffer opened for filetype '".a:ft."'…"
-        return —1
+function! s:send_to_buffer(formatted)
+    let [ft, bufn] = [&ft, bufnr('%')]
+    if !has_key(s:buf_to_term, bufn)
+        echom "No term buffer opened for buffer '".bufn."'…"
+        return -1
     endif
     let tabnr = tabpagenr()
     tab split
     " Silent for vim
-    silent execute "noautocmd buffer" s:term_buffer_nr[a:ft]
+    silent execute "noautocmd buffer" s:buf_to_term[bufn]
     norm G$
     if has("nvim")
-        put =a:formatted
+        if s:repl_params[ft]["command"] == "radian"
+            put =a:formatted
+        else
+            call chansend(getbufvar("%", '&channel'), a:formatted)
+        end
     else
         let typed_string = "\<c-\>\<c-n>a".a:formatted
         call feedkeys(typed_string, "ntx")
@@ -184,45 +299,58 @@ function! s:send_to_buffer(formatted, ft)
 endfunction
 
 function! s:send_code(...)
-    " We need this here because this sets repl_params
-    if ripple#open_repl() == -1
-        return
+    let bufn = bufnr('%')
+    if !has_key(s:buf_to_term, bufn) || !buffer_exists(s:buf_to_term[bufn])
+                \ || (!has('nvim') && term_getstatus(s:buf_to_term[bufn]) == "finished")
+        if s:assign_repl() == -1
+            return
+        endif
     endif
+
     if a:0 == 0
         " Add <cr> (useful e.g. so that python functions get run)
+        let ft = s:source['ft']
         let code = s:extract_code()
-        let code = (s:is_end_paragraph() && s:repl_params[s:ft][3]) ? code."\<cr>" : code
-        let newline = s:is_charwise() ? "" : "\<cr>"
-        if len(s:repl_params[s:ft]) == 5
-            let code = s:repl_params[s:ft][4](code)
+        let code = (s:is_end_paragraph() && s:repl_params[ft]["addcr"]) ? code."\<cr>" : code
+        let always_return = get(g:, "ripple_always_return", s:default_always_return)
+        let newline = (s:is_charwise() && !always_return) ? "" : "\<cr>"
+        if s:repl_params[ft]["filter"] != 0
+            let code = s:repl_params[ft]["filter"](code)
         endif
     else
+        let ft = &ft
         let code = a:1
         let newline = "\<cr>"
     endif
-    let bracketed_paste = [s:repl_params[s:ft][1], s:repl_params[s:ft][2]]
-    let formatted_code = bracketed_paste[0].code.bracketed_paste[1].newline
-    call s:send_to_buffer(formatted_code, s:ft)
+    let bracketed_paste = [s:repl_params[ft]["pre"], s:repl_params[ft]["post"]]
+    let formatted_code = bracketed_paste[0].code.bracketed_paste[1]
+    call s:send_to_buffer(formatted_code)
+
+    " Hack for windows
+    " Before, the new line was appended to `formatted_code`.
+    if has_key(g:, "ripple_sleep_hack")
+        redraw
+        exe "sleep ".g:ripple_sleep_hack
+    end
+    call s:send_to_buffer(newline)
 endfunction
 
 function! s:is_charwise()
-    let mode = s:source[s:ft]['mode']
+    let mode = s:source['mode']
     return (mode ==# "char" || mode ==# "v")
 endfunction
 
 function! s:is_end_paragraph()
-    let source = s:source[s:ft]
-    return source['mode'] == "line"
-                \ && getline(source['line_end']) != ""
-                \ && getline(source['line_end'] + 1) == ""
+    return s:source['mode'] == "line"
+                \ && getline(s:source['line_end']) != ""
+                \ && getline(s:source['line_end'] + 1) == ""
 endfunction
 
 function! s:extract_code()
-    let source = s:source[s:ft]
-    let lines = getbufline(source['bufnr'], source['line_start'], source['line_end'])
+    let lines = getbufline(s:source['bufnr'], s:source['line_start'], s:source['line_end'])
     if s:is_charwise() && len(lines) > -1
-        let lines[-1] = lines[-1][:source['column_end'] - 1]
-        let lines[0] = lines[0][source['column_start'] - 1:]
+        let lines[-1] = lines[-1][:s:source['column_end'] - 1]
+        let lines[0] = lines[0][s:source['column_start'] - 1:]
     endif
     " Sometimes, for example with the motion `}`, the line where the cursor
     " lands is not included, which is often undesirable for this plugin.
@@ -237,42 +365,54 @@ function! s:extract_code()
 endfunction
 
 function! s:highlight()
-    let source = s:source[s:ft]
-    if bufnr("%") != source['bufnr']
+    if bufnr("%") != s:source['bufnr']
         return
     endif
     let higroup = get(g:, 'ripple_highlight', s:default_highlight)
     if &runtimepath =~ 'highlightedyank' && higroup != ""
-        let start = [0, source['line_start'], source['column_start'], 0]
-        let end = [0, source['line_end'], source['column_end'], 0]
+        let start = [0, s:source['line_start'], s:source['column_start'], 0]
+        let end = [0, s:source['line_end'], s:source['column_end'], 0]
         let type = s:is_charwise() ? 'v' : 'V'
         let delay = 1000
         call highlightedyank#highlight#add(higroup, start, end, type, delay)
     endif
 endfunction
 
+function! s:new_source(reg)
+    let key = s:is_isolated() ? bufnr('%') : &ft
+    if !has_key(s:sources, key)
+        let s:sources[key] = {}
+    endif
+    if !has_key(s:sources[key], a:reg)
+        let s:sources[key][a:reg] = []
+    endif
+    if len(s:sources[key][a:reg]) > 9
+        call remove(s:sources[key][a:reg], -1)
+    end
+    call insert(s:sources[key][a:reg], {}, 0)
+    return s:sources[key][a:reg][0]
+endfunction
+
 function! s:send_lines(l1, l2)
     let s:ft = &ft
-    let s:source[s:ft] = {}
-    let source = s:source[s:ft]
-    let source['mode'] = "line"
-    let [source['line_start'], source['line_end']] = [a:l1, a:l2]
-    let [source['column_start'], source['column_end']] = [-1, -1]
-    let source['bufnr'] = bufnr("%")
+    let s:source = s:new_source(v:register)
+    let [s:source['mode'], s:source['ft']] = ["line", &ft]
+    let [s:source['line_start'], s:source['line_end']] = [a:l1, a:l2]
+    let [s:source['column_start'], s:source['column_end']] = [-1, -1]
+    let s:source['bufnr'] = bufnr("%")
     call s:send_code()
     call s:highlight()
 endfunction
 
 function! s:extract_source()
-    let source = s:source[s:ft]
-    let is_visual = (source['mode'] ==# "v" || source['mode'] ==# "V")
+    let is_visual = (s:source['mode'] ==# "v" || s:source['mode'] ==# "V")
     let m1 = is_visual ? "'<" : "'["
     let m2 = is_visual ? "'>" : "']"
-    let [source['line_start'], source['column_start']] = getpos(l:m1)[1:2]
-    let [source['line_end'], source['column_end']] = getpos(l:m2)[1:2]
-    let source['bufnr'] = bufnr("%")
+    let [s:source['line_start'], s:source['column_start']] = getpos(l:m1)[1:2]
+    let [s:source['line_end'], s:source['column_end']] = getpos(l:m2)[1:2]
+    let s:source['bufnr'] = bufnr("%")
     if s:is_charwise() && is_visual && &selection=='exclusive'
-        let source['column_end'] = source['column_end'] - 1
+        let s:source['column_end'] = s:source['column_end'] - 1
     endif
 endfunction
 
@@ -285,37 +425,49 @@ function! ripple#command(l1, l2, text)
 endfunction
 
 function! ripple#send_previous()
-    if !has_key(s:term_buffer_nr, &ft)
-        echom "No term buffer opened for filetype '".&ft."'…"
+    let [myreg, mycount] = [v:register, v:count]
+    let key = s:is_isolated() ? bufnr('%') : &ft
+
+    if !has_key(s:sources, key)
+        echom "No previous selection…"
         return -1
-    elseif !has_key(s:source, &ft)
-        echom "No previous selection for filetype '".&ft."'…"
+    endif
+    if !has_key(s:sources[key], myreg)
+        echom "Register is empty…"
         return -1
-    elseif !buflisted(s:source[&ft]['bufnr'])
+    endif
+    if len(s:sources[key][myreg]) <= mycount
+        echom "There are only ".len(s:sources[key][myreg])." in memory…"
+        return -1
+    endif
+    if !buflisted(s:sources[key][myreg][mycount]['bufnr'])
         echom "Buffer no longer exists…"
         return -1
     endif
-    let s:ft = &ft
+
+    let s:source = s:sources[key][myreg][mycount]
     call s:send_code()
     call s:highlight()
 endfunction
 
 function! ripple#send_buffer()
-    let s:ft = &ft
-    let s:source[s:ft] = {}
-    let source = s:source[s:ft]
-    let source["mode"] = "line"
-    let [source['line_start'], source['line_end']] = [1, line('$')]
-    let [source['column_start'], source['column_end']] = [-1, -1]
-    let source['bufnr'] = bufnr("%")
+    let reg = v:register
+    let s:source = s:new_source(reg)
+    let s:source["mode"] = "line"
+    let s:source["ft"] = &ft
+    let [s:source['line_start'], s:source['line_end']] = [1, line('$')]
+    let [s:source['column_start'], s:source['column_end']] = [-1, -1]
+    let s:source['bufnr'] = bufnr("%")
     call s:send_code()
     call s:highlight()
+    silent! call repeat#set(":\<c-u>call ripple#send_buffer()\<cr>", v:count)
 endfunction
 
 function! ripple#send_visual()
-    let s:ft = &ft
-    let s:source[s:ft] = {}
-    let s:source[s:ft]['mode'] = visualmode()
+    let reg = v:register
+    let s:source = s:new_source(reg)
+    let s:source['mode'] = visualmode()
+    let s:source['ft'] = &ft
     call s:extract_source()
     call s:send_code()
     call s:highlight()
@@ -327,9 +479,10 @@ function! ripple#save()
 endfunction
 
 function! ripple#accept_motion(...)
-    let s:ft = &ft
-    let s:source[s:ft] = {}
-    let s:source[s:ft]['mode'] = a:1
+    let reg = v:register
+    let s:source = s:new_source(reg)
+    let s:source['mode'] = a:1
+    let s:source['ft'] = &ft
     call s:extract_source()
     call s:send_code()
     call s:highlight()
@@ -342,4 +495,20 @@ function! ripple#send_motion()
     call ripple#save()
     set operatorfunc=ripple#accept_motion
     return 'g@'
+endfunction
+
+function! ripple#remove_leading_whitespaces(code)
+
+    " Check if the first line is indented
+    let leading_spaces = matchstr(a:code, '^\s\+')
+
+    if leading_spaces == ""
+        return a:code
+    endif
+
+    " Calculate indentation
+    let indentation = strlen(leading_spaces)
+
+    " Remove further indentations
+    return substitute(a:code, '\(^\|\r\zs\)\s\{'.indentation.'}', "", "g")
 endfunction
