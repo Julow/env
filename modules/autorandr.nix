@@ -1,18 +1,19 @@
 { config, pkgs, lib, ... }:
 
 # Allow declaring global autorandr configuration.
+# Extends 'services.autorandr'
 
 let
-  conf = config.modules.autorandr;
+  conf = config.services.autorandr.profiles;
 
   # not recursively. Suitable input to linkFarm
   read_dir = dir:
     lib.mapAttrsToList (name: _: {
       inherit name;
-      path = "${conf.config}/${name}";
+      path = "${conf.profiles}/${name}";
     }) (builtins.readDir dir);
 
-  profiles = read_dir conf.config;
+  profiles = read_dir conf.profiles;
 
   default_profile = if conf.default_profile == null then
     [ ]
@@ -21,57 +22,53 @@ let
     path = conf.default_profile;
   }];
 
-  hooks = if conf.notify_hook then [{
+  hooks = if conf.notify_hook.enable then [{
     name = "postswitch.d/notify";
-    path = pkgs.writeShellScript "autorandr-notify" conf.notify_cmd;
+    path = pkgs.writeShellScript "autorandr-notify" conf.notify_hook.cmd;
   }] else
     [ ];
 
 in {
-  options.modules.autorandr = with lib; {
-    enable = mkEnableOption "modules.autorandr";
+  options.services.autorandr.profiles = with lib; {
+    enable = mkEnableOption "";
 
-    config = mkOption {
+    profiles = mkOption {
       type = types.path;
       description = "Path to autorandr profiles.";
     };
 
-    notify_hook = mkOption {
-      type = types.bool;
-      default = true;
-      description =
-        "Whether to send a notification when the profile is changed. See option 'notify_cmd'.";
-    };
+    notify_hook = {
+      enable = mkOption {
+        type = types.bool;
+        default = true;
+        description = "Whether to send a notification when the profile is changed.";
+      };
 
-    notify_cmd = mkOption {
-      type = types.str;
-      default = ''
-        ${pkgs.dunst}/bin/dunstify -a "Autorandr" -u low "$AUTORANDR_CURRENT_PROFILE"
-      '';
+      cmd = mkOption {
+        type = types.str;
+        default = ''
+          ${pkgs.libnotify}/bin/notify-send -a "Autorandr" -u low "$AUTORANDR_CURRENT_PROFILE"
+        '';
+      };
     };
 
     default_profile = mkOption {
       type = types.nullOr types.str;
       default = "vertical";
       description = ''
-        The profile 'default' will be a symlink to this profile.
-        It will be used as the default profile when autorandr is run with the arguments '--default default'.
-        Can be the name of a built-in profile, a defined profile, an absolute path or 'null'.
+        The profile 'default' will be a symlink to the specified profile.
+        The default profile might be used when autorandr is run with the arguments '--default default', as it is commonly the case.
+        Can be the name of a built-in profile, of a defined profile, an absolute path or 'null'.
       '';
     };
 
   };
 
-  config = lib.mkIf conf.enable {
-    environment.systemPackages = [ pkgs.autorandr ];
-
+  config = lib.mkIf (config.services.autorandr.enable && conf.enable) {
     # Before the greeter
     services.xserver.displayManager.setupCommands = ''
       ${pkgs.autorandr}/bin/autorandr --default default --change &
     '';
-
-    # Autorandr service
-    services.autorandr.enable = true;
 
     # Install configuration files
     environment.etc."xdg/autorandr".source =

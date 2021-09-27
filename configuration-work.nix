@@ -21,10 +21,12 @@
     # This screen has too much pixels
     services.xserver.dpi = 152;
 
-    # Autorandr profiles
-    modules.autorandr = {
+    services.autorandr = {
       enable = true;
-      config = etc/work/autorandr;
+      profiles = {
+        enable = true;
+        profiles = etc/work/autorandr;
+      };
     };
 
     modules.battery_monitor.enable = true;
