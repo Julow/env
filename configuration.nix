@@ -95,7 +95,7 @@
     dunst xdotool playerctl dmenu pamixer
     pipewire.pulse pavucontrol mpv xclip
     # Other
-    nixos-deploy nix-workspaces
+    nixos-deploy
     imagemagick graphviz
   ];
 
