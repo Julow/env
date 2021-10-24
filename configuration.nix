@@ -123,7 +123,6 @@
 
   users.users."${main_user}" = {
     isNormalUser = true;
-    initialPassword = "test";
     extraGroups = [ "docker" "dialout" "adbusers" "audio" ];
   };
 
