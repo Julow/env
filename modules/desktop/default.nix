@@ -21,6 +21,7 @@ let conf = config.modules.desktop; in
       windowManager.xmonad = {
         enable = true;
         enableContribAndExtras = true;
+        config = ./xmonad.hs;
       };
 
     };

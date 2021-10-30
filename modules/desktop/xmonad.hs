@@ -422,8 +422,11 @@ main =
 
     -- Backlight keys
     ("<XF86MonBrightnessUp>", safeSpawn "brightness.sh" ["5"]),
-    ("<XF86MonBrightnessDown>", safeSpawn "brightness.sh" ["-5"])
+    ("<XF86MonBrightnessDown>", safeSpawn "brightness.sh" ["-5"]),
 
     -- Autorandr
-    , ("M-a r", safeSpawn "autorandr" ["--default", "default", "--change"])
+    ("M-a r", safeSpawn "autorandr" ["--default", "default", "--change"]),
+
+    -- Restart without recompiling
+    ("M-q", restart "xmonad" True)
   ] ++ scratchpads_actions) -- Can't use `additionalKeysP` again because that would shadow the previous M-a submap

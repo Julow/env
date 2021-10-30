@@ -7,7 +7,7 @@
     modules/spacetelescope_wallpaper
     modules/keyboard
     modules/display_manager.nix
-    modules/desktop.nix
+    modules/desktop
     modules/screen_off.nix
     modules/autorandr.nix
     modules/battery_monitor.nix
