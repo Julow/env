@@ -237,9 +237,12 @@ set statusline+=\ %(%q\ %)%(%w\ %) " Vim's flags
 set statusline+=%l:%c%(\ (%{S_selection()})%) " Cursor position and selection
 set statusline+=%#S_linef#%(\ %{S_linef()}%) " Line feed format
 set statusline+=%#S_readonly#%(\ %{S_readonly()}%) " Readonly flag
-set statusline+=\  " An extra space
 set statusline^=%#S_terminal_time#%(\ Terminated\ after\ %{b:s_terminal_time}%)%* " Terminal running time
 set statusline^=%{S_terminal_update()}%#S_terminal_fail#%(\ [exit\ %{b:s_terminal_status}]%) " Terminal exit status
+" Show the status part of the tabline if there's no tabline, only for the
+" bottom left window
+set statusline+=%{%(tabpagenr('$')==1&&winnr('j')==winnr('l'))?Tabline_status():''%}
+set statusline+=\  " An extra space
 set laststatus=2
 set noruler
 set noshowmode
@@ -253,8 +256,8 @@ function Tabline()
     let s .= "%" . i . "T %{Tabline_label(" . i . ")} "
   endfor
   let s .= "%#TabLineFill#%="
-  let s .= "%#S_workspace#%(" . $WORKSPACE . " %)" " Workspace name, if any
-  let s .= "%#S_fugitive#%(%{FugitiveHead(8)} %)" " Current Git branch
+  let s .= Tabline_status()
+  let s .= " "
   return s
 endfunction
 
@@ -268,6 +271,12 @@ function Tabline_label(i)
     let name = getbufvar(buf, "s_filename")
   endif
   return name
+endfunction
+
+function! Tabline_status()
+  let s = "%#S_workspace#%( " . $WORKSPACE . "%)" " Workspace name, if any
+  let s .= "%#S_fugitive#%( %{FugitiveHead(8)}%)" " Current Git branch
+  return s
 endfunction
 
 set tabline=%!Tabline()
