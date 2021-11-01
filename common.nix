@@ -1,4 +1,4 @@
-{ main_user, host_name, extra_config }:
+{ main_user, host_name }:
 
 { config, pkgs, ... }:
 
@@ -11,7 +11,6 @@
     modules/screen_off.nix
     modules/autorandr.nix
     modules/battery_monitor.nix
-    extra_config
   ];
 
   # Use the systemd-boot EFI boot loader.

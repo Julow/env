@@ -5,8 +5,8 @@ set -e
 # Useful default arguments
 if [[ $# -eq 0 ]]; then
   case $HOSTNAME in
-    "jules-work") config=./configuration-work.nix ;;
-    "jules-pc") config=./configuration-home.nix ;;
+    "jules-work") config=host/work ;;
+    "jules-pc") config=host/home ;;
 
     *)
       echo "Unknown hostname $HOSTNAME" >&2
