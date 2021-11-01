@@ -4,36 +4,28 @@
   monitor = 0
   follow = none
 
-  geometry = "0x10-20+20"
+  offset = 20x20
+  width = (100, 500)
 
   padding = 6
   horizontal_padding = 10
 
   separator_height = 4
-  frame_width = 0
-  frame_color = "#aaaaaa"
   separator_color = "#000000"
+  frame_width = 0
 
   ### Text ###
 
   font = Fira Mono 12
-  line_height = 0
   alignment = right
 
   markup = full
   format = "<b>%a</b> %s\n%b"
 
-  ### Progress bar ###
-
-  progress_bar = true
-  progress_bar_height = 15
-  progress_bar_frame_width = 0
-  progress_bar_min_width = 200
-  progress_bar_max_width = 1000
-
   ### Icons ###
 
-  icon_position = off
+  icon_position = left
+  max_icon_size = 128
 
   ### Mouse ###
 
@@ -44,7 +36,7 @@
   ### Misc/Advanced ###
 
   dmenu = /usr/bin/env dmenu -p dunst:
-  browser = /usr/bin/env firefox -new-tab
+  browser = /usr/bin/env xdg-open
 
 [experimental]
   per_monitor_dpi = false
@@ -58,6 +50,7 @@
   background = "#285577"
   foreground = "#ffffff"
   timeout = 10
+  new_icon = none
 
 [urgency_critical]
   background = "#900000"
@@ -75,6 +68,7 @@
 	appname = Spotify
 	history_ignore = yes
 	timeout = 2
+  format = "<b>%a</b>\n%s\n%b"
 
 [status_indicator]
 	appname = Status
