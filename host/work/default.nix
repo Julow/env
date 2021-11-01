@@ -3,7 +3,7 @@
 {
   imports = [
     (import ../../common.nix { main_user = "jules"; host_name = "jules-work"; })
-    /etc/nixos/hardware-configuration.nix
+    ./hardware-configuration.nix
     ../../nixos-hardware/lenovo/thinkpad/x1/6th-gen
   ];
 
