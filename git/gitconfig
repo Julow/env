@@ -2,8 +2,8 @@
 	excludesfile = ~/.gitignore_global
 
 [pager]
-	diff = diff-highlight | less -SF
-	show = diff-highlight | less -SF
+	diff = less -SF
+	show = less -SF
 	status = less -FX
 	log = less -FX
 	branch = less -FX
@@ -55,12 +55,6 @@
   dr = "!f() { : git range-diff; git range-diff ${1:-MAIN} @{u} @; }; f"
   do = diff --stat --summary -p ORIG_HEAD
   km = "!f() { : git checkout; git checkout \"`git symbolic-ref --short ${1:-MAIN}`\"; }; f"
-
-[color "diff-highlight"]
-	oldNormal = dim red
-	oldHighlight = nodim red
-	newNormal = dim green
-	newHighlight = nodim green
 
 [grep]
   lineNumber = true
