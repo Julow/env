@@ -158,14 +158,6 @@ update_vim_merlin:
 
 .PHONY: update_vim update_vim_merlin
 
-# Autorandr
-
-AUTORANDR_NOTIFY = $(HOME)/.config/autorandr/postswitch.d/notify
-
-$(AUTORANDR_NOTIFY): autorandr/postswitch.d/notify
-
-LINK += $(AUTORANDR_NOTIFY)
-
 # Install files
 
 # Exported for generating bashrc
