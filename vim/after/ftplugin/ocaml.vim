@@ -16,7 +16,7 @@ setlocal shiftwidth=2
 setlocal fo-=c fo-=r fo-=o
 
 " Alter the path so that ignore files stop working
-setlocal formatprg=ocamlformat\ --no-disable\ --no-version-check\ --enable-outside-detected-project\ --ignore-invalid-option\ --parse-docstrings\ --name\ %:h:S/_fmt/%:t:S\ -
+setlocal formatprg=ocamlformat\ --no-disable\ --no-version-check\ --enable-outside-detected-project\ --ignore-invalid-option\ --wrap-comments\ --parse-docstrings\ --name\ %:h:S/_fmt/%:t:S\ -
 " This is used instead of &formatprg when formatting an entire buffer
 " &formatprg disables the 'disable' option and the version check
 let b:full_formatprg = "ocamlformat --enable-outside-detected-project --name % -"
