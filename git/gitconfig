@@ -54,6 +54,7 @@
   dm = diff --stat --summary -p MAIN...
   dr = "!f() { : git range-diff; git range-diff ${1:-MAIN} @{u} @; }; f"
   do = diff --stat --summary -p ORIG_HEAD
+  km = "!f() { : git checkout; git checkout \"`git symbolic-ref --short ${1:-MAIN}`\"; }; f"
 
 [color "diff-highlight"]
 	oldNormal = dim red
