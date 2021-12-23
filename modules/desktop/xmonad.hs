@@ -202,7 +202,7 @@ scratchpads = [
     scratch_xterm "w" "vim ~/quick_notes" (floating (2/3) (1/6) (1/3 - 1/10) (4/6)),
     scratch_prog "i" "com.spotify.Client" (className =? "spotify") nonFloating,
     scratch_prog "o" "com.slack.Slack" (className =? "slack") nonFloating,
-    scratch_prog "u" "nheko" (className =? "nheko") nonFloating
+    scratch_prog "u" "im.riot.Riot" (className =? "element") nonFloating
   ]
   where
     floating_centered x y = customFloating $ W.RationalRect x y (1 - x*2) (1 - y*2)
