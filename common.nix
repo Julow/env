@@ -23,6 +23,8 @@
   boot.consoleLogLevel = 3;
   boot.kernelParams = [ "quiet" "udev.log_priority=3" ];
   networking.dhcpcd.wait = "background"; # Don't wait for dhcp before starting session
+  # Don't keep an unlimited number of systems
+  boot.loader.grub.configurationLimit = 20;
 
   # Enable sound.
   sound.enable = true;
