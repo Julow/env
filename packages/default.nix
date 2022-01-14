@@ -29,5 +29,10 @@ in {
     sha256 = "0qslrnvia6y8zb5zrqjw89vj5zfzkh3wi18r2qpnnxa80qjqqmxd";
   };
 
-  mpv = super.mpv.override { scripts = with super.mpvScripts; [ mpris ]; };
+  mpv = super.mpv.override {
+    scripts = with super.mpvScripts; [
+      mpris
+      youtube-quality
+    ];
+  };
 }
