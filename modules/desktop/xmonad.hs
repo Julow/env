@@ -332,6 +332,7 @@ manageHooks =
   [ manageHook def
   , liftX current_is_floating --> hasBorder True -- Borders around floating windows
   , title =? "Slack | mini panel" --> doIgnore -- Hide slack's minipanel
+  , className =? "Pinentry" --> doF copyToAll -- Copy GPG prompt to every workspaces
   , scratchpads_manageHooks
   ]
 
