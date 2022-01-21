@@ -13,18 +13,13 @@
     modules/battery_monitor.nix
   ];
 
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.systemd-boot.editor = false;
-  boot.loader.timeout = 2;
-  # Quiet boot
+  # Quiet and fast boot
   boot.initrd.verbose = false;
   boot.consoleLogLevel = 3;
   boot.kernelParams = [ "quiet" "udev.log_priority=3" ];
+  boot.loader.timeout = 2;
+  boot.loader.grub.configurationLimit = 20; # Don't keep an unlimited number of systems
   networking.dhcpcd.wait = "background"; # Don't wait for dhcp before starting session
-  # Don't keep an unlimited number of systems
-  boot.loader.grub.configurationLimit = 20;
 
   # Enable sound.
   sound.enable = true;
