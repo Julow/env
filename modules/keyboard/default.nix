@@ -31,9 +31,8 @@ let xcape_expr = "Shift_R=space;Control_L=Escape;Control_R=Escape;Overlay1_Enabl
     # Use a service so it can be restarted by the user
     # xcape does nothing if setxkbmap has never been called since boot.
     systemd.user.services.keyboard = {
-      enable = true;
-      wants = [ "display-manager.service" ];
       wantedBy = [ "graphical-session.target" ];
+      partOf = [ "graphical-session.target" ];
       script = ''
         ${pkgs.xorg.setxkbmap}/bin/setxkbmap
         ${pkgs.xkbset}/bin/xkbset m
