@@ -25,8 +25,8 @@ in {
 
   nixos-deploy = callGitPackage {
     url = "https://github.com/Julow/nixos-deploy";
-    rev = "995ccabc200d27c0d811f950f3deb3083aee798f";
-    sha256 = "0qslrnvia6y8zb5zrqjw89vj5zfzkh3wi18r2qpnnxa80qjqqmxd";
+    rev = "8d2259dadeeddc726a53cd801c55a91aefd382aa";
+    sha256 = "1p0zm6szapw9gvawdqx4ac3mjsm8w4pa1mn331a5ffvdywm9f7hh";
   };
 
   mpv = super.mpv.override {
