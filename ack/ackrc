@@ -1,4 +1,0 @@
---ignore-directory=is:_opam
---ignore-directory=is:duniverse
-
---pager=less -XF
