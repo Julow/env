@@ -1,5 +1,0 @@
-*.swp
-.vimrc
-_opam
-__pycache__
-*.pyc

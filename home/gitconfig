@@ -1,6 +1,3 @@
-[core]
-	excludesfile = ~/.gitignore_global
-
 [pager]
 	diff = less -SF
 	show = less -SF
