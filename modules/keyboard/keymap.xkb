@@ -1,0 +1,80 @@
+xkb_symbols "custom-qwerty" {
+  include "pc+us+inet(evdev)+terminate(ctrl_alt_bksp)"
+
+  // Caps lock is Ctrl
+  // Not using "ctrl(nocaps)" to avoid <LCTL> being in the modifier_map
+  replace key <CAPS> { [ Control_L, Control_L ] };
+  modifier_map Control { <CAPS> };
+
+  // Space is Right Shift
+  replace key <SPCE> { [ Shift_R ] };
+
+  // Eject is Delete
+  replace key <I169> { [ Delete ] };
+
+  // Alternative Tab and space keys
+  // Needed for xcape
+  replace key <LWIN> { [ Tab ] };
+  replace key <RWIN> { [ space ] };
+  // Also map Multi_key somewhere
+  replace key <LFSH> { [ Multi_key ] };
+
+  // Overlay1
+
+  // Tab and right shift are overlay1
+  replace key <TAB> {
+    [ Overlay1_Enable, Tab ], // Overlay1_Enable is dummy here, for xcape
+    actions = [ SetControls(controls=Overlay1) ]
+  };
+  replace key <RTSH> {
+    [ Overlay2_Enable ], // Overlay2_Enable is dummy for xcape, there is no overlay 2
+    actions = [ SetControls(controls=Overlay1) ]
+  };
+
+  // overlay1 + h/j/k/l are arrow keys
+  key <AC06> { overlay1 = <LEFT> };
+  key <AC07> { overlay1 = <DOWN> };
+  key <AC08> { overlay1 = <UP> };
+  key <AC09> { overlay1 = <RGHT> };
+
+  // overlay1 + i/o are pagedown and pageup
+  key <AD08> { overlay1 = <PGDN> };
+  key <AD09> { overlay1 = <PGUP> };
+
+  // overlay1 + u/p are home and end
+  key <AD07> { overlay1 = <HOME> };
+  key <AD10> { overlay1 = <END> };
+
+  // overlay1 + w/e are mouse buttons
+  key <AD02> { overlay1 = <KPSU> };
+  key <AD03> { overlay1 = <KPAD> };
+
+  // overlay1 + n/m/, are enter/backspace/delete
+  key <AB06> { overlay1 = <RTRN> };
+  key <AB07> { overlay1 = <BKSP> };
+  key <AB08> { overlay1 = <DELE> };
+
+  // overlay1 + space latches Shift
+  key <SPCE> { overlay1 = <PAUS> };
+
+  // overlay1 + 7/8/9 are audio back/play-pause/forward
+  key <AE07> { overlay1 = <I173> };
+  key <AE08> { overlay1 = <I172> };
+  key <AE09> { overlay1 = <I171> };
+  // overlay1 + 0/-/= are volume mute/dec/inc
+  key <AE10> { overlay1 = <MUTE> };
+  key <AE11> { overlay1 = <VOL-> };
+  key <AE12> { overlay1 = <VOL+> };
+
+  // Dummy keys, redirected from overlay1
+
+  // Keypad -/+ for mouse buttons
+  replace key <KPSU> { [ Pointer_Button1, Pointer_Drag1 ] };
+  replace key <KPAD> { [ Pointer_Button3, Pointer_Drag3 ] };
+
+  // Pause key is shift latch
+  replace key <PAUS> {
+    [ ISO_Level2_Latch ],
+    actions = [ LatchMods(modifiers=Shift, clearLocks, latchToLock) ]
+  };
+};

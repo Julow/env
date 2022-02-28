@@ -1,3 +1,3 @@
-# env
+# Env
 
-Some configs
+My system configuration.
