@@ -1,5 +1,15 @@
-all:
+HOSTNAME ?= $(shell hostname)
+
+all: host-$(HOSTNAME)
+
+host-jules-work: config=host/work
+host-jules-pc: config=host/home
+
+home:
 	nix run -f ./home -c home-manager-generation
+
+host-%:
+	nixos-deploy deploy local $(config)
 
 update_vim:
 	git subtree pull --squash -P vim/pack/plugins/start/fugitive "https://github.com/tpope/vim-fugitive" master
@@ -28,4 +38,4 @@ update_vim_merlin:
 	git read-tree --prefix=vim/pack/plugins/start/merlin -u FETCH_HEAD:vim/merlin
 	git commit -m "Vim: Updated merlin"
 
-.PHONY: all update_vim update_vim_merlin
+.PHONY: all update_vim update_vim_merlin host-% home
