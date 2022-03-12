@@ -1,8 +1,11 @@
 { config, pkgs, lib, ... }:
 
-let conf = config.modules.desktop; in
+let
+  conf = config.modules.desktop;
 
-{
+  tools = pkgs.callPackage ./tools { };
+
+in {
   options.modules.desktop = with lib; {
     enable = mkOption {
       type = types.bool;
@@ -25,5 +28,8 @@ let conf = config.modules.desktop; in
       };
 
     };
+
+    # TODO: Don't add to global environment
+    environment.systemPackages = [ tools ];
   };
 }

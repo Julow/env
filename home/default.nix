@@ -22,8 +22,6 @@ in mk_home {
   home.username = builtins.getEnv "USER";
   home.homeDirectory = builtins.getEnv "HOME";
 
-  home.sessionPath = [ (pkgs.copyPathToStore ../tools) ];
-
   services.dunst = {
     enable = true;
     configFile = ./dunstrc;
