@@ -30,9 +30,8 @@ in {
   };
 
   mpv = super.mpv.override {
-    scripts = with super.mpvScripts; [
-      mpris
-      youtube-quality
-    ];
+    scripts = with super.mpvScripts; [ mpris youtube-quality ];
   };
+
+  encfs-gpg = self.callPackage ./encfs-tools.nix { };
 }

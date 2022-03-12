@@ -83,7 +83,8 @@
     # Admin
     mkpasswd rsync
     htop acpi
-    gnupg gitAndTools.gitRemoteGcrypt encfs
+    gnupg gitAndTools.gitRemoteGcrypt
+    encfs-gpg
     # Apps
     firefox
     pinta
