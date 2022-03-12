@@ -5,6 +5,14 @@
 stdenv.mkDerivation {
   name = "desktop-tools";
   src = ./.;
+  propagatedBuildInputs = with pkgs; [
+    pamixer
+    playerctl
+    brightnessctl
+    dunst # dunstify
+    imagemagick
+    xclip
+  ];
   installPhase = ''
     mkdir -p "$out/bin"
     for sf in *.sh; do

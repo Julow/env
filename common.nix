@@ -87,12 +87,13 @@
     # Apps
     firefox
     pinta
+    thunderbird
     # Desktop
-    dunst xdotool playerctl dmenu pamixer
+    xdotool dmenu
     pipewire.pulse pavucontrol mpv xclip
     # Other
     nixos-deploy
-    imagemagick graphviz
+    graphviz
   ];
 
   fonts = {
@@ -136,9 +137,6 @@
 
   # Flatpak
   services.flatpak.enable = true;
-
-  # Quick service for dunst, until https://github.com/NixOS/nixpkgs/pull/58209 is merged
-  systemd.user.services.dunst.serviceConfig.ExecStart = [ "" "${pkgs.dunst}/bin/dunst" ];
 
   # "multi-user.target" shouldn't wait on "network-online.target"
   systemd.targets.network-online.wantedBy = pkgs.lib.mkForce [];

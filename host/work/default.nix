@@ -9,7 +9,7 @@
 
   # Extra packages
   environment.systemPackages = with pkgs; [
-    brightnessctl networkmanager
+    networkmanager
   ];
 
   # Network
