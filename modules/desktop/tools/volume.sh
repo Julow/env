@@ -6,15 +6,11 @@ case "$1" in
   "inc") pamixer --increase 5 ;;
 esac
 
-if which dunstify &>/dev/null; then
-
-  vol=`pamixer --get-volume-human`
-  if [[ $vol = muted ]]; then
-    args=(Muted)
-  else
-    args=(-h "int:value:${vol%"%"}")
-  fi
-
-  dunstify -r 1234 -a "Indicator" -u low "Volume" "${args[@]}"
-
+vol=`pamixer --get-volume-human`
+if [[ $vol = muted ]]; then
+  args=(Muted)
+else
+  args=(-h "int:value:${vol%"%"}")
 fi
+
+dunstify -r 1234 -a "Indicator" -u low "Volume" "${args[@]}"
