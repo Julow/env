@@ -411,6 +411,7 @@ main =
     -- Screenshot drag/whole screen
     ("M-s", safeSpawn "screenshot.sh" ["interactive"]),
     ("M-S-s", safeSpawn "screenshot.sh" ["screen"]),
+    ("M-C-s", safeSpawn "screenshot.sh" ["window"]),
 
     -- Volume keys
     ("<XF86AudioLowerVolume>", safeSpawn "volume.sh" ["dec"]),

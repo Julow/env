@@ -29,6 +29,7 @@ let
     acpi
     coreutils
     networkmanager
+    xdotool
   ];
 in
 

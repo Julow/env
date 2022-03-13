@@ -7,9 +7,9 @@
 #  and copy it to the clipboard
 #
 # Modes:
-#  screen		Full screen
-#  interactive	Rectangle selection
-#  				(default)
+#  screen       Full screen
+#  window       The current window
+#  interactive  Rectangle selection (default)
 
 SCREENSHOT_DIR="/tmp/screenshot"
 
@@ -34,7 +34,8 @@ function take_screenshot
 }
 
 case "$1" in
-	screen)			take_screenshot -window root;;
-	interactive|"")	take_screenshot;;
-	*)				echo "Invalid argument '$1'";;
+  screen) take_screenshot -window root;;
+  window) take_screenshot -window "`xdotool getwindowfocus -f`";;
+  interactive|"") take_screenshot;;
+  *) echo "Invalid argument '$1'";;
 esac
