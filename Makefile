@@ -2,13 +2,12 @@ HOSTNAME ?= $(shell hostname)
 
 all: host-$(HOSTNAME)
 
-host-jules-work: config=host/work
-host-jules-pc: config=host/home
+host-jules-work: config = host/work
+host-jules-work: deploy-nixos
+host-jules-pc: config = host/home
+host-jules-pc: deploy-nixos
 
-home:
-	nix run -f ./home -c home-manager-generation
-
-host-%:
+deploy-nixos:
 	nixos-deploy deploy local $(config)
 
 update_vim:

@@ -2,7 +2,14 @@
 
 { config, pkgs, ... }:
 
-{
+let
+  home-manager_src = builtins.fetchGit {
+    url = "https://github.com/nix-community/home-manager";
+    rev = "2860d7e3bb350f18f7477858f3513f9798896831";
+    ref = "release-21.11";
+  };
+
+in {
   imports = [
     modules/spacetelescope_wallpaper
     modules/keyboard
@@ -11,6 +18,7 @@
     modules/screen_off.nix
     modules/autorandr.nix
     modules/battery_monitor.nix
+    "${home-manager_src}/nixos"
   ];
 
   # Quiet and fast boot
@@ -121,11 +129,17 @@
     enableOnBoot = false;
   };
 
+  # Main user
   users.users."${main_user}" = {
     isNormalUser = true;
     extraGroups = [ "docker" "dialout" "adbusers" "audio" ];
   };
+  home-manager.users."${main_user}" = import ./home;
 
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
+
+  # Modules
   modules.spacetelescope_wallpaper.enable = true;
   modules.keyboard.enable = true;
   modules.display_manager = { enable = true; user = main_user; };
