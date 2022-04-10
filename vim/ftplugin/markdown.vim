@@ -53,7 +53,7 @@ function! Path_relative_to(path, relative_to_file)
 endfunction
 
 function! Markdown_link_of_path(path, relative_to)
-  let path = Path_relative_to(a:path, a:relative_to)
+  let path = Path_relative_to(trim(a:path), a:relative_to)
   let name = fnamemodify(path, ":t:r")
   return "[" . name . "](" . path . ")"
 endfunction
