@@ -1,16 +1,23 @@
 { pkgs, ... }:
 
-{
+let
+  nixos-hardware = builtins.fetchGit {
+    url = "https://github.com/NixOS/nixos-hardware";
+    rev = "267d8b2d7f049d2cb9b7f4a7f981c123db19a868";
+  };
+
+in {
   imports = [
-    (import ../../common.nix { main_user = "jules"; host_name = "jules-work"; })
+    (import ../../common.nix {
+      main_user = "jules";
+      host_name = "jules-work";
+    })
     ./hardware-configuration.nix
-    ../../nixos-hardware/lenovo/thinkpad/x1/6th-gen
+    "${nixos-hardware}/lenovo/thinkpad/x1/6th-gen"
   ];
 
   # Extra packages
-  environment.systemPackages = with pkgs; [
-    networkmanager
-  ];
+  environment.systemPackages = with pkgs; [ networkmanager ];
 
   # Network
   networking.networkmanager.enable = true;
