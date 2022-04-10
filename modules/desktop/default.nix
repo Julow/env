@@ -30,6 +30,7 @@ in {
     };
 
     # TODO: Don't add to global environment
-    environment.systemPackages = [ tools ];
+    environment.systemPackages =
+      [ tools pkgs.xterm pkgs.dunst pkgs.playerctl pkgs.autorandr ];
   };
 }
