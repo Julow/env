@@ -9,7 +9,10 @@ rec {
     inherit src patches;
   });
 
-  patches = [ nixpkgs_patches/ocamlformat_0_20_0_and_0_20_1.patch ];
+  patches = [
+    nixpkgs_patches/ocamlformat_0_20_0_and_0_20_1.patch
+    nixpkgs_patches/ocamlformat_0_21_0.patch
+  ];
 
   branch = "nixos-21.11";
 }
