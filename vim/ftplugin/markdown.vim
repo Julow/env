@@ -14,6 +14,8 @@ setlocal linebreak
 
 " Indent in lists
 let g:vim_markdown_new_list_item_indent = 2
+" But disable automatic list bullets
+let g:vim_markdown_auto_insert_bullets = 0
 
 " Enable concealing
 setlocal conceallevel=3
