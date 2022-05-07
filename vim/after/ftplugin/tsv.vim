@@ -42,11 +42,13 @@ function! TSV_update_tabstops(cell_widths)
   " Add an extra column, will be the tabstop for new columns
   let tabstops = repeat([ g:tsv_min_width ], column_n + 1)
   for ln in a:cell_widths
-    let i = 0
-    while i < len(ln)
-      let tabstops[i] = max([ tabstops[i], ln[i] + 1 + g:tsv_padding ])
-      let i += 1
-    endwhile
+    if len(ln) > 1 " Ignore lines with no tabs
+      let i = 0
+      while i < len(ln)
+        let tabstops[i] = max([ tabstops[i], ln[i] + 1 + g:tsv_padding ])
+        let i += 1
+      endwhile
+    endif
   endfor
   " Update the option if needed
   if tabstops != b:tsv_tabstops
