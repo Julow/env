@@ -19,6 +19,11 @@
 
   home.file = { ".vim".source = ../vim; };
 
+  services.gpg-agent = {
+    enable = true;
+    defaultCacheTtl = 1800;
+  };
+
   programs.home-manager.enable = false;
   home.stateVersion = "21.11";
 }

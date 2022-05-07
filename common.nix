@@ -112,14 +112,6 @@
     ];
   };
 
-  # Gpg with Yubikey support
-  programs.gnupg.agent = {
-    enable = true;
-    pinentryFlavor = "gtk2";
-  };
-  services.udev.packages = [ pkgs.yubikey-personalization ];
-  services.pcscd.enable = true;
-
   # Adb, need "adbusers" group
   programs.adb.enable = true;
 
