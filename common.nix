@@ -1,15 +1,8 @@
 { main_user, host_name }:
 
-{ config, pkgs, nixpkgs, ... }:
+{ config, pkgs, nixpkgs, home-manager, ... }:
 
-let
-  home-manager_src = builtins.fetchGit {
-    url = "https://github.com/nix-community/home-manager";
-    rev = "2860d7e3bb350f18f7477858f3513f9798896831";
-    ref = "release-21.11";
-  };
-
-in {
+{
   imports = [
     modules/spacetelescope_wallpaper
     modules/keyboard
@@ -18,7 +11,7 @@ in {
     modules/screen_off.nix
     modules/autorandr.nix
     modules/battery_monitor.nix
-    "${home-manager_src}/nixos"
+    home-manager.nixosModule
   ];
 
   # Quiet and fast boot

@@ -1,19 +1,13 @@
-{ pkgs, ... }:
+{ pkgs, nixos-hardware, ... }:
 
-let
-  nixos-hardware = builtins.fetchGit {
-    url = "https://github.com/NixOS/nixos-hardware";
-    rev = "267d8b2d7f049d2cb9b7f4a7f981c123db19a868";
-  };
-
-in {
+{
   imports = [
     (import ../../common.nix {
       main_user = "jules";
       host_name = "jules-work";
     })
     ./hardware-configuration.nix
-    "${nixos-hardware}/lenovo/thinkpad/x1/6th-gen"
+    nixos-hardware.nixosModules.lenovo-thinkpad-x1-6th-gen
   ];
 
   # Extra packages

@@ -1,7 +1,12 @@
 {
   description = "My NixOS configurations.";
 
-  inputs = { nixpkgs.url = "github:NixOS/nixpkgs/nixos-21.11"; };
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-21.11";
+    home-manager.url = "github:nix-community/home-manager/release-21.11";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+  };
 
   outputs = inputs:
     let
@@ -21,7 +26,7 @@
       mk_nixos = path:
         import "${nixpkgs}/nixos/lib/eval-config.nix" {
           system = "x86_64-linux";
-          specialArgs = { inherit nixpkgs; };
+          specialArgs = inputs // { inherit nixpkgs; };
           modules = [ path ];
         };
 
