@@ -1,6 +1,6 @@
 { main_user, host_name }:
 
-{ config, pkgs, nixpkgs, home-manager, ... }:
+{ config, pkgs, nixpkgs, home-manager, ... }@inputs:
 
 {
   imports = [
@@ -134,6 +134,9 @@
     extraGroups = [ "docker" "dialout" "adbusers" "audio" ];
   };
   home-manager.users."${main_user}" = import ./home;
+  home-manager.extraSpecialArgs = {
+    inherit (inputs) nur_rycee;
+  };
 
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;

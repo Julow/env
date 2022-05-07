@@ -53,11 +53,29 @@
         "type": "github"
       }
     },
+    "nur_rycee": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1651887036,
+        "narHash": "sha256-ZFNMra8CJ1Vjqy8ToRCL7Gi3de8hgfB8mtzRwQsVKRU=",
+        "owner": "rycee",
+        "repo": "nur-expressions",
+        "rev": "b60fd64dbe5ae454d5cdff41a1734a0124539f90",
+        "type": "gitlab"
+      },
+      "original": {
+        "owner": "rycee",
+        "ref": "master",
+        "repo": "nur-expressions",
+        "type": "gitlab"
+      }
+    },
     "root": {
       "inputs": {
         "home-manager": "home-manager",
         "nixos-hardware": "nixos-hardware",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "nur_rycee": "nur_rycee"
       }
     }
   },

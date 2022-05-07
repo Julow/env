@@ -1,0 +1,33 @@
+/* Hide tab bar when only one tab */
+
+/* Remove min-height from tab bar, add it to tabs instead */
+#tabbrowser-tabs, #tabbrowser-tabs > #tabbrowser-arrowscrollbox { min-height: unset !important; }
+#tabbrowser-tabs tab { min-height: var(--tab-min-height); }
+
+/* One tab visible */
+#tabbrowser-tabs tab[first-visible-tab="true"][last-visible-tab="true"] {
+  display: none;
+}
+
+/* Hide newtab button */
+#tabbrowser-tabs tab[first-visible-tab="true"][last-visible-tab="true"] + #tabs-newtab-button {
+  display: none;
+}
+
+/* No border and background on the url bar */
+#urlbar:not([open=true]) > #urlbar-background {
+  border: none !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+#urlbar-container { margin-inline: 0 !important; }
+#tracking-protection-icon-container { border: none !important; }
+
+:root {
+  /* Hide search engine buttons in megabar */
+  --mbarstyler-oneoffs-display: none;
+}
+
+/* Hide close button on tabs, https://github.com/Timvde/UserChrome-Tweaks/blob/master/tabs/close-button-hover.css */
+.tabbrowser-tab:not([pinned]) .tab-close-button { display: none !important; }
+.tabbrowser-tab:not([pinned]):hover .tab-close-button { display: -moz-box !important; }
