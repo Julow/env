@@ -1,6 +1,6 @@
 { main_user, host_name }:
 
-{ config, pkgs, ... }:
+{ config, pkgs, nixpkgs, ... }:
 
 let
   home-manager_src = builtins.fetchGit {
@@ -75,7 +75,7 @@ in {
   # Link nixpkgs at an arbitrary path so currently running programs can start
   # using the new version as soon as the system switches.
   # No need to reboot to take $NIX_PATH changes (it doesn't change).
-  environment.etc.nixpkgs.source = pkgs.lib.cleanSource <nixpkgs>;
+  environment.etc.nixpkgs.source = pkgs.lib.cleanSource nixpkgs;
   environment.etc."nixpkgs-overlay/overlays.nix".text = ''
     import ${./packages}
   '';
@@ -84,6 +84,12 @@ in {
     "nixpkgs=/etc/nixpkgs"
     "nixpkgs-overlays=/etc/nixpkgs-overlay"
   ];
+
+  # Enable flakes
+  nix.package = pkgs.nixFlakes;
+  nix.extraOptions = ''
+    experimental-features = nix-command flakes
+  '';
 
   environment.systemPackages = with pkgs; [
     # Base tools

@@ -1,14 +1,9 @@
-HOSTNAME ?= $(shell hostname)
-
-all: host-$(HOSTNAME)
-
-host-jules-work: config = host/work
-host-jules-work: deploy-nixos
-host-jules-pc: config = host/home
-host-jules-pc: deploy-nixos
-
-deploy-nixos:
-	nixos-deploy deploy local $(config)
+all:
+	# Would use '--use-remote-sudo' if it used 'su'
+	nixos-rebuild build --flake .
+	su -c "\
+		nix-env -p /nix/var/nix/profiles/system --set $$(readlink ./result) && \
+		result/bin/switch-to-configuration switch"
 
 update_vim:
 	git subtree pull --squash -P vim/pack/plugins/start/fugitive "https://github.com/tpope/vim-fugitive" master
