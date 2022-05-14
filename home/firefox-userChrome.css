@@ -23,11 +23,28 @@
 #urlbar-container { margin-inline: 0 !important; }
 #tracking-protection-icon-container { border: none !important; }
 
-:root {
-  /* Hide search engine buttons in megabar */
-  --mbarstyler-oneoffs-display: none;
+/* Remove annoying context menu items. */
+#context-bookmarklink,
+#context-savelink, /* Save link as... */
+#context-sendimage, /* Email image... */
+#context-print-selection
+{
+  display: none !important;
 }
 
-/* Hide close button on tabs, https://github.com/Timvde/UserChrome-Tweaks/blob/master/tabs/close-button-hover.css */
-.tabbrowser-tab:not([pinned]) .tab-close-button { display: none !important; }
-.tabbrowser-tab:not([pinned]):hover .tab-close-button { display: -moz-box !important; }
+/* Remove annoying menu items. */
+#appMenu-fxa-status2, #appMenu-fxa-separator /* Sign in */
+{
+  display: none !important;
+}
+
+/* Hide close button on tabs,
+   https://github.com/Timvde/UserChrome-Tweaks/blob/master/tabs/close-button-hover.css
+ */
+.tabbrowser-tab:not([selected=true]):not([pinned]) .tab-close-button {
+  display: none !important;
+}
+
+.tabbrowser-tab:not([selected=true]):not([pinned]):hover .tab-close-button {
+  display: -moz-box !important;
+}

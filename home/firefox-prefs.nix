@@ -1,4 +1,36 @@
 {
+  # Behavior
+  "browser.tabs.closeWindowWithLastTab" = false;
+  "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+
+  # Experimental features
+  "browser.urlbar.suggest.calculator" = true;
+  "browser.urlbar.unitConversion.enabled" = true;
+
+  # Search engines
+  "browser.search.widget.inNavBar" = false;
+
+  # UI
+  "browser.uiCustomization.state" = ''
+    {
+        "placements": {
+            "widget-overflow-fixed-list": [
+                "ublock0_raymondhill_net-browser-action",
+                "jid1-mnnxcxisbpnsxq_jetpack-browser-action",
+                "_d7742d87-e61d-4b78-b8a1-b469842139fa_-browser-action"
+            ],
+            "nav-bar": [ "back-button", "forward-button", "urlbar-container", "downloads-button", "fxa-toolbar-menu-button" ],
+            "toolbar-menubar": [ "menubar-items" ],
+            "TabsToolbar": [ "tabbrowser-tabs", "new-tab-button", "alltabs-button" ],
+            "PersonalToolbar": [ ]
+        },
+        "seen": [ ],
+        "dirtyAreaCache": [ "nav-bar", "PersonalToolbar", "toolbar-menubar", "TabsToolbar", "widget-overflow-fixed-list" ],
+        "currentVersion": 17,
+        "newElementCount": 4
+    }
+  '';
+
   # Disable annoyances
   "extensions.htmlaboutaddons.recommendations.enabled" = false;
   "browser.urlbar.showSearchSuggestionsFirst" = false;
@@ -57,34 +89,6 @@
   "browser.safebrowsing.enabled" = false;
   "browser.safebrowsing.malware.enabled" = false;
   "browser.safebrowsing.phishing.enabled" = false;
-
-  # Experimental features
-  "browser.urlbar.suggest.calculator" = true;
-  "browser.urlbar.unitConversion.enabled" = true;
-
-  # Search engines
-  "browser.search.widget.inNavBar" = false;
-
-  # UI
-  "browser.uiCustomization.state" = ''
-    {
-        "placements": {
-            "widget-overflow-fixed-list": [
-                "ublock0_raymondhill_net-browser-action",
-                "jid1-mnnxcxisbpnsxq_jetpack-browser-action",
-                "_d7742d87-e61d-4b78-b8a1-b469842139fa_-browser-action"
-            ],
-            "nav-bar": [ "back-button", "forward-button", "urlbar-container", "downloads-button", "fxa-toolbar-menu-button" ],
-            "toolbar-menubar": [ "menubar-items" ],
-            "TabsToolbar": [ "tabbrowser-tabs", "new-tab-button", "alltabs-button" ],
-            "PersonalToolbar": [ ]
-        },
-        "seen": [ ],
-        "dirtyAreaCache": [ "nav-bar", "PersonalToolbar", "toolbar-menubar", "TabsToolbar", "widget-overflow-fixed-list" ],
-        "currentVersion": 17,
-        "newElementCount": 4
-    }
-  '';
 
   # Improve privacy
   "browser.selfsupport.url" = "";
