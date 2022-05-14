@@ -5,8 +5,6 @@ let callGitPackage = args: self.callPackage (pkgs.fetchgit args) { };
 
 in {
 
-  ocamlPackages = self.ocaml-ng.ocamlPackages_4_10;
-
   nixos-deploy = callGitPackage {
     url = "https://github.com/Julow/nixos-deploy";
     rev = "55454666374f43fd71e85e4a4984ef09e8ea8839";
