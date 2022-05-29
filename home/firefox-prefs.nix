@@ -17,7 +17,8 @@
             "widget-overflow-fixed-list": [
                 "ublock0_raymondhill_net-browser-action",
                 "jid1-mnnxcxisbpnsxq_jetpack-browser-action",
-                "_d7742d87-e61d-4b78-b8a1-b469842139fa_-browser-action"
+                "_d7742d87-e61d-4b78-b8a1-b469842139fa_-browser-action",
+                "_74145f27-f039-47ce-a470-a662b129930a_-browser-action"
             ],
             "nav-bar": [ "back-button", "forward-button", "urlbar-container", "downloads-button", "fxa-toolbar-menu-button" ],
             "toolbar-menubar": [ "menubar-items" ],
@@ -27,9 +28,17 @@
         "seen": [ ],
         "dirtyAreaCache": [ "nav-bar", "PersonalToolbar", "toolbar-menubar", "TabsToolbar", "widget-overflow-fixed-list" ],
         "currentVersion": 17,
-        "newElementCount": 4
+        "newElementCount": 5
     }
   '';
+
+  # Force HTTPS
+  "dom.security.https_only_mode" = true;
+  "dom.security.https_only_mode_ever_enabled" = true;
+
+  # Clear cookies on exit
+  "network.cookie.lifetimePolicy" = 2;
+  "pref.privacy.disable_button.cookie_exceptions" = false;
 
   # Disable annoyances
   "extensions.htmlaboutaddons.recommendations.enabled" = false;
@@ -46,6 +55,10 @@
   "services.sync.prefs.sync.browser.newtabpage.activity-stream.showSponsoredTopSite" =
     false;
   "signon.autofillForms" = false;
+
+  # Disable password manager
+  "signon.rememberSignons" = false;
+  "extensions.formautofill.creditCards.enabled" = false;
 
   # Disable telemetry
   "toolkit.telemetry.archive.enabled" = false;

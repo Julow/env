@@ -38,6 +38,18 @@
           keyword = "oca";
           url = "https://ocaml.org/packages/search?q=%s";
         };
+        "Deepl French to English" = {
+          keyword = "en";
+          url = "https://www.deepl.com/fr/translator#fr/en/%s";
+        };
+        "Deepl English to French" = {
+          keyword = "fr";
+          url = "https://www.deepl.com/fr/translator#en/fr/%s";
+        };
+        "Conjugaison" = {
+          keyword = "conj";
+          url = "https://conjugaison.lemonde.fr/conjugaison/search?verb=%s";
+        };
       };
 
       settings = import ./firefox-prefs.nix;
