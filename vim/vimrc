@@ -749,4 +749,9 @@ nmap <C-Space> <Plug>DWMFocus
 set winwidth=80
 
 " Remap visual mode <p> to not change registers
-vnoremap p "_dP
+" Assumes clipboard=unnamedplus
+if has('clipboard')
+  vnoremap p "_c<C-r><C-p>+<Esc>
+else
+  vnoremap p "_c<C-r><C-p>"<Esc>
+endif
