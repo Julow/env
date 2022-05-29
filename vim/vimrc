@@ -756,3 +756,13 @@ if has('clipboard')
 else
   vnoremap p "_c<C-r><C-p>"<Esc>
 endif
+
+" From https://stackoverflow.com/questions/3878692/how-to-create-an-alias-for-a-command-in-vim
+fun! SetupCommandAlias(from, to)
+  exec 'cnoreabbrev <expr> '.a:from
+        \ .' ((getcmdtype() is# ":" && getcmdline() is# "'.a:from.'")'
+        \ .'? ("'.a:to.'") : ("'.a:from.'"))'
+endfun
+
+" Command shorthands
+call SetupCommandAlias("G", "Git -p")
