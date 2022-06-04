@@ -8,7 +8,7 @@
 #   }).activationPackage;
 
 {
-  imports = [ ./mpv.nix ./htop.nix ./git.nix ./firefox.nix ];
+  imports = [ ./mpv.nix ./htop.nix ./git.nix ./firefox ];
 
   services.dunst = {
     enable = true;
