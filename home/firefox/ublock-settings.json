@@ -1,0 +1,34 @@
+{
+  "userSettings": {
+    "externalLists": "https://raw.githubusercontent.com/quenhus/uBlock-Origin-dev-filter/6c34dfd34c14aa7ef7ea7ba95be6518b535d5f16/dist/google_duckduckgo/all.txt\nhttps://www.fanboy.co.nz/enhancedstats.txt\nhttps://www.i-dont-care-about-cookies.eu/abp/"
+  },
+  "selectedFilterLists": [
+    "user-filters",
+    "ublock-filters",
+    "ublock-badware",
+    "ublock-privacy",
+    "ublock-quick-fixes",
+    "ublock-abuse",
+    "ublock-unbreak",
+    "easylist",
+    "adguard-spyware",
+    "adguard-spyware-url",
+    "block-lan",
+    "easyprivacy",
+    "urlhaus-1",
+    "curben-phishing",
+    "adguard-annoyance",
+    "adguard-social",
+    "fanboy-thirdparty_social",
+    "fanboy-cookiemonster",
+    "fanboy-annoyance",
+    "fanboy-social",
+    "ublock-annoyances",
+    "plowe-0",
+    "FRA-0",
+    "https://www.fanboy.co.nz/enhancedstats.txt",
+    "https://www.i-dont-care-about-cookies.eu/abp/",
+    "https://raw.githubusercontent.com/quenhus/uBlock-Origin-dev-filter/6c34dfd34c14aa7ef7ea7ba95be6518b535d5f16/dist/google_duckduckgo/all.txt"
+  ],
+  "userFilters": "! Never disable scrolling on the body.\n*##body:style(overflow: visible !important;)\n\n! 1/20/2019\nstackoverflow.com###noscript-warning\nvi.stackexchange.com###noscript-warning\n\n! 2022-01-26 https://old.reddit.com\nold.reddit.com##.in.login-modal.fade.modal\nold.reddit.com##.in.fade.modal-backdrop\n\n! 2022-01-28 https://twitter.com\ntwitter.com###layers\n\n! 2022-02-13 https://www.backmarket.fr\nwww.backmarket.fr##.bg-opacity-80.bg-black.right-0.left-0.bottom-0.top-0.absolute\nwww.backmarket.fr##.overflow-auto.px-6.h-full\n\n! 2022-03-02 https://www.ovh.com\nwww.ovh.com##.ng-isolate-scope manager-cookie-policy-banner,.modal-backdrop manager-cookie-policy-banner-backdrop,#managerPreloader\nwww.ovh.com##.manager-cookie-policy-banner,.modal-backdrop manager-cookie-policy-banner-backdrop,ovh-chatbot\nwww.ovh.com##.modal-backdrop\n\n! 2022-04-10 https://www.lemonde.fr\n! Remove new cookie popup\nwww.lemonde.fr##body:style(overflow:auto!important)\nwww.lemonde.fr##.gdpr-lmd-wall\n"
+}

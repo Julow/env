@@ -16,5 +16,16 @@
       settings = import ./prefs.nix;
       userChrome = builtins.readFile ./userChrome.css;
     };
+
+    package = pkgs.firefox.override {
+      extraPolicies."3rdparty".Extensions = {
+        "uBlock0@raymondhill.net" = {
+          # uBlock settings are written in JSON to be more compatible with the
+          # backup format. This checks the syntax.
+          adminSettings =
+            builtins.fromJSON (builtins.readFile ./ublock-settings.json);
+        };
+      };
+    };
   };
 }
