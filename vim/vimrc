@@ -57,6 +57,11 @@ set wrap
 set showbreak=⎥
 set breakindent
 
+" Render whitespaces
+set list
+set listchars=tab:⇢\ ,trail:_,nbsp:⍽,multispace:\ \ \ ⋮,extends:…
+hi SpecialKey ctermbg=none ctermfg=grey
+
 " Formatting
 set formatoptions+=roj
 set nojoinspaces
