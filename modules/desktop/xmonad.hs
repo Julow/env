@@ -197,12 +197,13 @@ scratch_xterm key cmd manageHook id =
 scratchpads = [
     scratch_prog "p" "pavucontrol" (className =? "Pavucontrol") (floating_centered (1/4) (1/8)),
     scratch_xterm "h" "htop" (floating_centered (1/8) (1/8)),
-    scratch_xterm "t" "bash" (floating_centered (1/4) 0), -- Quick terminal
     scratch_xterm "b" "bluetoothctl" (floating_centered (1/3) (1/8)),
     scratch_xterm "w" "vim ~/quick_notes" (floating (2/3) (1/6) (1/3 - 1/10) (4/6)),
-    scratch_prog "i" "com.spotify.Client" (className =? "spotify") nonFloating,
+    scratch_prog "i" "strawberry" (className =? "strawberry") nonFloating,
     scratch_prog "o" "com.slack.Slack" (className =? "slack") nonFloating,
-    scratch_prog "u" "im.riot.Riot" (className =? "element") nonFloating
+    scratch_prog "u" "im.riot.Riot" (className =? "element") nonFloating,
+    scratch_prog "n" "bash .presets/notes" (title =? "Notes") nonFloating,
+    scratch_prog "t" "thunderbird" (className =? "Thunderbird") nonFloating
   ]
   where
     floating_centered x y = customFloating $ W.RationalRect x y (1 - x*2) (1 - y*2)
