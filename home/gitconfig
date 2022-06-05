@@ -1,3 +1,6 @@
+[init]
+  defaultBranch = main
+
 [pager]
 	diff = less -SF
 	show = less -SF
