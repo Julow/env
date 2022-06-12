@@ -28,10 +28,11 @@
 
   services.autorandr = {
     enable = true;
-    profiles = {
-      enable = true;
-      profiles = etc/autorandr;
-    };
+  };
+
+  modules.autorandr_profiles = {
+    enable = true;
+    profiles = etc/autorandr;
   };
 
   modules.battery_monitor.enable = true;

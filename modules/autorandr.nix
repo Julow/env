@@ -4,7 +4,7 @@
 # Extends 'services.autorandr'
 
 let
-  conf = config.services.autorandr.profiles;
+  conf = config.modules.autorandr_profiles;
 
   # not recursively. Suitable input to linkFarm
   read_dir = dir:
@@ -29,7 +29,7 @@ let
     [ ];
 
 in {
-  options.services.autorandr.profiles = with lib; {
+  options.modules.autorandr_profiles = with lib; {
     enable = mkEnableOption "";
 
     profiles = mkOption {
@@ -64,7 +64,7 @@ in {
 
   };
 
-  config = lib.mkIf (config.services.autorandr.enable && conf.enable) {
+  config = lib.mkIf conf.enable {
     # Before the greeter
     services.xserver.displayManager.setupCommands = ''
       ${pkgs.autorandr}/bin/autorandr --default default --change &

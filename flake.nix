@@ -2,8 +2,8 @@
   description = "My NixOS configurations.";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-21.11";
-    home-manager.url = "github:nix-community/home-manager/release-21.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.05";
+    home-manager.url = "github:nix-community/home-manager/release-22.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nur_rycee.url = "gitlab:rycee/nur-expressions/master";
@@ -20,10 +20,7 @@
           inherit patches;
         };
 
-      nixpkgs = patch_nixpkgs inputs.nixpkgs [
-        nixpkgs_patches/ocamlformat_0_20_0_and_0_20_1.patch
-        nixpkgs_patches/ocamlformat_0_21_0.patch
-      ];
+      nixpkgs = patch_nixpkgs inputs.nixpkgs [];
 
       mk_nixos = path:
         import "${nixpkgs}/nixos/lib/eval-config.nix" {

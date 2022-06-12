@@ -8,7 +8,7 @@ import XMonad
 import XMonad.Actions.CopyWindow (copyToAll, killAllOtherCopies)
 import XMonad.Actions.FloatKeys
 import XMonad.Actions.Minimize
-import XMonad.Actions.WindowBringer
+-- import XMonad.Actions.WindowBringer
 import XMonad.Layout.BoringWindows
 import XMonad.Layout.Decoration
 import XMonad.Layout.Spacing
@@ -23,6 +23,7 @@ import XMonad.ManageHook
 import XMonad.Prompt
 import XMonad.Prompt.FuzzyMatch
 import XMonad.Prompt.Shell
+import XMonad.Prompt.Window
 import XMonad.Util.EZConfig (additionalKeysP, removeKeysP)
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.NamedWindows (getName)
@@ -137,16 +138,16 @@ preset_prompt prompt_conf = do
 -- Show the list of windows, sorted by workspace
 -- Similar to Xmonad.Prompt.Window
 
-window_title ws w = do
-  name <- show <$> getName w
-  let tag = W.tag ws
-  return ("[" ++ tag ++ "] " ++ name)
+-- window_title ws w = do
+--   name <- show <$> getName w
+--   let tag = W.tag ws
+--   return ("[" ++ tag ++ "] " ++ name)
 
-window_prompt prompt_conf = do
-  wm <- windowMap' window_title
-  let compl = compl_fun_from_list (M.keys wm)
-  let action = flip whenJust (windows . W.focusWindow) . flip M.lookup wm
-  mkXPrompt (Prompt_autocomplete "Windows: ") prompt_conf compl action
+-- window_prompt prompt_conf = do
+--   wm <- windowMap' window_title
+--   let compl = compl_fun_from_list (M.keys wm)
+--   let action = flip whenJust (windows . W.focusWindow) . flip M.lookup wm
+--   mkXPrompt (Prompt_autocomplete "Windows: ") prompt_conf compl action
 
 -- ========================================================================== --
 -- Workspace prompt
@@ -391,7 +392,7 @@ main =
 
     -- Shell, window, preset prompts
     ("M-p", shellPrompt prompt_conf),
-    ("M-S-p", window_prompt prompt_conf),
+    ("M-S-p", windowPrompt prompt_conf Goto allWindows),
     ("M-o", workspace_prompt prompt_conf),
     ("M-S-o", preset_prompt prompt_conf),
 
