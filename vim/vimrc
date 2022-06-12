@@ -771,3 +771,5 @@ endfun
 
 " Command shorthands
 call SetupCommandAlias("G", "Git -p")
+
+inoremap <C-;> <C-r>=strftime("%F %H:%M")<Enter>
