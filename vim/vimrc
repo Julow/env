@@ -653,7 +653,8 @@ function! Last_job_command()
 endfunction
 
 " Terminal normal mapping
-function! Setup_terminal_map()
+function! Setup_terminal_rc()
+  setlocal nolist
 
   " Restart a job in the current terminal
   " If no arguments are given, restart the previous command
@@ -664,10 +665,9 @@ function! Setup_terminal_map()
 
   " Type RestartJob command and allow to edit it
   nnoremap <buffer> <C-1> :RestartJob <C-r>=Last_job_command()<return>
-
 endfunction
 
-autocmd TerminalOpen * call Setup_terminal_map()
+autocmd TerminalOpen * call Setup_terminal_rc()
 
 " Clear Sneak highlighting and states with C-c
 autocmd User ClearHighlight call sneak#cancel()
