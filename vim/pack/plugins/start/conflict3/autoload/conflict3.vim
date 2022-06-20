@@ -315,11 +315,11 @@ function! s:line_highlights(diff3, local_line, base_line, remote_line)
       call add(his_base, ['Conflict3Both', base])
       let base += 1
     elseif type == 3 " Remove/None
-      call add(his_base, ['Conflict3Local', base])
+      call add(his_base, ['Conflict3LocalDel', base])
       let base += 1
       let remote += 1
     elseif type == 4 " None/Remove
-      call add(his_base, ['Conflict3Remote', base])
+      call add(his_base, ['Conflict3RemoteDel', base])
       let local += 1
       let base += 1
     else " None/None

@@ -294,7 +294,7 @@ set secure
 " Color adjustments
 hi Folded ctermbg=none ctermfg=blue
 
-hi DiffAdd ctermbg=lightgrey ctermfg=none
+hi DiffAdd ctermbg=lightgrey ctermfg=green
 hi DiffDelete ctermbg=lightgrey ctermfg=red
 hi DiffChange ctermbg=none ctermfg=none
 hi DiffText ctermbg=lightgrey ctermfg=none
@@ -412,8 +412,31 @@ nnoremap ]C :call Next_conflict('')<return>
 nnoremap <Leader>C :Conflict3ResolveAll \| Conflict3Shrink!<return>
 nnoremap <Leader>K :Conflict3TakeThis<return>
 
+hi link Conflict3Local DiffAdd
+hi Conflict3Remote ctermbg=lightgrey ctermfg=lightblue
+hi link Conflict3Both DiffText
+hi link Conflict3LocalDel DiffDelete
+hi Conflict3RemoteDel ctermbg=lightgrey ctermfg=red
+
 " Clear conflict3 highlight on C-c
 autocmd User ClearHighlight Conflict3Clear
+
+function! Setup_conflicts_plugin()
+  " % to jump between the markers
+  let b:match_words = get(b:, "match_words", "") . ",<<<<<<<:=======:>>>>>>>"
+
+  " Highlight conflict markers
+  " https://vi.stackexchange.com/questions/19639/change-background-color-of-git-conflict-marker-sections
+  syn region conflictStart start=/^<<<<<<< .*$/ end=/^\ze\(=======$\||||||||\)/
+  syn region conflictMiddle start=/^||||||| .*$/ end=/^\ze=======$/
+  syn region conflictEnd start=/^\(=======$\||||||| |\)/ end=/^>>>>>>> .*$/
+endfunction
+
+highlight conflictStart ctermfg=red
+highlight conflictMiddle ctermfg=blue
+highlight conflictEnd ctermfg=green
+
+autocmd BufNewFile,BufRead * call Setup_conflicts_plugin()
 
 " Replace the range lnum,lnum+count by the content of a file
 function! Replace_from_file(file, lnum, count)
