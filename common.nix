@@ -86,18 +86,19 @@
 
   environment.systemPackages = with pkgs; [
     # Base tools
-    curl gnumake zip unzip jq
+    curl gnumake zip unzip jq fd
     vim_configurable git
-    python3
+    python3 sqlite
     # Admin
-    mkpasswd rsync
+    mkpasswd rsync nix-prefetch-git
     htop acpi
-    gnupg gitAndTools.gitRemoteGcrypt
+    gnupg gitAndTools.gitRemoteGcrypt git-annex
     encfs-gpg
     # Apps
-    firefox
     pinta
     thunderbird
+    strawberry
+    chromium
     # Desktop
     xdotool dmenu
     pipewire.pulse pavucontrol mpv xclip
