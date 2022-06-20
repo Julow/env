@@ -503,6 +503,9 @@ autocmd QuickFixCmdPost * cwindow
 " Bind C-w Enter for new tabs
 autocmd FileType qf nnoremap <buffer> <C-Enter> :call Quickfix_open_split()<return>
 
+" Let the quickfix window resize like the other windows.
+autocmd FileType qf setlocal nowinfixheight
+
 " Use 'git grep' as :grep
 set grepprg=git\ grep\ --recurse-submodules\ -n
 
@@ -773,3 +776,5 @@ endfun
 call SetupCommandAlias("G", "Git -p")
 
 inoremap <C-;> <C-r>=strftime("%F %H:%M")<Enter>
+
+nnoremap <C-w>= <C-w>=<C-w>_
