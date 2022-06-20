@@ -26,7 +26,10 @@ in {
         enableContribAndExtras = true;
         config = ./xmonad.hs;
       };
+    };
 
+    services.picom = {
+      enable = true;
     };
 
     # TODO: Don't add to global environment
