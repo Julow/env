@@ -11,7 +11,7 @@ let g:loaded_opam = 1
 " Utility {{{1
 
 function! opam#eval_env()
-  let opam_eval = system("opam env --read-only")
+  let opam_eval = system("opam env --readonly")
   let cmds = split(opam_eval, "\n")
   for cmd in cmds
     let var = split(split(cmd, ";")[0], "=")
@@ -48,20 +48,27 @@ endfunction
 " }}}1
 " :Opam {{{1
 
-function! s:Opam(bang,...) abort
-  if len(a:000) == 0
-    call opam#eval_env()
-    let g:opam_current_compiler = opam#compiler_version()
-    return 'echomsg "Using ' . g:opam_current_compiler . '"'
+function! opam#cmd_switch(version)
+  let success = opam#switch(a:version)
+  if success
+    echomsg "Using " . g:opam_current_compiler
   else
-    let l:version = a:1
-    let success = opam#switch(l:version)
-    if success
-      return 'echomsg "Using ' . g:opam_current_compiler . '"'
-    else
-      return 'echoerr "Switching to ' . l:version . ' failed"'
-    endif
+    echoerr "Switching to " . a:version . " failed"
   endif
+endfunction
+
+function! s:Opam(bang,...) abort
+  if len(a:000) > 1
+    if a:1 ==# "switch"
+      call opam#cmd_switch(a:2)
+    else
+      echoerr "Only switching is supported for now"
+    end
+  elseif len(a:000) > 0
+    call opam#cmd_switch(a:1)
+  else
+    call opam#cmd_switch(opam#compiler_version())
+  end
 endfunction
 
 function! s:Complete(A,L,P)
@@ -70,7 +77,7 @@ function! s:Complete(A,L,P)
   return join(switches, "\n")
 endfunction
 
-command! -bar -nargs=* -complete=custom,s:Complete Opam :execute s:Opam(<bang>0,<f-args>)
+command! -bar -nargs=* -complete=custom,s:Complete Opam :call s:Opam(<bang>0,<f-args>)
 
 " }}}1
 " Statusline {{{1
