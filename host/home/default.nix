@@ -19,11 +19,6 @@
   networking.useDHCP = false;
   networking.interfaces.eno1.useDHCP = true;
 
-  # Video drivers
-  services.xserver.videoDrivers = [ "nvidia" ];
-  # https://nixos.wiki/wiki/Nvidia
-  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.legacy_470;
-
   # Screens
   services.xserver.dpi = 128;
 
