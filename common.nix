@@ -11,6 +11,7 @@
     modules/screen_off.nix
     modules/autorandr.nix
     modules/battery_monitor.nix
+    modules/virtualisation.nix
     home-manager.nixosModule
   ];
 
@@ -119,6 +120,11 @@
   virtualisation.docker = {
     enable = true;
     enableOnBoot = false;
+  };
+
+  modules.virtualisation = {
+    enable = true;
+    user = main_user;
   };
 
   # Main user
