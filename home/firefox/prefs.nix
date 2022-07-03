@@ -2,13 +2,11 @@
   # Behavior
   "browser.tabs.closeWindowWithLastTab" = false;
   "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+  "reader.parse-on-load.force-enabled" = true;
 
   # Experimental features
   "browser.urlbar.suggest.calculator" = true;
   "browser.urlbar.unitConversion.enabled" = true;
-
-  # Search engines
-  "browser.search.widget.inNavBar" = false;
 
   # UI
   "browser.uiCustomization.state" = ''
@@ -55,6 +53,8 @@
   "services.sync.prefs.sync.browser.newtabpage.activity-stream.showSponsoredTopSite" =
     false;
   "signon.autofillForms" = false;
+  "browser.search.widget.inNavBar" = false;
+  "browser.newtabpage.pinned" = "[]"; # Google would be "pinned" otherwise
 
   # Disable password manager
   "signon.rememberSignons" = false;
