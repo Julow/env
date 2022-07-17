@@ -123,7 +123,7 @@
   };
 
   modules.virtualisation = {
-    enable = true;
+    enable = false;
     user = main_user;
   };
 
