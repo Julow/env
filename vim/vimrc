@@ -800,4 +800,4 @@ call SetupCommandAlias("G", "Git -p")
 
 inoremap <C-;> <C-r>=strftime("%F %H:%M")<Enter>
 
-nnoremap <C-w>= <C-w>=<C-w>_
+nnoremap <C-w>= <C-w>_<C-w>=
