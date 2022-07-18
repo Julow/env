@@ -262,7 +262,7 @@ else
 endif
 
 " Script shebang (has to be declared after operators)
-syn match    ocamlShebang       "^#!.*" contains=@Spell
+syn match    ocamlShebang       "\%1l^#!.*$"
 
 syn match    ocamlNumber        "-\=\<\d\(_\|\d\)*[l|L|n]\?\>"
 syn match    ocamlNumber        "-\=\<0[x|X]\(\x\|_\)\+[l|L|n]\?\>"
@@ -492,7 +492,7 @@ syn match ocamlKeyword "(\_s*exception\>"lc=1
 
 " Type context opened by “:” (countless kinds of type annotations) and “:>”
 " (type coercions)
-syn region ocamlTypeAnnot matchgroup=ocamlKeyChar start=":\(>\|\_s*type\>\|[^>:=]\@=\)"
+syn region ocamlTypeAnnot matchgroup=ocamlKeyChar start=":\(>\|\_s*type\>\|[>:=]\@!\)"
 \ matchgroup=NONE end="\(\<type\>\|\<exception\>\|\<val\>\|\<module\>\|\<class\>\|\<method\>\|\<constraint\>\|\<inherit\>\|\<object\>\|\<struct\>\|\<open\>\|\<include\>\|\<let\>\|\<external\>\|\<in\>\|\<end\>\|)\|]\|}\|;\|;;\)\@="
 \ matchgroup=NONE end="\(;\|}\)\@="
 \ matchgroup=NONE end="\(=\|:>\)\@="
