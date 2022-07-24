@@ -23,7 +23,9 @@
             "TabsToolbar": [ "tabbrowser-tabs", "new-tab-button", "alltabs-button" ],
             "PersonalToolbar": [ ]
         },
-        "seen": [ ],
+        "seen": [
+          "redirector_einaregilsson_com-browser-action"
+        ],
         "dirtyAreaCache": [ "nav-bar", "PersonalToolbar", "toolbar-menubar", "TabsToolbar", "widget-overflow-fixed-list" ],
         "currentVersion": 17,
         "newElementCount": 5
