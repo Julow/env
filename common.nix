@@ -23,6 +23,9 @@
   boot.loader.grub.configurationLimit = 20; # Don't keep an unlimited number of systems
   networking.dhcpcd.wait = "background"; # Don't wait for dhcp before starting session
 
+  networking.networkmanager.enable = true;
+  hardware.bluetooth.enable = true;
+
   # Enable sound.
   sound.enable = true;
   security.rtkit.enable = true;
@@ -54,9 +57,6 @@
       }
     ];
   };
-
-  # Bluetooth
-  hardware.bluetooth.enable = true;
 
   networking.hostName = host_name;
   time.timeZone = "Europe/Paris";
@@ -103,6 +103,7 @@
     # Desktop
     xdotool dmenu
     pipewire.pulse pavucontrol mpv xclip
+    networkmanager
     # Other
     nixos-deploy
     graphviz
@@ -130,7 +131,7 @@
   # Main user
   users.users."${main_user}" = {
     isNormalUser = true;
-    extraGroups = [ "docker" "dialout" "adbusers" "audio" ];
+    extraGroups = [ "docker" "dialout" "adbusers" "audio" "networkmanager" ];
   };
   home-manager.users."${main_user}" = import ./home;
   home-manager.extraSpecialArgs = {

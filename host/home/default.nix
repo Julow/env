@@ -15,10 +15,6 @@
   users.users.root.hashedPassword = "$6$q5rAlai/sjItj4hJ$0hCDqYPOe37sarAEvfnXnXUufprIlaXFyFVerQ.Ew5LSGgTKnAjLEvpUsA3YfyRfQa1kvuXxJ3tsFvYDNUdZV0";
   users.mutableUsers = false;
 
-  # Network
-  networking.useDHCP = false;
-  networking.interfaces.eno1.useDHCP = true;
-
   # Screens
   services.xserver.dpi = 128;
 

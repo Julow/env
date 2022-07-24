@@ -10,13 +10,6 @@
     nixos-hardware.nixosModules.lenovo-thinkpad-x1-6th-gen
   ];
 
-  # Extra packages
-  environment.systemPackages = with pkgs; [ networkmanager ];
-
-  # Network
-  networking.networkmanager.enable = true;
-  users.users.jules.extraGroups = [ "networkmanager" ];
-
   # Boot
   boot.loader.grub.device = "nodev";
   boot.loader.systemd-boot.enable = true;
