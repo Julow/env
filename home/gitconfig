@@ -43,7 +43,7 @@
 	kpr = "!f() { git fpr \"$1\" && git checkout \"pr/$1\" && git l; }; f"
 	ll = customlog --all
 	flog = log --graph --decorate --graph --format=custom
-	sh = show --summary --stat -p
+	sh = show --summary --stat -p --format=fuller
 	customlog = log --decorate --graph --format=custom
 	fpr = "!f() { git checkout --detach HEAD; git fetch -f `git get-upstream` \"pull/$1/head:pr/$1\"; }; f"
 	ft = fetch --all -t --progress -v
