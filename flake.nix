@@ -8,6 +8,7 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nur_rycee.url = "gitlab:rycee/nur-expressions/master";
     nur_rycee.flake = false;
+    vim_plugins.url = "path:./vim";
   };
 
   outputs = inputs:
@@ -20,7 +21,7 @@
           inherit patches;
         };
 
-      nixpkgs = patch_nixpkgs inputs.nixpkgs [];
+      nixpkgs = patch_nixpkgs inputs.nixpkgs [ ];
 
       mk_nixos = path:
         import "${nixpkgs}/nixos/lib/eval-config.nix" {

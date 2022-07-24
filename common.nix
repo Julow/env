@@ -134,7 +134,7 @@
   };
   home-manager.users."${main_user}" = import ./home;
   home-manager.extraSpecialArgs = {
-    inherit (inputs) nur_rycee;
+    inherit (inputs) nur_rycee vim_plugins;
   };
 
   home-manager.useGlobalPkgs = true;

@@ -8,7 +8,7 @@
 #   }).activationPackage;
 
 {
-  imports = [ ./mpv.nix ./htop.nix ./git.nix ./firefox ];
+  imports = [ ./mpv.nix ./htop.nix ./git.nix ./firefox ./vim.nix ];
 
   services.dunst = {
     enable = true;
@@ -16,8 +16,6 @@
   };
 
   xresources.extraConfig = builtins.readFile ./xresources;
-
-  home.file = { ".vim".source = ../vim; };
 
   services.gpg-agent = {
     enable = true;

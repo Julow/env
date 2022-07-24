@@ -170,27 +170,6 @@
         "type": "github"
       }
     },
-    "home-manager": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1656169755,
-        "narHash": "sha256-Nlnm4jeQWEGjYrE6hxi/7HYHjBSZ/E0RtjCYifnNsWk=",
-        "owner": "nix-community",
-        "repo": "home-manager",
-        "rev": "4a3d01fb53f52ac83194081272795aa4612c2381",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "ref": "release-22.05",
-        "repo": "home-manager",
-        "type": "github"
-      }
-    },
     "indent-object": {
       "flake": false,
       "locked": {
@@ -276,55 +255,6 @@
         "type": "github"
       }
     },
-    "nixos-hardware": {
-      "locked": {
-        "lastModified": 1657781616,
-        "narHash": "sha256-M/wl8+gRNELNhEmNjWTZVf61lfZIyiUn/NkyEqQAW80=",
-        "owner": "NixOS",
-        "repo": "nixos-hardware",
-        "rev": "76c9664813ed7082115ac7efb8a1619a804a631f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "master",
-        "repo": "nixos-hardware",
-        "type": "github"
-      }
-    },
-    "nixpkgs": {
-      "locked": {
-        "lastModified": 1657972522,
-        "narHash": "sha256-JTiKsBT1BwMbtSUsvtSl8ffkiirby8FaujJVGV766Q8=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "07a2e6a4e31ea48408861607198972d60adaf4ad",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "nixos-22.05",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nur_rycee": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1658116939,
-        "narHash": "sha256-cfBHVJtGreRX0o2Q1Lgt2O8iNi8pHvRzfzvWU5nv0lA=",
-        "owner": "rycee",
-        "repo": "nur-expressions",
-        "rev": "b92258d5b603d8fcc13a6d5dededf719cbe9e34b",
-        "type": "gitlab"
-      },
-      "original": {
-        "owner": "rycee",
-        "ref": "master",
-        "repo": "nur-expressions",
-        "type": "gitlab"
-      }
-    },
     "ocaml": {
       "flake": false,
       "locked": {
@@ -344,11 +274,25 @@
     },
     "root": {
       "inputs": {
-        "home-manager": "home-manager",
-        "nixos-hardware": "nixos-hardware",
-        "nixpkgs": "nixpkgs",
-        "nur_rycee": "nur_rycee",
-        "vim_plugins": "vim_plugins"
+        "argtextobj.vim": "argtextobj.vim",
+        "capnp": "capnp",
+        "commentary": "commentary",
+        "conflict3": "conflict3",
+        "dirvish": "dirvish",
+        "dwm": "dwm",
+        "easy-align": "easy-align",
+        "fugitive": "fugitive",
+        "futhark": "futhark",
+        "gv": "gv",
+        "indent-object": "indent-object",
+        "json": "json",
+        "markdown": "markdown",
+        "markdown-folding": "markdown-folding",
+        "nix": "nix",
+        "ocaml": "ocaml",
+        "sneak": "sneak",
+        "surround": "surround",
+        "xdg_open": "xdg_open"
       }
     },
     "sneak": {
@@ -383,39 +327,6 @@
         "repo": "vim-surround",
         "rev": "f51a26d3710629d031806305b6c8727189cd1935",
         "type": "github"
-      }
-    },
-    "vim_plugins": {
-      "inputs": {
-        "argtextobj.vim": "argtextobj.vim",
-        "capnp": "capnp",
-        "commentary": "commentary",
-        "conflict3": "conflict3",
-        "dirvish": "dirvish",
-        "dwm": "dwm",
-        "easy-align": "easy-align",
-        "fugitive": "fugitive",
-        "futhark": "futhark",
-        "gv": "gv",
-        "indent-object": "indent-object",
-        "json": "json",
-        "markdown": "markdown",
-        "markdown-folding": "markdown-folding",
-        "nix": "nix",
-        "ocaml": "ocaml",
-        "sneak": "sneak",
-        "surround": "surround",
-        "xdg_open": "xdg_open"
-      },
-      "locked": {
-        "lastModified": 1,
-        "narHash": "sha256-iNRfWaisPjxAC8h2jFh0sDOVAUEg289y2eSOhyBNzzs=",
-        "path": "./vim",
-        "type": "path"
-      },
-      "original": {
-        "path": "./vim",
-        "type": "path"
       }
     },
     "xdg_open": {
