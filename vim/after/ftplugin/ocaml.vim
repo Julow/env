@@ -46,3 +46,9 @@ nmap <buffer> <Leader>e :MerlinErrorCheck<return>
 let g:ripple_repls = {
     \ "ocaml": ["dune exec -- ocaml", "", ";;", 0],
     \ }
+
+" Highlight types
+hi link ocamlTypeConstr Normal
+hi link ocamlTypeBuiltin Type
+hi link ocamlTypeVar Identifier
+hi link ocamlTypeAnyVar Special
