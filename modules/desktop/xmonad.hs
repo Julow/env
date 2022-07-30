@@ -121,19 +121,6 @@ password_prompt prompt_conf = do
     ] prompt_conf
 
 -- ========================================================================== --
--- Preset prompt
--- Prompt to execute a shell script located in the ~/.presets directory
-
-preset_prompt prompt_conf = do
-  home <- home_dir
-  let preset_dir = home ++ "/.presets/"
-  ws <- io $ getDirectoryContents preset_dir
-  let ws' = filter (flip notElem [ ".", ".." ]) ws
-  let compl = compl_fun_from_list ws'
-  let open w = spawn ("source \"" ++ preset_dir ++ w ++ "\"")
-  mkXPrompt (Prompt_autocomplete "Preset: ") prompt_conf compl open
-
--- ========================================================================== --
 -- Window prompt
 -- Show the list of windows, sorted by workspace
 -- Similar to Xmonad.Prompt.Window
@@ -203,7 +190,7 @@ scratchpads = [
     scratch_prog "i" "strawberry" (className =? "strawberry") nonFloating,
     scratch_prog "o" "com.slack.Slack" (className =? "slack") nonFloating,
     scratch_prog "u" "im.riot.Riot" (className =? "element") nonFloating,
-    scratch_prog "n" "bash .presets/notes" (title =? "Notes") nonFloating,
+    scratch_prog "n" "notes" (title =? "Notes") nonFloating,
     scratch_prog "t" "thunderbird" (className =? "Thunderbird") nonFloating
   ]
   where
@@ -394,7 +381,6 @@ main =
     ("M-p", shellPrompt prompt_conf),
     ("M-S-p", windowPrompt prompt_conf Goto allWindows),
     ("M-o", workspace_prompt prompt_conf),
-    ("M-S-o", preset_prompt prompt_conf),
 
     -- Password prompt
     ("M-;", password_prompt (prompt_conf { changeModeKey = xK_semicolon })),
