@@ -11,9 +11,17 @@ in {
     sha256 = "sha256-EtXPrqaX0QYg+sDdEoZnre8ypxvXEG9aC8vk9WzNk5s=";
   };
 
-  mpv = super.mpv.override {
-    scripts = with super.mpvScripts; [ mpris youtube-quality ];
+  mpv = mpv.override {
+    scripts = with mpvScripts; [ mpris youtube-quality ];
   };
 
   encfs-gpg = self.callPackage ./encfs-tools.nix { };
+
+  # Allow WEP security, which is unfortunately still needed
+  # https://github.com/NixOS/nixpkgs/issues/177501
+  wpa_supplicant = wpa_supplicant.overrideAttrs (oldAttrs: rec {
+    extraConfig = oldAttrs.extraConfig + ''
+      CONFIG_WEP=y
+    '';
+  });
 }
