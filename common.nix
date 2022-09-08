@@ -103,11 +103,10 @@
     chromium
     # Desktop
     xdotool dmenu
-    pipewire.pulse pavucontrol mpv xclip
+    pavucontrol mpv xclip
     networkmanager
     # Other
-    nixos-deploy
-    graphviz
+    nixos-deploy graphviz quickemu
   ];
 
   fonts = {
