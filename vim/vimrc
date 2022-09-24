@@ -587,7 +587,7 @@ nnoremap <Leader>r :call Runtest_runtestprg()<return>
 " Find a file by name with fd
 function! Fd(...)
   let args = map(copy(a:000), 'shellescape(v:val)')
-  let lines = systemlist('fd ' . join(args))
+  let lines = systemlist('fd ' . g:fd_args . ' ' . join(args))
   if len(lines) == 0
     echohl WarningMsg
     echo "No match found"
@@ -598,7 +598,9 @@ function! Fd(...)
   endif
 endfunction
 
-command -nargs=* Fd call Fd(<f-args>)
+let g:fd_args = "--follow"
+
+command -nargs=* -complete=dir Fd call Fd(<f-args>)
 
 " gf open file that don't exist
 nnoremap gf :e <cfile><return>
