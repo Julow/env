@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, vim_plugins, ... }:
 
 # # nix run -f ./home -c home-manager-generation
 # mk_home = conf:
@@ -8,7 +8,7 @@
 #   }).activationPackage;
 
 {
-  imports = [ ./mpv.nix ./htop.nix ./git.nix ./firefox ./vim.nix ];
+  imports = [ ./mpv.nix ./htop.nix ./git.nix ./firefox ];
 
   services.dunst = {
     enable = true;
@@ -21,6 +21,8 @@
     enable = true;
     defaultCacheTtl = 1800;
   };
+
+  home.file.".vim".source = vim_plugins.dot_vim;
 
   programs.home-manager.enable = false;
   home.stateVersion = "21.11";

@@ -255,6 +255,19 @@
         "type": "github"
       }
     },
+    "nixpkgs": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1664114020,
+        "narHash": "sha256-HzD1aj2+q7i+gJPxEKyR5Y3fJhEJyfZnToJNAaQFHEA=",
+        "path": "/etc/nixpkgs",
+        "type": "path"
+      },
+      "original": {
+        "path": "/etc/nixpkgs",
+        "type": "path"
+      }
+    },
     "ocaml": {
       "flake": false,
       "locked": {
@@ -289,6 +302,7 @@
         "markdown": "markdown",
         "markdown-folding": "markdown-folding",
         "nix": "nix",
+        "nixpkgs": "nixpkgs",
         "ocaml": "ocaml",
         "sneak": "sneak",
         "surround": "surround",

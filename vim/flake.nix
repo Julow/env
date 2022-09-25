@@ -2,6 +2,8 @@
   description = "Vim plugins";
 
   inputs = {
+    nixpkgs.flake = false;
+    nixpkgs.url = "/etc/nixpkgs"; # Overriden by parent
     "argtextobj.vim".flake = false;
     "argtextobj.vim".url =
       "github:vim-scripts/argtextobj.vim/f3fbe427f7b4ec436416a5816d714dc917dc530b";
@@ -56,5 +58,22 @@
     xdg_open.url =
       "github:arp242/xdg_open.vim/6474b4de866d9986788a327808c0fb4537a18101";
   };
-  outputs = inputs: { inherit inputs; };
+  outputs = inputs:
+    let
+      pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
+      inherit (pkgs) lib;
+      plugins = builtins.removeAttrs inputs [ "nixpkgs" ];
+    in {
+      dot_vim = pkgs.symlinkJoin {
+        name = ".vim";
+        paths = [ ./. ];
+        postBuild = ''
+          pdst=$out/pack/plugins/start
+          mkdir -p "$pdst"
+          ${lib.concatStringsSep "\n" (lib.mapAttrsToList (pname: path: ''
+            ln -Ts "${path}" "$pdst/${pname}"
+          '') plugins)}
+        '';
+      };
+    };
 }

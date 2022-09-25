@@ -402,6 +402,9 @@
         "markdown": "markdown",
         "markdown-folding": "markdown-folding",
         "nix": "nix",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
         "ocaml": "ocaml",
         "sneak": "sneak",
         "surround": "surround",
@@ -409,7 +412,7 @@
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-Y48UgUBrraQaGgaa5nLUfhighAmvF0qt2M29yMvQ85k=",
+        "narHash": "sha256-lZU9+jc98auCSXigSdbCxAAtkfeQ+VBVCSgDF09MB5A=",
         "path": "./vim",
         "type": "path"
       },

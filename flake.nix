@@ -9,6 +9,7 @@
     nur_rycee.url = "gitlab:rycee/nur-expressions/master";
     nur_rycee.flake = false;
     vim_plugins.url = "path:./vim";
+    vim_plugins.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs:
@@ -34,5 +35,6 @@
       nixosConfigurations.jules-pc = mk_nixos host/home;
       nixosConfigurations.jules-work = mk_nixos host/work;
 
+      inherit (inputs.vim_plugins) dot_vim;
     };
 }
