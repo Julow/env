@@ -529,8 +529,8 @@ autocmd FileType qf nnoremap <buffer> <C-Enter> :call Quickfix_open_split()<retu
 " Let the quickfix window resize like the other windows.
 autocmd FileType qf setlocal nowinfixheight
 
-" Use 'git grep' as :grep
-set grepprg=git\ grep\ --recurse-submodules\ -n
+" Recursive grep
+set grepprg=grep\ -rn
 
 nnoremap <Leader>m :make!<return>
 
