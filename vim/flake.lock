@@ -238,6 +238,22 @@
         "type": "github"
       }
     },
+    "merlin": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1663155896,
+        "narHash": "sha256-Le5dIoLygYYn46jcD4JZQNszf6ihmuprYz0Ordyhnxk=",
+        "owner": "ocaml",
+        "repo": "merlin",
+        "rev": "ca0ab2be087d661f2017c00be64a736459042f3f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ocaml",
+        "repo": "merlin",
+        "type": "github"
+      }
+    },
     "nix": {
       "flake": false,
       "locked": {
@@ -285,6 +301,22 @@
         "type": "github"
       }
     },
+    "ocp-indent": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1634634458,
+        "narHash": "sha256-GK8wypm/aUXMva1q2STrlUU/3o5zZsLT2LEFvaXe2Aw=",
+        "owner": "OCamlPro",
+        "repo": "ocp-indent",
+        "rev": "7c4d434132cebc15a8213c8be9e7323692eb0a2b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "OCamlPro",
+        "repo": "ocp-indent",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "argtextobj.vim": "argtextobj.vim",
@@ -301,9 +333,11 @@
         "json": "json",
         "markdown": "markdown",
         "markdown-folding": "markdown-folding",
+        "merlin": "merlin",
         "nix": "nix",
         "nixpkgs": "nixpkgs",
         "ocaml": "ocaml",
+        "ocp-indent": "ocp-indent",
         "sneak": "sneak",
         "surround": "surround",
         "xdg_open": "xdg_open"

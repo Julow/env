@@ -57,12 +57,26 @@
     xdg_open.flake = false;
     xdg_open.url =
       "github:arp242/xdg_open.vim/6474b4de866d9986788a327808c0fb4537a18101";
+    ocp-indent = {
+      flake = false;
+      url = "github:OCamlPro/ocp-indent";
+    };
+    merlin = {
+      flake = false;
+      url = "github:ocaml/merlin";
+    };
   };
   outputs = inputs:
     let
       pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
       inherit (pkgs) lib;
-      plugins = builtins.removeAttrs inputs [ "nixpkgs" ];
+      plugins = builtins.removeAttrs inputs [ "nixpkgs" ] // {
+        ocp-indent = pkgs.linkFarm "ocp-indent" [{
+          name = "indent/ocaml.vim";
+          path = "${inputs.ocp-indent}/tools/ocp-indent.vim";
+        }];
+        merlin = "${inputs.merlin}/vim/merlin";
+      };
     in {
       dot_vim = pkgs.symlinkJoin {
         name = ".vim";
