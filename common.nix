@@ -88,8 +88,7 @@
 
   environment.systemPackages = with pkgs; [
     # Base tools
-    curl gnumake zip unzip jq fd
-    vim_configurable git
+    curl gnumake zip unzip jq fd git
     python3 sqlite
     # Admin
     mkpasswd rsync nix-prefetch-git
@@ -108,6 +107,12 @@
     # Other
     nixos-deploy graphviz quickemu
   ];
+
+  programs.vim = {
+    defaultEditor = true;
+    package = pkgs.vim_configurable;
+  };
+  environment.variables.VISUAL = "gvim";
 
   fonts = {
     fonts = with pkgs; [
