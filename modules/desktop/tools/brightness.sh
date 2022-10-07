@@ -11,7 +11,7 @@ if [[ $INC -gt 0 ]]; then
   INC=+$INC
 fi
 
-brightnessctl set -- "$INC%"
+brightnessctl set -e -- "$INC%"
 
 IFS=, read _ _ _ VAL _ < <(brightnessctl info -m)
 dunstify -r 1234 -a "Indicator" -u low -h "int:value:${VAL%\%}" "Brightness"
