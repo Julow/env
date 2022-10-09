@@ -70,10 +70,12 @@
   # Link nixpkgs at an arbitrary path so currently running programs can start
   # using the new version as soon as the system switches.
   # No need to reboot to take $NIX_PATH changes (it doesn't change).
-  environment.etc.nixpkgs.source = pkgs.lib.cleanSource nixpkgs;
+  environment.etc.nixpkgs.source = nixpkgs;
   environment.etc."nixpkgs-overlay/overlays.nix".text = ''
     import ${./packages}
   '';
+  # Pin nixpkgs in the flake registry too
+  nix.registry.nixpkgs.flake = nixpkgs;
 
   nix.nixPath = [
     "nixpkgs=/etc/nixpkgs"
