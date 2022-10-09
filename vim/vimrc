@@ -541,9 +541,18 @@ nnoremap <Leader>M :cclose<return>
 nmap <Space> <C-w>
 " Add a binding for :tabonly
 nnoremap <C-w>O :tabonly<return>
-tnoremap <C-w>O <C-w>:tabonly<return>
 nnoremap <C-w>N :tab split<return>
-nnoremap <C-w>N <C-w>:tab split<return>
+
+" Terminal window mappings
+" Use a simpler key to type for termwinkey. @@ sends @ to the terminal.
+" C-j and C-k are bound for window navigation, prefix with @ to send.
+set termwinkey=@
+tnoremap <C-j> @w
+tnoremap <C-k> @W
+tnoremap @<C-j> <C-j>
+tnoremap @<C-k> <C-k>
+tnoremap @. @""
+tnoremap @! @:term<space>
 
 let g:runtest_buf = -1
 
@@ -654,7 +663,6 @@ endfunction
 " Shortcut for open running a program in the terminal
 nnoremap ! :term<space>
 nnoremap <C-1> :tab term<space>
-tnoremap <C-w>! <C-w>:term<space>
 
 " Restart a terminal job
 function! Restart_terminal_job(...)
