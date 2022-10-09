@@ -19,6 +19,11 @@ xkb_symbols "custom-qwerty" {
   // Also map Multi_key somewhere
   replace key <LFSH> { [ Multi_key ] };
 
+  // Swap H and semicolon
+  // Colon and semicolon are also shift-swapped
+  replace key <AC06> { [ colon, semicolon ] };
+  replace key <AC10> { [ h, H ] };
+
   // Overlay1
 
   // Tab and right shift are overlay1
