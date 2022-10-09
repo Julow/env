@@ -803,3 +803,23 @@ call SetupCommandAlias("G", "Git -p")
 inoremap <C-;> <C-r>=strftime("%F %H:%M")<Enter>
 
 nnoremap <C-w>= <C-w>_<C-w>=
+
+" Helper function for Cmd_operator
+function! Cmd_operator_func(command)
+  execute "'[,']" .. a:command
+endfunction
+
+" Run a command on a range selected by a motion.
+" For example, to define an operator that calls :sort on a range of line:
+"     nnoremap <expr> ,s Cmd_operator("sort")
+" Then, to sort a paragraph, type:
+"     ,sap
+" It's repeatable with .
+function! Cmd_operator(command)
+  let &opfunc = {mode -> Cmd_operator_func(a:command)}
+  return "g@"
+endfunction
+
+" Sort a range of lines
+nnoremap <expr> <Leader>s Cmd_operator("sort")
+vnoremap <Leader>s :sort<return>
