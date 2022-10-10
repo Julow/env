@@ -772,6 +772,8 @@ endfunction
 
 " Copy the path to the current file into clipboard
 nnoremap y<C-f> :let @+ = expand("%")<return>
+" With line number
+nnoremap y<C-l> :let @+ = expand("%") . ":" . line(".")<return>
 
 " Configuration for plugin 'dwm.vim'
 let g:dwm_map_keys = 0 " Disable default bindings
