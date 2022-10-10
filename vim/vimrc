@@ -775,18 +775,13 @@ nnoremap y<C-f> :let @+ = expand("%")<return>
 
 " Configuration for plugin 'dwm.vim'
 let g:dwm_map_keys = 0 " Disable default bindings
-
-" Map C-j and C-k like the default
+nmap <C-Space> <Plug>DWMFocus
+" C-j and C-k for window navigation, C-Space for focus.
 nnoremap <C-j> <C-w>w
 nnoremap <C-k> <C-w>W
-
-" Map C-h and C-l for switching between the right and left panes
-nnoremap <C-h> <C-w>h
-nnoremap <C-l> <C-w>l
-
-" C-Enter in the right pane will focus that window,
-" in the master pane will focus the previous master.
-nmap <C-Space> <Plug>DWMFocus
+" Remap 'new' and 'close' bindings.
+nnoremap <C-w>n <Plug>DWMNew
+nnoremap <C-w>q <Plug>DWMClose
 
 set winwidth=80
 
