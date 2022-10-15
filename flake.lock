@@ -446,7 +446,7 @@
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-3++40GRgOJx+0hjTM134UU/q/RjPbElZTccXaaGCBHk=",
+        "narHash": "sha256-8KxQoe4TRvJ521ltytVH3r8n3KAZQ8z4rQjl2mJH8T4=",
         "path": "./vim",
         "type": "path"
       },

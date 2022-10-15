@@ -545,14 +545,18 @@ nnoremap <C-w>N :tab split<return>
 
 " Terminal window mappings
 " Use a simpler key to type for termwinkey. @@ sends @ to the terminal.
-" C-j and C-k are bound for window navigation, prefix with @ to send.
+" C-hjkl are bound for window/tab navigation, prefix with @ to send.
 set termwinkey=@
 tnoremap <C-j> @w
 tnoremap <C-k> @W
+tnoremap @<C-h> <C-h>
 tnoremap @<C-j> <C-j>
 tnoremap @<C-k> <C-k>
+tnoremap @<C-l> <C-l>
 tnoremap @. @""
 tnoremap @! @:term<space>
+tnoremap <C-h> @gT
+tnoremap <C-l> @gt
 
 let g:runtest_buf = -1
 
@@ -784,6 +788,10 @@ nnoremap <C-k> <C-w>W
 " Remap 'new' and 'close' bindings.
 nnoremap <C-w>n <Plug>DWMNew
 nnoremap <C-w>q <Plug>DWMClose
+
+" Map C-h and C-l for tab movements
+nnoremap <C-h> gT
+nnoremap <C-l> gt
 
 set winwidth=80
 
