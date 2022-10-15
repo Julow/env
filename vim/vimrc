@@ -237,7 +237,7 @@ endfunction
 
 autocmd TerminalOpen * let b:terminal_start_time = reltime()
 
-set statusline=%=%{S_update_mode()}%#S_mode_link#%{b:s_filename}%*%< " Mode and file name
+set statusline=%=%{S_update_mode()}%#S_mode_link#%{b:s_filename}%* " Mode and file name
 set statusline+=\ %(%q\ %)%(%w\ %) " Vim's flags
 set statusline+=%l:%c%(\ (%{S_selection()})%) " Cursor position and selection
 set statusline+=%#S_linef#%(\ %{S_linef()}%) " Line feed format
