@@ -19,10 +19,34 @@ xkb_symbols "custom-qwerty" {
   // Also map Multi_key somewhere
   replace key <LFSH> { [ Multi_key ] };
 
-  // Swap H and semicolon
-  // Colon and semicolon are also shift-swapped
-  replace key <AC06> { [ colon, semicolon ] };
-  replace key <AC10> { [ h, H ] };
+  // Swap [{ and ]} with -_ and =+
+  // Shift the 1st row starting on yY to put -_
+  replace key <AD06> { [ minus, underscore ] };
+  replace key <AD07> { [ y, Y ] };
+  replace key <AD08> { [ u, U ] };
+  replace key <AD09> { [ i, I ] };
+  replace key <AD10> { [ o, O ] };
+  replace key <AD11> { [ p, P ] };
+  replace key <AD12> { [ equal, plus ] };
+  replace key <AE11> { [ bracketleft, braceleft ] };
+  replace key <AE12> { [ bracketright, braceright ] };
+
+  // Shift the 2nd row starting on hH, to put :; on the middle of the keyboard.
+  // : and ; are also shift-swapped
+  replace key <AC06> { [ semicolon, colon ] };
+  replace key <AC07> { [ h, H ] };
+  replace key <AC08> { [ j, J ] };
+  replace key <AC09> { [ k, K ] };
+  replace key <AC10> { [ l, L ] };
+  replace key <AC11> { [ apostrophe, quotedbl ] };
+
+  // Shift the 3rd row starting on bB, to leave a key on the middle of the row
+  // Remap /.,?<> in this order of priority
+  replace key <AB06> { [ slash, period ] };
+  replace key <AB07> { [ n, N ] };
+  replace key <AB08> { [ m, M ] };
+  replace key <AB09> { [ comma, question ] };
+  replace key <AB10> { [ less, greater ] };
 
   // Overlay1
 
@@ -37,27 +61,27 @@ xkb_symbols "custom-qwerty" {
   };
 
   // overlay1 + h/j/k/l are arrow keys
-  key <AC06> { overlay1 = <LEFT> };
-  key <AC07> { overlay1 = <DOWN> };
-  key <AC08> { overlay1 = <UP> };
-  key <AC09> { overlay1 = <RGHT> };
+  key <AC07> { overlay1 = <LEFT> };
+  key <AC08> { overlay1 = <DOWN> };
+  key <AC09> { overlay1 = <UP> };
+  key <AC10> { overlay1 = <RGHT> };
 
   // overlay1 + i/o are pagedown and pageup
-  key <AD08> { overlay1 = <PGDN> };
-  key <AD09> { overlay1 = <PGUP> };
+  key <AD09> { overlay1 = <PGDN> };
+  key <AD10> { overlay1 = <PGUP> };
 
   // overlay1 + u/p are home and end
-  key <AD07> { overlay1 = <HOME> };
-  key <AD10> { overlay1 = <END> };
+  key <AD08> { overlay1 = <HOME> };
+  key <AD11> { overlay1 = <END> };
 
   // overlay1 + w/e are mouse buttons
   key <AD02> { overlay1 = <KPSU> };
   key <AD03> { overlay1 = <KPAD> };
 
   // overlay1 + n/m/, are enter/backspace/delete
-  key <AB06> { overlay1 = <RTRN> };
-  key <AB07> { overlay1 = <BKSP> };
-  key <AB08> { overlay1 = <DELE> };
+  key <AB07> { overlay1 = <RTRN> };
+  key <AB08> { overlay1 = <BKSP> };
+  key <AB09> { overlay1 = <DELE> };
 
   // overlay1 + space latches Shift
   key <SPCE> { overlay1 = <PAUS> };
