@@ -36,4 +36,8 @@
     keyword = "conj";
     url = "https://conjugaison.lemonde.fr/conjugaison/search?verb=%s";
   };
+  "Android Developers" = {
+    keyword = "android";
+    url = "https://developer.android.com/s/results?q=%s";
+  };
 }
