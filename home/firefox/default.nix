@@ -1,4 +1,4 @@
-{ pkgs, config, nur_rycee, ... }:
+{ pkgs, config, lib, nur_rycee, ... }:
 let
 
   inherit (pkgs.callPackage nur_rycee { }) firefox-addons;
@@ -23,6 +23,23 @@ let
     meta = { };
   };
 
+  cascade_theme = pkgs.fetchgit {
+    url = "https://github.com/andreasgrafen/cascade";
+    rev = "a72936632ca48dcaed983286cee68688fc2f8eb2";
+    sha256 = "0v3mhxg7z4mziv71k4q83x47vyly30ja9wl6dsmp3zq6i9z9z6ah";
+  };
+
+  userChrome = lib.concatMapStringsSep "\n" builtins.readFile [
+    ./userChrome.css
+    "${cascade_theme}/chrome/includes/cascade-config-mouse.css"
+    "${cascade_theme}/chrome/includes/cascade-colours.css"
+    "${cascade_theme}/chrome/includes/cascade-layout.css"
+    "${cascade_theme}/chrome/includes/cascade-responsive.css"
+    "${cascade_theme}/chrome/includes/cascade-floating-panel.css"
+    "${cascade_theme}/chrome/includes/cascade-nav-bar.css"
+    "${cascade_theme}/chrome/includes/cascade-tabs.css"
+  ];
+
 in {
   programs.firefox = {
     enable = true;
@@ -39,7 +56,7 @@ in {
     profiles.hm = {
       bookmarks = import ./bookmarks.nix;
       settings = import ./prefs.nix;
-      userChrome = builtins.readFile ./userChrome.css;
+      inherit userChrome;
     };
 
     package = pkgs.firefox.override {
