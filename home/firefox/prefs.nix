@@ -58,6 +58,7 @@
   "browser.search.widget.inNavBar" = false;
   "browser.newtabpage.pinned" = "[]"; # Google would be "pinned" otherwise
   "dom.event.contextmenu.enabled" = false; # Prevent sites disabling right-click
+  "browser.tabs.firefox-view" = false;
 
   # Disable password manager
   "signon.rememberSignons" = false;
