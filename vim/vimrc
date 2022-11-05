@@ -530,7 +530,7 @@ autocmd FileType qf nnoremap <buffer> <C-Enter> :call Quickfix_open_split()<retu
 autocmd FileType qf setlocal nowinfixheight
 
 " Recursive grep
-set grepprg=grep\ -rn
+set grepprg=rg\ --vimgrep
 
 nnoremap <Leader>m :make!<return>
 
