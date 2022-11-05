@@ -2,8 +2,8 @@
 
 case "$1" in
   "toggle") pamixer --toggle-mute ;;
-  "dec") pamixer --decrease 5 ;;
-  "inc") pamixer --increase 5 ;;
+  "dec") pamixer --decrease 5 --gamma 2.2 ;;
+  "inc") pamixer --increase 5 --gamma 2.2 ;;
 esac
 
 vol=`pamixer --get-volume-human`
