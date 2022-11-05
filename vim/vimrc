@@ -836,3 +836,7 @@ endfunction
 " Sort a range of lines
 nnoremap <expr> <Leader>s Cmd_operator("sort")
 vnoremap <Leader>s :sort<return>
+
+" Enable folding from the builtin xml plugin, which is disabled for some
+" reason.
+let g:xml_syntax_folding = 1
