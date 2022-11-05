@@ -90,8 +90,9 @@
 
   environment.systemPackages = with pkgs; [
     # Base tools
-    curl gnumake zip unzip jq fd git
+    curl gnumake zip unzip jq fd fzf ripgrep git
     python3 sqlite
+    rclone git-annex git-annex-remote-rclone
     # Admin
     mkpasswd rsync nix-prefetch-git
     htop acpi
@@ -100,7 +101,6 @@
     # Apps
     pinta
     thunderbird
-    strawberry
     chromium
     # Desktop
     xdotool dmenu
