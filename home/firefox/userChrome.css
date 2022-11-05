@@ -32,12 +32,12 @@
 
 /* Full size tabs */
 
-#tabbrowser-tabs .tabbrowser-tab:not([pinned])
+#tabbrowser-tabs .tabbrowser-tab[fadein=true]:not([pinned])
 {
   max-width: 100vw !important;
 }
 
-#tabbrowser-tabs .tabbrowser-tab[selected]:not([pinned])
+#tabbrowser-tabs .tabbrowser-tab[selected=true]:not([pinned])
 {
   -moz-box-flex: 130 !important;
 }
