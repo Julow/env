@@ -170,7 +170,7 @@ function! S_update_mode()
 endfunction
 
 " Rewrite some filenames (see Update_s_filename)
-let g:s_filename_const = {
+let g:s_fugitive_filename_const = {
   \ ".git/index": "Git Status",
   \ ".git/COMMIT_EDITMSG": "Git Commit",
   \ ".git/rebase-merge/git-rebase-todo": "Git Rebase",
@@ -181,16 +181,25 @@ function! Update_s_filename(buf)
   let l:f = bufname(a:buf)
 
   if l:f =~ "^fugitive://"
-    " Fugitive URIs are shortened to "symbolic:path"
+    " Fugitive URIs are shortened to 'symbolic:path'
     " Useful to know which is which when using Fugitive diffsplit
-    let l:obj = fugitive#Object(l:f) " Returns a string "HASH:PATH"
-    let [ l:hash; path ] = split(l:obj, ":")
-    if l:hash == '0'
-      let l:symbolic = "staged"
+    let l:obj = trim(fugitive#Object(l:f), ":") " Returns a string 'HASH:PATH'
+    if l:obj == ''
+      " Couldn't decode. Detect some special files but otherwise, show the
+      " full URL
+      let l:real = fnamemodify(fugitive#Real(l:f), ":.")
+      if has_key(g:s_fugitive_filename_const, l:real)
+        let l:f = get(g:s_fugitive_filename_const, l:real)
+      endif
     else
-      let l:symbolic = systemlist("git name-rev --name-only " . l:hash)[0]
+      let [ l:hash; path ] = split(l:obj, ":", 1)
+      if l:hash == '0'
+        let l:symbolic = "staged"
+      else
+        let l:symbolic = systemlist("git name-rev --name-only " . l:hash)[0]
+      endif
+      let l:f = join([ l:symbolic ] + path, ":")
     endif
-    let l:f = join([ l:symbolic ] + path, ":")
 
   elseif l:f =~ "^/"
     " Convert absolute paths to relative paths
@@ -203,12 +212,6 @@ function! Update_s_filename(buf)
         let l:f = "Help " . fnamemodify(l:f, ":t:r")
       endif
     endif
-  endif
-
-  if has_key(g:s_filename_const, l:f)
-    let l:f = get(g:s_filename_const, l:f)
-  " elseif len(l:f) > 20
-  "   let l:f = pathshorten(l:f)
   endif
 
   call setbufvar(a:buf, "s_filename", (l:f != "") ? l:f : "<new>")

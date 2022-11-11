@@ -5,58 +5,42 @@
     nixpkgs.flake = false;
     nixpkgs.url = "/etc/nixpkgs"; # Overriden by parent
     "argtextobj.vim".flake = false;
-    "argtextobj.vim".url =
-      "github:vim-scripts/argtextobj.vim/f3fbe427f7b4ec436416a5816d714dc917dc530b";
-    capnp.flake = false;
-    capnp.url =
-      "github:cstrahan/vim-capnp/954202e2c6c1cb9185082de8ddb7f2823a9d1206";
+    "argtextobj.vim".url = "github:vim-scripts/argtextobj.vim";
     commentary.flake = false;
-    commentary.url =
-      "github:tpope/vim-commentary/627308e30639be3e2d5402808ce18690557e8292";
+    commentary.url = "github:tpope/vim-commentary";
     conflict3.flake = false;
-    conflict3.url =
-      "github:mkotha/conflict3/180e387fa464f27346db6a9c577ae6c1a26cd39a";
+    conflict3.url = "github:mkotha/conflict3";
     dirvish.flake = false;
-    dirvish.url =
-      "github:justinmk/vim-dirvish/b2b5709b7979bb99b0548d5879c49672891b9b5b";
+    dirvish.url = "github:justinmk/vim-dirvish";
     dwm.flake = false;
-    dwm.url = "github:spolu/dwm.vim/6149e58fdd81f69e4e6a3f239842f3dc23e4872b";
+    dwm.url = "github:spolu/dwm.vim";
     easy-align.flake = false;
-    easy-align.url =
-      "github:junegunn/vim-easy-align/12dd6316974f71ce333e360c0260b4e1f81169c3";
+    easy-align.url = "github:junegunn/vim-easy-align";
     fugitive.flake = false;
-    fugitive.url =
-      "github:tpope/vim-fugitive/1352646890aafdb6d7e5e9b8092f89b5820de6be";
+    fugitive.url = "github:tpope/vim-fugitive";
     futhark.flake = false;
-    futhark.url =
-      "github:BeneCollyridam/futhark-vim/fd7d053c74f150712eaa73999f44a3f95c8f08ff";
+    futhark.url = "github:BeneCollyridam/futhark-vim";
     gv.flake = false;
-    gv.url = "github:junegunn/gv.vim/6f6a3afe73a2cb52d8517d1a95ecfc9b09fb3e92";
+    gv.url = "github:junegunn/gv.vim";
     indent-object.flake = false;
-    indent-object.url =
-      "github:michaeljsmith/vim-indent-object/5c5b24c959478929b54a9e831a8e2e651a465965";
+    indent-object.url = "github:michaeljsmith/vim-indent-object";
     json.flake = false;
-    json.url = "github:elzr/vim-json/3727f089410e23ae113be6222e8a08dd2613ecf2";
+    json.url = "github:elzr/vim-json";
     markdown.flake = false;
     markdown-folding.flake = false;
     markdown-folding.url =
       "github:masukomi/vim-markdown-folding/3f35acfb753cc9ea22182400b075c5b6e896ad71";
-    markdown.url =
-      "github:plasticboy/vim-markdown/8e5d86f7b85234d3d1b4207dceebc43a768ed5d4";
+    markdown.url = "github:preservim/vim-markdown";
     nix.flake = false;
-    nix.url = "github:LnL7/vim-nix/63b47b39c8d481ebca3092822ca8972e08df769b";
+    nix.url = "github:LnL7/vim-nix";
     ocaml.flake = false;
-    ocaml.url =
-      "github:ocaml/vim-ocaml/6dcd9efb3278bfc51f9e460f5e2ed45134002c09";
+    ocaml.url = "github:ocaml/vim-ocaml";
     sneak.flake = false;
-    sneak.url =
-      "github:justinmk/vim-sneak/95374ad3e4b5ef902854e8f4bcfa9a7a31a91d71";
+    sneak.url = "github:justinmk/vim-sneak";
     surround.flake = false;
-    surround.url =
-      "github:tpope/vim-surround/f51a26d3710629d031806305b6c8727189cd1935";
+    surround.url = "github:tpope/vim-surround";
     xdg_open.flake = false;
-    xdg_open.url =
-      "github:arp242/xdg_open.vim/6474b4de866d9986788a327808c0fb4537a18101";
+    xdg_open.url = "github:arp242/xdg_open.vim";
     ocp-indent = {
       flake = false;
       url = "github:OCamlPro/ocp-indent";
