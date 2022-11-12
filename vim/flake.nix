@@ -32,7 +32,7 @@
       "github:masukomi/vim-markdown-folding/3f35acfb753cc9ea22182400b075c5b6e896ad71";
     markdown.url = "github:preservim/vim-markdown";
     nix.flake = false;
-    nix.url = "github:LnL7/vim-nix";
+    nix.url = "github:Julow/vim-nix/cmd_nix_shell";
     ocaml.flake = false;
     ocaml.url = "github:ocaml/vim-ocaml";
     sneak.flake = false;

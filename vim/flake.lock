@@ -228,15 +228,16 @@
     "nix": {
       "flake": false,
       "locked": {
-        "lastModified": 1650919516,
-        "narHash": "sha256-W6ExP+iDNo5T8XazxHRpUiECGv+AU5PPoM4CmU7NV+0=",
-        "owner": "LnL7",
+        "lastModified": 1668264040,
+        "narHash": "sha256-9LHNbsmsIF32XYOBqo8FOxzTJGY7Yee6dSvTK4GKNi8=",
+        "owner": "Julow",
         "repo": "vim-nix",
-        "rev": "7d23e97d13c40fcc6d603b291fe9b6e5f92516ee",
+        "rev": "f2c47596e4e2ca702a935301c2af69c8b3ff5045",
         "type": "github"
       },
       "original": {
-        "owner": "LnL7",
+        "owner": "Julow",
+        "ref": "cmd_nix_shell",
         "repo": "vim-nix",
         "type": "github"
       }
