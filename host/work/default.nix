@@ -17,7 +17,7 @@
   boot.loader.systemd-boot.editor = false;
 
   # This screen has too much pixels
-  services.xserver.dpi = 152;
+  services.xserver.dpi = 160;
 
   services.autorandr = {
     enable = true;
