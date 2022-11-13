@@ -162,7 +162,7 @@ function! S_update_mode()
   else
     let l:l = "S_mode_other"
   endif
-  execute "highlight link S_mode_link " . l:l
+  execute "highlight link S_mode " . l:l
   if !exists('b:s_filename') " Ensure s_filename is set
     call Update_s_filename("%")
   endif
@@ -179,6 +179,9 @@ let g:s_fugitive_filename_const = {
 " Do some processing on the current filename
 function! Update_s_filename(buf)
   let l:f = bufname(a:buf)
+  " Length of the decorator, which is highlighted differently. Stored
+  " separately to be sure the filename is always entire, for safety.
+  let l:d = 0
 
   if l:f =~ "^fugitive://"
     " Fugitive URIs are shortened to 'symbolic:path'
@@ -190,6 +193,9 @@ function! Update_s_filename(buf)
       let l:real = fnamemodify(fugitive#Real(l:f), ":.")
       if has_key(g:s_fugitive_filename_const, l:real)
         let l:f = get(g:s_fugitive_filename_const, l:real)
+        let l:d = len(l:f)
+      else
+        let l:d = 11
       endif
     else
       let [ l:hash; path ] = split(l:obj, ":", 1)
@@ -199,6 +205,7 @@ function! Update_s_filename(buf)
         let l:symbolic = systemlist("git name-rev --name-only " . l:hash)[0]
       endif
       let l:f = join([ l:symbolic ] + path, ":")
+      let l:d = len(l:symbolic) + 1
     endif
 
   elseif l:f =~ "^/"
@@ -209,12 +216,19 @@ function! Update_s_filename(buf)
 
       if getbufvar(a:buf, "current_syntax") == "help"
         " Help buffers are in this case
-        let l:f = "Help " . fnamemodify(l:f, ":t:r")
+        let l:f = "help:" . fnamemodify(l:f, ":t:r")
+        let l:d = 5
       endif
     endif
   endif
 
-  call setbufvar(a:buf, "s_filename", (l:f != "") ? l:f : "<new>")
+  if l:f == ""
+    let l:f = "<new>"
+    let l:d = len(l:f)
+  endif
+
+  call setbufvar(a:buf, "s_filename", l:f)
+  call setbufvar(a:buf, "s_filename_decorator", l:d)
 endfunction
 
 autocmd BufReadPost,TerminalOpen,BufFilePost * call Update_s_filename("%")
@@ -240,7 +254,8 @@ endfunction
 
 autocmd TerminalOpen * let b:terminal_start_time = reltime()
 
-set statusline=%=%{S_update_mode()}%#S_mode_link#%{b:s_filename}%* " Mode and file name
+" Mode and file name. Decorator is highlighted separately.
+set statusline=%=%{S_update_mode()}%#S_filename_decorator#%{strpart(b:s_filename,0,b:s_filename_decorator)}%#S_mode#%{b:s_filename[b:s_filename_decorator:]}%*
 set statusline+=\ %(%q\ %)%(%w\ %) " Vim's flags
 set statusline+=%l:%c%(\ (%{S_selection()})%) " Cursor position and selection
 set statusline+=%#S_linef#%(\ %{S_linef()}%) " Line feed format
@@ -319,6 +334,7 @@ hi S_mode_t ctermbg=blue ctermfg=none cterm=none
 hi S_mode_other ctermbg=lightgrey ctermfg=red cterm=none
 hi S_terminal_fail ctermbg=lightgrey ctermfg=red cterm=none
 hi S_terminal_time ctermbg=lightgrey ctermfg=yellow cterm=none
+hi S_filename_decorator ctermbg=lightgrey ctermfg=magenta cterm=none
 
 " Tabline
 hi TabLine ctermbg=lightgrey ctermfg=none cterm=none
