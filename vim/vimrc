@@ -215,9 +215,12 @@ function! Update_s_filename(buf)
       " Couldn't convert to relative
 
       if getbufvar(a:buf, "current_syntax") == "help"
-        " Help buffers are in this case
         let l:f = "help:" . fnamemodify(l:f, ":t:r")
         let l:d = 5
+
+      elseif l:f =~ "^/nix/store/"
+        let l:f = "nix:" . l:f[44:]
+        let l:d = stridx(l:f, "/") + 1
       endif
     endif
   endif
