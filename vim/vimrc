@@ -150,14 +150,18 @@ endfunction
 
 " Ruler color depending on the current mode
 function! S_update_mode()
-  let l:m = mode()
-  if l:m == "n"
-    let l:l = "S_mode_n"
-  elseif l:m == "v" || l:m == "\<C-V>"
+  let l:m = mode(1)
+  if l:m =~# "^[ncr]"
+    if l:m =~# "^n[io]"
+      let l:l = "S_mode_pending"
+    else
+      let l:l = "S_mode_n"
+    endif
+  elseif l:m =~# "^[vV\<C-V>sS\<C-S>]"
     let l:l = "S_mode_v"
-  elseif l:m == "i" || l:m == "R"
+  elseif l:m =~# "^[iR]"
     let l:l = "S_mode_i"
-  elseif l:m == "t"
+  elseif l:m =~# "^t"
     let l:l = "S_mode_t"
   else
     let l:l = "S_mode_other"
@@ -334,7 +338,8 @@ hi S_mode_n ctermbg=lightgrey ctermfg=none cterm=none
 hi S_mode_i ctermbg=lightgrey ctermfg=yellow cterm=none
 hi S_mode_v ctermbg=lightgrey ctermfg=green cterm=none
 hi S_mode_t ctermbg=blue ctermfg=none cterm=none
-hi S_mode_other ctermbg=lightgrey ctermfg=red cterm=none
+hi S_mode_other ctermbg=lightgrey ctermfg=blue cterm=none
+hi S_mode_pending ctermbg=lightgrey ctermfg=red
 hi S_terminal_fail ctermbg=lightgrey ctermfg=red cterm=none
 hi S_terminal_time ctermbg=lightgrey ctermfg=yellow cterm=none
 hi S_filename_decorator ctermbg=lightgrey ctermfg=magenta cterm=none
