@@ -37,7 +37,14 @@
   max-width: 100vw !important;
 }
 
-#tabbrowser-tabs .tabbrowser-tab[selected=true]:not([pinned])
-{
-  -moz-box-flex: 130 !important;
-}
+/* More constrast in tab colors (Cascade theme). */
+@media (prefers-color-scheme: dark) { :root {
+  --uc-base-colour: #131516 !important;
+  --uc-highlight-colour: #0c1112 !important;
+  --uc-inverted-colour: #ffffff !important;
+}}
+@media (prefers-color-scheme: light) { :root {
+  --uc-base-colour: #ffffff !important;
+  --uc-highlight-colour: #c8c9d0 !important;
+  --uc-inverted-colour: #131516 !important;
+}}
