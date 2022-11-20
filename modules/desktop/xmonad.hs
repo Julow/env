@@ -1,4 +1,5 @@
 {-# LANGUAGE FlexibleInstances, MultiParamTypeClasses, TypeSynonymInstances #-}
+
 import Control.Monad
 import Data.List
 import Data.Ratio ((%))
@@ -24,6 +25,7 @@ import XMonad.Prompt
 import XMonad.Prompt.FuzzyMatch
 import XMonad.Prompt.Shell
 import XMonad.Prompt.Window
+import XMonad.Util.Cursor
 import XMonad.Util.EZConfig (additionalKeysP, removeKeysP)
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.NamedWindows (getName)
@@ -325,6 +327,11 @@ manageHooks =
   , scratchpads_manageHooks
   ]
 
+startupHook' = do
+  startupHook def
+  -- The default cross cursor is invisible when on top of a white window.
+  setDefaultCursor xC_left_ptr
+
 main =
   xmonad $ ewmh def
   {
@@ -333,9 +340,10 @@ main =
     focusedBorderColor = active_color,
     normalBorderColor = inactive_color,
     layoutHook = layout,
-    logHook = updatePointerScreen,
+    logHook = logHook def <+> updatePointerScreen,
     manageHook = composeAll manageHooks,
-    handleEventHook = handleEventHook def <+> fullscreenEventHook
+    handleEventHook = handleEventHook def <+> fullscreenEventHook,
+    startupHook = startupHook'
   }
   `removeKeysP` [
     "M-S-<Return>",
