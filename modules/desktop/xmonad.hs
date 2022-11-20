@@ -9,16 +9,17 @@ import XMonad
 import XMonad.Actions.CopyWindow (copyToAll, killAllOtherCopies)
 import XMonad.Actions.FloatKeys
 import XMonad.Actions.Minimize
--- import XMonad.Actions.WindowBringer
+import XMonad.Actions.SpawnOn
+import XMonad.Hooks.EwmhDesktops
 import XMonad.Layout.BoringWindows
 import XMonad.Layout.Decoration
-import XMonad.Layout.Spacing
+import XMonad.Layout.LayoutModifier
 import XMonad.Layout.Minimize
 import XMonad.Layout.NoBorders
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.Simplest
+import XMonad.Layout.Spacing
 import XMonad.Layout.SubLayouts
-import XMonad.Layout.LayoutModifier
 import XMonad.Layout.Tabbed
 import XMonad.ManageHook
 import XMonad.Prompt
@@ -31,9 +32,8 @@ import XMonad.Util.NamedScratchpad
 import XMonad.Util.NamedWindows (getName)
 import XMonad.Util.Run
 import XMonad.Util.Types
-import XMonad.Hooks.EwmhDesktops
-import qualified XMonad.StackSet as W
 import qualified Data.Map as M
+import qualified XMonad.StackSet as W
 
 -- ========================================================================== --
 -- Utils
@@ -325,12 +325,15 @@ manageHooks =
   , title =? "Slack | mini panel" --> doIgnore -- Hide slack's minipanel
   , className =? "Pinentry" --> doF copyToAll -- Copy GPG prompt to every workspaces
   , scratchpads_manageHooks
+  , manageSpawn -- SpawnOn
   ]
 
 startupHook' = do
   startupHook def
   -- The default cross cursor is invisible when on top of a white window.
   setDefaultCursor xC_left_ptr
+  -- Start Firefox on startup so I don't have to wait when I eventually need it.
+  spawnOn "8" "firefox"
 
 main =
   xmonad $ ewmh def
