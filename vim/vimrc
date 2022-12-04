@@ -571,19 +571,22 @@ nnoremap <C-w>O :tabonly<return>
 nnoremap <C-w>N :tab split<return>
 
 " Terminal window mappings
-" Use a simpler key to type for termwinkey. @@ sends @ to the terminal.
-" C-hjkl are bound for window/tab navigation, prefix with @ to send.
-set termwinkey=@
-tnoremap <C-j> @w
-tnoremap <C-k> @W
-tnoremap @<C-h> <C-h>
-tnoremap @<C-j> <C-j>
-tnoremap @<C-k> <C-k>
-tnoremap @<C-l> <C-l>
-tnoremap @. @""
-tnoremap @! @:term<space>
-tnoremap <C-h> @gT
-tnoremap <C-l> @gt
+" Use a simpler key to type for termwinkey. Type twice to send to terminal.
+set termwinkey=<Esc>
+" Normal mode mappings I often use
+tnoremap <Esc>. <Esc>""
+tnoremap <Esc>! <Esc>:term<space>
+" Window/tab switching
+tnoremap <C-j> <Esc>w
+tnoremap <C-k> <Esc>W
+tnoremap <C-h> <Esc>gT
+tnoremap <C-l> <Esc>gt
+
+" Prefix with termwinkey to send to terminal.
+tnoremap <Esc><C-h> <C-h>
+tnoremap <Esc><C-j> <C-j>
+tnoremap <Esc><C-k> <C-k>
+tnoremap <Esc><C-l> <C-l>
 
 let g:runtest_buf = -1
 
