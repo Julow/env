@@ -10,6 +10,7 @@
     modules/display_manager.nix
     modules/gallery_wallpaper.nix
     modules/keyboard
+    modules/keyring.nix
     modules/screen_off.nix
     modules/spacetelescope_wallpaper
     modules/virtualisation.nix
@@ -149,10 +150,11 @@
   home-manager.useUserPackages = true;
 
   # Modules
+  modules.desktop.enable = true;
+  modules.display_manager = { enable = true; user = main_user; };
   modules.gallery_wallpaper.enable = true;
   modules.keyboard.enable = true;
-  modules.display_manager = { enable = true; user = main_user; };
-  modules.desktop.enable = true;
+  modules.keyring.enable = true;
   modules.screen_off = { enable = true; locked = 15; unlocked = 3000; };
 
   # Enable xdg portals
