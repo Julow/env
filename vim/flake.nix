@@ -49,6 +49,8 @@
       flake = false;
       url = "github:ocaml/merlin";
     };
+    diffchar.flake = false;
+    diffchar.url = "github:rickhowe/diffchar.vim";
   };
   outputs = inputs:
     let
