@@ -58,4 +58,15 @@ for dev in /sys/class/rfkill/*; do
   fi
 done
 
+# CPU temperature
+temps=()
+temp_st=ok
+while read _ _ st temp _; do
+  st=${st%,}
+  if ! [[ $st = ok ]]; then temp_st=$st; fi
+  temps+=("$temp")
+done < <(acpi -t)
+if [[ $temp_st = ok ]]; then temp_st=""; else temp_st=" <span foreground=\"red\">($temp_st)</span>"; fi
+INFOS+=("<b>Temp</b> ${temps[*]}$temp_st")
+
 dunstify -r "101010" -a "Status" -u low "" "`IFS=$'\n'; echo "${INFOS[*]}"`"
