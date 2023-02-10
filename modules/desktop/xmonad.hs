@@ -108,18 +108,29 @@ instance XPrompt XPrompt_autocomplete where
   completionFunction (XPrompt_autocomplete _ compl _) = compl
   modeAction (XPrompt_autocomplete _ _ action) _ q = action q
 
-password_prompt prompt_conf = do
+mk_password_prompt = do
   home <- home_dir
   let pass_dir = home ++ "/notes/pass/"
   let pass_script = home ++ "/notes/_pass.sh"
   ps <- io $ getDirectoryContents pass_dir
   let ps' = filter (not . isPrefixOf ".") ps
   let compl = compl_no_empty $ compl_fun_from_list ps'
-  let type_password p = safeSpawn pass_script [ "type", "-n", pass_dir ++ p ]
-  let copy_password p = safeSpawn pass_script [ "get", "-n", pass_dir ++ p ]
+  return $ \prompt_str pass_args ->
+    let run p = safeSpawn pass_script (pass_args $ pass_dir ++ p) in
+    XPT (XPrompt_autocomplete prompt_str compl run)
+
+password_type_prompt prompt_conf = do
+  mk <- mk_password_prompt
   mkXPromptWithModes [
-      (XPT (XPrompt_autocomplete "Type Password: " compl type_password)),
-      (XPT (XPrompt_autocomplete "Copy Password: " compl copy_password))
+      (mk "Type Password: " (\p -> [ "type", "-n", p ])),
+      (mk "Type ID: " (\p -> [ "type", "-n", "-K", "id", p ]))
+    ] prompt_conf
+
+password_copy_prompt prompt_conf = do
+  mk <- mk_password_prompt
+  mkXPromptWithModes [
+      (mk "Copy Password: " (\p -> [ "get", "-n", p ])),
+      (mk "Copy ID: " (\p -> [ "get", "-n", "-K", "id", p ]))
     ] prompt_conf
 
 -- ========================================================================== --
@@ -394,7 +405,8 @@ main =
     ("M-o", workspace_prompt prompt_conf),
 
     -- Password prompt
-    ("M-;", password_prompt (prompt_conf { changeModeKey = xK_semicolon })),
+    ("M-;", password_type_prompt (prompt_conf { changeModeKey = xK_semicolon })),
+    ("M-S-;", password_copy_prompt (prompt_conf { changeModeKey = xK_semicolon })),
 
     -- Dunst shortcuts
     ("M-r", safeSpawn "dunstctl" ["close"]),
