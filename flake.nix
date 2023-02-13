@@ -22,7 +22,9 @@
           inherit patches;
         };
 
-      nixpkgs = patch_nixpkgs inputs.nixpkgs [ ];
+      nixpkgs = patch_nixpkgs inputs.nixpkgs [
+        patches/216143-ruby-unremove-mail.patch
+      ];
 
       mk_nixos = path:
         import "${nixpkgs}/nixos/lib/eval-config.nix" {
