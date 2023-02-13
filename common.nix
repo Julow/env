@@ -59,6 +59,11 @@
       }
     ];
   };
+  # Disable socket activation, which is annoying with bluetooth and break web
+  # applications on first launch.
+  services.pipewire.socketActivation = false;
+  systemd.user.services.pipewire.wantedBy = [ "graphical-session.target" ];
+  systemd.user.services.pipewire-pulse.wantedBy = [ "graphical-session.target" ];
 
   networking.hostName = host_name;
   time.timeZone = "Europe/Paris";
