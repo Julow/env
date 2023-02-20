@@ -7,6 +7,7 @@ import System.Directory
 import System.Environment
 import XMonad
 import XMonad.Actions.CopyWindow (copyToAll, killAllOtherCopies)
+import XMonad.Actions.CycleRecentWS (toggleRecentWS)
 import XMonad.Actions.FloatKeys
 import XMonad.Actions.Minimize
 import XMonad.Actions.SpawnOn
@@ -376,6 +377,9 @@ main =
     ("M-j", focusDown),
     ("M-m", markBoring),
     ("M-S-m", clearBoring),
+
+    -- Back and forth between two workspaces
+    ("M-<Tab>", toggleRecentWS),
 
     -- Minimize/restore
     ("M-d", withFocused minimizeWindow),
