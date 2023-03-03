@@ -108,6 +108,7 @@
     pinta
     thunderbird
     chromium
+    nheko
     # Desktop
     xdotool dmenu
     pavucontrol mpv xclip
