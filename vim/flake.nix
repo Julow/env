@@ -51,7 +51,12 @@
     };
     diffchar.flake = false;
     diffchar.url = "github:rickhowe/diffchar.vim";
+    repeat.flake = false;
+    repeat.url = github:tpope/vim-repeat;
+    endwise.flake = false;
+    endwise.url = github:Julow/vim-endwise/add-ocaml;
   };
+
   outputs = inputs:
     let
       pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;

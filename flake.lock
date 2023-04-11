@@ -112,6 +112,23 @@
         "type": "github"
       }
     },
+    "endwise": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1681204813,
+        "narHash": "sha256-02bdUBOwboS41W3cSx/dVINHbCfl7L85BhAL+GbJfEU=",
+        "owner": "Julow",
+        "repo": "vim-endwise",
+        "rev": "b1e0811cf5c9f0ab4527b86f7d6ac263db42e174",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Julow",
+        "ref": "add-ocaml",
+        "repo": "vim-endwise",
+        "type": "github"
+      }
+    },
     "fugitive": {
       "flake": false,
       "locked": {
@@ -361,6 +378,22 @@
         "type": "github"
       }
     },
+    "repeat": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1611544268,
+        "narHash": "sha256-8rfZa3uKXB3TRCqaDHZ6DfzNbm7WaYnLvmTNzYtnKHg=",
+        "owner": "tpope",
+        "repo": "vim-repeat",
+        "rev": "24afe922e6a05891756ecf331f39a1f6743d3d5a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tpope",
+        "repo": "vim-repeat",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "home-manager": "home-manager",
@@ -426,6 +459,7 @@
         "dirvish": "dirvish",
         "dwm": "dwm",
         "easy-align": "easy-align",
+        "endwise": "endwise",
         "fugitive": "fugitive",
         "futhark": "futhark",
         "gv": "gv",
@@ -440,13 +474,14 @@
         ],
         "ocaml": "ocaml",
         "ocp-indent": "ocp-indent",
+        "repeat": "repeat",
         "sneak": "sneak",
         "surround": "surround",
         "xdg_open": "xdg_open"
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-9TJLZffIlI04GxusMg27l8+Qlp35n7IZ1DCEjeRJFbk=",
+        "narHash": "sha256-8N2cEPN0jhpIAWdFRiAiLaR3d8SbBMLTcMb2f/xYEAQ=",
         "path": "./vim",
         "type": "path"
       },
