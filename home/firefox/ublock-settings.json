@@ -1,6 +1,16 @@
 {
+  "timeStamp": 1680875671101,
+  "version": "1.48.4",
   "userSettings": {
-    "externalLists": "https://raw.githubusercontent.com/quenhus/uBlock-Origin-dev-filter/6c34dfd34c14aa7ef7ea7ba95be6518b535d5f16/dist/google_duckduckgo/all.txt\nhttps://www.fanboy.co.nz/enhancedstats.txt\nhttps://www.i-dont-care-about-cookies.eu/abp/"
+    "advancedUserEnabled": true,
+    "externalLists": "https://raw.githubusercontent.com/quenhus/uBlock-Origin-dev-filter/6c34dfd34c14aa7ef7ea7ba95be6518b535d5f16/dist/google_duckduckgo/all.txt\nhttps://www.fanboy.co.nz/enhancedstats.txt\nhttps://www.i-dont-care-about-cookies.eu/abp/\nhttps://filters.adtidy.org/extension/ublock/filters/3.txt\nhttps://filters.adtidy.org/extension/ublock/filters/3.txt\nhttps://filters.adtidy.org/extension/ublock/filters/3.txt\nhttps://filters.adtidy.org/extension/ublock/filters/3.txt\nhttps://filters.adtidy.org/extension/ublock/filters/3.txt\nhttps://filters.adtidy.org/extension/ublock/filters/3.txt\nhttps://filters.adtidy.org/extension/ublock/filters/3.txt\nhttps://filters.adtidy.org/extension/ublock/filters/3.txt",
+    "firewallPaneMinimized": false,
+    "importedLists": [
+      "https://raw.githubusercontent.com/quenhus/uBlock-Origin-dev-filter/6c34dfd34c14aa7ef7ea7ba95be6518b535d5f16/dist/google_duckduckgo/all.txt",
+      "https://www.fanboy.co.nz/enhancedstats.txt",
+      "https://www.i-dont-care-about-cookies.eu/abp/"
+    ],
+    "popupPanelSections": 63
   },
   "selectedFilterLists": [
     "user-filters",
@@ -30,5 +40,18 @@
     "https://www.i-dont-care-about-cookies.eu/abp/",
     "https://raw.githubusercontent.com/quenhus/uBlock-Origin-dev-filter/6c34dfd34c14aa7ef7ea7ba95be6518b535d5f16/dist/google_duckduckgo/all.txt"
   ],
+  "hiddenSettings": {
+    "filterAuthorMode": true
+  },
+  "whitelist": [
+    "about-scheme",
+    "moz-extension-scheme",
+    "www.credit-cooperatif.coop",
+    "www.lemonde.fr",
+    "wyciwyg-scheme"
+  ],
+  "dynamicFilteringString": "behind-the-scene * * noop\nbehind-the-scene * inline-script noop\nbehind-the-scene * 1p-script noop\nbehind-the-scene * 3p-script noop\nbehind-the-scene * 3p-frame noop\nbehind-the-scene * image noop\nbehind-the-scene * 3p noop",
+  "urlFilteringString": "",
+  "hostnameSwitchesString": "no-large-media: behind-the-scene false\nno-csp-reports: * true",
   "userFilters": "! Never disable scrolling on the body.\n*##body:style(overflow: visible !important;)\n\n! 1/20/2019\nstackoverflow.com###noscript-warning\nvi.stackexchange.com###noscript-warning\n\n! 2022-01-26 https://old.reddit.com\nold.reddit.com##.in.login-modal.fade.modal\nold.reddit.com##.in.fade.modal-backdrop\n\n! 2022-01-28 https://twitter.com\ntwitter.com###layers\n\n! 2022-02-13 https://www.backmarket.fr\nwww.backmarket.fr##.bg-opacity-80.bg-black.right-0.left-0.bottom-0.top-0.absolute\nwww.backmarket.fr##.overflow-auto.px-6.h-full\n\n! 2022-03-02 https://www.ovh.com\nwww.ovh.com##.ng-isolate-scope manager-cookie-policy-banner,.modal-backdrop manager-cookie-policy-banner-backdrop,#managerPreloader\nwww.ovh.com##.manager-cookie-policy-banner,.modal-backdrop manager-cookie-policy-banner-backdrop,ovh-chatbot\nwww.ovh.com##.modal-backdrop\n\n! 2022-04-10 https://www.lemonde.fr\n! Remove new cookie popup\nwww.lemonde.fr##body:style(overflow:auto!important)\nwww.lemonde.fr##.gdpr-lmd-wall\n"
 }
