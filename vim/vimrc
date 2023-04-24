@@ -351,9 +351,15 @@ hi TabLineFill ctermbg=lightgrey ctermfg=none cterm=none
 hi S_fugitive ctermbg=lightgrey ctermfg=magenta cterm=none
 hi S_workspace ctermbg=lightgrey ctermfg=green cterm=none
 
+function! Gdiffb(ref_opt)
+  let ref = a:ref_opt == "" ? "MAIN" : a:ref_opt
+  let base = system("git merge-base '" . ref . "' HEAD")
+  execute ':Gdiffsplit ' . base
+endfunction
+
 " :Gdiffb
 " Opens vim-fugitive split diff with the merge-base
-command -nargs=1 -complete=custom,fugitive#CompleteObject Gdiffb execute ':Gdiffsplit ' . system("git merge-base " . <q-args> . " HEAD")
+command! -nargs=? -complete=custom,fugitive#CompleteObject Gdiffb call Gdiffb(<q-args>)
 
 " \g to open fugitive status
 nnoremap <Leader>g :tab Git<return>
