@@ -25,8 +25,9 @@ let
 
   cascade_theme = pkgs.fetchgit {
     url = "https://github.com/andreasgrafen/cascade";
-    rev = "a72936632ca48dcaed983286cee68688fc2f8eb2";
-    sha256 = "0v3mhxg7z4mziv71k4q83x47vyly30ja9wl6dsmp3zq6i9z9z6ah";
+    # https://github.com/andreasgrafen/cascade/pull/88
+    rev = "1f81d4c031f44e5a6fda62e75c75fd123f657ee9";
+    sha256 = "sha256-RVvjeycu9oZn60D2U4RQzfigmR85VPFu/Z6fXy3/W6I=";
   };
 
   userChrome = lib.concatMapStringsSep "\n" builtins.readFile [
