@@ -45,19 +45,19 @@ in {
   programs.firefox = {
     enable = true;
 
-    extensions = with firefox-addons; [
-      ublock-origin
-      privacy-badger
-      vimium
-      clearurls
-      awesome-rss
-      redirector
-    ];
-
     profiles.hm = {
       bookmarks = import ./bookmarks.nix;
       settings = import ./prefs.nix;
       inherit userChrome;
+
+      extensions = with firefox-addons; [
+        ublock-origin
+        privacy-badger
+        vimium
+        clearurls
+        awesome-rss
+        redirector
+      ];
     };
 
     package = pkgs.firefox.override {

@@ -3,7 +3,6 @@
 {
   imports = [
     (import ../../common.nix { main_user = "juloo"; host_name = "jules-pc"; })
-    ./audio.nix
     ./hardware-configuration.nix
   ];
 
