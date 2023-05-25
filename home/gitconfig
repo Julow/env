@@ -9,7 +9,7 @@
 	branch = less -FX
 
 [pretty]
-	custom = tformat:%C(auto)%h %<(12,trunc)%C(cyan)%an%C(reset)%C(black bold)%>(13)%ar%C(auto)%d %s
+	custom = tformat:%C(auto)%h %<(12,trunc)%C(cyan)%an%C(reset)%C(green)%d%C(auto) %s %C(brightblack)(%ar)
 
 [rebase]
 	instructionFormat = "tformat:%<(8,trunc)%an%d %s # %ar"
@@ -26,7 +26,7 @@
 
 [alias]
 	k = checkout
-  b = branch -avv --sort=-authordate --no-merge MAIN --list
+  b = "!f() { : git branch; git branch -vv --sort=-committerdate --no-merge MAIN --list --format=\"%(if)%(HEAD)%(then)%(color:reverse)%(end)%(color:cyan)%(align:32,left)%(refname:short)%(end)%(color:default) %(color:green)%(align:12)%(committerdate:relative)%(end)%(color:default) %(subject) %(color:brightblack)(%(authorname)) %(upstream:remotename)%(color:default)%(if)%(upstream:track)%(then) %(color:yellow)%(upstream:track)%(end)\"; }; f"
 	d = diff --stat --summary -p
 	ds = diff --stat --summary -p --staged
 	l = "!f() { : git log; if [ $# -eq 0 ]; then set -- \"-n15\"; fi; git customlog \"$@\"; }; f"
