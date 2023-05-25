@@ -19,5 +19,12 @@
   # Screens
   services.xserver.dpi = 128;
 
+  # Power off HDD when it's not in use
+  # The HDD contains the boot partition because the mother board can't boot on
+  # the SSD.
+  services.udev.extraRules = ''
+    ACTION=="add", SUBSYSTEM=="block", KERNEL=="sda", ATTR{queue/rotational}=="1", RUN+="${pkgs.hdparm}/bin/hdparm -S 5 /dev/sda"
+  '';
+
   system.stateVersion = "21.11";
 }
