@@ -9,6 +9,7 @@
     modules/desktop
     modules/display_manager.nix
     modules/gallery_wallpaper.nix
+    modules/gc_clean_profiles
     modules/keyboard
     modules/keyring.nix
     modules/screen_off.nix
@@ -139,6 +140,13 @@
   modules.keyboard.enable = true;
   modules.keyring.enable = true;
   modules.screen_off = { enable = true; locked = 15; unlocked = 3000; };
+
+  # Automatic GC
+  modules.gc_clean_profiles.enable = true;
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+  };
 
   # Enable xdg portals
   xdg.portal = {
