@@ -42,7 +42,11 @@ in {
 
     systemd.services.gc_clean_profiles = {
       wantedBy = [ "nix-gc.service" ];
-      serviceConfig = { ExecStart = clean_profiles; };
+      before = [ "nix-gc.service" ];
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = clean_profiles;
+      };
     };
   };
 }
