@@ -1,6 +1,6 @@
 { main_user, host_name }:
 
-{ config, pkgs, nixpkgs, home-manager, ... }@inputs:
+{ config, pkgs, nixpkgs, home-manager, nix-gc-env, ... }@inputs:
 
 {
   imports = [
@@ -9,13 +9,13 @@
     modules/desktop
     modules/display_manager.nix
     modules/gallery_wallpaper.nix
-    modules/gc_clean_profiles
     modules/keyboard
     modules/keyring.nix
     modules/screen_off.nix
     modules/spacetelescope_wallpaper
     modules/virtualisation.nix
     home-manager.nixosModule
+    nix-gc-env.nixosModules.default
   ];
 
   # Quiet and fast boot
@@ -142,10 +142,10 @@
   modules.screen_off = { enable = true; locked = 15; unlocked = 3000; };
 
   # Automatic GC
-  modules.gc_clean_profiles.enable = true;
   nix.gc = {
     automatic = true;
     dates = "weekly";
+    delete_generations = "+5";
   };
 
   # Enable xdg portals

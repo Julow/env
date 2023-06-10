@@ -296,6 +296,21 @@
         "type": "github"
       }
     },
+    "nix-gc-env": {
+      "locked": {
+        "lastModified": 1686434573,
+        "narHash": "sha256-epuD4iYfapsQ5BdWynYnHP0Ipgp+Nk0zfowDqlwxvaw=",
+        "owner": "Julow",
+        "repo": "nix-gc-env",
+        "rev": "4753f3c95891b711e29cb6a256807d22e16cf9cd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Julow",
+        "repo": "nix-gc-env",
+        "type": "github"
+      }
+    },
     "nixos-hardware": {
       "locked": {
         "lastModified": 1684899633,
@@ -397,6 +412,7 @@
     "root": {
       "inputs": {
         "home-manager": "home-manager",
+        "nix-gc-env": "nix-gc-env",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
         "nur_rycee": "nur_rycee",

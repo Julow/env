@@ -10,6 +10,7 @@
     nur_rycee.flake = false;
     vim_plugins.url = "path:./vim";
     vim_plugins.inputs.nixpkgs.follows = "nixpkgs";
+    nix-gc-env.url = "github:Julow/nix-gc-env";
   };
 
   outputs = inputs:
