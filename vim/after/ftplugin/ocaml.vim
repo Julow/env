@@ -48,7 +48,8 @@ let g:ripple_repls = {
     \ }
 
 " Highlight types
-hi link ocamlTypeConstr Normal
+hi link ocamlTypeConstr Type
 hi link ocamlTypeBuiltin Type
-hi link ocamlTypeVar Identifier
+hi link ocamlTypeIdentifier Identifier
+hi link ocamlTypeVar Special
 hi link ocamlTypeAnyVar Special
