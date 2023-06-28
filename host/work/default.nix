@@ -39,6 +39,11 @@
     };
   };
 
+  # Users
+  users.users.jules.hashedPassword = "$y$j9T$6xTJCo5/OPSVZUSVTgoem.$ByzkXeNFR/i6LhytD30zDMGMVwDtOEG0VeOuAoLfi28";
+  users.users.root.hashedPassword = "$y$j9T$RF8MiWxUXjB/k53DeUEXA/$np1s/L3SszNn6NqJCATAR2iR1dpWEP5ZdJMf2TPn4Q3";
+  users.mutableUsers = false;
+
   boot.initrd.availableKernelModules = [ "thinkpad_acpi" ];
 
   # Other
