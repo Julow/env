@@ -89,10 +89,10 @@
     nheko
     # Desktop
     xdotool dmenu
-    pavucontrol mpv xclip
+    pavucontrol xclip
     networkmanager
     # Other
-    nixos-deploy graphviz quickemu
+    nixos-deploy graphviz quickemu yt-dlp
   ];
 
   programs.vim = {
