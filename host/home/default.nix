@@ -18,12 +18,20 @@
   # Screens
   services.xserver.dpi = 128;
 
-  # Power off HDD when it's not in use
-  # The HDD contains the boot partition because the mother board can't boot on
-  # the SSD.
-  services.udev.extraRules = ''
-    ACTION=="add", SUBSYSTEM=="block", KERNEL=="sda", ATTR{queue/rotational}=="1", RUN+="${pkgs.hdparm}/bin/hdparm -S 5 /dev/sda"
-  '';
+  # The HDD only contains the boot partition because the mother board can't
+  # boot from the SSD and can be turned off to reduce noise and power.
+  # hdparm -S 5 doesn't set the standaby timer to 25s as expected but to 10min
+  # on this hard drive. Use a systemd service to turn the disk off immediately
+  # after boot and set the timer to 10min if it ever needed to wake up.
+  systemd.services.sda_sleep = {
+    wantedBy = [ "multi-user.target" ];
+    script = ''
+      ${pkgs.hdparm}/bin/hdparm -S 5 -y /dev/sda
+    '';
+  };
+  # Set "noatime" to avoid waking up before shutdown when the file system
+  # wasn't modified.
+  fileSystems."/boot".options = [ "defaults" "noatime" ];
 
   system.stateVersion = "21.11";
 }
