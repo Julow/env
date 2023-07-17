@@ -4,6 +4,9 @@ let no_plugin_maps = 1
 " Disable ocp-indent setting the comments option
 let no_ocaml_comments = 1
 
+" Set $OPAMSWITCH
+let g:opam_set_switch = 1
+
 setlocal commentstring=(*\ %s\ *)
 
 setlocal expandtab

@@ -291,11 +291,11 @@
     "ocaml": {
       "flake": false,
       "locked": {
-        "lastModified": 1688402254,
-        "narHash": "sha256-pMmBpewkvRDHYovKO9z1CIqoWv6H0pNFG15B5E/btpo=",
+        "lastModified": 1688478074,
+        "narHash": "sha256-IJCTKCNJerfNI3xvVBm0OhFyBPuJU2xYKrjeRpJslQY=",
         "owner": "Julow",
         "repo": "vim-ocaml",
-        "rev": "e78edf76f7da51cb001477e8f23489f0c7c056e9",
+        "rev": "d78742915e5a12c756ea7fb0b8100780b4f5b150",
         "type": "github"
       },
       "original": {
