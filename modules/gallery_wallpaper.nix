@@ -8,8 +8,10 @@ with lib;
 let
   conf = config.modules.gallery_wallpaper;
 
+  feh = pkgs.feh.override { inherit (pkgs) imlib2; };
+
   refresh_wallpaper = pkgs.writeShellScript "refresh_wallpaper" ''
-    ${pkgs.feh}/bin/feh --bg-fill --recursive --randomize ~/Pictures/wallpaper
+    ${feh}/bin/feh --bg-fill --recursive --randomize ~/Pictures/wallpaper
   '';
 
 in {
@@ -24,6 +26,9 @@ in {
     services.xserver.displayManager.sessionCommands = ''
       if [[ -e ~/.fehbg ]]; then ~/.fehbg & else ${refresh_wallpaper} & fi
     '';
+
+    # Reduce closure size
+    services.xserver.desktopManager.wallpaper.enable = false;
 
     # Refresh the wallpaper twice a week.
     systemd.user.services.gallery_wallpaper = {

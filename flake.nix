@@ -24,6 +24,7 @@
         };
 
       nixpkgs = patch_nixpkgs inputs.nixpkgs [
+        patches/desktop-managers-wallpaper-disable.patch
       ];
 
       mk_nixos = path:
