@@ -86,7 +86,7 @@
     pinta
     thunderbird
     chromium
-    nheko
+    fluffychat
     # Desktop
     xdotool dmenu
     pavucontrol xclip
