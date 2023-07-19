@@ -40,6 +40,12 @@
   "network.cookie.lifetimePolicy" = 2;
   "pref.privacy.disable_button.cookie_exceptions" = false;
 
+  # Disable push notifications
+  "dom.webnotifications.enabled" = false;
+  "dom.webnotifications.serviceworker.enabled" = false;
+  "dom.pushconnection.enabled" = false;
+  "dom.push.enabled" = false;
+
   # Disable annoyances
   "extensions.htmlaboutaddons.recommendations.enabled" = false;
   "browser.urlbar.showSearchSuggestionsFirst" = false;
