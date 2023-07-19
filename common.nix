@@ -43,8 +43,10 @@
   systemd.user.services.pipewire.wantedBy = [ "graphical-session.target" ];
   systemd.user.services.pipewire-pulse.wantedBy = [ "graphical-session.target" ];
 
+  # Locale
   networking.hostName = host_name;
   time.timeZone = "Europe/Paris";
+  i18n.supportedLocales = [ "fr_FR.UTF-8/UTF-8" "en_US.UTF-8/UTF-8" ];
 
   # Nixpkgs config and package overrides
   nixpkgs.config.allowUnfree = true;
@@ -74,25 +76,25 @@
 
   environment.systemPackages = with pkgs; [
     # Base tools
-    curl gnumake zip unzip jq fd fzf ripgrep git
+    curl gnumake zip unzip jq fd ripgrep git
     python3 sqlite
-    rclone git-annex git-annex-remote-rclone
     # Admin
-    mkpasswd rsync nix-prefetch-git
+    mkpasswd rsync
     htop acpi
-    gnupg gitAndTools.gitRemoteGcrypt git-annex
+    gnupg gitAndTools.gitRemoteGcrypt
+    rclone git-annex git-annex-remote-rclone
     encfs-gpg
     # Apps
-    pinta
+    gimp
     thunderbird
     chromium
     fluffychat
     # Desktop
-    xdotool dmenu
+    dmenu
     pavucontrol xclip
     networkmanager
     # Other
-    nixos-deploy graphviz quickemu yt-dlp
+    nixos-deploy graphviz yt-dlp
   ];
 
   programs.vim = {
