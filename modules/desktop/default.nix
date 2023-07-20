@@ -28,12 +28,16 @@ in {
       };
     };
 
-    services.picom = {
-      enable = true;
-    };
+    services.picom = { enable = true; };
 
     # TODO: Don't add to global environment
-    environment.systemPackages =
-      [ tools pkgs.xterm pkgs.dunst pkgs.playerctl pkgs.autorandr ];
+    environment.systemPackages = with pkgs; [
+      tools
+      xterm
+      dunst
+      playerctl
+      autorandr
+      xdotool
+    ];
   };
 }
