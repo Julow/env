@@ -23,11 +23,15 @@ let
     meta = { };
   };
 
-  cascade_theme = pkgs.fetchgit {
-    url = "https://github.com/andreasgrafen/cascade";
-    # https://github.com/andreasgrafen/cascade/pull/88
-    rev = "1f81d4c031f44e5a6fda62e75c75fd123f657ee9";
-    sha256 = "sha256-RVvjeycu9oZn60D2U4RQzfigmR85VPFu/Z6fXy3/W6I=";
+  cascade_theme = pkgs.applyPatches {
+    src = pkgs.fetchgit {
+      # url = "https://github.com/andreasgrafen/cascade";
+      # https://github.com/andreasgrafen/cascade/pull/88
+      url = "https://github.com/karamanliev/cascade";
+      rev = "9403343b9fb055767e32b7deb5c9a9c3c078b76e";
+      sha256 = "sha256-v6BcTyq57VcQ0pCErpnUgluelqlStmA1GnGJWGSFeIU=";
+    };
+    patches = [ ./cascade-show-urlbar-buttons.patch ];
   };
 
   userChrome = lib.concatMapStringsSep "\n" builtins.readFile [

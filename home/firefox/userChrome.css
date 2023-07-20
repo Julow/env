@@ -24,10 +24,18 @@
   display: -moz-box !important;
 }
 
-/* Maximize the urlbar when focused, hide otherwise. Go with the Cascade theme. */
+/** Cascade theme tweaks */
+
+/* Maximize the urlbar when focused, hide otherwise. */
 :root {
   --uc-urlbar-min-width: 0vw !important;
   --uc-urlbar-max-width: 100vw !important;
+}
+
+/* Restore URL bar buttons. */
+#page-action-buttons > *
+{
+  display: -moz-inline-block !important;
 }
 
 /* Full size tabs */
@@ -37,7 +45,7 @@
   max-width: 100vw !important;
 }
 
-/* More constrast in tab colors (Cascade theme). */
+/* More constrast in tab colors. */
 @media (prefers-color-scheme: dark) { :root {
   --uc-base-colour: #131516 !important;
   --uc-highlight-colour: #0c1112 !important;
