@@ -879,6 +879,8 @@ function! Diff()
 endfunction
 
 command! Diff call Diff()
+" Clear diff on Ctrl+C
+autocmd User ClearHighlight diffoff!
 
 " Quick access to files with ':find', abbreviated to 'R'
 nnoremap R :sfind |
