@@ -273,7 +273,7 @@ set noruler
 set noshowmode
 
 " Show project-wide informations on the right
-function Tabline()
+function! Tabline()
   let s = ""
   let curr_tp = tabpagenr()
   for i in range(1, tabpagenr("$"))
@@ -286,7 +286,7 @@ function Tabline()
   return s
 endfunction
 
-function Tabline_label(i)
+function! Tabline_label(i)
   let buflist = tabpagebuflist(a:i)
   let winnr = tabpagewinnr(a:i)
   let buf = buflist[winnr - 1]
@@ -644,7 +644,7 @@ endfunction
 
 let g:fd_args = "--follow"
 
-command -nargs=* -complete=dir Fd call Fd(<f-args>)
+command! -nargs=* -complete=dir Fd call Fd(<f-args>)
 
 " gf open file that don't exist
 nnoremap gf :e <cfile><return>
