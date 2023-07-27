@@ -9,6 +9,8 @@ set nocompatible
 set noswapfile
 
 set wildmenu
+set wildmode=longest:full
+set wildignorecase
 
 set mouse=a
 
@@ -36,13 +38,6 @@ let loaded_netrwPlugin = 1
 " Even if netrw is disabled, this is used by other plugins
 " (eg. 'xdg_open.vim')
 let g:netrw_gx = "<cfile>"
-
-" Useful when backspace is near the center of the keyboard
-nmap <Backspace> -
-
-" Shift+tab = escape
-inoremap <S-Tab> <Esc>
-vnoremap <S-Tab> <Esc>
 
 " Indent
 set smarttab
@@ -884,3 +879,8 @@ function! Diff()
 endfunction
 
 command! Diff call Diff()
+
+" Quick access to files with ':find', abbreviated to 'R'
+nnoremap R :sfind |
+" Not used on my system
+set path-=/usr/include
