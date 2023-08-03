@@ -30,6 +30,7 @@ let
     coreutils
     networkmanager
     xdotool
+    gnugrep
   ];
 in
 

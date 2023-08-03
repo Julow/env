@@ -436,6 +436,9 @@ main =
     ("<XF86AudioPlay>", safeSpawn "bash" ["play-pause.sh"]),
     ("<XF86AudioPrev>", safeSpawn "playerctl" ["previous"]),
     ("<XF86AudioNext>", safeSpawn "playerctl" ["next"]),
+    -- Mute built-in audio sink/source
+    ("S-<XF86AudioMicMute>", safeSpawn "builtin_audio.sh" ["toggle_mic"]),
+    ("S-<XF86AudioMute>", safeSpawn "builtin_audio.sh" ["toggle_speaker"]),
 
     -- Backlight keys
     ("<XF86MonBrightnessUp>", safeSpawn "brightness.sh" ["5"]),
