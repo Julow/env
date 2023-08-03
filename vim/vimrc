@@ -552,9 +552,9 @@ function! Quickfix_or_loclist()
   return get(t:, 'loclist_i', 0) > g:quickfix_i ? "l" : "c"
 endfunction
 
-" Bind \[ and \] to navigate the loclist or the quickfix list
-nnoremap <Leader>[ :<C-r>=Quickfix_or_loclist()<return>previous<return>
-nnoremap <Leader>] :<C-r>=Quickfix_or_loclist()<return>next<return>
+" Bind [q and ]q to navigate the loclist or the quickfix list
+nnoremap [q :<C-r>=Quickfix_or_loclist()<return>previous<return>
+nnoremap ]q :<C-r>=Quickfix_or_loclist()<return>next<return>
 
 " Other settings are unreliable.
 " <C-Enter> in qf is remapped to open a new window.
@@ -707,8 +707,8 @@ function s:diff_current_quickfix_entry() abort
 endfunction
 
 function! s:add_mappings() abort
-  nnoremap <leader>] :cnext <BAR> :call <sid>diff_current_quickfix_entry()<CR>
-  nnoremap <leader>[ :cprevious <BAR> :call <sid>diff_current_quickfix_entry()<CR>
+  nnoremap ]q :cnext <BAR> :call <sid>diff_current_quickfix_entry()<CR>
+  nnoremap [q :cprevious <BAR> :call <sid>diff_current_quickfix_entry()<CR>
   " Reset quickfix height. Sometimes it messes up after selecting another item
   11copen
   wincmd p
