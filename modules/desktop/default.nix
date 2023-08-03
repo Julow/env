@@ -38,6 +38,7 @@ in {
       playerctl
       autorandr
       xdotool
+      networkmanager_dmenu
     ];
   };
 }

@@ -371,6 +371,8 @@ main =
     ("M-a <Return>", safeSpawn "xterm" ["-e", "vim"]),
     ("M-a <Space>", safeSpawn "firefox" []),
     ("M-a m", safeSpawn "xterm" ["-e", "mail_client"]),
+    ("M-a r", safeSpawn "autorandr" ["--default", "default", "--change"]),
+    ("M-a e", safeSpawn "networkmanager_dmenu" []),
 
     -- BoringWindows
     ("M-k", focusUp),
@@ -443,9 +445,6 @@ main =
     -- Backlight keys
     ("<XF86MonBrightnessUp>", safeSpawn "brightness.sh" ["5"]),
     ("<XF86MonBrightnessDown>", safeSpawn "brightness.sh" ["-5"]),
-
-    -- Autorandr
-    ("M-a r", safeSpawn "autorandr" ["--default", "default", "--change"]),
 
     -- Restart without recompiling
     ("M-q", restart "xmonad" True)
