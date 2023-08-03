@@ -533,9 +533,28 @@ nnoremap \Q :call Format_buffer()<return>
 inoremap <C-=> <C-o>==
 nnoremap <C-=> ==
 
-" Bind \[ and \] to navigate between quickfixes
-nnoremap <Leader>[ :cprevious<return>
-nnoremap <Leader>] :cnext<return>
+" Incremented everytime the quickfix list is updated. [t:loclist_i] will be
+" set to [g:quickfix_i + 1] everytime the location list is updated.
+" Navigation mappings will affect the location list if
+" [t:loclist_i > g:quickfix_i], the quickfix list otherwise.
+let g:quickfix_i = 0
+function! Quickfix_increment()
+  let l:info = getwininfo(win_getid())[0]
+  if l:info.loclist
+    let t:loclist_i = g:quickfix_i + 1
+  elseif l:info.quickfix
+    let g:quickfix_i += 1
+  endif
+endfunction
+autocmd FileType qf call Quickfix_increment()
+
+function! Quickfix_or_loclist()
+  return get(t:, 'loclist_i', 0) > g:quickfix_i ? "l" : "c"
+endfunction
+
+" Bind \[ and \] to navigate the loclist or the quickfix list
+nnoremap <Leader>[ :<C-r>=Quickfix_or_loclist()<return>previous<return>
+nnoremap <Leader>] :<C-r>=Quickfix_or_loclist()<return>next<return>
 
 " Other settings are unreliable.
 " <C-Enter> in qf is remapped to open a new window.
