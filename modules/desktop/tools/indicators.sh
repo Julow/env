@@ -69,4 +69,9 @@ done < <(acpi -t)
 if [[ $temp_st = ok ]]; then temp_st=""; else temp_st=" <span foreground=\"red\">($temp_st)</span>"; fi
 INFOS+=("<b>Temp</b> ${temps[*]}$temp_st")
 
+# Microphone mute
+read _ mic_mute < <(pactl get-source-mute $(pactl get-default-source))
+if [[ $mic_mute = yes ]]; then mic_mute_s=Off; else mic_mute_s=On; fi
+INFOS+=("<b>Microphone</b> $mic_mute_s")
+
 dunstify -r "101010" -a "Status" -u low "" "`IFS=$'\n'; echo "${INFOS[*]}"`"

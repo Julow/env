@@ -19,6 +19,7 @@ let
     '';
 
   deps = with pkgs; [
+    pulseaudio # pactl
     pamixer
     playerctl
     brightnessctl
