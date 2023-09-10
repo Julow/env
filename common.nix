@@ -161,9 +161,4 @@
 
   # "multi-user.target" shouldn't wait on "network-online.target"
   systemd.targets.network-online.wantedBy = pkgs.lib.mkForce [];
-
-  # Support for 32bit games
-  hardware.opengl.driSupport32Bit = true;
-  hardware.opengl.extraPackages32 = with pkgs.pkgsi686Linux; [ libva ];
-  services.pipewire.alsa.support32Bit = true;
 }
