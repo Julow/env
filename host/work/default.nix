@@ -10,12 +10,6 @@
     nixos-hardware.nixosModules.lenovo-thinkpad-x1-6th-gen
   ];
 
-  # Boot
-  boot.loader.grub.device = "nodev";
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.systemd-boot.editor = false;
-
   # This screen has too much pixels
   services.xserver.dpi = 160;
 

@@ -23,7 +23,12 @@
   boot.consoleLogLevel = 3;
   boot.kernelParams = [ "quiet" "udev.log_priority=3" ];
   boot.loader.timeout = 2;
-  boot.loader.grub.configurationLimit = 20; # Don't keep an unlimited number of systems
+  boot.loader.systemd-boot = {
+    enable = true;
+    configurationLimit = 10;
+    editor = false;
+  };
+  boot.loader.efi.canTouchEfiVariables = true;
   networking.dhcpcd.wait = "background"; # Don't wait for dhcp before starting session
 
   networking.networkmanager.enable = true;
