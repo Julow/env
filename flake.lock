@@ -184,11 +184,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1693208669,
-        "narHash": "sha256-hHFaaUsZ860wvppPeiu7nJn/nXZjJfnqAQEu9SPFE9I=",
+        "lastModified": 1695108154,
+        "narHash": "sha256-gSg7UTVtls2yO9lKtP0yb66XBHT1Fx5qZSZbGMpSn2c=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "5bac4a1c06cd77cf8fc35a658ccb035a6c50cd2c",
+        "rev": "07682fff75d41f18327a871088d20af2710d4744",
         "type": "github"
       },
       "original": {
@@ -313,11 +313,11 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1693718952,
-        "narHash": "sha256-+nGdJlgTk0MPN7NygopipmyylVuAVi7OItIwTlwtGnw=",
+        "lastModified": 1695541019,
+        "narHash": "sha256-rs++zfk41K9ArWkDAlmBDlGlKO8qeRIRzdjo+9SmNFI=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "793de77d9f83418b428e8ba70d1e42c6507d0d35",
+        "rev": "61283b30d11f27d5b76439d43f20d0c0c8ff5296",
         "type": "github"
       },
       "original": {
@@ -329,11 +329,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1694048570,
-        "narHash": "sha256-PEQptwFCVaJ+jLFJgrZll2shQ9VI/7xVhrCYkJo8iIw=",
+        "lastModified": 1695559356,
+        "narHash": "sha256-kXZ1pUoImD9OEbPCwpTz4tHsNTr4CIyIfXb3ocuR8sI=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "4f77ea639305f1de0a14d9d41eef83313360638c",
+        "rev": "261abe8a44a7e8392598d038d2e01f7b33cf26d0",
         "type": "github"
       },
       "original": {
@@ -346,11 +346,11 @@
     "nur_rycee": {
       "flake": false,
       "locked": {
-        "lastModified": 1694161903,
-        "narHash": "sha256-gTh34qDhujcvJQ5Accm1XwhUTFwUwddFs60IcZGvzbE=",
+        "lastModified": 1695614564,
+        "narHash": "sha256-rtRddYV7fVN1LpTENxnbDsCSyb1VjYWHF9sn4+1NmLE=",
         "owner": "rycee",
         "repo": "nur-expressions",
-        "rev": "979070714a27334cfbed141a4cdd8a7cdddbf100",
+        "rev": "cefa95cd14c3ec4b2e23bb3d9e67315d4fc5029b",
         "type": "gitlab"
       },
       "original": {
@@ -482,7 +482,7 @@
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-NFRRR5Z4ql95kqy4QgwOCrbH6ExmKBWAbaBvEQUno9o=",
+        "narHash": "sha256-PJow3qVvp35fzk7uMaSsAwsMfjPm1awoPjrStCR1OOU=",
         "path": "./vim",
         "type": "path"
       },
