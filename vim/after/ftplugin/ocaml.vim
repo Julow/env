@@ -1,4 +1,4 @@
-" Disable ocaml-vim mappins
+" Disable ocaml-vim mappings
 let no_plugin_maps = 1
 
 " Disable ocp-indent setting the comments option
@@ -56,3 +56,16 @@ hi link ocamlTypeBuiltin Type
 hi link ocamlTypeIdentifier Identifier
 hi link ocamlTypeVar Special
 hi link ocamlTypeAnyVar Special
+
+" Override C-^ to switch between the .ml and .mli files.
+
+function! Ocaml_alternate(fname)
+  let l:base = fnamemodify(a:fname, ":.:r")
+  if a:fname =~? ".mli$"
+    return l:base . ".ml"
+  else
+    return l:base . ".mli"
+  endif
+endfunction
+
+nnoremap <buffer> <C-^> :e <C-r>=Ocaml_alternate(@%)<return><return>
