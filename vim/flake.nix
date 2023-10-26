@@ -55,6 +55,8 @@
     repeat.url = github:tpope/vim-repeat;
     endwise.flake = false;
     endwise.url = github:Julow/vim-endwise/add-ocaml;
+    vim-matchup.flake = false;
+    vim-matchup.url = github:andymass/vim-matchup;
   };
 
   outputs = inputs:

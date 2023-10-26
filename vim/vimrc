@@ -370,8 +370,7 @@ autocmd BufNewFile,BufRead *.tsv setlocal ft=tsv
 " Q to save file
 nnoremap Q :w<return>
 
-" Enable matchit
-packadd! matchit
+" Using plugin Matchup
 
 " Delete to the end of the line or to the end of the current matchit pair
 function! End_of_line_or_pair()
@@ -382,32 +381,44 @@ function! End_of_line_or_pair()
   call setpos('.', l:initial) " Restore cursor position
   " endofpair is on the same line but isn't under the cursor
   if l:initial[1] == l:endofpair[1] && l:initial[2] < l:endofpair[2]
-    normal v]%h
+    normal v
+    let l:endofpair[2] -= 1
+    call setpos('.', l:endofpair)
   else
     normal vg_
   endif
 endfunction
 
 " Text object for End_of_line_or_pair
-onoremap <silent> a% :<C-u>call End_of_line_or_pair()<return>
-vnoremap <silent> a% :<C-u>call End_of_line_or_pair()<return>
+onoremap <silent> a]% :<C-u>call End_of_line_or_pair()<return>
+vnoremap <silent> a]% :<C-u>call End_of_line_or_pair()<return>
 
-nmap D da%
-nmap C ca%
-nmap Y ya%
+" Automatic highlighting of containing pair
+let g:matchup_matchparen_deferred = 1
+let g:matchup_matchparen_hi_surround_always = 1
+hi MatchParen ctermfg=none ctermbg=lightgrey cterm=underline
+hi MatchWord ctermfg=none ctermbg=none cterm=underline
+
+let g:matchup_transmute_enabled = 1
+
+nmap D da]%
+nmap C ca]%
+nmap Y ya]%
 
 " Mapping for vim-surround with operator up
-nmap g( ysa%(
-nmap g) ysa%)
-nmap g{ ysa%{
-nmap g} ysa%}
-nmap g[ ysa%[
-nmap g] ysa%]
-nmap g"" ysa%"
-nmap g"' ysa%'
-nmap g"` ysa%`
-nmap g< ysa%<
-nmap g> ysa%>
+nmap g( ysa]%(
+nmap g) ysa]%)
+nmap g{ ysa]%{
+nmap g} ysa]%}
+nmap g[ ysa]%[
+nmap g] ysa]%]
+nmap g"" ysa]%"
+nmap g"' ysa]%'
+nmap g"` ysa]%`
+nmap g< ysa]%<
+nmap g> ysa]%>
+
+" -
 
 " Delete text without yanking
 nnoremap <Leader>d "_d
