@@ -92,7 +92,7 @@
     # Apps
     gimp
     thunderbird
-    chromium
+    google-chrome
     fluffychat
     # Desktop
     dmenu
