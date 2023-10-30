@@ -204,7 +204,7 @@ scratchpads = [
     scratch_prog "i" "strawberry" (className =? "strawberry") nonFloating,
     scratch_prog "o" "com.slack.Slack" (className =? "slack") nonFloating,
     scratch_prog "u" "fluffychat" (className =? "fluffychat") nonFloating,
-    scratch_prog "n" "notes" (title =? "Notes") nonFloating,
+    scratch_prog "n" "notes-workspace" (title =? "Notes") nonFloating,
     scratch_prog "t" "thunderbird" (className =? "Thunderbird") nonFloating
   ]
   where
