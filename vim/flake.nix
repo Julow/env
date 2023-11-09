@@ -53,8 +53,6 @@
     diffchar.url = "github:rickhowe/diffchar.vim";
     repeat.flake = false;
     repeat.url = github:tpope/vim-repeat;
-    vim-matchup.flake = false;
-    vim-matchup.url = github:andymass/vim-matchup;
     ultisnips.flake = false;
     ultisnips.url = github:SirVer/ultisnips;
   };

@@ -345,7 +345,6 @@
         "sneak": "sneak",
         "surround": "surround",
         "ultisnips": "ultisnips",
-        "vim-matchup": "vim-matchup",
         "xdg_open": "xdg_open"
       }
     },
@@ -394,22 +393,6 @@
       "original": {
         "owner": "SirVer",
         "repo": "ultisnips",
-        "type": "github"
-      }
-    },
-    "vim-matchup": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1693662630,
-        "narHash": "sha256-tHAJZyFvDFPfo7uWevIMAc+dMFi2qZI3vTnLC3KbGbA=",
-        "owner": "andymass",
-        "repo": "vim-matchup",
-        "rev": "6dbe108230c7dbbf00555b7d4d9f6a891837ef07",
-        "type": "github"
-      },
-      "original": {
-        "owner": "andymass",
-        "repo": "vim-matchup",
         "type": "github"
       }
     },

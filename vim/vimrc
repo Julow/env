@@ -370,7 +370,8 @@ autocmd BufNewFile,BufRead *.tsv setlocal ft=tsv
 " Q to save file
 nnoremap Q :w<return>
 
-" Using plugin Matchup
+" Enable matchit
+packadd! matchit
 
 " Delete to the end of the line or to the end of the current matchit pair
 function! End_of_line_or_pair()
@@ -392,14 +393,6 @@ endfunction
 " Text object for End_of_line_or_pair
 onoremap <silent> a]% :<C-u>call End_of_line_or_pair()<return>
 vnoremap <silent> a]% :<C-u>call End_of_line_or_pair()<return>
-
-" Automatic highlighting of containing pair
-let g:matchup_matchparen_deferred = 1
-let g:matchup_matchparen_hi_surround_always = 1
-hi MatchParen ctermfg=none ctermbg=lightgrey cterm=underline
-hi MatchWord ctermfg=none ctermbg=none cterm=underline
-
-let g:matchup_transmute_enabled = 1
 
 nmap D da]%
 nmap C ca]%
