@@ -57,6 +57,8 @@
     endwise.url = github:Julow/vim-endwise/add-ocaml;
     vim-matchup.flake = false;
     vim-matchup.url = github:andymass/vim-matchup;
+    ultisnips.flake = false;
+    ultisnips.url = github:SirVer/ultisnips;
   };
 
   outputs = inputs:
@@ -80,6 +82,10 @@
           ${lib.concatStringsSep "\n" (lib.mapAttrsToList (pname: path: ''
             ln -Ts "${path}" "$pdst/${pname}"
           '') plugins)}
+          rm -rf $out/UltiSnips
+          # The intent is to make an impure link to the source code. This trick
+          # doesn't work with flakes.
+          # ln -Ts "${toString ./UltiSnips}" $out/UltiSnips
         '';
       };
     };

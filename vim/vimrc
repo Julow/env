@@ -916,3 +916,5 @@ autocmd User ClearHighlight diffoff!
 nnoremap R :sfind |
 " Not used on my system
 set path-=/usr/include
+
+let g:UltiSnipsSnippetDirectories = [ $HOME.'/w/env/vim/UltiSnips' ]

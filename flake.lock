@@ -451,6 +451,22 @@
         "type": "github"
       }
     },
+    "ultisnips": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1697556945,
+        "narHash": "sha256-hxWRg5ICwiuWwmhVEOw8BWlIqxYBSGfuo5FeO5oV2bw=",
+        "owner": "SirVer",
+        "repo": "ultisnips",
+        "rev": "b393ba65386d47664421e1f8b246a87a6e8b218c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "SirVer",
+        "repo": "ultisnips",
+        "type": "github"
+      }
+    },
     "vim-matchup": {
       "flake": false,
       "locked": {
@@ -494,12 +510,13 @@
         "repeat": "repeat",
         "sneak": "sneak",
         "surround": "surround",
+        "ultisnips": "ultisnips",
         "vim-matchup": "vim-matchup",
         "xdg_open": "xdg_open"
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-jAV7edNqytE58UDz8ZwH6kpU9qrQHmAH5FPcQhG2EGA=",
+        "narHash": "sha256-wCiBoZuE0rT6hzMiN0F7fwHi/TgqwfNQl3j9FjfmUa4=",
         "path": "./vim",
         "type": "path"
       },

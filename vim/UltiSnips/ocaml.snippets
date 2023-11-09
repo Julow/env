@@ -1,0 +1,46 @@
+snippet let "let _ = _ in _"
+let ${1:x} = ${2:y} in
+${0}
+endsnippet
+
+snippet leto "let open _ in _"
+let open ${1:M} in
+${0}
+endsnippet
+
+snippet struct "struct _ end"
+struct
+  ${0}
+end
+endsnippet
+
+snippet sig "sig _ end"
+sig
+  ${0}
+end
+endsnippet
+
+snippet object "object _ end"
+object
+  ${0}
+end
+endsnippet
+
+snippet do "do _ end"
+do
+  ${0}
+done
+endsnippet
+
+snippet (fun "(fun _ -> _)"
+(fun ${1:_} -> ${0:_})
+endsnippet
+
+snippet fun "fun _ -> _"
+fun ${1:_} ->
+	${0:_}
+endsnippet
+
+snippet | "| _ -> _"
+| ${1:_} -> ${0:_}
+endsnippet
