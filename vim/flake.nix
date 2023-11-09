@@ -53,8 +53,6 @@
     diffchar.url = "github:rickhowe/diffchar.vim";
     repeat.flake = false;
     repeat.url = github:tpope/vim-repeat;
-    endwise.flake = false;
-    endwise.url = github:Julow/vim-endwise/add-ocaml;
     vim-matchup.flake = false;
     vim-matchup.url = github:andymass/vim-matchup;
     ultisnips.flake = false;

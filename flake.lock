@@ -112,23 +112,6 @@
         "type": "github"
       }
     },
-    "endwise": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1681204813,
-        "narHash": "sha256-02bdUBOwboS41W3cSx/dVINHbCfl7L85BhAL+GbJfEU=",
-        "owner": "Julow",
-        "repo": "vim-endwise",
-        "rev": "b1e0811cf5c9f0ab4527b86f7d6ac263db42e174",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Julow",
-        "ref": "add-ocaml",
-        "repo": "vim-endwise",
-        "type": "github"
-      }
-    },
     "fugitive": {
       "flake": false,
       "locked": {
@@ -492,7 +475,6 @@
         "dirvish": "dirvish",
         "dwm": "dwm",
         "easy-align": "easy-align",
-        "endwise": "endwise",
         "fugitive": "fugitive",
         "futhark": "futhark",
         "gv": "gv",
@@ -516,7 +498,7 @@
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-wCiBoZuE0rT6hzMiN0F7fwHi/TgqwfNQl3j9FjfmUa4=",
+        "narHash": "sha256-S3WugEsS3wpRnJz6F2+NMrmErlDgA25DxYhhERIPdm4=",
         "path": "./vim",
         "type": "path"
       },
