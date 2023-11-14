@@ -40,11 +40,12 @@
   "network.cookie.lifetimePolicy" = 2;
   "pref.privacy.disable_button.cookie_exceptions" = false;
 
-  # Disable push notifications
-  "dom.webnotifications.enabled" = false;
+  # Disable push notifications while sites are closed
   "dom.webnotifications.serviceworker.enabled" = false;
-  "dom.pushconnection.enabled" = false;
-  "dom.push.enabled" = false;
+  # Explicitly enable notifications
+  "dom.webnotifications.enabled" = true;
+  "dom.pushconnection.enabled" = true;
+  "dom.push.enabled" = true;
 
   # Disable annoyances
   "extensions.htmlaboutaddons.recommendations.enabled" = false;
