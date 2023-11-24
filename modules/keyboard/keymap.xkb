@@ -60,6 +60,13 @@ xkb_symbols "custom-qwerty" {
     actions = [ SetControls(controls=Overlay1) ]
   };
 
+  // overlay1 + q/w/e/r/t is à/è/é/ê/ç
+  key <AD01> { overlay1 = <KP1> };
+  key <AD02> { overlay1 = <KP2> };
+  key <AD03> { overlay1 = <KP3> };
+  key <AD04> { overlay1 = <KP4> };
+  key <AD05> { overlay1 = <KP5> };
+
   // overlay1 + h/j/k/l are arrow keys
   key <AC07> { overlay1 = <LEFT> };
   key <AC08> { overlay1 = <DOWN> };
@@ -73,10 +80,6 @@ xkb_symbols "custom-qwerty" {
   // overlay1 + u/p are home and end
   key <AD08> { overlay1 = <HOME> };
   key <AD11> { overlay1 = <END> };
-
-  // overlay1 + w/e are mouse buttons
-  key <AD02> { overlay1 = <KPSU> };
-  key <AD03> { overlay1 = <KPAD> };
 
   // overlay1 + n/m/, are enter/backspace/delete
   key <AB07> { overlay1 = <RTRN> };
@@ -97,9 +100,12 @@ xkb_symbols "custom-qwerty" {
 
   // Dummy keys, redirected from overlay1
 
-  // Keypad -/+ for mouse buttons
-  replace key <KPSU> { [ Pointer_Button1, Pointer_Drag1 ] };
-  replace key <KPAD> { [ Pointer_Button3, Pointer_Drag3 ] };
+  // Keypad 1-5 for diacritics
+  replace key <KP1> { [ agrave, Agrave ] };
+  replace key <KP2> { [ egrave, Egrave ] };
+  replace key <KP3> { [ eacute, Eacute ] };
+  replace key <KP4> { [ ecircumflex, Ecircumflex ] };
+  replace key <KP5> { [ ccedilla, Ccedilla ] };
 
   // Pause key is shift latch
   replace key <PAUS> {
