@@ -7,6 +7,9 @@ let no_ocaml_comments = 1
 " Set $OPAMSWITCH
 let g:opam_set_switch = 1
 
+" Error messages
+let g:ocaml_compiler_compact_messages = 0
+
 setlocal commentstring=(*\ %s\ *)
 
 setlocal expandtab
