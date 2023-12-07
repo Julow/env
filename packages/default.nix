@@ -12,7 +12,7 @@ in {
   };
 
   mpv = mpv.override {
-    scripts = with mpvScripts; [ mpris youtube-quality ];
+    scripts = with mpvScripts; [ mpris quality-menu ];
   };
 
   encfs-gpg = self.callPackage ./encfs-tools.nix { };

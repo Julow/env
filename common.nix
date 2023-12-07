@@ -29,7 +29,6 @@
     editor = false;
   };
   boot.loader.efi.canTouchEfiVariables = true;
-  networking.dhcpcd.wait = "background"; # Don't wait for dhcp before starting session
 
   networking.networkmanager.enable = true;
   hardware.bluetooth.enable = true;
@@ -108,11 +107,9 @@
   };
   environment.variables.VISUAL = "gvim";
 
-  fonts = {
-    fonts = with pkgs; [
-      fira-code
-    ];
-  };
+  fonts.packages = with pkgs; [
+    fira-code
+  ];
 
   # Adb, need "adbusers" group
   programs.adb.enable = true;
@@ -158,7 +155,7 @@
   # Enable xdg portals
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal ];
+    config.common.default = "*";
   };
 
   # Flatpak
