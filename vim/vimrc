@@ -911,3 +911,29 @@ nnoremap R :sfind |
 set path-=/usr/include
 
 let g:UltiSnipsSnippetDirectories = [ $HOME.'/w/env/vim/UltiSnips' ]
+
+" Jump between files in the jump list
+" g<C-o> and g<C-i> are equivalent to repeatedly typing <C-o> and <C-i> until
+" jumping to a different file.
+
+" Compute the number of jump entry to skip in both directions as a pair before
+" jumping to a different file or hitting the end of the jump list.
+function! Jumplist_jump_file()
+  let [jumps_, cur] = getjumplist()
+  if cur >= len(jumps_)
+    let cur = cur - 1
+  endif
+  let cur_bufnr = jumps_[cur].bufnr
+  let prev = cur
+  while prev > 0 && jumps_[prev].bufnr == cur_bufnr
+    let prev = prev - 1
+  endwhile
+  let next = cur
+  while next < len(jumps_) && jumps_[next].bufnr == cur_bufnr
+    let next = next + 1
+  endwhile
+  return [ cur - prev, next - cur ]
+endfunction
+
+nnoremap g<C-o> :exe "normal <C-r>=Jumplist_jump_file()[0]<return>\<C-o>"<return>
+nnoremap g<C-i> :exe "normal <C-r>=Jumplist_jump_file()[1]<return>\<C-i>"<return>
