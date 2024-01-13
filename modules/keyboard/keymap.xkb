@@ -98,6 +98,9 @@ xkb_symbols "custom-qwerty" {
   key <AE11> { overlay1 = <VOL-> };
   key <AE12> { overlay1 = <VOL+> };
 
+  // overlay1 + 1 is mic mute
+  key <AE01> { overlay1 = <FK20> }; // XF86AudioMicMute
+
   // Dummy keys, redirected from overlay1
 
   // Keypad 1-5 for diacritics

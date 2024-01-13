@@ -439,6 +439,7 @@ main =
     ("<XF86AudioPrev>", safeSpawn "playerctl" ["previous"]),
     ("<XF86AudioNext>", safeSpawn "playerctl" ["next"]),
     -- Mute built-in audio sink/source
+    ("<XF86AudioMicMute>", safeSpawn "builtin_audio.sh" ["toggle_mic"]),
     ("S-<XF86AudioMicMute>", safeSpawn "builtin_audio.sh" ["toggle_mic"]),
     ("S-<XF86AudioMute>", safeSpawn "builtin_audio.sh" ["toggle_speaker"]),
 
