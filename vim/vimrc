@@ -937,3 +937,6 @@ endfunction
 
 nnoremap g<C-o> :exe "normal <C-r>=Jumplist_jump_file()[0]<return>\<C-o>"<return>
 nnoremap g<C-i> :exe "normal <C-r>=Jumplist_jump_file()[1]<return>\<C-i>"<return>
+
+" Command line: Write word under cursor in buffer
+cnoremap <C-1> <C-r>=expand("<cword>")<return>
