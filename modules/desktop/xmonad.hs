@@ -201,9 +201,7 @@ scratchpads = [
     scratch_xterm "h" "htop" (floating_centered (1/8) (1/8)),
     scratch_xterm "b" "bluetoothctl" (floating_centered (1/3) (1/8)),
     scratch_xterm "w" "vim ~/notes/quick_notes" (floating (2/3) (1/4) (1/3 - 1/10) (2/4)),
-    scratch_prog "i" "strawberry" (className =? "strawberry") nonFloating,
-    scratch_prog "o" "com.slack.Slack" (className =? "slack") nonFloating,
-    scratch_prog "u" "fluffychat" (className =? "fluffychat") nonFloating,
+    scratch_prog "o" "google-chrome-stable" (className =? "google-chrome") nonFloating,
     scratch_prog "n" "notes-workspace" (title =? "Notes") nonFloating,
     scratch_prog "t" "thunderbird" (className =? "Thunderbird") nonFloating
   ]
