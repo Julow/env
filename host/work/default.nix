@@ -10,8 +10,10 @@
     nixos-hardware.nixosModules.lenovo-thinkpad-x1-6th-gen
   ];
 
-  # This screen has too much pixels
-  services.xserver.dpi = 160;
+  services.xserver = {
+    dpi = 160;
+    libinput.touchpad.accelSpeed = "0.7";
+  };
 
   services.autorandr = {
     enable = true;
