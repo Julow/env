@@ -320,8 +320,8 @@ border_conf =
 resize_step = 3%100
 
 layout =
-    noBorders $ border_between $ minimize $ boringWindows $
-      (tiled_layout ||| centered_layout)
+    noBorders $ minimize $ boringWindows $
+      ((border_between $ tiled_layout) ||| centered_layout)
   where
     tiled_layout = ResizableTall 1 resize_step (1/2) []
     centered_layout = centered_full 600 resize_step
