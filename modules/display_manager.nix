@@ -24,6 +24,8 @@ in {
         ${pkgs.lightlocker}/bin/light-locker &
       '';
 
+      lightdm.enable = true;
+
       # Login prompt, use mini greeter
       lightdm.greeters.mini = {
         enable = true;

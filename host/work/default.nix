@@ -24,6 +24,10 @@
     profiles = etc/autorandr;
   };
 
+  services.xserver.displayManager.lightdm.extraConfig = ''
+    display-setup-script = ${pkgs.autorandr} --default default --change
+  '';
+
   modules.battery_monitor.enable = true;
 
   # Power saving
