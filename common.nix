@@ -90,7 +90,6 @@
     encfs-gpg
     # Apps
     gimp
-    thunderbird
     google-chrome
     fluffychat
     # Desktop
