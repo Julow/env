@@ -34,7 +34,7 @@
     nix.flake = false;
     nix.url = "github:Julow/vim-nix/cmd_nix_shell";
     ocaml.flake = false;
-    ocaml.url = "github:Julow/vim-ocaml/tip";
+    ocaml.url = "github:ocaml/vim-ocaml";
     sneak.flake = false;
     sneak.url = "github:justinmk/vim-sneak";
     surround.flake = false;
