@@ -70,7 +70,6 @@ if [[ $temp_st = ok ]]; then temp_st=""; else temp_st=" <span foreground=\"red\"
 INFOS+=("<b>Temp</b> ${temps[*]}$temp_st")
 
 # Microphone mute
-if [[ $(microphone.sh get) = on ]]; then mic_mute_s=On; else mic_mute_s=Off; fi
-INFOS+=("<b>Microphone</b> $mic_mute_s")
+INFOS+=("<b>Microphone</b> $(microphone.sh get)")
 
 dunstify -r "101010" -a "Status" -u low "" "`IFS=$'\n'; echo "${INFOS[*]}"`"

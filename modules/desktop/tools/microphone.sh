@@ -22,10 +22,10 @@ case "$1" in
   "toggle")
     if at_least_one_mic_on; then
       iter_sources --mute
-      state="Muted"
+      state="Off"
     else
       pamixer --default-source --unmute
-      state="Unmuted"
+      state="On"
     fi
     dunstify -r 1234 -a "Indicator" -u low "Microphone" "$state"
     ;;
@@ -33,9 +33,9 @@ case "$1" in
     # Get the current state of the microphones.
     # Print "on" if at least one microphone is not muted, "off" otherwise.
     if at_least_one_mic_on; then
-      echo "on"
+      echo "On"
     else
-      echo "off"
+      echo "Off"
     fi
     ;;
 esac

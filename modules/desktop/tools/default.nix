@@ -44,7 +44,7 @@ stdenv.mkDerivation {
       df=$out/bin/$sf
       {
         echo "#!${pkgs.runtimeShell}"
-        echo "export PATH=\"${lib.makeBinPath deps}\""
+        echo "export PATH=\"${lib.makeBinPath deps}:$out/bin\""
         cat "$sf"
       } > "$df"
       chmod +x "$df"
