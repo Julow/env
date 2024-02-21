@@ -940,3 +940,37 @@ nnoremap g<C-i> :exe "normal <C-r>=Jumplist_jump_file()[1]<return>\<C-i>"<return
 
 " Command line: Write word under cursor in buffer
 cnoremap <C-1> <C-r>=expand("<cword>")<return>
+
+" Swap two words
+"
+" Arguments:
+" - 'obj' is the text object that select a word.
+" - 'next_word' is the regex that jump to the beginning of the next word.
+function! Swap_words(obj, next_word)
+  let save_a = @a
+  let save_b = @b
+  let save_pos = getcurpos()
+  " Cut the first word
+  exe "normal \"ad" . a:obj
+  let fst_pos = getcurpos()
+  " Jump to next word
+  if search(a:next_word, "Wz", fst_pos[1] + 1) == 0
+    " Restore
+    normal u
+  else
+    " Change the second word with the first
+    exe "normal \"bc" . a:obj . "\<C-r>a\<Esc>"
+    " Paste the second word in place of the first
+    call setpos(".", fst_pos)
+    normal "bP
+  endif
+  " Restore registers and position
+  let @a = save_a
+  let @b = save_b
+  call setpos(".", save_pos)
+endfunction
+
+nnoremap <silent> <Plug>Swap_words :<c-u>call Swap_words('iw', '\w')<return>
+nnoremap <silent> <Plug>Swap_WORDS :<c-u>call Swap_words('iW', '\w')<return>
+nnoremap cx <Plug>Swap_words
+nnoremap cX <Plug>Swap_WORDS
