@@ -92,6 +92,7 @@
     gimp
     google-chrome
     fluffychat
+    xournalpp
     # Desktop
     dmenu
     pavucontrol xclip
