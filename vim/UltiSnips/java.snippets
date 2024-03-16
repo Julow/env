@@ -1,0 +1,18 @@
+snippet package "class file"
+package ${0:test};
+`!p cls = snip.fn.removesuffix(".java").title()`
+public final class `!p snip.rv = cls`
+{
+	public `!p snip.rv = cls`()
+	{
+		${1:${VISUAL}}
+	}
+}
+endsnippet
+
+snippet main "main method"
+public static void main(String[] argv)
+{
+	${1:System.out.println("Hello World");}
+}
+endsnippet
