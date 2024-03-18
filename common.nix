@@ -1,22 +1,19 @@
 { main_user, host_name }:
 
-{ config, pkgs, nixpkgs, home-manager, nix-gc-env, ... }@inputs:
+{ config, pkgs, lib, nixpkgs, home-manager, nix-gc-env, ... }@inputs:
 
-{
-  imports = [
-    modules/autorandr.nix
-    modules/battery_monitor.nix
-    modules/desktop
-    modules/display_manager.nix
-    modules/gallery_wallpaper.nix
-    modules/keyboard
-    modules/keyring.nix
-    modules/screen_off.nix
-    modules/spacetelescope_wallpaper
-    modules/virtualisation.nix
-    home-manager.nixosModule
-    nix-gc-env.nixosModules.default
-  ];
+let
+  # Returns the content of a directory as a list of paths
+  readDir_paths = dir:
+    lib.mapAttrsToList (n: _: dir + "/${n}") (builtins.readDir dir);
+
+in {
+  imports =
+    readDir_paths ./modules ++
+    [
+      home-manager.nixosModule
+      nix-gc-env.nixosModules.default
+    ];
 
   # Quiet and fast boot
   boot.initrd.verbose = false;
