@@ -114,58 +114,36 @@ set title
 
 " Ruler showing filename
 " Show size of the selection in visual mode
-function! S_selection()
-  let l:m = mode()
-  if l:m == "v" || l:m == "\<C-V>"
-    let l:c = getpos(".")
-    let l:v = getpos("v")
-    let l:lines = abs(l:c[1] - l:v[1]) + 1
-    if l:m ==# "v"
-      let l:chars = abs((line2byte(l:c[1]) + l:c[2]) - (line2byte(l:v[1]) + l:v[2])) + 1
-    elseif l:m ==# "V"
-      let l:chars = line2byte(max([l:c[1], l:v[1]]) + 1) - 1 - line2byte(min([l:c[1], l:v[1]])) + 1
-    else
-      let l:chars = abs(l:c[2] - l:v[2]) + 1
-    endif
-    return l:lines . "-" . l:chars
+function! S_selection(mode)
+  let l:c = getpos(".")
+  let l:v = getpos("v")
+  let l:lines = abs(l:c[1] - l:v[1]) + 1
+  if a:mode ==# "v"
+    let l:chars = abs((line2byte(l:c[1]) + l:c[2]) - (line2byte(l:v[1]) + l:v[2])) + 1
+  elseif a:mode ==# "V"
+    let l:chars = line2byte(max([l:c[1], l:v[1]]) + 1) - 1 - line2byte(min([l:c[1], l:v[1]])) + 1
   else
-    return ""
+    let l:chars = abs(l:c[2] - l:v[2]) + 1
   endif
+  return l:lines . "-" . l:chars
 endfunction
 
-" Show line endings format if it's not unix
-function! S_linef()
-  return &fileformat == "unix" ? "" : &fileformat
-endfunction
-
-" More discreet indicator for unmodifiable or readonly buffers
-function! S_readonly()
-  return (!&modifiable || &readonly) ? "RO" : ""
-endfunction
-
-" Ruler color depending on the current mode
-function! S_update_mode()
-  let l:m = mode(1)
-  if l:m =~# "^[ncr]"
-    if l:m =~# "^n[io]"
-      let l:l = "S_mode_pending"
+" Return the highlight group for the current mode
+function! S_mode_hi_group(m)
+  if a:m =~# "^[ncr]"
+    if a:m =~# "^n[io]"
+      return "S_mode_pending"
     else
-      let l:l = "S_mode_n"
+      return "S_mode_n"
     endif
-  elseif l:m =~# "^[vV\<C-V>sS\<C-S>]"
-    let l:l = "S_mode_v"
-  elseif l:m =~# "^[iR]"
-    let l:l = "S_mode_i"
-  elseif l:m =~# "^t"
-    let l:l = "S_mode_t"
-  else
-    let l:l = "S_mode_other"
+  elseif a:m =~# "^[vV\<C-V>sS\<C-S>]"
+    return "S_mode_v"
+  elseif a:m =~# "^[iR]"
+    return "S_mode_i"
+  elseif a:m =~# "^t"
+    return "S_mode_t"
   endif
-  execute "highlight link S_mode " . l:l
-  if !exists('b:s_filename') " Ensure s_filename is set
-    call Update_s_filename("%")
-  endif
-  return ""
+  return "S_mode_other"
 endfunction
 
 " Rewrite some filenames (see Update_s_filename)
@@ -175,9 +153,12 @@ let g:s_fugitive_filename_const = {
   \ ".git/rebase-merge/git-rebase-todo": "Git Rebase",
   \ }
 
-" Do some processing on the current filename
-function! Update_s_filename(buf)
-  let l:f = bufname(a:buf)
+" Do some processing on the current filename for the status line.
+" Set 'b:s_filename' to the current filename, possibly modified.
+" Set 'b:s_filename_decorator' to the length of the filename prefix that
+" should be highlighted differently.
+function! Update_s_filename(bufnr)
+  let l:f = bufname(a:bufnr)
   " Length of the decorator, which is highlighted differently. Stored
   " separately to be sure the filename is always entire, for safety.
   let l:d = 0
@@ -213,7 +194,7 @@ function! Update_s_filename(buf)
     if l:f =~ "^/"
       " Couldn't convert to relative
 
-      if getbufvar(a:buf, "current_syntax") == "help"
+      if getbufvar(a:bufnr, "current_syntax") == "help"
         let l:f = "help:" . fnamemodify(l:f, ":t:r")
         let l:d = 5
 
@@ -229,45 +210,84 @@ function! Update_s_filename(buf)
     let l:d = len(l:f)
   endif
 
-  call setbufvar(a:buf, "s_filename", l:f)
-  call setbufvar(a:buf, "s_filename_decorator", l:d)
+  call setbufvar(a:bufnr, "s_filename", l:f)
+  call setbufvar(a:bufnr, "s_filename_decorator", l:d)
 endfunction
 
 autocmd BufReadPost,TerminalOpen,BufFilePost * call Update_s_filename("%")
 
-function! S_terminal_update()
-  let buf = bufnr("%")
-  let b:s_terminal_status = ""
-  let b:s_terminal_time = ""
-  if getbufvar(buf, "&buftype", "") == "terminal"
-    let job = term_getjob(buf)
+" Returns 1 whether terminal status should be added to the statusline, 0
+" otherwise. When the job is done, sets 'b:s_terminal_status' and
+" 'b:s_terminal_time'.
+function! S_terminal_update(bufnr)
+  if getbufvar(a:bufnr, "&buftype", "") == "terminal"
+    let job = term_getjob(a:bufnr)
     let info = job_info(job)
     if info["status"] == "dead"
-      if !exists('b:terminal_end_time')
-        let b:terminal_end_time = exists('b:terminal_start_time') ? reltime(b:terminal_start_time) : 0
+      if getbufvar(a:bufnr, 's_terminal_time', "") == ""
+        let t = reltime(getbufvar(a:bufnr, 'terminal_start_time'))
+        let s = info["exitval"]
+        call setbufvar(a:bufnr, "s_terminal_status", (s == 0) ? "" : s)
+        call setbufvar(a:bufnr, "s_terminal_time", printf("%.0fs", reltimefloat(t)))
       endif
-      let s = info["exitval"]
-      let b:s_terminal_status = (s == 0) ? "" : s
-      let b:s_terminal_time = printf("%.0fs", reltimefloat(b:terminal_end_time))
+      return 1
     endif
   endif
-  return ""
+  return 0
 endfunction
 
 autocmd TerminalOpen * let b:terminal_start_time = reltime()
 
-" Mode and file name. Decorator is highlighted separately.
-set statusline=%=%{S_update_mode()}%#S_filename_decorator#%{strpart(b:s_filename,0,b:s_filename_decorator)}%#S_mode#%{b:s_filename[b:s_filename_decorator:]}%*
-set statusline+=\ %(%q\ %)%(%w\ %) " Vim's flags
-set statusline+=%l:%c%(\ (%{S_selection()})%) " Cursor position and selection
-set statusline+=%#S_linef#%(\ %{S_linef()}%) " Line feed format
-set statusline+=%#S_readonly#%(\ %{S_readonly()}%) " Readonly flag
-set statusline^=%#S_terminal_time#%(\ Terminated\ after\ %{b:s_terminal_time}%)%* " Terminal running time
-set statusline^=%{S_terminal_update()}%#S_terminal_fail#%(\ [exit\ %{b:s_terminal_status}]%) " Terminal exit status
-" Show the status part of the tabline if there's no tabline, only for the
-" bottom left window
-set statusline+=%{%(tabpagenr('$')==1&&winnr('j')==winnr('l'))?Tabline_status():''%}
-set statusline+=\  " An extra space
+function! Statusline()
+  let l:s = ""
+  let l:mode = (win_getid() == g:statusline_winid) ? mode(1) : "n"
+  let l:bufnr = winbufnr(win_id2win(g:statusline_winid))
+
+  " Update terminal status and show exit status and running time
+  if S_terminal_update(l:bufnr)
+    let l:s .= "%#S_terminal_fail#%( [exit %{b:s_terminal_status}]%)"
+    let l:s .= "%#S_terminal_time# Terminated after %{b:s_terminal_time}%*"
+  endif
+
+  " Update b:s_filename and b:s_filename_decorator
+  if getbufvar(l:bufnr, 's_filename', "") == ""
+    call Update_s_filename(l:bufnr)
+  endif
+
+  " Decorated filename
+  let l:s .= "%="
+  let l:f = getbufvar(l:bufnr, "s_filename")
+  let l:decorator = getbufvar(l:bufnr, "s_filename_decorator")
+  if l:decorator > 0
+    let l:s .= "%#S_filename_decorator#" . strpart(l:f, 0, l:decorator)
+    let l:f = l:f[l:decorator:]
+  endif
+  let l:s .= "%#" . S_mode_hi_group(l:mode) . "#" . substitute(l:f, '%', '%%', 'g') . "%*"
+
+  " Vim's flags and cursor position
+  let l:s .= " %(%q %)%(%w %)%l:%c"
+  " Selection
+  if l:mode =~# "^[vV\<C-V>]"
+    let l:s .= " " . S_selection(l:mode[0])
+  endif
+  " Line feed format
+  if getbufvar(l:bufnr, "&fileformat") != "unix"
+    let l:s .= "%#S_linef# " . getbufvar(l:bufnr, "&fileformat")
+  endif
+  " More discreet indicator for unmodifiable or readonly buffers
+  if !getbufvar(l:bufnr, "&modifiable") || getbufvar(l:bufnr, "&readonly")
+    let l:s .= "%#S_readonly# RO"
+  endif
+
+  " Show the status part of the tabline if there's no tabline, only for the
+  " bottom left window
+  if tabpagenr('$') == 1 && win_getid(winnr('$')) == g:statusline_winid
+    let l:s .= Tabline_status()
+  endif
+  return l:s . " "
+endfunction
+
+set statusline=%!Statusline()
 set laststatus=2
 set noruler
 set noshowmode
