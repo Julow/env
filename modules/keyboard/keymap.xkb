@@ -14,8 +14,8 @@ xkb_symbols "custom-qwerty" {
 
   // Alternative Tab and space keys
   // Needed for xcape
-  replace key <LWIN> { [ Tab ] };
-  replace key <RWIN> { [ space ] };
+  replace key <LWIN> { [ space ] };
+  replace key <RWIN> { [ Tab ] };
   // Also map Multi_key somewhere
   replace key <LFSH> { [ Multi_key ] };
 
