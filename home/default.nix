@@ -25,6 +25,9 @@
 
   home.file.".vim".source = vim_plugins.dot_vim;
 
+  programs.less.enable = true;
+  home.sessionVariables.LESS = "--RAW-CONTROL-CHARS --ignore-case --tabs=4 --use-color -DBr-$Cr-$ --jump-target=5 --mouse --wheel-lines=3";
+
   programs.home-manager.enable = false;
   home.stateVersion = "21.11";
 }
