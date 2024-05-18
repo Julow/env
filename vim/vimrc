@@ -760,7 +760,8 @@ endfunction
 
 function! Last_job_command()
   let info = job_info(term_getjob(bufnr("%")))
-  return join(info["cmd"], " ")
+  let cmd = map(copy(info["cmd"]), 'escape(v:val, "#%\\")')
+  return join(cmd, " ")
 endfunction
 
 " Terminal normal mapping
