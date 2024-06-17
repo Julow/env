@@ -31,9 +31,8 @@ xkb_symbols "custom-qwerty" {
   replace key <AE11> { [ bracketleft, braceleft ] };
   replace key <AE12> { [ bracketright, braceright ] };
 
-  // Shift the 2nd row starting on hH, to put :; on the middle of the keyboard.
-  // : and ; are also shift-swapped
-  replace key <AC06> { [ semicolon, colon ] };
+  // Shift the 2nd row starting on hH, to put :/ on the middle of the keyboard.
+  replace key <AC06> { [ colon, slash ] };
   replace key <AC07> { [ h, H ] };
   replace key <AC08> { [ j, J ] };
   replace key <AC09> { [ k, K ] };
@@ -41,11 +40,11 @@ xkb_symbols "custom-qwerty" {
   replace key <AC11> { [ apostrophe, quotedbl ] };
 
   // Shift the 3rd row starting on bB, to leave a key on the middle of the row
-  // Remap /.,?<> in this order of priority
-  replace key <AB06> { [ slash, period ] };
-  replace key <AB07> { [ n, N ] };
-  replace key <AB08> { [ m, M ] };
-  replace key <AB09> { [ comma, question ] };
+  // Remap .?;, in this order of priority
+  replace key <AB06> { [ period, question ] };
+  replace key <AB07> { [ semicolon, comma ] };
+  replace key <AB08> { [ n, N ] };
+  replace key <AB09> { [ m, M ] };
   replace key <AB10> { [ less, greater ] };
 
   // Overlay1
@@ -72,6 +71,11 @@ xkb_symbols "custom-qwerty" {
   key <AC08> { overlay1 = <DOWN> };
   key <AC09> { overlay1 = <UP> };
   key <AC10> { overlay1 = <RGHT> };
+
+  // overlay1 + -/;/ are [/]/`
+  key <AD06> { overlay1 = <AE11> };
+  key <AC06> { overlay1 = <AE12> };
+  key <AB06> { overlay1 = <AE00> };
 
   // overlay1 + i/o are pagedown and pageup
   key <AD09> { overlay1 = <PGDN> };
