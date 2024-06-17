@@ -52,13 +52,13 @@ match ${1:${VISUAL}} with
 endsnippet
 
 snippet pr "Printf.printf"
-Printf.printf "${1}"${0}
+Printf.printf "${1}\n%!"${0};
 endsnippet
 
 snippet epr "Printf.eprintf"
-Printf.eprintf "${1}"${0}
+Printf.eprintf "${1}\n%!"${0};
 endsnippet
 
 snippet ppf "Format.fprintf"
-Format.fprintf ppf "${1}"${0}
+Format.fprintf ppf "${1}"${0};
 endsnippet
