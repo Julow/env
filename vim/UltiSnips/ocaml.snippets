@@ -32,23 +32,28 @@ do
 done
 endsnippet
 
-snippet (fun "(fun _ -> _)"
-(fun ${1:_} -> ${0:_})
+snippet (fun "(fun _ -> .)"
+(fun ${1:_} -> ${0:.})
 endsnippet
 
-snippet fun "fun _ -> _"
+snippet fun "fun _ -> ."
 fun ${1:_} ->
-	${0:_}
+	${0:.}
 endsnippet
 
-snippet | "| _ -> _"
-| ${1:_} -> ${0:_}
+snippet | "| _ -> ."
+| ${1:_} -> ${0:.}
+endsnippet
+
+snippet match
+match ${1:${VISUAL}} with
+| ${2:_} -> ${3:.}
 endsnippet
 
 snippet matchopt
 match ${1:${VISUAL}} with
-| Some ${2:_} -> ${3:_}
-| None -> ${4:_}
+| Some ${2:_} -> ${3:.}
+| None -> ${4:.}
 endsnippet
 
 snippet pr "Printf.printf"
@@ -61,4 +66,12 @@ endsnippet
 
 snippet ppf "Format.fprintf"
 Format.fprintf ppf "${1}"${0};
+endsnippet
+
+snippet ig "let _ = _ in"
+let _ = ${1:.} in${0}
+endsnippet
+
+snippet f "f (.)"
+${1:f} (${2:.})
 endsnippet
