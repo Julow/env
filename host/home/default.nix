@@ -2,7 +2,7 @@
 
 {
   imports = [
-    (import ../../common.nix { main_user = "juloo"; host_name = "jules-pc"; })
+    (import ../../nixos { main_user = "juloo"; host_name = "jules-pc"; })
     ./hardware-configuration.nix
     ./nvidia.nix
   ];

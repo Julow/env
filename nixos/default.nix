@@ -1,5 +1,7 @@
 { main_user, host_name }:
 
+# NixOS configuration not related to a specific machine. Included from host/*.
+
 { config, pkgs, lib, nixpkgs, home-manager, nix-gc-env, ... }@inputs:
 
 let
@@ -7,13 +9,14 @@ let
   readDir_paths = dir:
     lib.mapAttrsToList (n: _: dir + "/${n}") (builtins.readDir dir);
 
+  # Every other files and directories in nixos/
+  modules = lib.filter (p: p != ./default.nix) (readDir_paths ./.);
+
 in {
-  imports =
-    readDir_paths ./modules ++
-    [
-      home-manager.nixosModule
-      nix-gc-env.nixosModules.default
-    ];
+  imports = modules ++ [
+    home-manager.nixosModule
+    nix-gc-env.nixosModules.default
+  ];
 
   # Quiet and fast boot
   boot.initrd.verbose = false;
@@ -52,7 +55,7 @@ in {
 
   # Nixpkgs config and package overrides
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.overlays = [ (import ./packages) ];
+  nixpkgs.overlays = [ (import ../packages) ];
 
   # The same nixpkgs used to build the system. No channel.
   # Link nixpkgs at an arbitrary path so currently running programs can start
@@ -60,7 +63,7 @@ in {
   # No need to reboot to take $NIX_PATH changes (it doesn't change).
   environment.etc.nixpkgs.source = nixpkgs;
   environment.etc."nixpkgs-overlay/overlays.nix".text = ''
-    import ${./packages}
+    import ${../packages}
   '';
   # Pin nixpkgs in the flake registry too
   nix.registry.nixpkgs.flake = nixpkgs;
@@ -127,7 +130,7 @@ in {
     isNormalUser = true;
     extraGroups = [ "docker" "dialout" "adbusers" "audio" "networkmanager" ];
   };
-  home-manager.users."${main_user}" = import ./home;
+  home-manager.users."${main_user}" = import ../home;
   home-manager.extraSpecialArgs = {
     inherit (inputs) nur_rycee vim_plugins;
   };

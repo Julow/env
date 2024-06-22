@@ -2,7 +2,7 @@
 
 {
   imports = [
-    (import ../../common.nix {
+    (import ../../nixos {
       main_user = "jules";
       host_name = "jules-work";
     })
