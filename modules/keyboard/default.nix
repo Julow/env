@@ -18,7 +18,7 @@ let xcape_expr = "Shift_R=space;Control_L=Escape;Control_R=Escape;Overlay1_Enabl
   };
 
   config = lib.mkIf conf.enable {
-    services.xserver = {
+    services.xserver.xkb = {
       layout = "custom-qwerty";
 
       extraLayouts.custom-qwerty = {

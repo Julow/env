@@ -15,7 +15,7 @@ index 66cb4ee29c0..9d56f44ab6a 100644
      services.xserver.desktopManager = {
  
        wallpaper = {
-+        enable = mkEnableOption "services.xserver.desktopManager.wallpaper";
++        enable = lib.mkEnableOption "services.xserver.desktopManager.wallpaper";
 +
          mode = mkOption {
            type = types.enum [ "center" "fill" "max" "scale" "tile" ];

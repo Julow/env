@@ -14,12 +14,8 @@ in {
   };
 
   config = lib.mkIf conf.enable {
+    # Xmonad
     services.xserver = {
-      enable = true;
-      libinput.enable = true; # Touchpad support
-
-      # Xmonad
-      displayManager.defaultSession = "none+xmonad";
       desktopManager.xterm.enable = false; # Required
       windowManager.xmonad = {
         enable = true;
@@ -27,8 +23,11 @@ in {
         config = ./xmonad.hs;
       };
     };
+    services.displayManager.defaultSession = "none+xmonad";
 
-    services.picom = { enable = true; };
+    services.xserver.enable = true;
+    services.libinput.enable = true; # Touchpad support
+    services.picom.enable = true;
 
     # TODO: Don't add to global environment
     environment.systemPackages = with pkgs; [

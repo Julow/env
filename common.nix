@@ -32,6 +32,7 @@ in {
 
   # Enable sound.
   sound.enable = true;
+  xdg.sounds.enable = false; # Disable bell sounds
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
