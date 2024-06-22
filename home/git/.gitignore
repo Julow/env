@@ -1,0 +1,7 @@
+*.swp
+.vimrc
+_opam
+__pycache__
+*.pyc
+_build
+/result
