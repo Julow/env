@@ -115,11 +115,11 @@
     "fugitive": {
       "flake": false,
       "locked": {
-        "lastModified": 1716130336,
-        "narHash": "sha256-nyNtb3nsS/zFdSNRyXabcGIabAwgivJIUFB2c62vXmA=",
+        "lastModified": 1719369274,
+        "narHash": "sha256-v0M1dzLMNyBsd+73dX5bk99AJNh4nRmCikhlb+Xpazw=",
         "owner": "tpope",
         "repo": "vim-fugitive",
-        "rev": "4f59455d2388e113bd510e85b310d15b9228ca0d",
+        "rev": "d0c1a437536778bcc8174b7cb2ffdf98f611e6fe",
         "type": "github"
       },
       "original": {
@@ -228,11 +228,11 @@
     "merlin": {
       "flake": false,
       "locked": {
-        "lastModified": 1715968717,
-        "narHash": "sha256-mtE8vd6ISj0sr5SDhEcaqJ+5SXOMbF18h3FPbO+4Zt8=",
+        "lastModified": 1718896293,
+        "narHash": "sha256-sxNuDrCnrnLjwK5Xp1fYTChdzU5ds5x8CkLuwK15hD4=",
         "owner": "ocaml",
         "repo": "merlin",
-        "rev": "a7e8e6ec378a5496c6b913ec7304dc223aa182f8",
+        "rev": "b6ff2d4d569c23dd8fa91639d26fb984e9411862",
         "type": "github"
       },
       "original": {
@@ -261,7 +261,7 @@
     "nixpkgs": {
       "flake": false,
       "locked": {
-        "lastModified": 1716885921,
+        "lastModified": 1719408721,
         "narHash": "sha256-HzD1aj2+q7i+gJPxEKyR5Y3fJhEJyfZnToJNAaQFHEA=",
         "path": "/etc/nixpkgs",
         "type": "path"
