@@ -159,9 +159,6 @@ in {
     config.common.default = "*";
   };
 
-  # Flatpak
-  services.flatpak.enable = true;
-
   # "multi-user.target" shouldn't wait on "network-online.target"
   systemd.targets.network-online.wantedBy = pkgs.lib.mkForce [];
 }
