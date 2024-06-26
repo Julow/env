@@ -4,7 +4,6 @@
   imports = [
     (import ../../nixos { main_user = "juloo"; host_name = "jules-pc"; })
     ./hardware-configuration.nix
-    ./nvidia.nix
   ];
 
   # Users
