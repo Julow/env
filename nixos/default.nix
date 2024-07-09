@@ -99,6 +99,7 @@ in {
     dmenu
     pavucontrol xclip
     networkmanager
+    gnome.nautilus
     # Other
     nixos-deploy graphviz yt-dlp
   ];
