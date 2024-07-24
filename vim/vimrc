@@ -572,33 +572,23 @@ function! Quickfix_increment()
 endfunction
 autocmd FileType qf call Quickfix_increment()
 
-function! Quickfix_or_loclist()
-  return get(t:, 'loclist_i', 0) > g:quickfix_i ? "l" : "c"
+function! Quickfix_or_loclist(qf, ll)
+  return get(t:, 'loclist_i', 0) > g:quickfix_i ? a:ll : a:qf
 endfunction
 
 " Bind [q and ]q to navigate the loclist or the quickfix list
-nnoremap [q :<C-r>=Quickfix_or_loclist()<return>previous<return>
-nnoremap ]q :<C-r>=Quickfix_or_loclist()<return>next<return>
+nnoremap [q :<C-r>=Quickfix_or_loclist("cprevious", "lprevious")<return><return>
+nnoremap ]q :<C-r>=Quickfix_or_loclist("cnext", "lnext")<return><return>
+nnoremap <Leader>q :<C-r>=Quickfix_or_loclist("cc", "ll")<return><return>
 
 " Other settings are unreliable.
 " <C-Enter> in qf is remapped to open a new window.
 set switchbuf=uselast
 
-function! Quickfix_open_split()
-  let l:n = line(".")
-  execute "new"
-  execute l:n "cc"
-endfunction
-
 " Open the quickfix window when it changes and is not empty
 autocmd QuickFixCmdPost * cwindow
 
-" Bind C-Enter to open a quickfix entry in a new split
-" Bind C-w Enter for new tabs
-autocmd FileType qf nnoremap <buffer> <C-Enter> :call Quickfix_open_split()<return>
-
-" Let the quickfix window resize like the other windows.
-autocmd FileType qf setlocal nowinfixheight
+" See quickfix ft plugin in after/ftplugin/qf.vim
 
 " Recursive grep
 set grepprg=rg\ --vimgrep
