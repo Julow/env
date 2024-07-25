@@ -12,7 +12,7 @@
   users.mutableUsers = false;
 
   # Screens
-  services.xserver.dpi = 128;
+  services.xserver.dpi = 160;
 
   # The HDD only contains the boot partition because the mother board can't
   # boot from the SSD and can be turned off to reduce noise and power.
