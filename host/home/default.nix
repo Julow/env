@@ -2,17 +2,48 @@
 
 {
   imports = [
-    (import ../../nixos { main_user = "juloo"; host_name = "jules-pc"; })
+    (import ../../nixos {
+      main_user = "juloo";
+      host_name = "jules-pc";
+    })
     ./hardware-configuration.nix
   ];
 
   # Users
-  users.users.juloo.hashedPassword = "$6$mY7jXn2tECcVwABv$YcVZDNh5yYf65D6A44dM6LNxFszu0Ipw9M73VSzMfHVuliJ4t7ZlOoGz3cduPnIwZ8/k.jImkfoy88xO.Poxl1";
-  users.users.root.hashedPassword = "$6$q5rAlai/sjItj4hJ$0hCDqYPOe37sarAEvfnXnXUufprIlaXFyFVerQ.Ew5LSGgTKnAjLEvpUsA3YfyRfQa1kvuXxJ3tsFvYDNUdZV0";
+  users.users.juloo.hashedPassword =
+    "$6$mY7jXn2tECcVwABv$YcVZDNh5yYf65D6A44dM6LNxFszu0Ipw9M73VSzMfHVuliJ4t7ZlOoGz3cduPnIwZ8/k.jImkfoy88xO.Poxl1";
+  users.users.root.hashedPassword =
+    "$6$q5rAlai/sjItj4hJ$0hCDqYPOe37sarAEvfnXnXUufprIlaXFyFVerQ.Ew5LSGgTKnAjLEvpUsA3YfyRfQa1kvuXxJ3tsFvYDNUdZV0";
   users.mutableUsers = false;
 
   # Screens
   services.xserver.dpi = 160;
+
+  services.pipewire = {
+    extraConfig.pipewire = {
+      "10-clock-rate" = {
+        "context.properties" = {
+          "default.clock.rate" = 44100;
+          "default.clock.allowed-rates" = [ 44100 48000 88200 96000 ];
+        };
+      };
+    };
+
+    wireplumber.extraConfig = {
+      # Fix USB Dac restarting, causing delays and cracks
+      "51-disable-suspension" = {
+        "monitor.alsa.rules" = [{
+          # Matches all sinks
+          matches = [{ "node.name" = "*"; }];
+          actions.update-props = {
+            "session.suspend-timeout-seconds" = 5;
+            "api.alsa.period-size" = 1024;
+            "api.alsa.headroom" = 8192;
+          };
+        }];
+      };
+    };
+  };
 
   # The HDD only contains the boot partition because the mother board can't
   # boot from the SSD and can be turned off to reduce noise and power.
