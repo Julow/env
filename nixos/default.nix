@@ -148,6 +148,10 @@ in {
   modules.keyring.enable = true;
   modules.screen_off = { enable = true; locked = 15; unlocked = 3000; };
 
+  # Power management
+  powerManagement.enable = true;
+  services.thermald.enable = true;
+
   # Automatic GC
   nix.gc = {
     automatic = true;
