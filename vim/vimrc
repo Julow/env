@@ -592,6 +592,7 @@ autocmd QuickFixCmdPost * cwindow
 
 " Recursive grep
 set grepprg=rg\ --vimgrep
+set grepformat^=%f:%l:%c:%m
 
 nnoremap <Leader>m :make!<return>
 
