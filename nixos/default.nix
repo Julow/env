@@ -93,7 +93,6 @@ in {
     # Apps
     gimp
     google-chrome
-    fluffychat
     xournalpp
     # Desktop
     dmenu
