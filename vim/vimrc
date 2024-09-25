@@ -878,7 +878,7 @@ endfun
 " Command shorthands
 call SetupCommandAlias("G", "Git -p")
 
-inoremap <C-;> <C-r>=strftime("%F %H:%M")<Enter>
+inoremap <C-,> <C-r>=strftime("%F %H:%M")<Enter>
 
 nnoremap <C-w>= :set cmdheight=1<return><C-w>_<C-w>=
 
