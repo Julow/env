@@ -586,6 +586,7 @@ nnoremap <Leader>q :<C-r>=Quickfix_or_loclist("cc", "ll")<return><return>
 set switchbuf=uselast
 
 " Jump to the first error in the quickfix or loclist
+autocmd QuickFixCmdPost * cwindow
 autocmd FileType qf call timer_start(50, { _ -> execute(Quickfix_or_loclist("cc!", "ll!")) })
 
 " See quickfix ft plugin in after/ftplugin/qf.vim
