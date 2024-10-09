@@ -30,6 +30,8 @@ let b:full_formatprg = "ocamlformat --enable-outside-detected-project --name % -
 " Merlin
 
 let g:merlin_split_method = "never"
+let g:merlin_completion_with_doc = 1
+set completeopt+=popup
 
 " C-c: Clear merlin highlights
 autocmd User ClearHighlight call merlin#StopHighlight()
