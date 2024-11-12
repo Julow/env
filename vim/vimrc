@@ -986,3 +986,26 @@ nnoremap <silent> <Plug>Swap_words :<c-u>call Swap_words('iw', '\w')<return>
 nnoremap <silent> <Plug>Swap_WORDS :<c-u>call Swap_words('iW', '\w')<return>
 nnoremap cx <Plug>Swap_words
 nnoremap cX <Plug>Swap_WORDS
+
+" Pipe a range of line from the current buffer into a shell command.
+" If 'entire_buffer' is 1, the entire buffer is used, otherwise, the selected
+" range or current line is used.
+function! Pipe_range(cmd, entire_buffer) range
+  if a:entire_buffer
+    let start = 1
+    let end = line("$")
+  else
+    let start = a:firstline
+    let end = a:lastline
+  endif
+  let job_options = {
+        \   "in_io": "buffer",
+        \   "in_buf": bufnr("%"),
+        \   "in_top": start,
+        \   "in_bot": end
+        \ }
+  call term_start(a:cmd, job_options)
+endfunction
+
+nnoremap <Leader>! :call Pipe_range("bash -x", 1)<return>
+xnoremap <Leader>! :call Pipe_range("bash -x", 0)<return>
