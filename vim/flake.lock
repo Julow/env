@@ -274,16 +274,16 @@
     "ocaml": {
       "flake": false,
       "locked": {
-        "lastModified": 1711033829,
-        "narHash": "sha256-j5ikL/EsnxT6sqFFjSF7+c6AG4Zw3EXh/uU05l7d7lw=",
-        "owner": "n-osborne",
+        "lastModified": 1731666321,
+        "narHash": "sha256-ABPMXchD7VoW3Cw05a61C7LACmqHNJVbDZvzdg/iu1s=",
+        "owner": "Julow",
         "repo": "vim-ocaml",
-        "rev": "09cf05efd704f7988451bd8b76d0f75a5fcc1e07",
+        "rev": "b824831b31d6f0d4bd21aca4366be43ae8d77c27",
         "type": "github"
       },
       "original": {
-        "owner": "n-osborne",
-        "ref": "odoc-syntax",
+        "owner": "Julow",
+        "ref": "tip",
         "repo": "vim-ocaml",
         "type": "github"
       }
