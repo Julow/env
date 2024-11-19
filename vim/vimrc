@@ -1009,3 +1009,12 @@ endfunction
 
 nnoremap <Leader>! :call Pipe_range("bash -x", 1)<return>
 xnoremap <Leader>! :call Pipe_range("bash -x", 0)<return>
+
+" Fix a bug in the default java ftplugin
+hi markdownH1 NONE
+hi markdownH2 NONE
+hi markdownHeadingRule NONE
+hi markdownRule NONE
+hi markdownCode NONE
+hi markdownCodeBlock NONE
+hi markdownIdDeclaration NONE
