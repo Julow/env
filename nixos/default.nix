@@ -39,7 +39,6 @@ in {
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
-    alsa.enable = true;
     pulse.enable = true;
   };
   # Disable socket activation, which is annoying with bluetooth and break web

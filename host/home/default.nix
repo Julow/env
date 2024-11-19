@@ -19,32 +19,6 @@
   # Screens
   services.xserver.dpi = 160;
 
-  services.pipewire = {
-    extraConfig.pipewire = {
-      "10-clock-rate" = {
-        "context.properties" = {
-          "default.clock.rate" = 44100;
-          "default.clock.allowed-rates" = [ 44100 48000 88200 96000 ];
-        };
-      };
-    };
-
-    wireplumber.extraConfig = {
-      # Fix USB Dac restarting, causing delays and cracks
-      "51-disable-suspension" = {
-        "monitor.alsa.rules" = [{
-          # Matches all sinks
-          matches = [{ "node.name" = "*"; }];
-          actions.update-props = {
-            "session.suspend-timeout-seconds" = 5;
-            "api.alsa.period-size" = 1024;
-            "api.alsa.headroom" = 8192;
-          };
-        }];
-      };
-    };
-  };
-
   # The HDD only contains the boot partition because the mother board can't
   # boot from the SSD and can be turned off to reduce noise and power.
   # hdparm -S 5 doesn't set the standaby timer to 25s as expected but to 10min
