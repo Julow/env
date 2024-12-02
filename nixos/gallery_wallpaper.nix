@@ -26,8 +26,6 @@ in {
     services.xserver.displayManager.sessionCommands = ''
       if [[ -e ~/.fehbg ]]; then ~/.fehbg & else ${refresh_wallpaper} & fi
     '';
-
-    # Reduce closure size
     services.xserver.desktopManager.wallpaper.enable = false;
 
     # Refresh the wallpaper twice a week.
