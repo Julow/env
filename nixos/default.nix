@@ -34,7 +34,6 @@ in {
   hardware.bluetooth.enable = true;
 
   # Enable sound.
-  sound.enable = true;
   xdg.sounds.enable = false; # Disable bell sounds
   security.rtkit.enable = true;
   services.pipewire = {
@@ -74,7 +73,7 @@ in {
   ];
 
   # Enable flakes
-  nix.package = pkgs.nixFlakes;
+  nix.package = pkgs.nixVersions.stable;
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';
