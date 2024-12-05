@@ -97,6 +97,7 @@ in {
     pavucontrol xclip
     networkmanager
     gnome.nautilus
+    celluloid
     # Other
     nixos-deploy graphviz yt-dlp
   ];
