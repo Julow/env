@@ -56,6 +56,9 @@
   do = diff --stat --summary -p ORIG_HEAD
   km = "!f() { : git checkout; git checkout \"`git symbolic-ref --short ${1:-MAIN}`\"; }; f"
   mm = merge MAIN
+  # Push the current ref to a Github branch URL, https://github.com/user/repo/tree/branch_name
+  # "gh:" is my SSH host name alias for pushing to github.
+  pgh = "!f() { : git push; R=${1%%/tree/*}; B=${2:-${1#*/tree/}}; git push \"gh:${R#https://github.com/}\" \"@:$B\"; }; f"
 
 [grep]
   lineNumber = true
