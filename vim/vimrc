@@ -1019,3 +1019,24 @@ hi markdownRule NONE
 hi markdownCode NONE
 hi markdownCodeBlock NONE
 hi markdownIdDeclaration NONE
+
+" Duplicate the current line and place the cursor at the same position into
+" the new line.
+function! Duplicate_current_line()
+  let text = getline(".")
+  let cursor = getcurpos(".")
+  call append(cursor[1], text)
+  let cursor[1] = cursor[1] + 1
+  call setpos(".", cursor)
+endfunction
+
+" Duplicate the lines that touch the selection.
+function! Duplicate_selected_lines() range
+  let lines = getline(a:firstline, a:lastline)
+  call setpos(".", [ 0, a:lastline, 0, 0 ])
+  call append(a:lastline, lines)
+  call setpos(".", [ 0, a:lastline + 1, 0, 0 ])
+endfunction
+
+nnoremap <Leader>p :call Duplicate_current_line()<return>
+xnoremap <Leader>p :call Duplicate_selected_lines()<return>
