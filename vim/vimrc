@@ -267,12 +267,11 @@ function! Statusline()
   let l:s .= "%#" . S_mode_hi_group(l:mode) . "#" . substitute(l:f, '%', '%%', 'g') . "%*"
 
   " Vim's flags and cursor position
-  let l:s .= " %(%q %)%(%w %)%l:%c"
+  let l:s .= " %(%q %)%(%w %)%l:%c "
   " Selection
   if l:mode =~# "^[vV\<C-V>]"
-    let l:s .= " " . S_selection(l:mode[0])
+    let l:s .= S_selection(l:mode[0]) . " "
   endif
-  let l:s .= " "
 
   " Line feed format
   let ff = getbufvar(l:bufnr, "&fileformat")
@@ -280,7 +279,7 @@ function! Statusline()
     let l:s .= "%#S_warn_bufvar# " . ff . " %* "
   endif
   let fe = getbufvar(l:bufnr, "&fileencoding")
-  if fe != "utf-8"
+  if fe != "utf-8" && fe != ""
     let l:s .= "%#S_warn_bufvar# " . fe . " %* "
   endif
   " Unmodifiable or readonly buffers
@@ -327,8 +326,8 @@ function! Tabline_label(i)
 endfunction
 
 function! Tabline_status()
-  let s = "%#S_workspace#%(" . $WORKSPACE . "%)" " Workspace name, if any
-  let s .= "%#S_fugitive#%( %{FugitiveHead(8)}%) " " Current Git branch
+  let s = "%#S_workspace#%(%{$WORKSPACE} %)" " Workspace name, if any
+  let s .= "%#S_fugitive#%(%{FugitiveHead(8)} %)" " Current Git branch
   return s
 endfunction
 
