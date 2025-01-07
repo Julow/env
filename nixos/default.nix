@@ -96,13 +96,14 @@ in {
     dmenu
     pavucontrol xclip
     networkmanager
-    gnome.nautilus
+    nautilus
     celluloid
     # Other
     nixos-deploy graphviz yt-dlp
   ];
 
   programs.vim = {
+    enable = true;
     defaultEditor = true;
     package = pkgs.vim_configurable;
   };
