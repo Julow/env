@@ -277,7 +277,11 @@ function! Statusline()
   " Line feed format
   let ff = getbufvar(l:bufnr, "&fileformat")
   if ff != "unix"
-    let l:s .= "%#S_linef# " . ff . " %* "
+    let l:s .= "%#S_warn_bufvar# " . ff . " %* "
+  endif
+  let fe = getbufvar(l:bufnr, "&fileencoding")
+  if fe != "utf-8"
+    let l:s .= "%#S_warn_bufvar# " . fe . " %* "
   endif
   " Unmodifiable or readonly buffers
   if !getbufvar(l:bufnr, "&modifiable") || getbufvar(l:bufnr, "&readonly")
@@ -352,7 +356,7 @@ hi StatusLineNC ctermbg=lightgrey ctermfg=black cterm=none
 hi StatusLineTerm ctermbg=lightgrey ctermfg=none cterm=none
 hi StatusLineTermNC ctermbg=lightgrey ctermfg=none cterm=none
 hi S_readonly ctermbg=yellow ctermfg=lightgrey cterm=none
-hi S_linef ctermbg=red ctermfg=lightgrey cterm=none
+hi S_warn_bufvar ctermbg=red ctermfg=lightgrey cterm=none
 hi S_mode_n ctermbg=lightgrey ctermfg=none cterm=none
 hi S_mode_i ctermbg=yellow ctermfg=none cterm=none
 hi S_mode_v ctermbg=green ctermfg=none cterm=none
