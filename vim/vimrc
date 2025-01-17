@@ -754,7 +754,7 @@ function! Restart_terminal_job(...)
     call term_wait(buf)
   endif
   let cmd = (len(a:000) > 0) ? copy(a:000) : info["cmd"]
-  call term_start(cmd, #{ curwin: 1 })
+  call term_start(cmd, #{ curwin: 1, term_name: join(cmd, " ") })
 endfunction
 
 function! Last_job_command()
