@@ -359,6 +359,7 @@ main =
     startupHook = startupHook'
   }
   `removeKeysP` [
+    "M-.", "M-,", -- Conflict with password prompt on my layout
     "M-S-<Return>",
     "M-S-q"
   ]
