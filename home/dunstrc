@@ -14,6 +14,8 @@
   separator_color = "#000000"
   frame_width = 0
 
+  #highlight = "#774433,#337744"
+
   ### Text ###
 
   font = Fira Mono 12
@@ -63,12 +65,6 @@
   format = "<b>%s</b> %b"
 	history_ignore = yes
 	timeout = 1
-
-[spotify]
-	appname = Spotify
-	history_ignore = yes
-	timeout = 2
-  format = "<b>%a</b>\n%s\n%b"
 
 [status_indicator]
 	appname = Status

@@ -8,14 +8,6 @@
     keyword = "m";
     url = "https://www.google.com/maps?q=%s";
   };
-  Thesaurus = {
-    keyword = "the";
-    url = "https://www.thesaurus.com/browse/%s";
-  };
-  "English dictionary" = {
-    keyword = "def";
-    url = "https://www.dictionary.com/browse/%s";
-  };
   Github = {
     keyword = "gh";
     url = "https://github.com/search?q=%s";
@@ -38,6 +30,7 @@
   };
   "Android Developers" = {
     keyword = "android";
-    url = "https://developer.android.com/s/results?q=%s";
+    url =
+      "https://developer.android.com/s/results?q=%s&all_languages=true&text";
   };
 }
