@@ -155,6 +155,8 @@ let g:s_fugitive_filename_const = {
 
 " Do some processing on the current filename for the status line.
 " Set 'b:s_filename' to the current filename, possibly modified.
+" Set 'b:s_filename_tab' to the current filename, modified for the tabline
+" with the same decorator prefix.
 " Set 'b:s_filename_decorator' to the length of the filename prefix that
 " should be highlighted differently.
 function! Update_s_filename(bufnr)
@@ -188,20 +190,17 @@ function! Update_s_filename(bufnr)
       let l:d = len(l:symbolic) + 1
     endif
 
-  elseif l:f =~ "^/"
+  else
     " Convert absolute paths to relative paths
     let l:f = fnamemodify(l:f, ":~:.")
-    if l:f =~ "^/"
-      " Couldn't convert to relative
 
-      if getbufvar(a:bufnr, "current_syntax") == "help"
-        let l:f = "help:" . fnamemodify(l:f, ":t:r")
-        let l:d = 5
+    if getbufvar(a:bufnr, "current_syntax") == "help"
+      let l:f = "help:" . fnamemodify(l:f, ":t:r")
+      let l:d = 5
 
-      elseif l:f =~ "^/nix/store/"
-        let l:f = "nix:" . l:f[44:]
-        let l:d = stridx(l:f, "/") + 1
-      endif
+    elseif l:f =~ "^/nix/store/"
+      let l:f = "nix:" . l:f[44:]
+      let l:d = stridx(l:f, "/") + 1
     endif
   endif
 
@@ -210,7 +209,11 @@ function! Update_s_filename(bufnr)
     let l:d = len(l:f)
   endif
 
+  " Shorten paths for the tabline
+  let l:f_tab = strpart(l:f, 0, l:d) . pathshorten(strpart(l:f, l:d))
+
   call setbufvar(a:bufnr, "s_filename", l:f)
+  call setbufvar(a:bufnr, "s_filename_tab", l:f_tab)
   call setbufvar(a:bufnr, "s_filename_decorator", l:d)
 endfunction
 
@@ -317,10 +320,10 @@ function! Tabline_label(i)
   let buflist = tabpagebuflist(a:i)
   let winnr = tabpagewinnr(a:i)
   let buf = buflist[winnr - 1]
-  let name = getbufvar(buf, "s_filename")
+  let name = getbufvar(buf, "s_filename_tab")
   if name == ""
     call Update_s_filename(buf)
-    let name = getbufvar(buf, "s_filename")
+    let name = getbufvar(buf, "s_filename_tab")
   endif
   return name
 endfunction
