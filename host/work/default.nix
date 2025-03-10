@@ -10,14 +10,9 @@
     nixos-hardware.nixosModules.lenovo-thinkpad-x1-6th-gen
   ];
 
-  services.xserver = {
-    dpi = 160;
-    libinput.touchpad.accelSpeed = "0.7";
-  };
-
-  services.autorandr = {
-    enable = true;
-  };
+  services.xserver.dpi = 160;
+  services.libinput.touchpad.accelSpeed = "0.7";
+  services.autorandr.enable = true;
 
   modules.autorandr_profiles = {
     enable = true;
