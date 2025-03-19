@@ -75,3 +75,19 @@ endsnippet
 snippet f "f (.)"
 ${1:f} (${2:.})
 endsnippet
+
+snippet List.iter "List.iter (fun _ -> _) _"
+List.iter (fun ${1:v} ->
+  ${0}
+) ${2:lst}
+endsnippet
+
+snippet List.fold "List.fold_left (fun acc _ -> _) _"
+List.fold_left (fun acc ${1:v} ->
+  ${0}
+) ${3:[]} ${2:lst}
+endsnippet
+
+snippet assert "assert false"
+let _ = assert false in
+endsnippet
