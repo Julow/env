@@ -29,9 +29,6 @@
 [push]
   autoSetupRemote = true
 
-[fetch]
-  all = true
-
 [pull]
   ff = only
 
@@ -53,8 +50,7 @@
   r = "!f() { : git reset; git reset -- HEAD -q \"$@\" && git t; }; f"
   c = "!f() { if [[ $# -eq 0 ]]; then git commit -v; else git commit -m \"$*\"; fi; }; f"
   p = push
-  # git rev-parse --abbrev-ref --symbolic-full-name @{u}
-  pl = "!f () { : git pull; git pull --stat -v --ff-only --set-upstream \"$@\"; }; f"
+  pl = "!f () { : git pull; if [[ $# -ge 1 ]]; then U=--set-upstream; fi; git pull --stat -v --ff-only $U \"${1-origin}\" \"${2-`git rev-parse --symbolic-full-name @`}\"; }; f"
   amend = commit --amend --no-edit
   kpr = "!f() { git fpr \"$1\" && git checkout \"pr/$1\" && git l; }; f"
   ll = customlog --all
