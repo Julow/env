@@ -1048,5 +1048,5 @@ function! Duplicate_selected_lines() range
   call setpos(".", [ 0, a:lastline + 1, 0, 0 ])
 endfunction
 
-nnoremap <Leader>p :call Duplicate_current_line()<return>
-xnoremap <Leader>p :call Duplicate_selected_lines()<return>
+nnoremap U :call Duplicate_current_line()<return>
+xnoremap U :call Duplicate_selected_lines()<return>
