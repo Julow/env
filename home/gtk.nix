@@ -1,6 +1,8 @@
-{ pkgs, config, ... }: {
+{ pkgs, config, ... }:
+let home = config.home.homeDirectory;
+in {
   xdg.configFile."gtk-3.0/bookmarks".text = ''
-    file:///home/juloo/Downloads
-    file:///home/juloo/notes/drive
+    file://${home}/Downloads
+    file://${home}/notes/drive
   '';
 }
