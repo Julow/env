@@ -26,7 +26,7 @@ in {
     services.xserver.displayManager.sessionCommands = ''
       if [[ -e ~/.fehbg ]]; then ~/.fehbg & else ${refresh_wallpaper} & fi
     '';
-    services.xserver.desktopManager.wallpaper.enable = false;
+    # services.xserver.desktopManager.wallpaper.enable = false;
 
     # Refresh the wallpaper twice a week.
     systemd.user.services.gallery_wallpaper = {

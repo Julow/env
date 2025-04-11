@@ -23,9 +23,10 @@
           inherit patches;
         };
 
-      nixpkgs = patch_nixpkgs inputs.nixpkgs [
-        patches/desktop-managers-wallpaper-disable.patch
-      ];
+      # nixpkgs = patch_nixpkgs inputs.nixpkgs [
+      #   # patches/desktop-managers-wallpaper-disable.patch
+      # ];
+      nixpkgs = inputs.nixpkgs;
 
       mk_nixos = path:
         import "${nixpkgs}/nixos/lib/eval-config.nix" {
