@@ -11,11 +11,11 @@
 #  window       The current window
 #  interactive  Rectangle selection (default)
 
-SCREENSHOT_DIR="/tmp/screenshot"
+SCREENSHOT_DIR="$HOME/Downloads"
 
 function get_screenshot_name
 {
-	BASE_NAME=`date +"%Y-%m-%d-%H-%M"`
+	BASE_NAME=`date +"screenshot-%Y%m%d-%H-%M"`
 	for i in "" -{01..99}; do
 		F="$SCREENSHOT_DIR/$BASE_NAME$i.png"
 		if ! [[ -f "$F" ]]; then
