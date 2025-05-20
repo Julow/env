@@ -38,6 +38,7 @@ in {
       autorandr
       xdotool
       networkmanager_dmenu
+      dmenu-bluetooth
     ];
   };
 }

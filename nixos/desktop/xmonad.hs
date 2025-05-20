@@ -199,7 +199,7 @@ scratch_xterm key cmd manageHook id =
 scratchpads = [
     scratch_prog "p" "pavucontrol" (className =? "Pavucontrol") (floating_centered (1/4) (1/8)),
     scratch_xterm "h" "htop" (floating_centered (1/8) (1/8)),
-    scratch_xterm "b" "bluetoothctl" (floating_centered (1/3) (1/8)),
+    scratch_xterm "S-b" "bluetoothctl" (floating_centered (1/3) (1/8)),
     scratch_xterm "w" "vim ~/notes/quick_notes" (floating (2/3) (1/4) (1/3 - 1/10) (2/4)),
     scratch_prog "o" "google-chrome-stable" (className =? "google-chrome") nonFloating,
     scratch_prog "n" "notes-workspace" (title =? "Notes") nonFloating,
@@ -372,6 +372,7 @@ main =
     ("M-a m", safeSpawn "xterm" ["-e", "mail_client"]),
     ("M-a r", safeSpawn "autorandr" ["--default", "default", "--change"]),
     ("M-a e", safeSpawn "networkmanager_dmenu" []),
+    ("M-a b", safeSpawn "dmenu-bluetooth" []),
 
     -- BoringWindows
     ("M-k", focusUp),
