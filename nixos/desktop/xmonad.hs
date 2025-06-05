@@ -5,6 +5,7 @@ import Data.List
 import Data.Ratio ((%))
 import System.Directory
 import System.Environment
+import System.IO (withFile, IOMode(AppendMode))
 import XMonad
 import XMonad.Actions.CopyWindow (copyToAll, killAllOtherCopies)
 import XMonad.Actions.CycleRecentWS (toggleRecentWS)
@@ -23,6 +24,7 @@ import XMonad.Layout.Spacing
 import XMonad.Layout.SubLayouts
 import XMonad.Layout.Tabbed
 import XMonad.ManageHook
+import XMonad.Prelude
 import XMonad.Prompt
 import XMonad.Prompt.FuzzyMatch
 import XMonad.Prompt.Shell
@@ -33,6 +35,7 @@ import XMonad.Util.NamedScratchpad
 import XMonad.Util.NamedWindows (getName)
 import XMonad.Util.Run
 import XMonad.Util.Types
+import XMonad.Util.XSelection (getSelection)
 import qualified Data.Map as M
 import qualified XMonad.StackSet as W
 
@@ -186,6 +189,17 @@ centered_full sp step =
   Full
 
 -- ========================================================================== --
+-- Quick notes
+
+quick_notes_file_rel = "notes/quick_notes"
+-- quick_notes_file_abs = getHomeDirectory >>= (</> quick_notes_file_rel)
+
+append_clipboard_to_quick_notes = do
+  selection <- getSelection
+  file <- mkAbsolutePath quick_notes_file_rel
+  io $ withFile file AppendMode (flip hPutStrLn ("\n" ++ selection))
+
+-- ========================================================================== --
 -- Scratchpads
 
 scratch_prog key cmd selector manageHook id =
@@ -200,7 +214,7 @@ scratchpads = [
     scratch_prog "p" "pavucontrol" (className =? "Pavucontrol") (floating_centered (1/4) (1/8)),
     scratch_xterm "h" "htop" (floating_centered (1/8) (1/8)),
     scratch_xterm "S-b" "bluetoothctl" (floating_centered (1/3) (1/8)),
-    scratch_xterm "w" "vim ~/notes/quick_notes" (floating (2/3) (1/4) (1/3 - 1/10) (2/4)),
+    scratch_xterm "w" ("vim ~/" ++ quick_notes_file_rel) (floating (2/3) (1/4) (1/3 - 1/10) (2/4)),
     scratch_prog "o" "google-chrome-stable" (className =? "google-chrome") nonFloating,
     scratch_prog "n" "notes-workspace" (title =? "Notes") nonFloating,
     scratch_prog "t" "thunderbird" (className =? "Thunderbird") nonFloating
@@ -429,6 +443,11 @@ main =
     ("M-s", safeSpawn "screenshot.sh" ["interactive"]),
     ("M-S-s", safeSpawn "screenshot.sh" ["screen"]),
     ("M-C-s", safeSpawn "screenshot.sh" ["window"]),
+
+    -- Append the content of the clipboard to the quick_notes file
+    ("M-x", append_clipboard_to_quick_notes),
+
+    -- Control
 
     -- Volume keys
     ("<XF86AudioLowerVolume>", safeSpawn "volume.sh" ["dec"]),
