@@ -50,11 +50,12 @@ in {
     enable = true;
 
     profiles.hm = {
-      bookmarks = import ./bookmarks.nix;
+      bookmarks.force = true;
+      bookmarks.settings = import ./bookmarks.nix;
       settings = import ./prefs.nix;
       inherit userChrome;
 
-      extensions = with firefox-addons; [
+      extensions.packages = with firefox-addons; [
         ublock-origin
         privacy-badger
         vimium

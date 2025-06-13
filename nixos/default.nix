@@ -14,7 +14,7 @@ let
 
 in {
   imports = modules ++ [
-    home-manager.nixosModule
+    home-manager.nixosModules.home-manager
     nix-gc-env.nixosModules.default
   ];
 

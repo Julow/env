@@ -1,36 +1,19 @@
-{
-  Wikipedia = {
-    keyword = "w";
-    url =
-      "https://www.wikipedia.org/w/index.php?title=Special:Search&search=%s";
+let
+  # Shorthand for defining a keyword bookmark
+  kw = keyword: url: {
+    name = keyword;
+    inherit keyword url;
   };
-  "Google maps" = {
-    keyword = "m";
-    url = "https://www.google.com/maps?q=%s";
-  };
-  Github = {
-    keyword = "gh";
-    url = "https://github.com/search?q=%s";
-  };
-  "OCaml packages" = {
-    keyword = "oca";
-    url = "https://ocaml.org/packages/search?q=%s";
-  };
-  "Deepl French to English" = {
-    keyword = "en";
-    url = "https://www.deepl.com/fr/translator#fr/en/%s";
-  };
-  "Deepl English to French" = {
-    keyword = "fr";
-    url = "https://www.deepl.com/fr/translator#en/fr/%s";
-  };
-  "Conjugaison" = {
-    keyword = "conj";
-    url = "https://conjugaison.lemonde.fr/conjugaison/search?verb=%s";
-  };
-  "Android Developers" = {
-    keyword = "android";
-    url =
-      "https://developer.android.com/s/results?q=%s&all_languages=true&text";
-  };
-}
+
+in [
+  (kw "w"
+    "https://www.wikipedia.org/w/index.php?title=Special:Search&search=%s")
+  (kw "m" "https://www.google.com/maps?q=%s")
+  (kw "gh" "https://github.com/search?q=%s")
+  (kw "oca" "https://ocaml.org/packages/search?q=%s")
+  (kw "en" "https://www.deepl.com/fr/translator#fr/en/%s")
+  (kw "fr" "https://www.deepl.com/fr/translator#en/fr/%s")
+  (kw "conj" "https://conjugaison.lemonde.fr/conjugaison/search?verb=%s")
+  (kw "android"
+    "https://developer.android.com/s/results?q=%s&all_languages=true&text")
+]
