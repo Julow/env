@@ -129,7 +129,7 @@ in {
   # Main user
   users.users."${main_user}" = {
     isNormalUser = true;
-    extraGroups = [ "docker" "dialout" "adbusers" "audio" "networkmanager" ];
+    extraGroups = [ "docker" "dialout" "adbusers" "audio" "networkmanager" "systemd-journal" ];
   };
   home-manager.users."${main_user}" = import ../home;
   home-manager.extraSpecialArgs = {
