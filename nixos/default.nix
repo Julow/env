@@ -92,6 +92,7 @@ in {
     gimp
     google-chrome
     xournalpp
+    libreoffice
     # Desktop
     dmenu
     pavucontrol xclip
