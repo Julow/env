@@ -165,6 +165,24 @@ workspace_prompt prompt_conf = do
   mkXPrompt (Prompt_autocomplete "Workspace: ") prompt_conf compl open
 
 -- ========================================================================== --
+-- Bookmarks prompt
+
+str_split delim lst =
+  case elemIndex delim lst of
+    Just i -> let (l, r) = splitAt i lst in (l, drop 1 r)
+    Nothing -> (lst, "")
+
+bookmarks_prompt prompt_conf = do
+  home <- home_dir
+  bookmarks_raw <- io $ readFile (home ++ "/notes/data/bookmarks")
+  let bs = map (str_split ',') $ lines bookmarks_raw
+  let compl = compl_fun_from_list (map fst bs)
+  let open name = case lookup name bs of
+        Just url -> safeSpawn "firefox" [ url ]
+        Nothing -> return ()
+  mkXPrompt (Prompt_autocomplete "Bookmarks: ") prompt_conf compl open
+
+-- ========================================================================== --
 -- Centered layout
 -- Improve Layout.Spacing by handling Shink and Expand messages
 
@@ -419,14 +437,13 @@ main =
     -- Lock screen
     ("M-z", lock_screen),
 
-    -- Shell, window, preset prompts
+    -- Prompts
     ("M-p", shellPrompt prompt_conf),
     ("M-S-p", windowPrompt prompt_conf Goto allWindows),
     ("M-o", workspace_prompt prompt_conf),
-
-    -- Password prompt
     ("M-;", password_type_prompt (prompt_conf { changeModeKey = xK_semicolon })),
     ("M-S-;", password_copy_prompt (prompt_conf { changeModeKey = xK_semicolon })),
+    ("M-f", bookmarks_prompt prompt_conf),
 
     -- Dunst shortcuts
     ("M-r", safeSpawn "dunstctl" ["close"]),
