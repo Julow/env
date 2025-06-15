@@ -133,12 +133,15 @@ in {
     extraGroups = [ "docker" "dialout" "adbusers" "audio" "networkmanager" "systemd-journal" ];
   };
   home-manager.users."${main_user}" = import ../home;
-  home-manager.extraSpecialArgs = {
-    inherit (inputs) nur_rycee vim_plugins;
-  };
 
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
+  home-manager = {
+    extraSpecialArgs = {
+      inherit (inputs) nur_rycee vim_plugins;
+    };
+    backupFileExtension = "hm-backup";
+    useGlobalPkgs = true;
+    useUserPackages = true;
+  };
 
   # Modules
   modules.desktop.enable = true;
