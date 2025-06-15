@@ -183,10 +183,15 @@ handle_search_engine name url prompt_conf k =
       mkXPrompt (Prompt_autocomplete $ name ++ ": ") prompt_conf (\_ -> return []) open
     Nothing -> k url
 
+-- Prompt for opening a bookmarked URL from a list read from a file.
+-- The bookmarks file has a simple format: Each line is a bookmark and is
+-- either a URL or a sentence and a URL separated with a comma.
+-- The optional sentence replaces the URL in the prompt, it cannot contain a
+-- comma. Two bookmarks cannot share the same sentence.
 bookmarks_prompt prompt_conf = do
   home <- home_dir
   bookmarks_raw <- io $ readFile (home ++ "/notes/data/bookmarks")
-  let bs = mapMaybe (str_split ",") $ lines bookmarks_raw
+  let bs = map (\b -> fromMaybe (b, b) $ str_split "," b) $ lines bookmarks_raw
   let compl = compl_fun_from_list (map fst bs)
   let open name = case lookup name bs of
         Just url ->
