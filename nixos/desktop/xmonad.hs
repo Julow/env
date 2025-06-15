@@ -2,6 +2,7 @@
 
 import Control.Monad
 import Data.List
+import Data.Maybe
 import Data.Ratio ((%))
 import System.Directory
 import System.Environment
@@ -167,18 +168,30 @@ workspace_prompt prompt_conf = do
 -- ========================================================================== --
 -- Bookmarks prompt
 
-str_split delim lst =
-  case elemIndex delim lst of
-    Just i -> let (l, r) = splitAt i lst in (l, drop 1 r)
-    Nothing -> (lst, "")
+-- Find the first occurrence f 'delim' in 'str' and return the sub strings that
+-- come before and after it.
+str_split delim str = f str 0
+  where
+    f sub i | isPrefixOf delim sub = Just (take i str, drop (length delim) sub)
+    f [] _ = Nothing
+    f (_ : tl) i = f tl (i + 1)
+
+handle_search_engine name url prompt_conf k =
+  case str_split "%s" url of
+    Just (l, r) ->
+      let open query = k (l ++ query ++ r) in
+      mkXPrompt (Prompt_autocomplete $ name ++ ": ") prompt_conf (\_ -> return []) open
+    Nothing -> k url
 
 bookmarks_prompt prompt_conf = do
   home <- home_dir
   bookmarks_raw <- io $ readFile (home ++ "/notes/data/bookmarks")
-  let bs = map (str_split ',') $ lines bookmarks_raw
+  let bs = mapMaybe (str_split ",") $ lines bookmarks_raw
   let compl = compl_fun_from_list (map fst bs)
   let open name = case lookup name bs of
-        Just url -> safeSpawn "firefox" [ url ]
+        Just url ->
+          handle_search_engine name url prompt_conf (\url ->
+            safeSpawn "firefox" [ url ])
         Nothing -> return ()
   mkXPrompt (Prompt_autocomplete "Bookmarks: ") prompt_conf compl open
 
