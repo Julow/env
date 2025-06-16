@@ -183,14 +183,15 @@ handle_search_engine name url prompt_conf k =
       mkXPrompt (Prompt_autocomplete $ name ++ ": ") prompt_conf (\_ -> return []) open
     Nothing -> k url
 
+bookmarks_file = mkAbsolutePath "notes/data/bookmarks"
+
 -- Prompt for opening a bookmarked URL from a list read from a file.
 -- The bookmarks file has a simple format: Each line is a bookmark and is
 -- either a URL or a sentence and a URL separated with a comma.
 -- The optional sentence replaces the URL in the prompt, it cannot contain a
 -- comma. Two bookmarks cannot share the same sentence.
 bookmarks_prompt prompt_conf = do
-  home <- home_dir
-  bookmarks_raw <- io $ readFile (home ++ "/notes/data/bookmarks")
+  bookmarks_raw <- io $ bookmarks_file >>= readFile
   let bs = map (\b -> fromMaybe (b, b) $ str_split "," b) $ lines bookmarks_raw
   let compl = compl_fun_from_list (map fst bs)
   let open name = case lookup name bs of
@@ -199,6 +200,12 @@ bookmarks_prompt prompt_conf = do
             safeSpawn "firefox" [ url ])
         Nothing -> return ()
   mkXPrompt (Prompt_autocomplete "Bookmarks: ") prompt_conf compl open
+
+-- Add the currently selected text to the bookmarks file
+append_selection_to_bookmarks = do
+  selection <- getSelection
+  file <- io bookmarks_file
+  io $ withFile file AppendMode (flip hPutStrLn selection)
 
 -- ========================================================================== --
 -- Centered layout
@@ -228,7 +235,6 @@ centered_full sp step =
 -- Quick notes
 
 quick_notes_file_rel = "notes/quick_notes"
--- quick_notes_file_abs = getHomeDirectory >>= (</> quick_notes_file_rel)
 
 append_clipboard_to_quick_notes = do
   selection <- getSelection
@@ -481,6 +487,7 @@ main =
 
     -- Append the content of the clipboard to the quick_notes file
     ("M-x", append_clipboard_to_quick_notes),
+    ("M-S-f", append_selection_to_bookmarks),
 
     -- Control
 
