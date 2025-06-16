@@ -23,10 +23,11 @@
           inherit patches;
         };
 
-      # nixpkgs = patch_nixpkgs inputs.nixpkgs [
-      #   # patches/desktop-managers-wallpaper-disable.patch
-      # ];
-      nixpkgs = inputs.nixpkgs;
+      nixpkgs = patch_nixpkgs inputs.nixpkgs [
+        # patches/desktop-managers-wallpaper-disable.patch
+        patches/notmuch-vim-fix-rubylib.patch
+      ];
+      # nixpkgs = inputs.nixpkgs;
 
       mk_nixos = path:
         import "${nixpkgs}/nixos/lib/eval-config.nix" {

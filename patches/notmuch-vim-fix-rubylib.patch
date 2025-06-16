@@ -1,0 +1,26 @@
+commit 624b265d54ccf1c17381897001d3d764a067956e
+Author:     Jules Aguillon <jules@j3s.fr>
+AuthorDate: Mon Jun 16 12:02:57 2025 +0200
+Commit:     Jules Aguillon <jules@j3s.fr>
+CommitDate: Mon Jun 16 12:02:57 2025 +0200
+
+    notmuch: Fix RUBYLIB path in the Vim plugin
+    
+    It was pointing to the wrong location since 0082fde.
+---
+ pkgs/applications/networking/mailreaders/notmuch/default.nix | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/pkgs/applications/networking/mailreaders/notmuch/default.nix b/pkgs/applications/networking/mailreaders/notmuch/default.nix
+index b4570d58434b..0535199e31e7 100644
+--- a/pkgs/applications/networking/mailreaders/notmuch/default.nix
++++ b/pkgs/applications/networking/mailreaders/notmuch/default.nix
+@@ -190,7 +190,7 @@ stdenv.mkDerivation (finalAttrs: {
+       PLUG=$vim/share/vim-plugins/notmuch/plugin/notmuch.vim
+       cat >> $PLUG << EOF
+         let \$GEM_PATH=\$GEM_PATH . ":${finalAttrs.passthru.gemEnv}/${ruby.gemPath}"
+-        let \$RUBYLIB=\$RUBYLIB . ":$vim/${ruby.libPath}/${ruby.system}"
++        let \$RUBYLIB=\$RUBYLIB . ":$out/${ruby.libPath}/${ruby.system}"
+         if has('nvim')
+       EOF
+       for gem in ${finalAttrs.passthru.gemEnv}/${ruby.gemPath}/gems/*/lib; do
