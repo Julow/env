@@ -11,6 +11,8 @@
     vim_plugins.url = "path:./vim";
     vim_plugins.inputs.nixpkgs.follows = "nixpkgs";
     nix-gc-env.url = "github:Julow/nix-gc-env";
+    private_conf.url = "git:/--override-input";
+    private_conf.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs:
@@ -33,7 +35,7 @@
         import "${nixpkgs}/nixos/lib/eval-config.nix" {
           system = "x86_64-linux";
           specialArgs = inputs // { inherit nixpkgs; };
-          modules = [ path ];
+          modules = [ path inputs.private_conf.nixosModules.default ];
         };
 
     in {
