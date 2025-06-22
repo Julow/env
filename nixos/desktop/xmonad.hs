@@ -338,6 +338,10 @@ updatePointerScreen = do
 
 font_name size = "xft:Fira Code:style=Medium:antialias=true:size=" ++ show size
 
+spawn_terminal = do
+  home <- home_dir
+  safeSpawn "xterm" ["-e", "vim '" ++ home ++ "/Downloads'"]
+
 prompt_conf = def {
   font = font_name 12,
   promptBorderWidth = 0,
@@ -423,7 +427,7 @@ main =
     -- Spawn terminal. Override the default because the 'terminal'
     -- configuration field shouldn't exist (it's only used for defining one
     -- binding, contrib modules need to assume too much)
-    ("M-a <Return>", safeSpawn "xterm" ["-e", "vim"]),
+    ("M-a <Return>", spawn_terminal),
     ("M-a <Space>", safeSpawn "firefox" []),
     ("M-a m", safeSpawn "xterm" ["-e", "mail_client"]),
     ("M-a r", safeSpawn "autorandr" ["--default", "default", "--change"]),
