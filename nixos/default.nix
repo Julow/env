@@ -1,8 +1,6 @@
-{ main_user, host_name }:
+{ config, pkgs, lib, nixpkgs, home-manager, nix-gc-env, ... }@inputs:
 
 # NixOS configuration not related to a specific machine. Included from host/*.
-
-{ config, pkgs, lib, nixpkgs, home-manager, nix-gc-env, ... }@inputs:
 
 let
   # Returns the content of a directory as a list of paths
@@ -12,10 +10,18 @@ let
   # Every other files and directories in nixos/
   modules = lib.filter (p: p != ./default.nix) (readDir_paths ./.);
 
+  main_user_opts = { lib, ... }:
+    with lib; {
+      options.main_user = mkOption { type = types.str; };
+      options.host_name = mkOption { type = types.str; };
+      config = { };
+    };
+
 in {
   imports = modules ++ [
     home-manager.nixosModules.home-manager
     nix-gc-env.nixosModules.default
+    main_user_opts
   ];
 
   # Quiet and fast boot
@@ -47,7 +53,7 @@ in {
   systemd.user.services.pipewire-pulse.wantedBy = [ "graphical-session.target" ];
 
   # Locale
-  networking.hostName = host_name;
+  networking.hostName = config.host_name;
   time.timeZone = "Europe/Paris";
   i18n.defaultLocale = "fr_FR.UTF-8";
   i18n.supportedLocales = [ "fr_FR.UTF-8/UTF-8" "en_US.UTF-8/UTF-8" ];
@@ -124,15 +130,15 @@ in {
 
   modules.virtualisation = {
     enable = false;
-    user = main_user;
+    user = config.main_user;
   };
 
   # Main user
-  users.users."${main_user}" = {
+  users.users."${config.main_user}" = {
     isNormalUser = true;
     extraGroups = [ "docker" "dialout" "adbusers" "audio" "networkmanager" "systemd-journal" ];
   };
-  home-manager.users."${main_user}" = import ../home;
+  home-manager.users."${config.main_user}" = import ../home;
 
   home-manager = {
     extraSpecialArgs = {
@@ -145,7 +151,7 @@ in {
 
   # Modules
   modules.desktop.enable = true;
-  modules.display_manager = { enable = true; user = main_user; };
+  modules.display_manager = { enable = true; user = config.main_user; };
   modules.gallery_wallpaper.enable = true;
   modules.keyboard.enable = true;
   modules.keyring.enable = true;

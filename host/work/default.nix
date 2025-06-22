@@ -2,13 +2,13 @@
 
 {
   imports = [
-    (import ../../nixos {
-      main_user = "jules";
-      host_name = "jules-work";
-    })
+    ../../nixos
     ./hardware-configuration.nix
     nixos-hardware.nixosModules.lenovo-thinkpad-x1-6th-gen
   ];
+
+  main_user = "jules";
+  host_name = "jules-work";
 
   services.xserver.dpi = 160;
   services.libinput.touchpad.accelSpeed = "0.7";

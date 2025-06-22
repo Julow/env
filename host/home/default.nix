@@ -1,13 +1,10 @@
 { pkgs, config, ... }:
 
 {
-  imports = [
-    (import ../../nixos {
-      main_user = "juloo";
-      host_name = "jules-pc";
-    })
-    ./hardware-configuration.nix
-  ];
+  imports = [ ../../nixos ./hardware-configuration.nix ];
+
+  main_user = "juloo";
+  host_name = "jules-pc";
 
   # Users
   users.users.juloo.hashedPassword =
