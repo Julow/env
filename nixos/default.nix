@@ -87,7 +87,7 @@ in {
   environment.systemPackages = with pkgs; [
     # Base tools
     curl gnumake zip unzip jq fd ripgrep git
-    python3 sqlite
+    python3 sqlite nixfmt
     # Admin
     mkpasswd rsync
     htop acpi
