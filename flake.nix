@@ -32,9 +32,9 @@
       # nixpkgs = inputs.nixpkgs;
 
       mk_nixos = path:
-        import "${nixpkgs}/nixos/lib/eval-config.nix" {
+        import "${nixpkgs}/nixos/lib/eval-config.nix" rec {
           system = "x86_64-linux";
-          specialArgs = inputs // { inherit nixpkgs; };
+          specialArgs = inputs // { inherit system nixpkgs; };
           modules = [ path inputs.private_conf.nixosModules.default ];
         };
 
