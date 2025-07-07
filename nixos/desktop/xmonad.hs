@@ -340,7 +340,7 @@ font_name size = "xft:Fira Code:style=Medium:antialias=true:size=" ++ show size
 
 spawn_terminal = do
   home <- home_dir
-  safeSpawn "xterm" ["-e", "vim '" ++ home ++ "/Downloads'"]
+  safeSpawn "xterm" ["-e", "vim -c 'cd " ++ home ++ "/Downloads' -c 'e .'"]
 
 prompt_conf = def {
   font = font_name 12,
