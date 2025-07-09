@@ -91,3 +91,31 @@ endsnippet
 snippet assert "assert false"
 let _ = assert false in
 endsnippet
+
+snippet Logs.debug
+Logs.debug (fun fmt -> fmt "${1}"${0});
+endsnippet
+
+snippet Logs.info
+Logs.info (fun fmt -> fmt "${1}"${0});
+endsnippet
+
+snippet Logs.warn
+Logs.warn (fun fmt -> fmt "${1}"${0});
+endsnippet
+
+snippet Logs.err
+Logs.err (fun fmt -> fmt "${1}"${0});
+endsnippet
+
+snippet Logs "Logs.app"
+Logs.info (fun fmt -> fmt "${1}"${0});
+endsnippet
+
+snippet (* "Comment"
+(* ${0} *)
+endsnippet
+
+snippet (** "Documentation"
+(** ${0} *)
+endsnippet
