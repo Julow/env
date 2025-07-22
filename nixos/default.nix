@@ -133,6 +133,8 @@ in {
     user = config.main_user;
   };
 
+  services.flatpak.enable = true;
+
   # Main user
   users.users."${config.main_user}" = {
     isNormalUser = true;
