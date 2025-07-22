@@ -209,11 +209,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1751810233,
-        "narHash": "sha256-kllkNbIqQi3VplgTMeGzuh1t8Gk8TauvkTRt93Km+tQ=",
+        "lastModified": 1753055804,
+        "narHash": "sha256-KerePGJYX47ex6OY3CWsid4AltO2gDtQROunYJ0eCEE=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "9b0873b46c9f9e4b7aa01eb634952c206af53068",
+        "rev": "adf195f021a8cbb0c317f75b52e96c82616526f9",
         "type": "github"
       },
       "original": {
@@ -417,11 +417,11 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1752048960,
-        "narHash": "sha256-gATnkOe37eeVwKKYCsL+OnS2gU4MmLuZFzzWCtaKLI8=",
+        "lastModified": 1753122741,
+        "narHash": "sha256-nFxE8lk9JvGelxClCmwuJYftbHqwnc01dRN4DVLUroM=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "7ced9122cff2163c6a0212b8d1ec8c33a1660806",
+        "rev": "cc66fddc6cb04ab479a1bb062f4d4da27c936a22",
         "type": "github"
       },
       "original": {
@@ -433,11 +433,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1751943650,
-        "narHash": "sha256-7orTnNqkGGru8Je6Un6mq1T8YVVU/O5kyW4+f9C1mZQ=",
+        "lastModified": 1752995727,
+        "narHash": "sha256-+xNQQqqCx47sbSbwwj/aQL5Xrv6wlgiIU/yKWVAtnc4=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "88983d4b665fb491861005137ce2b11a9f89f203",
+        "rev": "a14f718bc528ad298bd95a18a9ac9a7d7c0ef8e5",
         "type": "github"
       },
       "original": {
@@ -450,11 +450,11 @@
     "nur_rycee": {
       "flake": false,
       "locked": {
-        "lastModified": 1752033806,
-        "narHash": "sha256-XUHXDV8vwVjX6aYeJmPShMGJI9jx+JC0yWw0hsKbtMw=",
+        "lastModified": 1753157005,
+        "narHash": "sha256-fTdJ2yYjR8O3kEWsveBGu/d8ilEFxVnGkF4wS3N1Was=",
         "owner": "rycee",
         "repo": "nur-expressions",
-        "rev": "08bd298d38f4110a3049cbe1876c1c77a8b4797f",
+        "rev": "a38f383959d8bf0c1d5d555469a4c63c4632701f",
         "type": "gitlab"
       },
       "original": {
@@ -467,11 +467,11 @@
     "ocaml": {
       "flake": false,
       "locked": {
-        "lastModified": 1731666321,
-        "narHash": "sha256-ABPMXchD7VoW3Cw05a61C7LACmqHNJVbDZvzdg/iu1s=",
+        "lastModified": 1752762355,
+        "narHash": "sha256-DF/R//2BQYUIhsBajdhnUJHT1Hqn3mgvya2WExOtqAU=",
         "owner": "Julow",
         "repo": "vim-ocaml",
-        "rev": "b824831b31d6f0d4bd21aca4366be43ae8d77c27",
+        "rev": "d8b9ca0f7ae74757a102aff31cb761ba2df05ec2",
         "type": "github"
       },
       "original": {
@@ -529,8 +529,8 @@
         ]
       },
       "locked": {
-        "lastModified": 1752065649,
-        "narHash": "sha256-gpM5AsqhhVYES7ep3sPNYw+XQ9eb4vxcBnESiWR+g14=",
+        "lastModified": 1753172639,
+        "narHash": "sha256-r1YuaSN8aXm3ai4AdVGcF+CCNezjI2avQu2ieuIY53Y=",
         "path": "/home/juloo/notes/setup",
         "type": "path"
       },
