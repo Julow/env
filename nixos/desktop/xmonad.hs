@@ -1,5 +1,7 @@
 {-# LANGUAGE FlexibleInstances, MultiParamTypeClasses, TypeSynonymInstances #-}
 
+import Codec.Binary.UTF8.String (decode)
+import Control.Exception as E (catch,SomeException(..))
 import Control.Monad
 import Data.List
 import Data.Maybe
@@ -36,7 +38,6 @@ import XMonad.Util.NamedScratchpad
 import XMonad.Util.NamedWindows (getName)
 import XMonad.Util.Run
 import XMonad.Util.Types
-import XMonad.Util.XSelection (getSelection)
 import qualified Data.Map as M
 import qualified XMonad.StackSet as W
 
@@ -201,9 +202,9 @@ bookmarks_prompt prompt_conf = do
         Nothing -> return ()
   mkXPrompt (Prompt_autocomplete "Bookmarks: ") prompt_conf compl open
 
--- Add the currently selected text to the bookmarks file
+-- Add the clipboard to the bookmarks file
 append_selection_to_bookmarks = do
-  selection <- getSelection
+  selection <- getClipboard
   file <- io bookmarks_file
   io $ withFile file AppendMode (flip hPutStrLn selection)
 
@@ -237,7 +238,7 @@ centered_full sp step =
 quick_notes_file_rel = "notes/quick_notes"
 
 append_clipboard_to_quick_notes = do
-  selection <- getSelection
+  selection <- getClipboard
   file <- mkAbsolutePath quick_notes_file_rel
   io $ withFile file AppendMode (flip hPutStrLn ("\n" ++ selection))
 
@@ -334,6 +335,39 @@ updatePointerScreen = do
       (warpPointer disp none root 0 0 0 0 px py)
 
 -- ========================================================================== --
+-- Query the clipboard. Adapted to the clipboard from XMonad.Util.XSelection
+
+getSelectionNamed :: String -> IO String
+getSelectionNamed sel_name = do
+  dpy <- openDisplay ""
+  let dflt = defaultScreen dpy
+  rootw  <- rootWindow dpy dflt
+  win <- createSimpleWindow dpy rootw 0 0 1 1 0 0 0
+  p <- internAtom dpy sel_name True
+  ty <- E.catch
+               (E.catch
+                     (internAtom dpy "UTF8_STRING" False)
+                     (\(E.SomeException _) -> internAtom dpy "COMPOUND_TEXT" False))
+             (\(E.SomeException _) -> internAtom dpy "sTring" False)
+  clp <- internAtom dpy "BLITZ_SEL_STRING" False
+  xConvertSelection dpy p ty clp win currentTime
+  allocaXEvent $ \e -> do
+    nextEvent dpy e
+    ev <- getEvent e
+    result <- if ev_event_type ev == selectionNotify
+                 then do res <- getWindowProperty8 dpy clp win
+                         return $ decode . maybe [] (map fromIntegral) $ res
+                 else return ""
+    destroyWindow dpy win
+    closeDisplay dpy
+    return result
+
+getClipboard :: MonadIO m => m String
+getClipboard = io $ getSelectionNamed "CLIPBOARD"
+getSelection :: MonadIO m => m String
+getSelection = io $ getSelectionNamed "PRIMARY"
+
+-- ========================================================================== --
 -- main
 
 font_name size = "xft:Fira Code:style=Medium:antialias=true:size=" ++ show size
@@ -342,16 +376,24 @@ spawn_terminal = do
   home <- home_dir
   safeSpawn "xterm" ["-e", "vim -c 'cd " ++ home ++ "/Downloads' -c 'e .'"]
 
+-- Prompts use Vim-like bindings with these extra bindings
+prompt_extra_bindings = [
+  ((controlMask, xK_w), killWord Prev),
+  ((controlMask, xK_Left), moveWord Prev),
+  ((controlMask, xK_Right), moveWord Next),
+  ((controlMask, xK_c), startOfLine >> killAfter),
+  ((mod1Mask, xK_v), getClipboard >>= insertString)
+  ]
+
 prompt_conf = def {
   font = font_name 12,
   promptBorderWidth = 0,
   height = 22,
   position = CenteredAt 0.5 0.5,
-  promptKeymap = foldl (\m (k, a) -> M.insert k a m) emacsLikeXPKeymap [
-    ((controlMask, xK_w), killWord Prev),
-    ((controlMask, xK_Left), moveWord Prev),
-    ((controlMask, xK_Right), moveWord Next)
-  ],
+  promptKeymap =
+    foldl (\m (k, a) -> M.insert k a m)
+      (vimLikeXPKeymap' (setBorderColor "green") (\x -> "[n]" ++ x) id isSpace)
+      prompt_extra_bindings,
   searchPredicate = fuzzyMatch -- This is not used for prompt because not upstreamed, see compl_fun_from_list
   -- , sorter = fuzzySort
 }
