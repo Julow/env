@@ -4,6 +4,7 @@
     enable = true;
     config = {
       fullscreen = true;
+      window-dragging = "no";
       hwdec = "auto-copy";
       # Fix cutting and tearing because mpv can't decode fast enough
       vo = "xv";
@@ -20,6 +21,7 @@
       };
       image = {
         pause = true; # Don't close images after 1 second
+        vo = "x11"; # Avoid issue when the video driver is already in use
       };
       "extension.jpg".profile = "image";
       "extension.jpeg".profile = "image";
