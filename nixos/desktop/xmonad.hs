@@ -372,10 +372,6 @@ getSelection = io $ getSelectionNamed "PRIMARY"
 
 font_name size = "xft:Fira Code:style=Medium:antialias=true:size=" ++ show size
 
-spawn_terminal = do
-  home <- home_dir
-  safeSpawn "xterm" ["-e", "vim -c 'cd " ++ home ++ "/Downloads' -c 'e .'"]
-
 -- Prompts use Vim-like bindings with these extra bindings
 prompt_extra_bindings = [
   ((controlMask, xK_w), killWord Prev),
@@ -469,7 +465,8 @@ main =
     -- Spawn terminal. Override the default because the 'terminal'
     -- configuration field shouldn't exist (it's only used for defining one
     -- binding, contrib modules need to assume too much)
-    ("M-a <Return>", spawn_terminal),
+    ("M-a <Return>", safeSpawn "xterm" ["-e", "vim"]),
+    ("M-a S-<Return>", home_dir >>= \h -> safeSpawn "pcmanfm" ["-n", h ++ "/Downloads"]),
     ("M-a <Space>", safeSpawn "firefox" []),
     ("M-a m", safeSpawn "xterm" ["-e", "mail_client"]),
     ("M-a r", safeSpawn "autorandr" ["--default", "default", "--change"]),

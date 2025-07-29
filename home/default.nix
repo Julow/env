@@ -9,7 +9,7 @@
 
 {
   imports =
-    [ ./mpv.nix ./htop.nix ./git ./firefox ./gtk.nix ./thunderbird ];
+    [ ./mpv.nix ./htop.nix ./git ./firefox ./pcmanfm.nix ./thunderbird ];
 
   services.dunst = {
     enable = true;

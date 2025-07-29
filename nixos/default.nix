@@ -103,7 +103,7 @@ in {
     dmenu
     pavucontrol xclip
     networkmanager
-    nautilus
+    pcmanfm
     celluloid
     # Other
     nixos-deploy graphviz yt-dlp
