@@ -50,8 +50,9 @@ in {
     enable = true;
 
     profiles.hm = {
+      # Force remove bookmarks that were previously configured that way
       bookmarks.force = true;
-      bookmarks.settings = import ./bookmarks.nix;
+      bookmarks.settings = [];
       settings = import ./prefs.nix;
       inherit userChrome;
 
