@@ -373,12 +373,16 @@ getSelection = io $ getSelectionNamed "PRIMARY"
 font_name size = "xft:Fira Code:style=Medium:antialias=true:size=" ++ show size
 
 -- Prompts use Vim-like bindings with these extra bindings
-prompt_extra_bindings = [
-  ((controlMask, xK_w), killWord Prev),
-  ((controlMask, xK_Left), moveWord Prev),
-  ((controlMask, xK_Right), moveWord Next),
-  ((controlMask, xK_c), startOfLine >> killAfter),
-  ((mod1Mask, xK_v), getClipboard >>= insertString)
+prompt_keymap =
+  let vim_like = vimLikeXPKeymap' (\xpc -> xpc { bgNormal = "grey33" }) (\x -> "[n]" ++ x) id isSpace in
+  (`M.union` vim_like) $ M.fromList [
+    ((controlMask, xK_w), killWord Prev),
+    ((controlMask, xK_Left), moveWord Prev),
+    ((controlMask, xK_Right), moveWord Next),
+    ((controlMask, xK_c), startOfLine >> killAfter),
+    ((mod1Mask, xK_v), getClipboard >>= insertString),
+    ((0, xK_Escape), quit), -- Use C-f for normal mode and Escape for quiting command mode
+    ((controlMask, xK_f), fromMaybe quit (M.lookup (0, xK_Escape) vim_like))
   ]
 
 prompt_conf = def {
@@ -386,10 +390,7 @@ prompt_conf = def {
   promptBorderWidth = 0,
   height = 22,
   position = CenteredAt 0.5 0.5,
-  promptKeymap =
-    foldl (\m (k, a) -> M.insert k a m)
-      (vimLikeXPKeymap' (setBorderColor "green") (\x -> "[n]" ++ x) id isSpace)
-      prompt_extra_bindings,
+  promptKeymap = prompt_keymap,
   searchPredicate = fuzzyMatch -- This is not used for prompt because not upstreamed, see compl_fun_from_list
   -- , sorter = fuzzySort
 }
