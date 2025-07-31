@@ -7,6 +7,7 @@ in {
   xdg.configFile."gtk-3.0/bookmarks".text =
     concatMapStringsSep "\n" (p: "file://${home}/${p}") bookmarks;
 
+  xdg.configFile."pcmanfm/default/pcmanfm.conf".force = true;
   xdg.configFile."pcmanfm/default/pcmanfm.conf".text = ''
     [config]
     bm_open_method=0
@@ -31,6 +32,7 @@ in {
     pathbar_mode_buttons=0
   '';
 
+  xdg.configFile."libfm/libfm.conf".force = true;
   xdg.configFile."libfm/libfm.conf".text = ''
     [config]
     single_click=0
