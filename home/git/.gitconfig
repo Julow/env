@@ -51,7 +51,8 @@
   c = "!f() { if [[ $# -eq 0 ]]; then git commit -v; else git commit -m \"$*\"; fi; }; f"
   p = push
   branch-upstream = "!f () { R=$(git rev-parse --abbrev-ref --symbolic-full-name @{u}); echo \"${R%%/*}\"; }; f"
-  pl = "!f () { : git pull; if [[ $# -ge 1 ]]; then U=--set-upstream; fi; git pull --no-stat -v --ff-only $U \"${1-`git branch-upstream`}\" \"${2-`git rev-parse --symbolic-full-name @`}\" && git customlog @{1}..; }; f"
+  # Not using '@{1}' for the previous ref as it's not updated by 'pull' in some cases.
+  pl = "!f () { : git pull; if [[ $# -ge 1 ]]; then U=--set-upstream; fi; P=`git rev-parse HEAD`; git pull --no-stat -v --ff-only $U \"${1-`git branch-upstream`}\" \"${2-`git rev-parse --symbolic-full-name @`}\" && N=`git rev-parse HEAD` && if [[ $P != $N ]]; then git customlog $P..$N; fi; }; f"
   amend = commit --amend --no-edit
   kpr = "!f() { git fpr \"$1\" && git checkout \"pr/$1\" && git l; }; f"
   ll = customlog --all
