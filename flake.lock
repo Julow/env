@@ -209,11 +209,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1755776884,
-        "narHash": "sha256-CPM7zm6csUx7vSfKvzMDIjepEJv1u/usmaT7zydzbuI=",
+        "lastModified": 1756679287,
+        "narHash": "sha256-Xd1vOeY9ccDf5VtVK12yM0FS6qqvfUop8UQlxEB+gTQ=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "4fb695d10890e9fc6a19deadf85ff79ffb78da86",
+        "rev": "07fc025fe10487dd80f2ec694f1cd790e752d0e8",
         "type": "github"
       },
       "original": {
@@ -417,11 +417,11 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1755330281,
-        "narHash": "sha256-aJHFJWP9AuI8jUGzI77LYcSlkA9wJnOIg4ZqftwNGXA=",
+        "lastModified": 1757103352,
+        "narHash": "sha256-PtT7ix43ss8PONJ1VJw3f6t2yAoGH+q462Sn8lrmWmk=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "3dac8a872557e0ca8c083cdcfc2f218d18e113b0",
+        "rev": "11b2a10c7be726321bb854403fdeec391e798bf0",
         "type": "github"
       },
       "original": {
@@ -433,11 +433,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1755704039,
-        "narHash": "sha256-gKlP0LbyJ3qX0KObfIWcp5nbuHSb5EHwIvU6UcNBg2A=",
+        "lastModified": 1757408970,
+        "narHash": "sha256-aSgK4BLNFFGvDTNKPeB28lVXYqVn8RdyXDNAvgGq+k0=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "9cb344e96d5b6918e94e1bca2d9f3ea1e9615545",
+        "rev": "d179d77c139e0a3f5c416477f7747e9d6b7ec315",
         "type": "github"
       },
       "original": {
@@ -450,11 +450,11 @@
     "nur_rycee": {
       "flake": false,
       "locked": {
-        "lastModified": 1755835412,
-        "narHash": "sha256-RzTBJ5ERXrJk7JPIDp1vjUNMKka6tyg4RctIR3cxqsM=",
+        "lastModified": 1757563407,
+        "narHash": "sha256-cMPTw0SR8x82bUkYU2Y4PDJFyMyyBvsF8hXHRLeU220=",
         "owner": "rycee",
         "repo": "nur-expressions",
-        "rev": "56254103ed36317cf471da3c93ac13805c72a7fa",
+        "rev": "25e5281b0862838730dbd1366167d02033ce382b",
         "type": "gitlab"
       },
       "original": {
@@ -529,8 +529,8 @@
         ]
       },
       "locked": {
-        "lastModified": 1755867583,
-        "narHash": "sha256-B3j66z8PffdSHwyEuvsvPAFAUDp2zDJ0CsvljsYLeNY=",
+        "lastModified": 1757347312,
+        "narHash": "sha256-Lhh3vpcdtquQ56IA+NnTvL/Bre0W7M23JfcbvMJl9yM=",
         "path": "/home/jules/notes/setup",
         "type": "path"
       },
