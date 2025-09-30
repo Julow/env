@@ -56,15 +56,15 @@ match ${1:${VISUAL}} with
 | None -> ${4:.}
 endsnippet
 
-snippet pr "Printf.printf"
-Printf.printf "${1}\n%!"${0};
+snippet pr "Format.printf"
+Format.printf "${1}@\n"${0};
 endsnippet
 
-snippet epr "Printf.eprintf"
-Printf.eprintf "${1}\n%!"${0};
+snippet epr "Format.eprintf"
+Format.eprintf "${1}@\n"${0};
 endsnippet
 
-snippet ppf "Format.fprintf"
+snippet fpf "Format.fprintf"
 Format.fprintf ppf "${1}"${0};
 endsnippet
 
