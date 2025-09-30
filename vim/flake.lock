@@ -228,15 +228,16 @@
     "merlin": {
       "flake": false,
       "locked": {
-        "lastModified": 1750773459,
-        "narHash": "sha256-3Cb78vSGjZLhSLJSMy2ig8AmrRf/9wt5o+b00rEi8uM=",
-        "owner": "ocaml",
+        "lastModified": 1759240451,
+        "narHash": "sha256-G5pj8UnQ1Rz//0rihNNp+qn48xXHvzPtcejN/buwjNo=",
+        "owner": "Julow",
         "repo": "merlin",
-        "rev": "8b88b89ee7431a23eaf95e4e02e45dc65595aa74",
+        "rev": "b199563a7031109d9046138dc3f9fa75e6c86bb3",
         "type": "github"
       },
       "original": {
-        "owner": "ocaml",
+        "owner": "Julow",
+        "ref": "vim-fix-crash-textpreview",
         "repo": "merlin",
         "type": "github"
       }

@@ -47,7 +47,8 @@
     };
     merlin = {
       flake = false;
-      url = "github:ocaml/merlin";
+      url = "github:Julow/merlin/vim-fix-crash-textpreview";
+      # url = "github:ocaml/merlin";
     };
     diffchar.flake = false;
     diffchar.url = "github:rickhowe/diffchar.vim";
