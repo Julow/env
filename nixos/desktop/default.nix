@@ -37,7 +37,6 @@ in {
       playerctl
       autorandr
       xdotool
-      networkmanager_dmenu
       dmenu-bluetooth
     ];
   };

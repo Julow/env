@@ -260,7 +260,8 @@ scratchpads = [
     scratch_xterm "w" ("vim ~/" ++ quick_notes_file_rel) (floating (2/3) (1/4) (1/3 - 1/10) (2/4)),
     scratch_prog "o" "google-chrome-stable" (className =? "google-chrome") nonFloating,
     scratch_prog "n" "notes-workspace" (title =? "Notes") nonFloating,
-    scratch_prog "t" "thunderbird" (className =? "Thunderbird") nonFloating
+    scratch_prog "t" "thunderbird" (className =? "Thunderbird") nonFloating,
+    scratch_xterm "e" "nmtui-connect" (floating_centered (1/3) (1/8))
   ]
   where
     floating_centered x y = customFloating $ W.RationalRect x y (1 - x*2) (1 - y*2)
@@ -471,7 +472,6 @@ main =
     ("M-a <Space>", safeSpawn "firefox" []),
     ("M-a m", safeSpawn "xterm" ["-e", "mail_client"]),
     ("M-a r", safeSpawn "autorandr" ["--default", "default", "--change"]),
-    ("M-a e", safeSpawn "networkmanager_dmenu" []),
     ("M-a b", safeSpawn "dmenu-bluetooth" []),
 
     -- BoringWindows
