@@ -28,7 +28,7 @@
 *background:            S_base3
 *foreground:            S_base02
 *fadeColor:             S_base3
-*cursorColor:           S_base01
+*cursorColor:           #DEAB0E
 *pointerColorBackground:S_base1
 *pointerColorForeground:S_base01
 
@@ -58,7 +58,6 @@
 *color15:               S_base3
 
 ! Emulating bold and italic with colors
-! Matches cursorColor
 *.vt100.colorBDMode: true
 *.vt100.colorBD: S_base01
 *.vt100.colorITMode: true
