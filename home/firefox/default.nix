@@ -45,26 +45,30 @@ let
     "${cascade_theme}/chrome/includes/cascade-tabs.css"
   ];
 
+  mk_profile = id: {
+    inherit id;
+    # Force remove bookmarks that were previously configured that way
+    bookmarks.force = true;
+    bookmarks.settings = [];
+    settings = import ./prefs.nix;
+    inherit userChrome;
+
+    extensions.packages = with firefox-addons; [
+      ublock-origin
+      privacy-badger
+      vimium
+      clearurls
+      awesome-rss
+      redirector
+    ];
+  };
+
 in {
   programs.firefox = {
     enable = true;
 
-    profiles.hm = {
-      # Force remove bookmarks that were previously configured that way
-      bookmarks.force = true;
-      bookmarks.settings = [];
-      settings = import ./prefs.nix;
-      inherit userChrome;
-
-      extensions.packages = with firefox-addons; [
-        ublock-origin
-        privacy-badger
-        vimium
-        clearurls
-        awesome-rss
-        redirector
-      ];
-    };
+    profiles.hm = mk_profile 0;
+    profiles.work = mk_profile 1;
 
     package = pkgs.firefox.override {
       extraPolicies."3rdparty".Extensions = {

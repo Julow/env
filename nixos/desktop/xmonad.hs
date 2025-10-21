@@ -258,7 +258,8 @@ scratchpads = [
     scratch_xterm "h" "htop" (floating_centered (1/8) (1/8)),
     scratch_xterm "S-b" "bluetoothctl" (floating_centered (1/3) (1/8)),
     scratch_xterm "w" ("vim ~/" ++ quick_notes_file_rel) (floating (2/3) (1/4) (1/3 - 1/10) (2/4)),
-    scratch_prog "o" "google-chrome-stable" (className =? "google-chrome") nonFloating,
+    scratch_prog "o" "firefox --no-remote --class word-firefox -P work" (className =? "work-firefox") nonFloating,
+    scratch_prog "O" "google-chrome-stable" (className =? "google-chrome") nonFloating,
     scratch_prog "n" "notes-workspace" (title =? "Notes") nonFloating,
     scratch_prog "t" "thunderbird" (className =? "Thunderbird") nonFloating,
     scratch_xterm "e" "nmtui-connect" (floating_centered (1/3) (1/8))
