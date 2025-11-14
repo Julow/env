@@ -262,7 +262,8 @@ scratchpads = [
     scratch_prog "O" "google-chrome-stable" (className =? "google-chrome") nonFloating,
     scratch_prog "n" "notes-workspace" (title =? "Notes") nonFloating,
     scratch_prog "t" "thunderbird" (className =? "Thunderbird") nonFloating,
-    scratch_xterm "e" "nmtui-connect" (floating_centered (1/3) (1/8))
+    scratch_xterm "e" "nmtui-connect" (floating_centered (1/3) (1/8)),
+    scratch_xterm ";" "python" (floating (2/3) (1/8) (1/3 - 1/30) (6/8))
   ]
   where
     floating_centered x y = customFloating $ W.RationalRect x y (1 - x*2) (1 - y*2)
