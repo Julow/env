@@ -254,7 +254,7 @@ scratch_xterm key cmd manageHook id =
   scratch_prog key xterm_cmd selector manageHook id
 
 scratchpads = [
-    scratch_prog "p" "pavucontrol" (className =? "Pavucontrol") (floating_centered (1/4) (1/8)),
+    scratch_prog "p" "pavucontrol" (className =? "pavucontrol") (floating_centered (1/4) (1/8)),
     scratch_xterm "h" "htop" (floating_centered (1/8) (1/8)),
     scratch_xterm "S-b" "bluetoothctl" (floating_centered (1/3) (1/8)),
     scratch_xterm "w" ("vim ~/" ++ quick_notes_file_rel) (floating (2/3) (1/4) (1/3 - 1/10) (2/4)),
