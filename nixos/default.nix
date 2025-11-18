@@ -135,7 +135,10 @@ in {
   # Main user
   users.users."${config.main_user}" = {
     isNormalUser = true;
-    extraGroups = [ "docker" "dialout" "adbusers" "audio" "networkmanager" "systemd-journal" ];
+    extraGroups = [
+      "docker" "dialout" "adbusers" "audio" "networkmanager" "systemd-journal"
+      "scanner" "lp"
+    ];
   };
   home-manager.users."${config.main_user}" = import ../home;
 
@@ -159,6 +162,22 @@ in {
   # Power management
   powerManagement.enable = true;
   services.thermald.enable = true;
+
+  # services.printing.enable = true;
+  # services.printing.drivers = with pkgs; [ cnijfilter2 ];
+  # hardware.printers = {
+  #   ensurePrinters = [
+  #     {
+  #       name = "Canon_MG3600_series";
+  #       location = "Home";
+  #       deviceUri = "usb://Canon/MG3600%20series?serial=76B321&interface=1";
+  #       model = "canonmg3600.ppd";
+  #       ppdOptions.PageSize = "A4";
+  #     }
+  #   ];
+  #   ensureDefaultPrinter = "Canon_MG3600_series";
+  # };
+  # hardware.sane.enable = true; # Scanners
 
   # Automatic GC
   nix.gc = {

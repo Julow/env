@@ -129,7 +129,6 @@
   "device.sensors.orientation.enabled" = false;
   "device.sensors.proximity.enabled" = false;
   "dom.battery.enabled" = false;
-  "dom.event.clipboardevents.enabled" = false;
   "extensions.getAddons.cache.enabled" = false;
   "extensions.getAddons.showPane" = false;
   "extensions.greasemonkey.stats.optedin" = false;
