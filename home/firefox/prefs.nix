@@ -114,6 +114,9 @@
   "browser.safebrowsing.malware.enabled" = false;
   "browser.safebrowsing.phishing.enabled" = false;
 
+  # Would break copy and paste
+  "dom.event.clipboardevents.enabled" = true;
+
   # Improve privacy
   "browser.selfsupport.url" = "";
   "browser.send_pings" = false;
