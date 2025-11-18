@@ -97,16 +97,13 @@ in {
     # Apps
     gimp
     google-chrome
-    xournalpp
     libreoffice
     # Desktop
     dmenu
     pavucontrol xclip
     networkmanager
     pcmanfm
-    celluloid
-    # Other
-    nixos-deploy graphviz yt-dlp
+    celluloid yt-dlp
   ];
 
   programs.vim = {
@@ -133,7 +130,7 @@ in {
     user = config.main_user;
   };
 
-  services.flatpak.enable = true;
+  services.flatpak.enable = false;
 
   # Main user
   users.users."${config.main_user}" = {
