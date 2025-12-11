@@ -1054,3 +1054,20 @@ endfunction
 
 nnoremap U :call Duplicate_current_line()<return>
 xnoremap U :call Duplicate_selected_lines()<return>
+
+" Return the highlight groups active at the position of the cursor. The group
+" with the highest priority is placed at the end of the list.
+" Can be called with <Leader>H
+function! Synstack()
+  let l:syns = []
+  for id in synstack(line("."), col("."))
+    let l:trans = synIDtrans(id)
+    if l:trans != id
+      call add(l:syns, synIDattr(l:trans, "name"))
+    endif
+    call add(l:syns, synIDattr(id, "name"))
+  endfor
+  return join(l:syns)
+endfunction
+
+nnoremap <Leader>H :echo Synstack()<return>
