@@ -156,7 +156,6 @@ in {
   modules.display_manager = { enable = true; user = config.main_user; };
   modules.gallery_wallpaper.enable = true;
   modules.keyboard.enable = true;
-  modules.keyring.enable = true;
   modules.screen_off = { enable = true; locked = 15; unlocked = 3000; };
 
   # Power management
@@ -184,12 +183,6 @@ in {
     automatic = true;
     dates = "weekly";
     delete_generations = "+5";
-  };
-
-  # Enable xdg portals
-  xdg.portal = {
-    enable = true;
-    config.common.default = "*";
   };
 
   systemd.network.wait-online.enable = false;
