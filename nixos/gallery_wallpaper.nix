@@ -8,10 +8,8 @@ with lib;
 let
   conf = config.modules.gallery_wallpaper;
 
-  feh = pkgs.feh.override { inherit (pkgs) imlib2; };
-
   refresh_wallpaper = pkgs.writeShellScript "refresh_wallpaper" ''
-    ${feh}/bin/feh --bg-fill --recursive --randomize ~/Pictures/wallpaper
+    ${pkgs.feh}/bin/feh --bg-fill --recursive --randomize ~/Pictures/wallpaper
   '';
 
 in {

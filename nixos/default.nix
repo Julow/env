@@ -91,7 +91,7 @@ in {
     # Admin
     mkpasswd rsync
     htop acpi
-    gnupg gitAndTools.gitRemoteGcrypt
+    gnupg git-remote-gcrypt
     rclone git-annex git-annex-remote-rclone
     encfs-gpg
     # Apps
@@ -109,7 +109,7 @@ in {
   programs.vim = {
     enable = true;
     defaultEditor = true;
-    package = pkgs.vim_configurable;
+    package = pkgs.vim-full;
   };
   environment.variables.VISUAL = "gvim";
 
