@@ -9,8 +9,9 @@ set nocompatible
 set noswapfile
 
 set wildmenu
-set wildmode=longest:full
+set wildoptions+=fuzzy
 set wildignorecase
+set completeopt+=nearest
 
 set mouse=a
 
