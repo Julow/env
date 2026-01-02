@@ -424,8 +424,8 @@
         "type": "path"
       },
       "original": {
-        "type": "git",
-        "url": "file://git:/--override-input"
+        "path": "/home/jules/notes/setup",
+        "type": "path"
       }
     },
     "repeat": {

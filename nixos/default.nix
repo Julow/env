@@ -113,6 +113,8 @@ in {
   };
   environment.variables.VISUAL = "gvim";
 
+  programs.gnupg.agent.pinentryPackage = pkgs.pinentry-gnome3;
+
   fonts.packages = with pkgs; [
     fira-code
   ];
