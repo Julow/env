@@ -1,4 +1,10 @@
-{ pkgs, config, lib, nur_rycee, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  nur_rycee,
+  ...
+}:
 let
 
   inherit (pkgs.callPackage nur_rycee { }) firefox-addons;
@@ -7,8 +13,7 @@ let
     pname = "awesome-rss";
     version = "1.3.5";
     addonId = "{97d566da-42c5-4ef4-a03b-5a2e5f7cbcb2}";
-    url =
-      "https://addons.mozilla.org/firefox/downloads/file/1124727/awesome_rss-1.3.5.xpi";
+    url = "https://addons.mozilla.org/firefox/downloads/file/1124727/awesome_rss-1.3.5.xpi";
     sha256 = "sha256-/DxiUy1kYrwmn26p+mG7ytyJi9r89m4W4VvsZrsJTZs=";
     meta = { };
   };
@@ -17,8 +22,7 @@ let
     pname = "redirector";
     version = "3.5.3";
     addonId = "redirector@einaregilsson.com";
-    url =
-      "https://addons.mozilla.org/firefox/downloads/file/3535009/redirector-3.5.3.xpi";
+    url = "https://addons.mozilla.org/firefox/downloads/file/3535009/redirector-3.5.3.xpi";
     sha256 = "sha256-7dvT1ZROdI0L1uy22enPDgwC3O1vQtshqrZBkOccD3E=";
     meta = { };
   };
@@ -49,7 +53,7 @@ let
     inherit id;
     # Force remove bookmarks that were previously configured that way
     bookmarks.force = true;
-    bookmarks.settings = [];
+    bookmarks.settings = [ ];
     settings = import ./prefs.nix;
     inherit userChrome;
 
@@ -63,22 +67,33 @@ let
     ];
   };
 
-in {
+in
+{
   programs.firefox = {
     enable = true;
 
     profiles.hm = mk_profile 0;
     profiles.work = mk_profile 1;
 
-    package = pkgs.firefox.override {
-      extraPolicies."3rdparty".Extensions = {
-        "uBlock0@raymondhill.net" = {
-          # uBlock settings are written in JSON to be more compatible with the
-          # backup format. This checks the syntax.
-          adminSettings =
-            builtins.fromJSON (builtins.readFile ./ublock-settings.json);
-        };
-      };
+    # Policies: https://mozilla.github.io/policy-templates/
+    policies = {
+      # Clear cookies when the browser exits with extensions.
+      Cookies.Allow = [
+        "https://github.com"
+        "https://discuss.ocaml.org"
+        "https://www.mediapart.fr"
+        "https://boardgamearena.com"
+        "https://deezer.com"
+        "https://web.whatsapp.com"
+        "https://leboncoin.fr"
+        "https://slack.com"
+      ];
+      SanitizeOnShutdown = true; # Clear history on exit
+
+      # Kept in a separate file to use uBlock's backup format
+      Extensions."uBlock0@raymondhill.net".adminSettings = builtins.fromJSON (
+        builtins.readFile ./ublock-settings.json
+      );
     };
   };
 }

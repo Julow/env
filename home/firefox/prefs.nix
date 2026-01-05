@@ -36,10 +36,6 @@
   "dom.security.https_only_mode" = true;
   "dom.security.https_only_mode_ever_enabled" = true;
 
-  # Clear cookies on exit
-  "network.cookie.lifetimePolicy" = 2;
-  "pref.privacy.disable_button.cookie_exceptions" = false;
-
   # Disable push notifications while sites are closed
   "dom.webnotifications.serviceworker.enabled" = false;
   # Explicitly enable notifications
