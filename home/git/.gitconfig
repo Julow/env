@@ -63,7 +63,7 @@
   web = "!f() { : git push; U=`git get-upstream \"$1\"` && xdg-open \"$U\"; }; f"
   get-upstream = "!f() { git remote get-url ${1:-up} 2>/dev/null || git remote get-url origin; }; f"
   dm = diff --stat --summary -p MAIN...
-  dr = "!f() { : git range-diff; git range-diff ${1:-MAIN} @{u} @; }; f"
+  dr = "!f() { : git range-diff; git range-diff ${2:-MAIN} ${1:-@{u}} @; }; f"
   do = diff --stat --summary -p ORIG_HEAD
   km = "!f() { : git checkout; git checkout \"`git symbolic-ref --short ${1:-MAIN}`\"; }; f"
   mm = merge MAIN
