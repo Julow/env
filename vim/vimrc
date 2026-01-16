@@ -1072,3 +1072,16 @@ function! Synstack()
 endfunction
 
 nnoremap <Leader>H :echo Synstack()<return>
+
+" Git bindings
+" Fast commands use Fugitive's :Git and slow commands use :term.
+
+nnoremap <C-s>pl :term git pl<return>
+nnoremap <C-s>pu :term git pu<return>
+nnoremap <C-s>km :term git km<return>
+nnoremap <C-s>st :Git stash push<return>
+nnoremap <C-s>op :Git stash pop<return>
+nnoremap <C-s>sh :Git -p sh<return>
+nnoremap <C-s>dm :Git -p dm<return>
+nnoremap <C-s>dr :Git -p dr<return>
+nnoremap <C-s>ds :Git -p ds<return>
