@@ -83,6 +83,7 @@ in {
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';
+  programs.nix-ld.enable = true; # Needed to use the androidsdk
 
   environment.systemPackages = with pkgs; [
     # Base tools
