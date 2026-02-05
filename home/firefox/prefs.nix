@@ -8,33 +8,72 @@
   "browser.urlbar.suggest.calculator" = true;
   "browser.urlbar.unitConversion.enabled" = true;
 
+  # Vertical tabs
+  "browser.uiCustomization.navBarWhenVerticalTabs" = ''
+    [
+      "back-button", "vertical-spacer", "forward-button", "urlbar-container",
+      "downloads-button", "fxa-toolbar-menu-button",
+      "reset-pbm-toolbar-button", "unified-extensions-button"
+    ]
+  '';
+  "sidebar.verticalTabs" = true;
+
   # UI
   "browser.uiCustomization.state" = ''
     {
         "placements": {
-            "widget-overflow-fixed-list": [
-                "ublock0_raymondhill_net-browser-action",
-                "jid1-mnnxcxisbpnsxq_jetpack-browser-action",
-                "_d7742d87-e61d-4b78-b8a1-b469842139fa_-browser-action",
-                "_74145f27-f039-47ce-a470-a662b129930a_-browser-action"
-            ],
+            "widget-overflow-fixed-list": [],
             "nav-bar": [ "back-button", "forward-button", "urlbar-container", "downloads-button", "fxa-toolbar-menu-button" ],
             "toolbar-menubar": [ "menubar-items" ],
-            "TabsToolbar": [ "tabbrowser-tabs", "new-tab-button", "alltabs-button" ],
+            "TabsToolbar": [ ],
+            "vertical-tabs": [ "tabbrowser-tabs" ],
             "PersonalToolbar": [ ]
         },
-        "seen": [
-          "redirector_einaregilsson_com-browser-action"
+        "nav-bar": [
+            "back-button",
+            "vertical-spacer",
+            "forward-button",
+            "urlbar-container",
+            "downloads-button",
+            "reset-pbm-toolbar-button",
+            "unified-extensions-button"
         ],
-        "dirtyAreaCache": [ "nav-bar", "PersonalToolbar", "toolbar-menubar", "TabsToolbar", "widget-overflow-fixed-list" ],
-        "currentVersion": 17,
-        "newElementCount": 5
+        "seen": [
+          "redirector_einaregilsson_com-browser-action",
+          "_d7742d87-e61d-4b78-b8a1-b469842139fa_-browser-action",
+          "jid1-bofifl9vbdl2zq_jetpack-browser-action",
+          "jid1-mnnxcxisbpnsxq_jetpack-browser-action",
+          "ublock0_raymondhill_net-browser-action",
+          "_74145f27-f039-47ce-a470-a662b129930a_-browser-action",
+          "_85b42b8f-49cd-4935-aeca-a6b32dd6ac9f_-browser-action",
+          "_a655a6b2-69a5-40de-a3b8-3f7f200c95a7_-browser-action",
+          "developer-button",
+          "fxa-toolbar-menu-button",
+          "screenshot-button"
+        ],
+        "dirtyAreaCache": [
+            "nav-bar",
+            "PersonalToolbar",
+            "toolbar-menubar",
+            "TabsToolbar",
+            "widget-overflow-fixed-list",
+            "unified-extensions-area",
+            "vertical-tabs"
+        ],
+        "currentVersion": 23,
+        "newElementCount": 7
     }
   '';
 
   # Force HTTPS
   "dom.security.https_only_mode" = true;
   "dom.security.https_only_mode_ever_enabled" = true;
+
+  # Disable AI
+  "browser.ml.enable" = true;
+  "browser.tabs.groups.smart.enabled" = true;
+  "extensions.ml.enabled" = true;
+  "sidebar.notification.badge.aichat" = true;
 
   # Disable push notifications while sites are closed
   "dom.webnotifications.serviceworker.enabled" = false;
