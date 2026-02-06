@@ -17,6 +17,10 @@
     ]
   '';
   "sidebar.verticalTabs" = true;
+  "sidebar.verticalTabs.dragToPinPromo.dismissed" = true;
+  "sidebar.expandOnHover" = true;
+  "sidebar.animation.expand-on-hover.delay-duration-ms" = 100;
+  "sidebar.animation.expand-on-hover.duration-ms" = 0;
 
   # UI
   "browser.uiCustomization.state" = ''
@@ -70,10 +74,11 @@
   "dom.security.https_only_mode_ever_enabled" = true;
 
   # Disable AI
-  "browser.ml.enable" = true;
-  "browser.tabs.groups.smart.enabled" = true;
-  "extensions.ml.enabled" = true;
-  "sidebar.notification.badge.aichat" = true;
+  "browser.ml.enable" = false;
+  "browser.ml.chat.enabled" = false;
+  "browser.tabs.groups.smart.enabled" = false;
+  "extensions.ml.enabled" = false;
+  "sidebar.notification.badge.aichat" = false;
 
   # Disable push notifications while sites are closed
   "dom.webnotifications.serviceworker.enabled" = false;
@@ -105,6 +110,7 @@
   # Disable password manager
   "signon.rememberSignons" = false;
   "extensions.formautofill.creditCards.enabled" = false;
+  "browser.contextual-password-manager.enabled" = false;
 
   # Disable telemetry
   "toolkit.telemetry.archive.enabled" = false;
