@@ -7,6 +7,7 @@
   # Experimental features
   "browser.urlbar.suggest.calculator" = true;
   "browser.urlbar.unitConversion.enabled" = true;
+  "browser.aboutConfig.showWarning" = false;
 
   # Vertical tabs
   "browser.uiCustomization.navBarWhenVerticalTabs" = ''
@@ -16,7 +17,9 @@
       "reset-pbm-toolbar-button", "unified-extensions-button"
     ]
   '';
+  "sidebar.revamp" = true;
   "sidebar.verticalTabs" = true;
+  "sidebar.visibility" = "expand-on-hover";
   "sidebar.verticalTabs.dragToPinPromo.dismissed" = true;
   "sidebar.expandOnHover" = true;
   "sidebar.animation.expand-on-hover.delay-duration-ms" = 100;
@@ -68,6 +71,7 @@
         "newElementCount": 7
     }
   '';
+  "browser.tabs.inTitlebar" = 0;
 
   # Force HTTPS
   "dom.security.https_only_mode" = true;
@@ -102,6 +106,8 @@
   "services.sync.prefs.sync.browser.newtabpage.activity-stream.showSponsoredTopSite" =
     false;
   "signon.autofillForms" = false;
+  "dom.forms.autocomplete.formautofill" = false;
+  "extensions.formautofill.addresses.enabled" = false;
   "browser.search.widget.inNavBar" = false;
   "browser.newtabpage.pinned" = "[]"; # Google would be "pinned" otherwise
   "dom.event.contextmenu.enabled" = false; # Prevent sites disabling right-click

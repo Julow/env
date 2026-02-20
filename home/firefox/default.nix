@@ -69,6 +69,7 @@ in
         "https://web.whatsapp.com"
         "https://leboncoin.fr"
         "https://slack.com"
+        "https://discord.com"
       ];
       SanitizeOnShutdown = true; # Clear history on exit
 
