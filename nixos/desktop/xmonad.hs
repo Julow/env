@@ -263,7 +263,7 @@ scratchpads = [
     scratch_prog "n" "notes-workspace" (title =? "Notes") nonFloating,
     scratch_prog "t" "thunderbird" (className =? "Thunderbird") nonFloating,
     scratch_xterm "e" "nmtui-connect" (floating_centered (1/3) (1/8)),
-    scratch_xterm ";" "python" (floating (2/3) (1/8) (1/3 - 1/30) (6/8))
+    scratch_xterm ";" "vim -c \":term ++close ++curwin python -q\"" (floating (2/4) (3/4) (1/4) (1/4))
   ]
   where
     floating_centered x y = customFloating $ W.RationalRect x y (1 - x*2) (1 - y*2)
