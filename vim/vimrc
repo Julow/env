@@ -567,11 +567,6 @@ nnoremap gQ gqip
 " Format the whole buffer
 nnoremap \Q :call Format_buffer()<return>
 
-" Map C-= to reindent the current line
-" Also in insert mode
-inoremap <C-=> <C-o>==
-nnoremap <C-=> ==
-
 " Incremented everytime the quickfix list is updated. [t:loclist_i] will be
 " set to [g:quickfix_i + 1] everytime the location list is updated.
 " Navigation mappings will affect the location list if
