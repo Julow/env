@@ -53,6 +53,7 @@ in
 {
   programs.firefox = {
     enable = true;
+    configPath = ".mozilla/firefox";
 
     profiles.hm = mk_profile 0;
     profiles.work = mk_profile 1;

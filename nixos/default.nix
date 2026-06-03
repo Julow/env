@@ -89,6 +89,7 @@ in {
     # Base tools
     curl gnumake zip unzip jq fd ripgrep git
     python3 sqlite nixfmt
+    pkgs.android-tools
     # Admin
     mkpasswd rsync
     htop acpi
@@ -123,9 +124,6 @@ in {
     fira-code
   ];
 
-  # Adb, need "adbusers" group
-  programs.adb.enable = true;
-
   virtualisation.docker = {
     enable = true;
     enableOnBoot = false;
@@ -137,6 +135,9 @@ in {
   };
 
   services.flatpak.enable = false;
+
+  # Enabled by default for some reasons. Frees 1GB
+  services.speechd.enable = lib.mkForce false;
 
   # Main user
   users.users."${config.main_user}" = {

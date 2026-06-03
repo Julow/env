@@ -6,7 +6,7 @@ let conf = config.modules.screen_off; in
 
 let set_off_time_cmd =
   off_sec:
-    "${pkgs.xorg.xset}/bin/xset dpms 0 0 ${toString off_sec}";
+    "${pkgs.xset}/bin/xset dpms 0 0 ${toString off_sec}";
 in
 
 {
