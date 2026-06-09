@@ -158,6 +158,11 @@ in {
     useUserPackages = true;
   };
 
+  # Used by notes-workspace
+  environment.etc."fuse.conf".text = ''
+    user_allow_other
+  '';
+
   # Modules
   modules.desktop.enable = true;
   modules.display_manager = { enable = true; user = config.main_user; };

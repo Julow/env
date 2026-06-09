@@ -30,5 +30,5 @@ let
   '';
 
 in pkgs.writeShellScriptBin "encfs-gpg.sh" ''
-  ${pkgs.encfs}/bin/encfs --extpass="${encfs-gpg-extpass}" "$@"
+  ${pkgs.encfs}/bin/encfs -o allow_other --extpass="${encfs-gpg-extpass}" "$@"
 ''
