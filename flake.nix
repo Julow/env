@@ -6,6 +6,7 @@
     home-manager.url = "github:nix-community/home-manager/release-26.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nixos-hardware.inputs.nixpkgs.follows = "nixpkgs";
     nur_rycee.url = "gitlab:rycee/nur-expressions/master";
     nur_rycee.flake = false;
     vim_plugins.url = "path:./vim";
