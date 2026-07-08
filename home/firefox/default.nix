@@ -60,7 +60,7 @@ in
 
     # Policies: https://mozilla.github.io/policy-templates/
     policies = {
-      # Clear cookies when the browser exits with extensions.
+      # Clear cookies when the browser exits.
       Cookies.Allow = [
         "https://github.com"
         "https://discuss.ocaml.org"
@@ -71,6 +71,7 @@ in
         "https://leboncoin.fr"
         "https://slack.com"
         "https://discord.com"
+        "https://lichess.org"
       ];
       SanitizeOnShutdown = true; # Clear history on exit
 
