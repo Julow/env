@@ -54,8 +54,10 @@
     diffchar.url = "github:rickhowe/diffchar.vim";
     repeat.flake = false;
     repeat.url = github:tpope/vim-repeat;
-    ultisnips.flake = false;
-    ultisnips.url = github:SirVer/ultisnips;
+    snipmate.flake = false;
+    snipmate.url = github:garbas/vim-snipmate;
+    vim-addon-mw-utils.flake = false; # Dependency of snipmate
+    vim-addon-mw-utils.url = github:MarcWeber/vim-addon-mw-utils;
   };
 
   outputs = inputs:
@@ -79,10 +81,10 @@
           ${lib.concatStringsSep "\n" (lib.mapAttrsToList (pname: path: ''
             ln -Ts "${path}" "$pdst/${pname}"
           '') plugins)}
-          rm -rf $out/UltiSnips
+          rm -rf $out/snippets
           # The intent is to make an impure link to the source code. This trick
           # doesn't work with flakes.
-          # ln -Ts "${toString ./UltiSnips}" $out/UltiSnips
+          # ln -Ts "${toString ./snippets}" $out/snippets
         '';
       };
     };

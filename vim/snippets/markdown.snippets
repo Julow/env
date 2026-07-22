@@ -1,0 +1,9 @@
+# Backticks denote eval regions in snipmate, so literal ``` fences are
+# produced by evaluating a string expression.
+snippet ``` code block
+	`"```"`${1}
+	${2:${VISUAL}}
+	`"```"`$0
+
+snippet [ [_](_)
+	[${1:text}](${2:${VISUAL}})$0

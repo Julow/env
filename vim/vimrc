@@ -933,7 +933,8 @@ nnoremap R :sfind |
 " Not used on my system
 set path-=/usr/include
 
-let g:UltiSnipsSnippetDirectories = [ $HOME.'/w/env/vim/UltiSnips' ]
+let g:snipMate = get(g:, 'snipMate', {})
+let g:snipMate.snippet_dirs = [ $HOME.'/w/env/vim' ]
 
 " Jump between files in the jump list
 " g<C-o> and g<C-i> are equivalent to repeatedly typing <C-o> and <C-i> until

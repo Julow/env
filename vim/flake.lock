@@ -344,8 +344,9 @@
         "ocp-indent": "ocp-indent",
         "repeat": "repeat",
         "sneak": "sneak",
+        "snipmate": "snipmate",
         "surround": "surround",
-        "ultisnips": "ultisnips",
+        "vim-addon-mw-utils": "vim-addon-mw-utils",
         "xdg_open": "xdg_open"
       }
     },
@@ -365,6 +366,22 @@
         "type": "github"
       }
     },
+    "snipmate": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1747223707,
+        "narHash": "sha256-WUjS0wEVNVmPeFBUMjGBd4hE04H9RdZzFLhTY5++vjY=",
+        "owner": "garbas",
+        "repo": "vim-snipmate",
+        "rev": "1331cfe8cbf9b9d79f4b60c1afc211b77c181ad4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "garbas",
+        "repo": "vim-snipmate",
+        "type": "github"
+      }
+    },
     "surround": {
       "flake": false,
       "locked": {
@@ -381,19 +398,19 @@
         "type": "github"
       }
     },
-    "ultisnips": {
+    "vim-addon-mw-utils": {
       "flake": false,
       "locked": {
-        "lastModified": 1783183097,
-        "narHash": "sha256-3l0YR7ARJ/cN82pMxxw72Td6/An7cimkSX2YcXCjpjg=",
-        "owner": "SirVer",
-        "repo": "ultisnips",
-        "rev": "62aca2a735b76d24a8fc7862f902330ac688849b",
+        "lastModified": 1581088732,
+        "narHash": "sha256-RXYjI9acjEeS6CYrsFXH4p4F8AESp+nAMg8/M5nJKfE=",
+        "owner": "MarcWeber",
+        "repo": "vim-addon-mw-utils",
+        "rev": "6aaf4fee472db7cbec6d2c8eea69fdf3a8f8a75d",
         "type": "github"
       },
       "original": {
-        "owner": "SirVer",
-        "repo": "ultisnips",
+        "owner": "MarcWeber",
+        "repo": "vim-addon-mw-utils",
         "type": "github"
       }
     },

@@ -1,0 +1,95 @@
+snippet let let _ = _ in _
+	let ${1:x} = ${2:y} in
+	${0}
+
+snippet leto let open _ in _
+	let open ${1:M} in
+	${0}
+
+snippet struct struct _ end
+	struct
+	  ${0}
+	end
+
+snippet sig sig _ end
+	sig
+	  ${0}
+	end
+
+snippet object object _ end
+	object
+	  ${0}
+	end
+
+snippet do do _ end
+	do
+	  ${0}
+	done
+
+snippet (fun (fun _ -> .)
+	(fun ${1:_} -> ${0:.})
+
+snippet fun fun _ -> .
+	fun ${1:_} ->
+		${0:.}
+
+snippet | | _ -> .
+	| ${1:_} -> ${0:.}
+
+snippet match
+	match ${1:${VISUAL}} with
+	| ${2:_} -> ${3:.}
+
+snippet matchopt
+	match ${1:${VISUAL}} with
+	| Some ${2:_} -> ${3:.}
+	| None -> ${4:.}
+
+snippet pr Format.printf
+	Format.printf "${1}@\\n"${0};
+
+snippet epr Format.eprintf
+	Format.eprintf "${1}@\\n"${0};
+
+snippet fpf Format.fprintf
+	Format.fprintf ppf "${1}"${0};
+
+snippet ig let _ = _ in
+	let _ = ${1:.} in${0}
+
+snippet f f (.)
+	${1:f} (${2:.})
+
+snippet List.iter List.iter (fun _ -> _) _
+	List.iter (fun ${1:v} ->
+	  ${0}
+	) ${2:lst}
+
+snippet List.fold List.fold_left (fun acc _ -> _) _
+	List.fold_left (fun acc ${1:v} ->
+	  ${0}
+	) ${3:[]} ${2:lst}
+
+snippet assert assert false
+	let _ = assert false in
+
+snippet Logs.debug
+	Logs.debug (fun fmt -> fmt "${1}"${0});
+
+snippet Logs.info
+	Logs.info (fun fmt -> fmt "${1}"${0});
+
+snippet Logs.warn
+	Logs.warn (fun fmt -> fmt "${1}"${0});
+
+snippet Logs.err
+	Logs.err (fun fmt -> fmt "${1}"${0});
+
+snippet Logs Logs.app
+	Logs.info (fun fmt -> fmt "${1}"${0});
+
+snippet (* Comment
+	(* ${0} *)
+
+snippet (** Documentation
+	(** ${0} *)
