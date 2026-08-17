@@ -434,7 +434,6 @@ copy_rect = W.RationalRect (2%3 - 1%20) (2%3 - 1%20) (1%3) (1%3)
 manageHooks =
   [ manageHook def
   , liftX current_is_floating --> hasBorder True -- Borders around floating windows
-  , title =? "Slack | mini panel" --> doIgnore -- Hide slack's minipanel
   , className =? "Pinentry" --> doF copyToAll -- Copy GPG prompt to every workspaces
   , scratchpads_manageHooks
   , manageSpawn -- SpawnOn
