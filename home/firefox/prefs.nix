@@ -1,4 +1,8 @@
 {
+  # Language
+  "intl.locale.requested" = "fr";
+  "intl.accept_languages" = "fr-FR, fr, en-GB, en";
+
   # Behavior
   "browser.tabs.closeWindowWithLastTab" = false;
   "toolkit.legacyUserProfileCustomizations.stylesheets" = true;

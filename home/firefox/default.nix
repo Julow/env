@@ -54,6 +54,7 @@ in
   programs.firefox = {
     enable = true;
     configPath = ".mozilla/firefox";
+    languagePacks = [ "fr" ];
 
     profiles.hm = mk_profile 0;
     profiles.work = mk_profile 1;
@@ -74,6 +75,23 @@ in
         "https://lichess.org"
       ];
       SanitizeOnShutdown = true; # Clear history on exit
+
+      # Disable unecessary features
+      AppAutoUpdate = false;
+      BackgroundAppUpdate = false;
+      DisableFirefoxStudies = true;
+      DisableFirefoxScreenshots = true;
+      DisableForgetButton = true;
+      DisableMasterPasswordCreation = true;
+      DisableProfileImport = true;
+      DisableProfileRefresh = true;
+      DisableSetDesktopBackground = true;
+      DisablePocket = true;
+      DisableTelemetry = true;
+      DisableFormHistory = true;
+      DisablePasswordReveal = true;
+      DontCheckDefaultBrowser = true;
+      OfferToSaveLogins = false;
 
       # Kept in a separate file to use uBlock's backup format
       Extensions."uBlock0@raymondhill.net".adminSettings = builtins.fromJSON (
