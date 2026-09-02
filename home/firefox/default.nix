@@ -18,15 +18,6 @@ let
     meta = { };
   };
 
-  redirector = firefox-addons.buildFirefoxXpiAddon {
-    pname = "redirector";
-    version = "3.5.3";
-    addonId = "redirector@einaregilsson.com";
-    url = "https://addons.mozilla.org/firefox/downloads/file/3535009/redirector-3.5.3.xpi";
-    sha256 = "sha256-7dvT1ZROdI0L1uy22enPDgwC3O1vQtshqrZBkOccD3E=";
-    meta = { };
-  };
-
   userChrome = lib.concatMapStringsSep "\n" builtins.readFile [
     ./userChrome.css
   ];
@@ -45,7 +36,6 @@ let
       vimium
       clearurls
       awesome-rss
-      redirector
     ];
   };
 
