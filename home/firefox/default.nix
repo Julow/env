@@ -30,6 +30,27 @@ let
     settings = import ./prefs.nix;
     inherit userChrome;
 
+    search = {
+      force = true;
+      default = "ddg-lite";
+      privateDefault = "ddg-lite";
+      engines."ddg-lite" = {
+        name = "DuckDuckGo Lite";
+        urls = [
+          {
+            template = "https://lite.duckduckgo.com/lite/";
+            params = [
+              {
+                name = "q";
+                value = "{searchTerms}";
+              }
+            ];
+          }
+        ];
+        iconMapObj."16" = "https://lite.duckduckgo.com/favicon.ico";
+      };
+    };
+
     extensions.packages = with firefox-addons; [
       ublock-origin
       privacy-badger
