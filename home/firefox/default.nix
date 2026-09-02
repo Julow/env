@@ -93,8 +93,7 @@ in
       DontCheckDefaultBrowser = true;
       OfferToSaveLogins = false;
 
-      # Kept in a separate file to use uBlock's backup format
-      Extensions."uBlock0@raymondhill.net".adminSettings = builtins.fromJSON (
+      "3rdparty".Extensions."uBlock0@raymondhill.net".adminSettings = builtins.fromJSON (
         builtins.readFile ./ublock-settings.json
       );
     };
