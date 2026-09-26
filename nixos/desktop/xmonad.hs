@@ -70,7 +70,7 @@ current_screen_rect = do
 -- ========================================================================== --
 -- Lock screen
 
-lock_screen = spawn "light-locker-command -l"
+lock_screen = spawn "loginctl lock-session"
 
 -- ========================================================================== --
 -- Border between

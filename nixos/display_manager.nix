@@ -1,9 +1,15 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   conf = config.modules.display_manager;
 
-in {
+in
+{
   options.modules.display_manager = with lib; {
     enable = mkOption {
       type = types.bool;
@@ -14,16 +20,7 @@ in {
   };
 
   config = lib.mkIf conf.enable {
-    # Make light-locker available to the users
-    environment.systemPackages = [ pkgs.lightlocker ];
-
     services.xserver.displayManager = {
-      # After the greeter:
-      # Starts light-locker
-      sessionCommands = ''
-        ${pkgs.lightlocker}/bin/light-locker &
-      '';
-
       lightdm.enable = true;
 
       # Login prompt, use mini greeter
@@ -37,5 +34,13 @@ in {
         '';
       };
     };
+
+    # Screen locking
+    programs.xss-lock = {
+      enable = true;
+      lockerCommand = "${pkgs.xsecurelock}/bin/xsecurelock";
+    };
+    # Needed when using picom
+    systemd.user.services.xss-lock.environment.XSECURELOCK_COMPOSITE_OBSCURER = "0";
   };
 }
