@@ -197,7 +197,14 @@ in {
     delete_generations = "+5";
   };
 
+  # Faster boot
+
+  # Don't wait for network to be ready
   systemd.network.wait-online.enable = false;
+  systemd.services.NetworkManager-wait-online.enable = false;
   # "multi-user.target" shouldn't wait on "network-online.target"
   systemd.targets.network-online.wantedBy = pkgs.lib.mkForce [];
+
+  # Load kernels modules that would otherwise be loaded twice
+  boot.initrd.kernelModules = [ "vfat" "nls_cp437" "nls_iso8859-1" ];
 }
