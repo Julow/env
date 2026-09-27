@@ -38,9 +38,13 @@ in
     # Screen locking
     programs.xss-lock = {
       enable = true;
-      lockerCommand = "${pkgs.xsecurelock}/bin/xsecurelock";
+      lockerCommand = "${pkgs.writeShellScript "xsecurelock-wrapped" ''
+        # Stop picom while xsecurelock is running. The alternative of setting
+        # XSECURELOCK_COMPOSITE_OBSCURER would make it less secure.
+        ${pkgs.systemd}/bin/systemctl --user stop picom.service
+        trap "${pkgs.systemd}/bin/systemctl --user start picom.service" EXIT
+        ${pkgs.xsecurelock}/bin/xsecurelock
+      ''}";
     };
-    # Needed when using picom
-    systemd.user.services.xss-lock.environment.XSECURELOCK_COMPOSITE_OBSCURER = "0";
   };
 }
