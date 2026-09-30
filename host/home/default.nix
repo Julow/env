@@ -27,9 +27,11 @@
       ${pkgs.hdparm}/bin/hdparm -S 5 -y /dev/sda
     '';
   };
-  # Set "noatime" to avoid waking up before shutdown when the file system
-  # wasn't modified.
-  fileSystems."/boot".options = [ "defaults" "noatime" ];
+
+  # Used by notes-workspace
+  environment.etc."fuse.conf".text = ''
+    user_allow_other
+  '';
 
   system.stateVersion = "21.11";
 }
