@@ -6,8 +6,6 @@
   fileSystems."/".options = [ "noatime" ];
   fileSystems."/boot".options = [ "noatime" ];
 
-  boot.tmp.useTmpfs = true;
-
   # Automatic GC
   nix.gc = {
     automatic = true;
