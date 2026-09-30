@@ -1,5 +1,13 @@
-{ pkgs, nixos-hardware, ... }:
+{
+  pkgs,
+  nixos-hardware,
+  lib,
+  ...
+}:
 
+let
+  main_user = "jules";
+in
 {
   imports = [
     ../../nixos
@@ -7,7 +15,7 @@
     nixos-hardware.nixosModules.lenovo-thinkpad-x1-6th-gen
   ];
 
-  main_user = "jules";
+  inherit main_user;
   host_name = "jules-work";
 
   services.xserver.dpi = 160;
@@ -22,6 +30,13 @@
   services.xserver.displayManager.lightdm.extraConfig = ''
     display-setup-script = ${pkgs.autorandr} --default default --change
   '';
+
+  # Auto login because the disk is encrypted
+  services.xserver.displayManager.lightdm.greeters.mini.enable = lib.mkForce false;
+  services.displayManager.autoLogin = {
+    enable = true;
+    user = main_user;
+  };
 
   modules.battery_monitor.enable = true;
 
