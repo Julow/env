@@ -72,6 +72,8 @@ in
 
     # Policies: https://mozilla.github.io/policy-templates/
     policies = {
+      RequestedLocales = "fr";
+
       # Clear cookies when the browser exits.
       Cookies.Allow = [
         "https://github.com"
