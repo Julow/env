@@ -30,7 +30,7 @@ set t_Co=16
 
 set ttimeoutlen=10
 
-set diffopt+=foldcolumn:0
+set diffopt+=foldcolumn:0,inline:word
 
 " Disable netrw
 let loaded_netrw = 1
@@ -351,7 +351,7 @@ hi PmenuSel ctermbg=darkyellow ctermfg=none
 hi DiffAdd ctermbg=lightgrey ctermfg=darkgreen
 hi DiffDelete ctermbg=lightgrey ctermfg=red
 hi DiffChange ctermbg=lightgrey ctermfg=none
-hi DiffText ctermbg=grey ctermfg=none
+hi DiffText ctermbg=white ctermfg=none
 hi DiffTextAdd ctermbg=darkgreen ctermfg=none
 
 hi VertSplit ctermbg=none ctermfg=lightgrey cterm=none

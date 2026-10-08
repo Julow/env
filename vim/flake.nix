@@ -50,8 +50,6 @@
       url = "github:Julow/merlin/vim-fix-crash-textpreview";
       # url = "github:ocaml/merlin";
     };
-    diffchar.flake = false;
-    diffchar.url = "github:rickhowe/diffchar.vim";
     repeat.flake = false;
     repeat.url = github:tpope/vim-repeat;
     snipmate.flake = false;

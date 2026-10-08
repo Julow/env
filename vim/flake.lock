@@ -48,22 +48,6 @@
         "type": "github"
       }
     },
-    "diffchar": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1759478262,
-        "narHash": "sha256-zbhl/teXdWft3YhJ/2+QUEZw3N33dfg3gm0XMEzYU1o=",
-        "owner": "rickhowe",
-        "repo": "diffchar.vim",
-        "rev": "14fc3fc79356d6b80462df8dbc8934f293145b9a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "rickhowe",
-        "repo": "diffchar.vim",
-        "type": "github"
-      }
-    },
     "dirvish": {
       "flake": false,
       "locked": {
@@ -326,7 +310,6 @@
         "argtextobj.vim": "argtextobj.vim",
         "commentary": "commentary",
         "conflict3": "conflict3",
-        "diffchar": "diffchar",
         "dirvish": "dirvish",
         "dwm": "dwm",
         "easy-align": "easy-align",
