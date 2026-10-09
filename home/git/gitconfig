@@ -60,7 +60,7 @@
   customlog = log --decorate --graph --format=customlog
   fpr = "!f() { git checkout --detach HEAD; git fetch -f `git get-upstream` \"pull/$1/head:pr/$1\"; }; f"
   pu = "!f() { : git push; git push -u \"${1:-origin}\" \"${2:-@}\"; }; f"
-  web = "!f() { : git push; U=`git get-upstream \"$1\"` && xdg-open \"$U\"; }; f"
+  web = "!f() { : git push; U=`git config --get web.url 2>/dev/null` || U=`git get-upstream \"$1\"`; xdg-open \"$U\"; }; f"
   get-upstream = "!f() { git remote get-url ${1:-up} 2>/dev/null || git remote get-url origin; }; f"
   dm = diff --stat --summary -p MAIN...
   dr = "!f() { : git range-diff; git range-diff ${2:-MAIN} ${1:-@{u}} @; }; f"
