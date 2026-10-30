@@ -31,6 +31,9 @@
     pinentry.package = pkgs.pinentry-gnome3;
   };
 
+  xdg.userDirs.enable = true;
+  xdg.userDirs.setSessionVariables = false;
+
   home.file.".vim".source = vim_plugins.dot_vim;
 
   programs.home-manager.enable = false;
