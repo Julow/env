@@ -27,7 +27,11 @@ in {
 
     services.xserver.enable = true;
     services.libinput.enable = true; # Touchpad support
-    services.picom.enable = true;
+
+    services.picom = {
+      enable = true;
+      vSync = true; # Tearing
+    };
 
     # TODO: Don't add to global environment
     environment.systemPackages = with pkgs; [
