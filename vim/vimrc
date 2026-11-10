@@ -401,6 +401,7 @@ set nostartofline
 autocmd BufNewFile,BufRead *.xkb setlocal ft=xkb
 autocmd BufNewFile,BufRead *.t setlocal ft=cram
 autocmd BufNewFile,BufRead *.tsv setlocal ft=tsv
+autocmd BufNewFile,BufRead *.mly setlocal ft=yacc " The ocaml plugins sets ft=ocaml which generates errors
 
 " Q to save file
 nnoremap Q :w<return>
