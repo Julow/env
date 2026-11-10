@@ -351,8 +351,8 @@ hi PmenuSel ctermbg=darkyellow ctermfg=none
 hi DiffAdd ctermbg=lightgrey ctermfg=darkgreen
 hi DiffDelete ctermbg=lightgrey ctermfg=red
 hi DiffChange ctermbg=lightgrey ctermfg=none
-hi DiffText ctermbg=white ctermfg=none
-hi DiffTextAdd ctermbg=darkgreen ctermfg=none
+hi DiffText ctermbg=lightred ctermfg=none
+hi DiffTextAdd ctermbg=lightmagenta ctermfg=none
 
 hi VertSplit ctermbg=none ctermfg=lightgrey cterm=none
 
