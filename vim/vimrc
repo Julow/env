@@ -26,7 +26,7 @@ set autoread
 " Autoread when a buffer is focused. Don't apply to cmd prompt
 autocmd BufEnter * if getcmdwintype() == '' | checktime % | endif
 
-set t_Co=16
+set t_Co=256
 
 set ttimeoutlen=10
 
@@ -348,10 +348,10 @@ hi Visual ctermbg=darkyellow ctermfg=white
 hi Pmenu ctermfg=none
 hi PmenuSel ctermbg=darkyellow ctermfg=none
 
-hi DiffAdd ctermbg=lightgrey ctermfg=darkgreen
+hi DiffAdd ctermbg=lightgrey ctermfg=none
 hi DiffDelete ctermbg=lightgrey ctermfg=red
 hi DiffChange ctermbg=lightgrey ctermfg=none
-hi DiffText ctermbg=lightred ctermfg=none
+hi DiffText ctermbg=lightred ctermfg=none cterm=none
 hi DiffTextAdd ctermbg=lightmagenta ctermfg=none
 
 hi VertSplit ctermbg=none ctermfg=lightgrey cterm=none
