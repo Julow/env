@@ -129,14 +129,20 @@ function! S_selection(mode)
   return l:lines . "-" . l:chars
 endfunction
 
-" Return the highlight group for the current mode
-function! S_mode_hi_group(m)
-  if a:m =~# "^[ncr]"
+" Color of the status line for a window.
+function! S_mode_hi_group(m, current, term_status, bufnr)
+  if a:term_status == "run" " See S_terminal_update
+    return "S_mode_t"
+  elseif a:term_status == "dead" && getbufvar(a:bufnr, "s_terminal_status", "") != ""
+    return "S_terminal_fail"
+  elseif !a:current
+    return "StatusLine"
+  elseif a:m =~# "^[ncr]"
     if a:m =~# "^n[io]"
       return "S_mode_pending"
-    else
-      return "S_mode_n"
     endif
+    let l:bar_group = getbufvar(a:bufnr, "s_bar_group", "")
+    return (l:bar_group == "") ? "S_mode_n" : l:bar_group
   elseif a:m =~# "^[vV\<C-V>sS\<C-S>]"
     return "S_mode_v"
   elseif a:m =~# "^[iR]"
@@ -156,15 +162,13 @@ let g:s_fugitive_filename_const = {
 
 " Do some processing on the current filename for the status line.
 " Set 'b:s_filename' to the current filename, possibly modified.
-" Set 'b:s_filename_tab' to the current filename, modified for the tabline
-" with the same decorator prefix.
-" Set 'b:s_filename_decorator' to the length of the filename prefix that
-" should be highlighted differently.
+" Set 'b:s_filename_tab' to the current filename, shortened for the tabline.
+" Set 'b:s_bar_group' to the highlight group that override 'S_mode_hi_group'.
 function! Update_s_filename(bufnr)
   let l:f = bufname(a:bufnr)
-  " Length of the decorator, which is highlighted differently. Stored
-  " separately to be sure the filename is always entire, for safety.
-  let l:d = 0
+  let l:prefix = ""
+  " Color of the bar, see S_mode_hi_group
+  let l:bar = ""
 
   if l:f =~ "^fugitive://"
     " Fugitive URIs are shortened to 'symbolic:path'
@@ -175,54 +179,52 @@ function! Update_s_filename(bufnr)
       " full URL
       let l:real = fnamemodify(fugitive#Real(l:f), ":.")
       if has_key(g:s_fugitive_filename_const, l:real)
-        let l:f = get(g:s_fugitive_filename_const, l:real)
-        let l:d = len(l:f)
+        let l:prefix = get(g:s_fugitive_filename_const, l:real)
+        let l:f = ""
       else
-        let l:d = 11
+        let l:prefix = "fugitive://"
+        let l:f = l:f[11:]
       endif
     else
-      let [ l:hash; path ] = split(l:obj, ":", 1)
+      let [ l:hash; l:path ] = split(l:obj, ":", 1)
       if l:hash == '0'
-        let l:symbolic = "staged"
+        let l:prefix = "staged:"
       else
-        let l:symbolic = systemlist("git name-rev --name-only " . l:hash)[0]
+        let l:prefix = systemlist("git name-rev --name-only " . l:hash)[0] . ":"
       endif
-      let l:f = join([ l:symbolic ] + path, ":")
-      let l:d = len(l:symbolic) + 1
+      let l:f = join(l:path, ":")
     endif
+    let l:bar = "S_buf_fugitive"
 
   else
     " Convert absolute paths to relative paths
     let l:f = fnamemodify(l:f, ":~:.")
 
     if getbufvar(a:bufnr, "current_syntax") == "help"
-      let l:f = "help:" . fnamemodify(l:f, ":t:r")
-      let l:d = 5
+      let l:f = fnamemodify(l:f, ":t:r")
+      let l:prefix = "help:"
 
     elseif l:f =~ "^/nix/store/"
-      let l:f = "nix:" . l:f[44:]
-      let l:d = stridx(l:f, "/") + 1
+      let [ l:pkgname; l:path ] = split(l:f[44:], "/", 1)
+      let l:f = join(l:path, "/")
+      let l:prefix = "nix:" . l:pkgname . "/"
+
+    elseif l:f == ""
+      let l:prefix = "<new>"
+
     endif
   endif
 
-  if l:f == ""
-    let l:f = "<new>"
-    let l:d = len(l:f)
-  endif
-
+  call setbufvar(a:bufnr, "s_filename", l:prefix . l:f)
   " Shorten paths for the tabline
-  let l:f_tab = strpart(l:f, 0, l:d) . pathshorten(strpart(l:f, l:d))
-
-  call setbufvar(a:bufnr, "s_filename", l:f)
-  call setbufvar(a:bufnr, "s_filename_tab", l:f_tab)
-  call setbufvar(a:bufnr, "s_filename_decorator", l:d)
+  call setbufvar(a:bufnr, "s_filename_tab", l:prefix . pathshorten(l:f))
+  call setbufvar(a:bufnr, "s_bar_group", l:bar)
 endfunction
 
 autocmd BufReadPost,TerminalOpen,BufFilePost * call Update_s_filename("%")
 
-" Returns 1 whether terminal status should be added to the statusline, 0
-" otherwise. When the job is done, sets 'b:s_terminal_status' and
-" 'b:s_terminal_time'.
+" Returns the running status of the job if a:bufnr is a terminal,
+" or "" otherwise.
 function! S_terminal_update(bufnr)
   if getbufvar(a:bufnr, "&buftype", "") == "terminal"
     let job = term_getjob(a:bufnr)
@@ -234,41 +236,40 @@ function! S_terminal_update(bufnr)
         call setbufvar(a:bufnr, "s_terminal_status", (s == 0) ? "" : s)
         call setbufvar(a:bufnr, "s_terminal_time", printf("%.0fs", reltimefloat(t)))
       endif
-      return 1
     endif
+    return info["status"]
   endif
-  return 0
+  return ""
 endfunction
 
 autocmd TerminalOpen * let b:terminal_start_time = reltime()
 
 function! Statusline()
-  let l:s = ""
-  let l:mode = (win_getid() == g:statusline_winid) ? mode(1) : "n"
+  let l:current = win_getid() == g:statusline_winid
+  let l:mode = l:current ? mode(1) : "n"
   let l:bufnr = winbufnr(win_id2win(g:statusline_winid))
 
-  " Update terminal status and show exit status and running time
-  if S_terminal_update(l:bufnr)
-    if getbufvar(l:bufnr, "s_terminal_status") != ""
-      let l:s .= " %#S_terminal_fail# exit %{b:s_terminal_status} "
-    endif
-    let l:s .= "%#S_terminal_time# Terminated after %{b:s_terminal_time}%*"
-  endif
-
-  " Update b:s_filename and b:s_filename_decorator
+  " Update b:s_filename and b:s_bar_group
   if getbufvar(l:bufnr, 's_filename', "") == ""
     call Update_s_filename(l:bufnr)
   endif
+  " Update b:s_terminal_status and b:s_terminal_time
+  let l:term_status = S_terminal_update(l:bufnr)
+
+  " Color the empty space of the bar and the file name. The part after the
+  " filename is not colored because they would loose their color.
+  let l:s = "%#" . S_mode_hi_group(l:mode, l:current, l:term_status, l:bufnr) . "#"
+
+  " Update terminal status and show exit status and running time
+  if l:term_status == "dead"
+    if getbufvar(l:bufnr, "s_terminal_status") != ""
+      let l:s .= " exit %{b:s_terminal_status} "
+    endif
+    let l:s .= " Terminated after %{b:s_terminal_time}"
+  endif
 
   " Decorated filename
-  let l:s .= "%="
-  let l:f = getbufvar(l:bufnr, "s_filename")
-  let l:decorator = getbufvar(l:bufnr, "s_filename_decorator")
-  if l:decorator > 0
-    let l:s .= "%#S_filename_decorator#" . strpart(l:f, 0, l:decorator)
-    let l:f = l:f[l:decorator:]
-  endif
-  let l:s .= "%#" . S_mode_hi_group(l:mode) . "# " . substitute(l:f, '%', '%%', 'g') . " %*"
+  let l:s .= "%= " . substitute(getbufvar(l:bufnr, "s_filename"), '%', '%%', 'g') . " %*"
 
   " Vim's flags and cursor position
   let l:s .= " %(%q %)%(%w %)%l:%c "
@@ -364,15 +365,14 @@ hi StatusLineTerm ctermbg=lightgrey ctermfg=none
 hi StatusLineTermNC ctermbg=lightgrey ctermfg=none
 hi S_readonly ctermbg=red ctermfg=lightgrey cterm=none
 hi S_warn_bufvar ctermbg=red ctermfg=lightgrey cterm=none
-hi S_mode_n ctermbg=lightgrey ctermfg=none cterm=none
-hi S_mode_i ctermbg=darkyellow ctermfg=none cterm=none
+hi S_mode_n ctermbg=darkyellow ctermfg=none cterm=none
+hi S_mode_i ctermbg=darkcyan ctermfg=none cterm=none
 hi S_mode_v ctermbg=darkgreen ctermfg=none cterm=none
 hi S_mode_t ctermbg=darkblue ctermfg=none cterm=none
 hi S_mode_other ctermbg=darkblue ctermfg=blue cterm=none
 hi S_mode_pending ctermbg=darkblue ctermfg=red
+hi S_buf_fugitive ctermbg=magenta ctermfg=none cterm=none
 hi S_terminal_fail ctermbg=red ctermfg=lightgrey cterm=none
-hi S_terminal_time ctermbg=lightgrey ctermfg=darkyellow cterm=none
-hi S_filename_decorator ctermbg=magenta ctermfg=lightgrey cterm=none
 
 " Tabline
 hi TabLine ctermbg=lightgrey ctermfg=none cterm=none
