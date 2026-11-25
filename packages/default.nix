@@ -17,6 +17,19 @@ in {
 
   encfs-gpg = self.callPackage ./encfs-tools.nix { };
 
+  # Build xmonad-contrib from a specific checkout instead of the nixpkgs one.
+  haskellPackages = haskellPackages.override {
+    overrides = _: hsuper: {
+      xmonad-contrib = hsuper.xmonad-contrib.overrideAttrs (_: {
+        src = pkgs.fetchgit {
+          url = "https://github.com/Julow/xmonad-contrib/";
+          rev = "dff6bc6830f1338e5a0830e46491bf7c85fcc38b";
+          sha256 = "sha256-sBHzXJhGOzoN6Hizb9tN/rcA1EiD7la+5txvAwRINxQ=";
+        };
+      });
+    };
+  };
+
   # Allow WEP security, which is unfortunately still needed
   # https://github.com/NixOS/nixpkgs/issues/177501
   wpa_supplicant = wpa_supplicant.overrideAttrs (oldAttrs: rec {
